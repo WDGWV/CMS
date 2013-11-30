@@ -54,22 +54,6 @@
   All Rights Reserved.
 */
 
-include_once 'includes/core.php';
-
-if ( isInstalled() )
-{
-	#
-	##
-	### MUST BE MADE...
-	##
-	#
-}
-else
-{
-	if ( offlineInstall() )
-		beginOfflineInstall();
-	else
-		beginInstall();
-}
+require_once 'system/install.php';
 
 ?>

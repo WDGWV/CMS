@@ -1,0 +1,13 @@
+WDGWV SetupFile
+
+WDGWV Setup 1.0
+© WDGWV 2013, http://www.wdgwv.com
+
+WDGWV CMS~1.0
+http://www.wdgss.nl
+
+~~dir/~0~0
+~~dir/to/~0~0
+dir/to/file.ext(encoded)~version(encoded)~contents(encoded)
+dir/to/fil2.ext(encoded)~version(encoded)~contents(encoded)
+~dir/to/file.ext(encoded)~version(encoded)~contents(encoded)

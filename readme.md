@@ -46,3 +46,10 @@
 
 
           HERE COMES WDGWVSS FORMALY KNOWN AS WDGSS.
+
+     	   !!! UNTESTED, UNDOCUMENTED, NOT DONE !!!
+
+We are started on 30 NOV 2013 again to rebuild the system.
+we need to create, test, test, and test the system
+
+WdG.
