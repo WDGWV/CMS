@@ -54,6 +54,8 @@
   All Rights Reserved.
 */
 
+//compatibility
+
 #function get_header ( ) 
 # load the header
 ## WdG: 5 DEC 2013
@@ -94,5 +96,45 @@ function get_footer ( )
 	#TODO: WP:get_footer
 }
 
-#checked page: 404.
+#function is_day ( ) 
+# is it daylight?
+## WdG: 5 DEC 2013
+function is_day ( $date )
+{
+	#TODO: WP:is_day
+}
+
+#function get_the_date ( ) 
+# get the date
+## WdG: 5 DEC 2013
+function get_the_date ( $date )
+{
+	return date ( $date );
+}
+
+#function single_cat_title ( ) 
+# !!! DON'T KNOW WHAT IT IS !!!
+## WdG: 5 DEC 2013
+function single_cat_title ( $one, $par=false )
+{
+	#TODO: WP:single_cat_title
+}
+
+#function get_template_part ( ) 
+# get part of a template
+## WdG: 5 DEC 2013
+function get_template_part ( $part )
+{
+	#TODO: WP:get_template_part
+}
+
+#function get_sidebar ( ) 
+# get the sidebar
+## WdG: 5 DEC 2013
+function get_sidebar ( $side='bar' )
+{
+	#TODO: WP:get_sidebar
+}
+
+#checked page: archive.
 ?>
