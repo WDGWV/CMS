@@ -159,7 +159,7 @@ function get_the_author_meta ( $what )
 	#TODO: WP:get_the_author_meta
 }
 
-function get_avatar ( $from )
+function get_avatar ( $from, $widheight )
 {
 	#TODO: WP:get_avatar
 }
@@ -269,6 +269,11 @@ function edit_post_link ( )
 function comments_template ( $what, $switch )
 {
 	#TODO: WP:comments_template
+}
+
+function comments_popup_link ( $leave, $one, $more )
+{
+	#TODO: WP:comments_popup_link
 }
 
 function wp_pagenavi ( )
@@ -408,9 +413,169 @@ function wp_list_pages ( $options )
 	#TODO: WP:wp_list_pages
 }
 
+function is_plugin_active ( $path )
+{
+	#TODO: WP:is_plugin_active
+	return false;
+}
 
+function get_stylesheet_directory_uri ( )
+{
+	#TODO: WP:get_stylesheet_directory_uri
+}
 
+function get_pages ( $how )
+{
+	#TODO: WP:get_pages
+}
 
+function get_categories ( $how )
+{
+	#TODO: WP:get_categories
+}
+
+function get_option ( $what )
+{
+	return of_get_option ( $what )
+}
+
+function update_option ( $what )
+{
+	#TODO: WP:update_option
+}
+
+function has_post_thumbnail ( )
+{
+	#TODO: WP:has_post_thumbnail
+}
+
+function the_post_thumbnail ( $kind )
+{
+	#TODO: WP:the_post_thumbnail
+}
+
+function get_template_directory_uri ( )
+{
+	#TODO: WP:get_template_directory_uri
+}
+
+function wp_get_object_terms ( $id, $theme )
+{
+	#TODO: WP:wp_get_object_terms
+}
+
+function wp_reset_postdata ( )
+{
+	#TODO: WP:wp_reset_postdata
+}
+
+function the_author_posts_link ( )
+{
+	#TODO: WP:the_author_posts_link
+}
+
+function the_permalink ( )
+{
+	#TODO: WP:the_permalink
+}
+
+function is_sticky ( )
+{
+	#TODO: WP:is_sticky
+	return false;
+}
+
+function get_search_form ( )
+{
+	#TODO: WP:get_search_form
+}
+
+function add_theme_support ( $what, $options = null )
+{
+	#TODO: WP:add_theme_support
+}
+
+function add_image_size ( $kind, $width, $height, $load )
+{
+	#TODO: WP:add_image_size
+}
+
+function register_nav_menus ( $menu )
+{
+	#TODO: WP:register_nav_menus
+	//$menu = array.
+}
+
+function load_theme_textdomain ( $theme, $dir )
+{
+	#TODO: WP:load_theme_textdomain
+	return false; //NOT SUPPORTED MO & PO FILES
+}
+
+function get_locale ( )
+{
+	#TODO: WP:get_locale
+}
+
+function add_action ( $when, $action )
+{
+	#TODO: WP:add_action
+}
+
+function _n_noop ( $what, $other )
+{
+	#TODO: WP:_n_noop
+	//NO IDEA WHAT IT DOES.
+}
+
+function tgmpa ( $some, $thing )
+{
+	#TODO: WP:tgmpa
+	//NO IDEA WHAT IT DOES.
+}
+
+function add_filter ( $when, $what )
+{
+	#TODO: WP:add_filter
+}
+
+function is_admin ( )
+{
+	#TODO: WP:is_admin
+}
+
+function wp_register_script ( $script )
+{
+	#TODO: WP:wp_register_script
+}
+
+function wp_enqueue_script ( $what )
+{
+	#TODO: WP:wp_enqueue_script
+	//load a javascript, SEE wp_register_script
+}
+
+function wp_register_style ( $style )
+{
+	#TODO: WP:wp_register_style
+}
+
+function wp_enqueue_style ( $what )
+{
+	#TODO: WP:wp_enqueue_style
+	//load a css style, SEE wp_register_style
+}
+
+function is_ssl ( )
+{
+	#TODO: WP:is_ssl
+	return false;
+}
+
+function remove_action ( $action, $remove )
+{
+	#TODO: WP:remove_action
+}
 
 
 
