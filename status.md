@@ -1,7 +1,4 @@
 TODO LIST
-
- * Setup
-
  * Modules
    \ agenda
    \ downloads
@@ -13,4 +10,4 @@ TO TEST
  * Nothing
 
 DONE
- * Nothing
+ * Setup
