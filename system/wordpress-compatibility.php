@@ -367,6 +367,21 @@ function get_post_meta ( $what, $where, $how )
 	#TODO: WP:get_post_meta
 }
 
+function delete_post_meta ( $id, $count )
+{
+	#TODO: WP:delete_post_meta
+}
+
+function add_post_meta ( $id, $countkey, $count )
+{
+	#TODO: WP:add_post_meta
+}
+
+function update_post_meta ( $id, $countkey, $count )
+{
+	#TODO: WP:update_post_meta
+}
+
 function locate_template ( $template, $options )
 {
 	#TODO: WP:locate_template
@@ -577,11 +592,75 @@ function remove_action ( $action, $remove )
 	#TODO: WP:remove_action
 }
 
+function is_category ( )
+{
+	#TODO: WP:is_category
+}
 
+function is_tag ( )
+{
+	#TODO: WP:is_tag
+}
 
+function is_author ( )
+{
+	#TODO: WP:is_author
+}
 
+function is_home ( )
+{
+	#TODO: WP:is_home
+}
 
+function is_year ( $date ) 
+{
+	#TODO: WP:is_year
+}
 
+function is_month ( $date )
+{
+	#TODO: WP:is_month
+}
 
+function register_sidebar ( $theSidebarItemToAdd )
+{
+	#TODO: WP:register_sidebar
+}
+
+function register_widget ( $widget )
+{
+	#TODO: WP:register_widget
+}
+
+function is_singular ( )
+{
+	#TODO: WP:is_singular
+	//DON'T KNOW IT...
+}
+
+function get_the_excerpt ( )
+{
+	#TODO: WP:get_the_excerpt
+}
+
+function get_the_tag_list ( $how, $string )
+{
+	#TODOL WP:get_the_tag_list
+}
+
+function get_comment_author_link ( )
+{
+	#TODO: WP:get_comment_author_link
+}
+
+function comment_reply_link ( )
+{
+	#TODO: WP:comment_reply_link
+}
+
+function comment_text ( )
+{
+	#TODO: WP:comment_text
+}
 
 ?>
