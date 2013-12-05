@@ -54,6 +54,45 @@
   All Rights Reserved.
 */
 
-require_once 'system/install.php';
-require_once 'system/wordpress-compatibility.php';
+#function get_header ( ) 
+# load the header
+## WdG: 5 DEC 2013
+function get_header( )
+{
+	#TODO: WP:HEADER
+}
+
+#function _e ( str ) 
+# translations
+## WdG: 5 DEC 2013
+function _e ( $str, $theme )
+{
+	#TODO: WP:_e
+}
+
+#function esc_url ( url(str) ) 
+# escape url
+## WdG: 5 DEC 2013
+function esc_url ( $url )
+{
+	#TODO: WP:esc_url
+}
+
+#function home_url ( url(str) ) 
+# return the home url
+## WdG: 5 DEC 2013
+function home_url ( $url )
+{
+	#TODO: WP:home_url
+}
+
+#function get_footer ( ) 
+# load the footer
+## WdG: 5 DEC 2013
+function get_footer ( )
+{
+	#TODO: WP:get_footer
+}
+
+#checked page: 404.
 ?>
