@@ -136,5 +136,136 @@ function get_sidebar ( $side='bar' )
 	#TODO: WP:get_sidebar
 }
 
-#checked page: archive.
+function have_posts ( )
+{
+	return false;
+	// NO POST SYSTEM INSTALLED SORRY.
+}
+
+function the_post ( )
+{
+	#TODO: WP:the_post
+}
+
+function get_the_author ( )
+{
+	#TODO: WP:get_the_author
+}
+
+function get_the_author_meta ( $what )
+{
+	#TODO: WP:get_the_author_meta
+}
+
+function get_avatar ( $from )
+{
+	#TODO: WP:get_avatar
+}
+
+function rewind_posts ( )
+{
+	#TODO: WP:rewind_posts
+}
+
+function of_get_option ( $option )
+{
+	#TODO: WP:of_get_option
+}
+
+function get_query_var ( $what )
+{
+	#TODO: WP:get_query_var
+}
+
+class WP_Query
+{
+	
+	function __construct(argument)
+	{
+		#TODO
+		/*
+		array( 
+                        'post_type' =>'post',                       
+                        'post_status' => 'publish',
+                        'paged' => $paged )
+        */
+	}
+
+	public function have_posts ( )
+	{
+		#TODO
+	}
+
+	public function found_posts( )
+	{
+		# code...
+	}
+}
+
+function get_search_query ( )
+{
+	#TODO: WP:get_search_query
+}
+
+function do_action ( )
+{
+	#TODO: WP:do_action
+}
+
+function is_active_sidebar ( $sidebar ) //main-sidebar
+{
+	#TODO: WP:is_active_sidebar
+	return false;
+}
+
+function dynamic_sidebar ( ) //main-sidebar
+{
+	#TODO: WP:dynamic_sidebar
+}
+
+function wp_get_archives ( $archives )
+{
+	#TODO: WP:wp_get_archives (array!)
+}
+
+function wp_register ( )
+{
+	#TODO: WP:wp_register
+}
+
+function wp_meta ( )
+{
+	#TODO: WP:wp_meta
+}
+
+function the_title ( )
+{
+	#TODO: WP:the_title
+}
+
+function the_ID ( )
+{
+	#TODO: WP:the_ID (echo)
+}
+
+function post_class ( )
+{
+	#TODO: WP:post_class (echo)
+	echo " class='post'";
+}
+
+function the_content ( )
+{
+	#TODO: WP:the_content
+}
+
+function edit_post_link ( )
+{
+	#TODO: WP:edit_post_link
+}
+
+function comments_template ( $what, $switch )
+{
+	#TODO: WP:comments_template
+}
 ?>
