@@ -56,6 +56,8 @@
 
 //compatibility
 
+define('ABSPATH', true);
+
 #function get_header ( ) 
 # load the header
 ## WdG: 5 DEC 2013
@@ -268,4 +270,153 @@ function comments_template ( $what, $switch )
 {
 	#TODO: WP:comments_template
 }
+
+function wp_pagenavi ( )
+{
+	//V2 NAVIGATION
+	#TODO: WP:wp_pagenavi
+}
+
+function post_password_required ( )
+{
+	#TODO: WP:post_password_required
+	return false; //NOT SUPPORTED YET
+}
+
+function have_comments ( )
+{
+	#TODO: WP:have_comments
+}
+
+function comments_number ( )
+{
+	#TODO: WP:comments_number (int, echo)
+}
+
+function wp_list_comments ( $how )
+{
+	#TODO: WP:wp_list_comments (how)
+}
+
+function get_comment_pages_count ( )
+{
+	#TODO: WP:get_comment_pages_count
+	return 0;
+}
+
+function previous_comments_link ( )
+{
+	#TODO: WP:previous_comments_link
+}
+
+function next_comments_link ( )
+{
+	#TODO: WP:next_comments_link
+}
+
+function comments_open ( )
+{
+	#TODO: WP:comments_open
+	return true; //comments are allowed
+}
+
+function is_page ( )
+{
+	#TODO: WP:is_page
+	return true;
+}
+
+function post_type_supports ( $supports, $region='comments' )
+{
+	#TODO: WP:post_type_supports
+}
+
+function get_post_type ( )
+{
+	#TODO: WP:get_post_type
+}
+
+function comment_form ( $array )
+{
+	//ARRAY
+	#TODO: WP:comment_form
+}
+
+function has_nav_menu ( )
+{
+	#TODO: WP:has_nav_menu
+}
+
+function wp_nav_menu ( )
+{
+	#TODO: WP:wp_nav_menu
+}
+
+function bloginfo ( $what )
+{
+	#TODO: WP:bloginfo
+}
+
+function get_post_meta ( $what, $where, $how )
+{
+	#TODO: WP:get_post_meta
+}
+
+function locate_template ( $template, $options )
+{
+	#TODO: WP:locate_template
+}
+
+function apply_filters ( $filter, $options )
+{
+	#TODO: WP:apply_filters
+}
+
+function language_attributes ( )
+{
+	#TODO: WP:language_attributes
+}
+
+function wp_title ( )
+{
+	#TODO: WP:wp_title
+}
+
+function wp_head ( )
+{
+	#TODO: WP:wp_head
+}
+
+function is_front_page ( )
+{
+	#TODO: WP:is_front_page
+	return true;
+}
+
+function body_class ( $class )
+{
+	#TODO: WP:body_class
+}
+
+function esc_attr ( $escape )
+{
+	#TODO: WP:esc_attr
+}
+
+function wp_list_pages ( $options )
+{
+	#TODO: WP:wp_list_pages
+}
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
