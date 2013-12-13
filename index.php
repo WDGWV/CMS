@@ -54,8 +54,6 @@
   All Rights Reserved.
 */
 
-function corpo_social_icons ($i=0) {}
-
 include_once 'includes/core.php';
 
 if ( isInstalled() )
