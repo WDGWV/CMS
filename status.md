@@ -1,13 +1,16 @@
 TODO LIST
+
+ * Setup
+
  * Modules
- *  \ agenda
- *  \ downloads
- *  \ media
- *  \ news
- *  \ poll
+   \ agenda
+   \ downloads
+   \ media
+   \ news
+   \ poll
 
 TO TEST
  * Nothing
 
 DONE
- * Setup
+ * Nothing

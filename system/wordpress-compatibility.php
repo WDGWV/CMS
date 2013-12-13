@@ -63,7 +63,37 @@ define('ABSPATH', true);
 ## WdG: 5 DEC 2013
 function get_header( )
 {
-	#TODO: WP:HEADER
+	global $WPTHEME;
+
+	if (isset($WPTHEME))
+		include 'themes/' . $WPTHEME . '/header.php';
+}
+
+#function wp_footer ( str )
+# Wordpress footer
+## WdG: 13 DEC 2013
+function wp_footer ( )
+{
+	return null;
+}
+
+#function trailingslashit ( str )
+# add a trailing slash if not extsts.
+## WdG: 13 DEC 2013
+function trailingslashit ( $item )
+{
+	return $item;
+}
+
+#function get_template_directory ( ) 
+# load the template directory
+## WdG: 13 DEC 2013
+function get_template_directory ( )
+{
+	global $WPTHEME;
+
+	if (isset($WPTHEME))
+		return 'themes/' . $WPTHEME;
 }
 
 #function _e ( str ) 
@@ -72,6 +102,7 @@ function get_header( )
 function _e ( $str, $theme )
 {
 	#TODO: WP:_e
+	echo $str;
 }
 
 #function esc_url ( url(str) ) 
@@ -95,7 +126,10 @@ function home_url ( $url )
 ## WdG: 5 DEC 2013
 function get_footer ( )
 {
-	#TODO: WP:get_footer
+	global $WPTHEME;
+	
+	if (isset($WPTHEME))
+		include 'themes/' . $WPTHEME . '/footer.php';
 }
 
 #function is_day ( ) 
@@ -203,13 +237,31 @@ function get_query_var ( $what )
 	#TODO: WP:get_query_var
 }
 
+#class WP_Widget ( ) 
+#TODO
+## WdG: 13 DEC 2013
+class WP_Widget
+{
+	
+	function __construct($argument = null)
+	{
+		#TODO
+		/*
+		array( 
+                        'post_type' =>'post',                       
+                        'post_status' => 'publish',
+                        'paged' => $paged )
+        */
+	}
+}
+
 #class WP_Query ( ) 
 #TODO
 ## WdG: 5 DEC 2013
 class WP_Query
 {
 	
-	function __construct(argument)
+	function __construct($argument = null)
 	{
 		#TODO
 		/*
@@ -291,7 +343,10 @@ function wp_register ( )
 ## WdG: 5 DEC 2013
 function wp_meta ( )
 {
-	#TODO: WP:wp_meta
+	global $WPTHEME;
+
+	if ( isset ( $WPTHEME ) )
+		echo "<style type=\"text/css\">@import url('themes/" . $WPTHEME . "/style.css');</style>";
 }
 
 #function the_title ( ) 
@@ -452,7 +507,7 @@ function get_post_type ( )
 	#TODO: WP:get_post_type
 }
 
-#function comment_form ( ) 
+#function comment_form ( array(arr) ) 
 #TODO
 ## WdG: 5 DEC 2013
 function comment_form ( $array )
@@ -477,12 +532,13 @@ function wp_nav_menu ( )
 	#TODO: WP:wp_nav_menu
 }
 
-#function bloginfo ( ) 
-#TODO
+#function bloginfo ( parameter ) 
+# calls get_bloginfo ( parameter ) and echoed it.
 ## WdG: 5 DEC 2013
+## EH: 13 DEC 2013
 function bloginfo ( $what )
 {
-	#TODO: WP:bloginfo
+	echo get_bloginfo ( $what );
 }
 
 #function get_post_meta ( ) 
@@ -546,7 +602,7 @@ function language_attributes ( )
 ## WdG: 5 DEC 2013
 function wp_title ( )
 {
-	#TODO: WP:wp_title
+	echo "WDGWV CMS V0.0.1";
 }
 
 #function wp_head ( ) 
@@ -554,7 +610,7 @@ function wp_title ( )
 ## WdG: 5 DEC 2013
 function wp_head ( )
 {
-	#TODO: WP:wp_head
+	wp_meta();
 }
 
 #function is_front_page ( ) 
@@ -569,9 +625,10 @@ function is_front_page ( )
 #function body_class ( ) 
 #TODO
 ## WdG: 5 DEC 2013
-function body_class ( $class )
+function body_class ( $class = 'demo§' )
 {
 	#TODO: WP:body_class
+	echo "class=\"WDGWVCMS\"";
 }
 
 #function esc_attr ( string(str) ) 
@@ -628,7 +685,7 @@ function get_categories ( $how )
 ## WdG: 5 DEC 2013
 function get_option ( $what )
 {
-	return of_get_option ( $what )
+	return of_get_option ( $what ) ;
 }
 
 #function update_option ( ) 
@@ -996,6 +1053,86 @@ function is_loggedin ( )
 		return false;
 	}
 }
+
+#function get_bloginfo ( ) 
+# Returns the blog info
+## WdG: 13 DEC 2013
+function get_bloginfo ( $choise )
+{
+	switch ($choise) {
+		case 'charset':
+			return "UTF-8";
+		break;
+		
+		default:
+			# code...
+		break;
+	}
+}
+
+//function theme_get_menu ( )
+//{
+//
+//}
+
+//function theme_get_array_value ( )
+//{
+//
+//}
+
+#function wp_parse_args ( ) 
+# Parse Arguments
+## WdG: 13 DEC 2013
+function wp_parse_args ( $args = null, $array )
+{
+	return $array;
+}
+
+#function __ ( ) 
+# TRANSLATION
+## WdG: 13 DEC 2013
+function __ ( $text, $tpl = 'none' )
+{
+	return $text;
+}
+
+//function theme_post_wrapper ( $wrap )
+//{
+//	return $wrap;
+//}
+
+#function add_shortcode ( ) 
+#Just to remove a error
+## WdG: 13 DEC 2013
+function add_shortcode ( )
+{
+
+}
+
+#function get_num_querys ( ) 
+#Get x querys
+## WdG: 13 DEC 2013
+function get_num_queries ( )
+{
+	echo "25";
+}
+
+#function timer_stop ( ) 
+#Stops the timer what doesn't exists
+## WdG: 13 DEC 2013
+function timer_stop ( )
+{
+	return true;
+}
+
+#Fixes some Warnings.
+## WdG: 13 DEC 2013
+while ( !is_array ( @$theme_ob_stack ) )
+{
+	global $theme_ob_stack;
+	@$theme_ob_stack = (array)$theme_ob_stack;
+}
+
 
 ######################################
 ######################################

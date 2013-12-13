@@ -1,0 +1,37 @@
+Array
+(
+    [info] => Array
+        (
+            [0] => Dir "dir/" already created.
+            [1] => Dir "dir/to/" already created.
+            [2] => File "config/installed" Created
+            [3] => File "dir/to/file.ext" Created
+            [4] => File "dir/to/fil2.ext" Created
+        )
+
+    [x-files] => Array
+        (
+            [config/installed] => Array
+                (
+                    [0] => Y29uZmlnL2luc3RhbGxlZA==
+                    [1] => MC4wLjE=
+                    [2] => VGVzdCBGb3IgdGhlIHNldHVw
+                )
+
+            [dir/to/file.ext] => Array
+                (
+                    [0] => ZGlyL3RvL2ZpbGUuZXh0
+                    [1] => MC4wLjE=
+                    [2] => VGVzdCBGb3IgdGhlIHNldHVw
+                )
+
+            [dir/to/fil2.ext] => Array
+                (
+                    [0] => ZGlyL3RvL2ZpbDIuZXh0
+                    [1] => MC4wLjE=
+                    [2] => VGVzdCBGb3IgdGhlIHNldHVw
+                )
+
+        )
+
+)
