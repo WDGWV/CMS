@@ -55,5 +55,6 @@
 */
 
 require_once 'system/install.php';
-require_once 'system/wordpress-compatibility.php';
+//require_once 'system/wordpress-compatibility.php';
+require_once 'system/blogger-compatibility.php';
 ?>
