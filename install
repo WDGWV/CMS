@@ -6,8 +6,9 @@ WDGWV Setup 1.0
 WDGWV CMS~1.0
 http://www.wdgss.nl
 
-~~dir/~0~0
-~~dir/to/~0~0
-dir/to/file.ext(encoded)~version(encoded)~contents(encoded)
-dir/to/fil2.ext(encoded)~version(encoded)~contents(encoded)
-~dir/to/file.ext(encoded)~version(encoded)~contents(encoded)
+~~dir/
+~~dir/to/
+Y29uZmlnL2luc3RhbGxlZA==~MC4wLjE=~VGVzdCBGb3IgdGhlIHNldHVw
+ZGlyL3RvL2ZpbGUuZXh0~MC4wLjE=~VGVzdCBGb3IgdGhlIHNldHVw
+ZGlyL3RvL2ZpbDIuZXh0~MC4wLjE=~VGVzdCBGb3IgdGhlIHNldHVw
+~ZGlyL3RvL2ZpbGUuZXh0~MC4wLjE=~VGVzdCBGb3IgdGhlIHNldHVw

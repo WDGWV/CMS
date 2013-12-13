@@ -63,6 +63,8 @@ if ( isInstalled() )
 	### MUST BE MADE...
 	##
 	#
+
+	echo "ABC;";
 }
 else
 {
