@@ -66,15 +66,12 @@ if ( isInstalled() )
 	##
 	#
 
-	//if ( isBlogger ( 'Bloggerdemo' ) )
-	//	blogger('Bloggerdemo');
+	if ( isBlogger ( 'Bloggerdemo' ) )
+		blogger('Bloggerdemo');
 	
-	if ( isWordpress ( 'WPdemo' ) )
-		wordpress('WPdemo');
-	else
-		echo "ERROR";
-	
-	echo "ABC;";
+	//if ( isWordpress ( 'WPdemo' ) )
+	//	wordpress('WPdemo');
+	#WORKS FOR ALMOST 99.99%
 }
 else
 {
