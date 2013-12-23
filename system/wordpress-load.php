@@ -59,7 +59,7 @@ $headline = 'div';
 
 #function the_post ( ) 
 # Load the "post" CONTENT
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function the_post ( )
 {
 	echo "CONTENT CONTENT CONTENT CONTENT :D";
@@ -67,7 +67,7 @@ function the_post ( )
 
 #function theme_is_home ( ) 
 # yep. it's the homepage
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function theme_is_home ( )
 {
 	return true;
@@ -75,7 +75,7 @@ function theme_is_home ( )
 
 #function theme_get_dynamic_sidebar_data ( ) 
 # return a empty array couse we won't load a other menu
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function theme_get_dynamic_sidebar_data ( )
 {
 	return array(null,null);
@@ -83,7 +83,7 @@ function theme_get_dynamic_sidebar_data ( )
 
 #function is_home ( ) 
 # yep. it's the homepage
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function is_home ( )
 {
 	return true;
@@ -91,7 +91,7 @@ function is_home ( )
 
 #function get_option ( ) 
 # get some options ;)
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function get_option ( $option )
 {
 	switch ($option) {
@@ -107,7 +107,7 @@ function get_option ( $option )
 
 #function theme_get_menu ( ) 
 # load the menu
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function theme_get_menu ( $nav )
 {
 	echo "<div class=\"art-layout-cell art-layout-cell-size1\">
@@ -119,7 +119,7 @@ function theme_get_menu ( $nav )
 
 #function theme_get_option ( ) 
 # get some options of a 'theme'
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function theme_get_option ( $sidebar )
 {
 	switch ($sidebar) 
@@ -155,7 +155,7 @@ function theme_get_option ( $sidebar )
 
 #function wp_head ( ) 
 # load extra meta tags and scripts.
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function wp_head ( )
 {
 	#ADDIONAL THINGS
@@ -164,7 +164,7 @@ function wp_head ( )
 
 #function body_class ( ) 
 # Class from the body
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function body_class ( )
 {
 	echo "WDGWVCms";
@@ -172,7 +172,7 @@ function body_class ( )
 
 #function remove_action ( ) 
 # return null, we remove nothing
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function remove_action ( $s1=null, $s2=null, $s3=null )
 {
 	return null;
@@ -180,7 +180,7 @@ function remove_action ( $s1=null, $s2=null, $s3=null )
 
 #function get_post_format ( ) 
 # ignore this.
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function get_post_format ( )
 {
 	return null;
@@ -188,7 +188,7 @@ function get_post_format ( )
 
 #function get_template_part ( ) 
 # ignore this.
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function get_template_part ( )
 {
 	return null;
@@ -196,7 +196,7 @@ function get_template_part ( )
 
 #function have_posts ( ) 
 # Yup. we've got 1 post :D
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function have_posts ( )
 {
 	if ( !defined ( 'WP_POST_CONTENT' ) )
@@ -223,7 +223,7 @@ function have_posts ( )
 
 #function is_singular ( ) 
 # Nope.
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function is_singular ( )
 {
 	return false;
@@ -231,7 +231,7 @@ function is_singular ( )
 
 #function wp_title ( ) 
 # Load the title
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function wp_title ( )
 {
 	echo "WDGWV CMS v3";
@@ -239,7 +239,7 @@ function wp_title ( )
 
 #function language_attrubutes ( ) 
 # return true :D
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function language_attributes ( )
 {
 	return true;
@@ -247,7 +247,7 @@ function language_attributes ( )
 
 #function theme_page_navigation ( ) 
 # NAVIGATION!!!
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function theme_page_navigation ( $s1=null )
 {
 	echo "?? $s1 ?? ";
@@ -255,7 +255,7 @@ function theme_page_navigation ( $s1=null )
 
 #function do_shortcode ( itm ) 
 # return ( itm )
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function do_shortcode ( $item = null )
 {
 	return $item;
@@ -263,7 +263,7 @@ function do_shortcode ( $item = null )
 
 #function bloginfo ( info ) 
 # returns some bloginfo ( info )
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function bloginfo ( $info )
 {
 	switch ($info) {
@@ -287,7 +287,7 @@ function bloginfo ( $info )
 
 #function get_sidebar ( ) 
 # include some files from the sidebar
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function get_sidebar ( $what )
 {
 	switch ($what) {
@@ -319,7 +319,7 @@ function get_sidebar ( $what )
 
 #function __ ( ) 
 # we do not translate
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function __( $s1, $s2=null )
 {
 	return $s1;
@@ -327,7 +327,7 @@ function __( $s1, $s2=null )
 
 #function get_header ( ) 
 # load the header
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function get_header ( )
 {
 	include THEMEDIR . 'header.php';
@@ -335,7 +335,7 @@ function get_header ( )
 
 #function wp_footer ( ) 
 # We ain't wordpress!
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function wp_footer ( )
 {
 	echo "WDGWV CMS";
@@ -343,7 +343,7 @@ function wp_footer ( )
 
 #function get_footer ( ) 
 # load the footer
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function get_footer ( )
 {
 	include THEMEDIR . 'footer.php';
@@ -351,7 +351,7 @@ function get_footer ( )
 
 #function isWordpress ( ) 
 # is this a wordpress theme?!
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function isWordpress ( $WPTHEME )
 {
 	return (
@@ -367,7 +367,7 @@ function isWordpress ( $WPTHEME )
 
 #function wordpress ( ) 
 # load the wordpress theme
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function wordpress($WPTHEME)
 {
 	define('RWMB_DIR', 'themes/' . $WPTHEME);
@@ -384,7 +384,7 @@ function wordpress($WPTHEME)
 
 #function theme_print_sidebar ( ) 
 # ignore all things D:
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function theme_print_sidebar ( $what )
 {
 	switch ( $what ) {
@@ -400,7 +400,7 @@ function theme_print_sidebar ( $what )
 
 #function theme_has_layout_part ( part ) 
 # Does (part) exists?
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function theme_has_layout_part ( $part )
 {
 	switch ($part) {
@@ -416,7 +416,7 @@ function theme_has_layout_part ( $part )
 
 #function get_num_queries ( ) 
 # we don't support that.
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function get_num_queries ( )
 {
 	return 0;
@@ -424,7 +424,7 @@ function get_num_queries ( )
 
 #function timer_stop ( ) 
 # where is the timer started?
-## WdG: 5 DEC 2013
+## WdG: 23-DEC-2013
 function timer_stop ( )
 {
 	return 0;
