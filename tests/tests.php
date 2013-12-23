@@ -53,7 +53,15 @@
   © WDGWV, www.wdgwv.com
   All Rights Reserved.
 */
+$i=0;
+$start = microtime();
 
-$filesString = "~~LALALALALLALALALALALAALA";
-echo substr($filesString, 2) . "<hr />";
+while ($i <= 1000001) {
+	# code...
+	echo "TEST {$i}\n";
+	$i++;
+}
+
+$stop = microtime();
+echo $i . " Tests taked " . ($start - $stop) . "ms";
 ?>
