@@ -56,7 +56,7 @@
 
 require_once 'system/install.php';
 require_once 'system/wordpress-load.php';
-require_once 'system/wordpress-compatibility.php';
+require_once 'system/simple_html_dom.php';
 require_once 'system/blogger-compatibility.php';
 
 if ( !function_exists('isWordpress') )

@@ -56,7 +56,6 @@
 
 //compatibility
 
-/*
 define('ABSPATH', true);
 
 #function get_header ( ) 
@@ -1131,7 +1130,6 @@ while ( !is_array ( @$theme_ob_stack ) )
 	@$theme_ob_stack = (array)$theme_ob_stack;
 }
 
-*/
 
 ######################################
 ######################################
