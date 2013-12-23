@@ -54,45 +54,153 @@
   All Rights Reserved.
 */
 
-	$WPTHEME = 'wordpress-wdgwv-demo';
-	define('RWMB_DIR', 'themes/' . $WPTHEME);
+/*
+<?php get_header(); ?> (inc: header.php)
+<?php get_sidebar('top'); ?> (inc: sidebar-header.php)
+have_posts() == 1
+theme_get_option == false
+have_posts() == 1 (NO LOOP!!!)
+the_post(); (CONTENT)
+<?php get_sidebar('bottom'); ?> (inc: sidebar-bottom.php)
+<?php get_footer(); ?> (inc: footer.php)
+*/
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/functions/custom_functions.php' ) )
-		include 'themes/' . $WPTHEME . '/functions/custom_functions.php';
+function theme_get_menu ( $nav )
+{
+	#?
+}
+
+function theme_get_option ( $sidebar )
+{
+	switch ($sidebar) 
+	{
+		case 'nav':
+			# code...
+		break;
+
+		case 'theme_header_clickable':
+			return true;
+		break;
 	
-	if ( file_exists ( 'themes/' . $WPTHEME . '/functions.php' ) )
-		include 'themes/' . $WPTHEME . '/functions.php';
+		default:
+			# code...
+		break;
+	}
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/admins.php' ) )
-		include 'themes/' . $WPTHEME . '/library/admins.php';
+function wp_head ( )
+{
+	#ADDIONAL THINGS
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/defaults.php' ) )
-		include 'themes/' . $WPTHEME . '/library/defaults.php';
+function body_class ( )
+{
+	echo "WDGWVCms";
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/misc.php' ) )
-		include 'themes/' . $WPTHEME . '/library/misc.php';
+function remove_action ( $s1=null, $s2=null, $s3=null )
+{
+	#do nothing.
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/navigation.php' ) )
-		include 'themes/' . $WPTHEME . '/library/navigation.php';
+function is_singular ( )
+{
+	return false;
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/options.php' ) )
-		include 'themes/' . $WPTHEME . '/library/options.php';
+function wp_title ( )
+{
+	echo "WDGWV CMS v3";
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/shortcodes.php' ) )
-		include 'themes/' . $WPTHEME . '/library/shortcodes.php';
+function language_attributes ( )
+{
+	return true;
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/sidebars.php' ) )
-		include 'themes/' . $WPTHEME . '/library/sidebars.php';
+function bloginfo ( $info )
+{
+	switch ($info) {
+		case 'charset':
+			echo "NL-nl";
+		break;
+		
+		default:
+			# code...
+		break;
+	}
+}
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/smiley.php' ) )
-		include 'themes/' . $WPTHEME . '/library/smiley.php';
+function get_sidebar ( $what )
+{
+	switch ($what) {
+		case 'top':
+			include THEMEDIR . 'sidebar-top.php';
+		break;
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/widgets.php' ) )
-		include 'themes/' . $WPTHEME . '/library/widgets.php';
+		case 'header':
+			include THEMEDIR . 'sidebar-header.php';
+		break;
+		
+		case 'footer':
+			include THEMEDIR . 'sidebar-footer.php';
+		break;
 
-	if ( file_exists ( 'themes/' . $WPTHEME . '/library/wrappers.php' ) )
-		include 'themes/' . $WPTHEME . '/library/wrappers.php';
+		case 'nav':
+			# code...
+		break;
 
-	include 'themes/'.$WPTHEME.'/home.php';
+		default:
+			exit('ERROR {'.$what.'}');
+		break;
+	}
+}
+function get_header ( )
+{
+	include THEMEDIR . 'header.php';
+}
 
+function isWordpress ( $theme )
+{
+	return true;
+}
+
+function wordpress($WPTHEME)
+{
+	define('RWMB_DIR', 'themes/' . $WPTHEME);
+	define('WPTHEME',  $WPTHEME);
+	define('THEMEDIR', 'themes/' . $WPTHEME . '/');
+
+	if ( file_exists ( 'themes/' . $WPTHEME . '/index.php' ) )
+		include 'themes/' . $WPTHEME . '/index.php';
+	else
+		echo "MISSING THEME {$WPTHEME}!";
+	
+}
+
+function theme_print_sidebar ( $what )
+{
+	switch ( $what ) {
+		case 'header-widget-area':
+			# code...
+		break;
+		
+		default:
+			# code...
+			break;
+	}
+}
+
+function theme_has_layout_part ( $part )
+{
+	switch ($part) {
+		case 'header':
+			return true;
+		break;
+		
+		default:
+			# code...
+		break;
+	}
+}
 ?>

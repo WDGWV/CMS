@@ -54,6 +54,8 @@
   All Rights Reserved.
 */
 
+error_reporting(E_ALL);
+
 include_once 'includes/core.php';
 
 if ( isInstalled() )
@@ -64,8 +66,13 @@ if ( isInstalled() )
 	##
 	#
 
-	if ( isBlogger ( 'demo' ) )
-		blogger('demo');
+	//if ( isBlogger ( 'Bloggerdemo' ) )
+	//	blogger('Bloggerdemo');
+	
+	if ( isWordpress ( 'WPdemo' ) )
+		wordpress('WPdemo');
+	else
+		echo "ERROR";
 	
 	echo "ABC;";
 }

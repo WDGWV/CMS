@@ -106,10 +106,10 @@ function bloggerLoad ( $matches )
 function bloggerParse ( $theme, $name )
 {
 	$theme = preg_replace_callback(
-									"#<b:loop values='data:(.*)' var='(.*)'>(.*?)</b:loop>#",
-									"bloggerLoop",
-									$theme
-								  );
+			"#<b:loop values='data:(.*)' var='(.*)'>(.*?)</b:loop>#i",
+			"bloggerLoop",
+			$theme
+	);
 
 	#$theme = preg_replace_callback(
 	#								"#<b:includable id='(.*)' var='(.*)'>(.*)</b:includable>#",

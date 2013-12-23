@@ -56,6 +56,7 @@
 
 //compatibility
 
+/*
 define('ABSPATH', true);
 
 #function get_header ( ) 
@@ -246,12 +247,11 @@ class WP_Widget
 	function __construct($argument = null)
 	{
 		#TODO
-		/*
-		array( 
-                        'post_type' =>'post',                       
-                        'post_status' => 'publish',
-                        'paged' => $paged )
-        */
+		#array( 
+        #                'post_type' =>'post',                       
+        #                'post_status' => 'publish',
+        #                'paged' => $paged )
+        
 	}
 }
 
@@ -264,12 +264,10 @@ class WP_Query
 	function __construct($argument = null)
 	{
 		#TODO
-		/*
-		array( 
-                        'post_type' =>'post',                       
-                        'post_status' => 'publish',
-                        'paged' => $paged )
-        */
+		#array( 
+        #                'post_type' =>'post',                       
+        #                'post_status' => 'publish',
+        #                'paged' => $paged )
 	}
 
 #function have_posts ( ) 
@@ -1133,6 +1131,7 @@ while ( !is_array ( @$theme_ob_stack ) )
 	@$theme_ob_stack = (array)$theme_ob_stack;
 }
 
+*/
 
 ######################################
 ######################################
