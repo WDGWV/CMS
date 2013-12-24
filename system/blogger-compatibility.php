@@ -111,6 +111,16 @@ function bloggerParse ( $theme, $name )
 			$theme
 	);
 
+	//$html = str_get_html($theme);
+	//foreach($html->find('b:loop') as $element)
+    //{
+    //   echo $element->values. '<br>';
+   	//   var_dump($element);
+   	//   echo "<hr />";
+   	//}
+       
+
+
 	#$theme = preg_replace_callback(
 	#								"#<b:includable id='(.*)' var='(.*)'>(.*)</b:includable>#",
 	#								"bloggerInclude",
@@ -164,7 +174,25 @@ function bloggerParse ( $theme, $name )
 						 	"url('themes/" . $name . "/images/\\1.\\2')",
 						 	$theme
 						 );
-	    
+
+	$theme = preg_replace(
+							"#<b:else/>
+            <b:if cond='data:post.url'>
+                <a expr:href='data:post.url'><data:post.title/></a>
+            <b:else/>
+                <data:post.title/>
+            </b:if>
+        </b:if>#",
+							null,
+							$theme
+						 );
+
+	$theme = preg_replace(
+							"#<data:post.title/>#",
+							"PAGE TITLE",
+							$theme
+						 );
+
 	return $theme;
 }
 
