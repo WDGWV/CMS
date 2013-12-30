@@ -66,11 +66,13 @@ if ( isInstalled() )
 	##
 	#
 
-	if ( isBlogger ( 'Bloggerdemo' ) )
-		blogger('Bloggerdemo');
+	//if ( isBlogger ( 'Bloggerdemo' ) )
+	//	blogger('Bloggerdemo');
 	
-	//if ( isWordpress ( 'WPdemo' ) )
-	//	wordpress('WPdemo');
+	if ( isWordpress ( 'corporate' ) )
+		wordpress('corporate');
+	else
+		echo "NO THEME";
 	#WORKS FOR ALMOST 99.99%
 }
 else

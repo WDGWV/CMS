@@ -60,9 +60,17 @@ $headline = 'div';
 #function the_post ( ) 
 # Load the "post" CONTENT
 ## WdG: 23-DEC-2013
-function the_post ( )
+function the_content ( )
 {
 	echo "CONTENT CONTENT CONTENT CONTENT :D";
+}
+
+#function the_post ( ) 
+# Load the "post" CONTENT
+## WdG: 23-DEC-2013
+function the_post ( )
+{
+//	echo "CONTENT CONTENT CONTENT CONTENT :D";
 }
 
 #function theme_is_home ( ) 
@@ -115,6 +123,11 @@ function theme_get_menu ( $nav )
 		MENU
 	</div>
 </div>";
+}
+
+function wp_list_pages ( )
+{
+	//MENU...
 }
 
 #function theme_get_option ( ) 
@@ -189,9 +202,17 @@ function get_post_format ( )
 #function get_template_part ( ) 
 # ignore this.
 ## WdG: 23-DEC-2013
-function get_template_part ( )
+function get_template_part ( $s1=null, $s2=null)
 {
-	return null;
+	//get_template_part('content', 'page');
+	if ( $s1 == 'content' /* && $s2 == 'page' */ )
+	{
+		echo the_content();
+	}
+	else
+	{
+		return null;
+	}
 }
 
 #function have_posts ( ) 
@@ -250,7 +271,8 @@ function language_attributes ( )
 ## WdG: 23-DEC-2013
 function theme_page_navigation ( $s1=null )
 {
-	echo "?? $s1 ?? ";
+	//echo "?? $s1 ?? ";
+	return null;
 }
 
 #function do_shortcode ( itm ) 
@@ -279,6 +301,11 @@ function bloginfo ( $info )
 			echo "testing!";
 		break;
 
+		case 'template_directory':
+		case 'template_url':
+			echo THEMEDIR;
+		break;
+
 		default:
 			# code...
 		break;
@@ -288,7 +315,7 @@ function bloginfo ( $info )
 #function get_sidebar ( ) 
 # include some files from the sidebar
 ## WdG: 23-DEC-2013
-function get_sidebar ( $what )
+function get_sidebar ( $what = 'sidebar' )
 {
 	switch ($what) {
 		case 'top':
@@ -307,6 +334,10 @@ function get_sidebar ( $what )
 			include THEMEDIR . 'sidebar-bottom.php';
 		break;
 
+		case 'sidebar':
+			include THEMEDIR . 'sidebar.php';
+		break;
+
 		case 'nav':
 			# code...
 		break;
@@ -323,6 +354,11 @@ function get_sidebar ( $what )
 function __( $s1, $s2=null )
 {
 	return $s1;
+}
+
+function _e ( $s1, $s2=null )
+{
+	return __( $s1, $s2 );
 }
 
 #function get_header ( ) 
@@ -357,11 +393,11 @@ function isWordpress ( $WPTHEME )
 	return (
 			file_exists ( 'themes/' . $WPTHEME . '/index.php' ) &&
 			file_exists ( 'themes/' . $WPTHEME . '/header.php' ) &&
-			file_exists ( 'themes/' . $WPTHEME . '/footer.php' ) &&
-			file_exists ( 'themes/' . $WPTHEME . '/sidebar-top.php' ) &&
-			file_exists ( 'themes/' . $WPTHEME . '/sidebar-header.php' ) &&
-			file_exists ( 'themes/' . $WPTHEME . '/sidebar-footer.php' ) &&
-			file_exists ( 'themes/' . $WPTHEME . '/sidebar-bottom.php' )
+			file_exists ( 'themes/' . $WPTHEME . '/footer.php' )// &&
+			//file_exists ( 'themes/' . $WPTHEME . '/sidebar-top.php' ) &&
+			//file_exists ( 'themes/' . $WPTHEME . '/sidebar-header.php' ) &&
+			//file_exists ( 'themes/' . $WPTHEME . '/sidebar-footer.php' ) &&
+			//file_exists ( 'themes/' . $WPTHEME . '/sidebar-bottom.php' )
 		   ) ? true : false;
 }
 
@@ -374,6 +410,7 @@ function wordpress($WPTHEME)
 	define('WPTHEME',  $WPTHEME);
 	define('THEMEDIR', 'themes/' . $WPTHEME . '/');
 	define('THEME_NS', THEMEDIR);
+	define('TEMPLATEPATH', THEMEDIR);
 
 	if ( file_exists ( 'themes/' . $WPTHEME . '/index.php' ) )
 		include 'themes/' . $WPTHEME . '/index.php';
@@ -382,6 +419,121 @@ function wordpress($WPTHEME)
 	
 }
 
+function previous_posts_link ( )
+{
+	return '/';
+}
+
+function next_posts_link ( )
+{
+	return '/';
+}
+
+function is_search ( )
+{
+	return false;
+}
+
+function the_tags ( )
+{
+	return null;
+} 
+
+function is_single ( )
+{
+
+} 
+
+function is_page ( )
+{
+
+}
+
+function is_category ( ) 
+{
+
+}
+
+function is_month ( )
+{
+
+}
+
+function the_ID ( )
+{
+	return 0;
+}
+
+function comments_number ( )
+{
+	return 0;
+}
+
+function the_permalink ( )
+{
+	return null;
+}
+
+function the_category ( )
+{
+	return null;
+}
+
+function the_author_link ( )
+{
+	return null;
+}
+
+function the_time ( )
+{
+	return null; //TIME
+} 
+
+function the_title ( )
+{
+	return wp_title();
+}
+
+function comments_link ( )
+{
+	return NULL;
+}
+
+function readintro ( )
+{
+	//SLOGAN..
+	echo "SLOGAN";
+}
+
+function is_tag ( )
+{
+	return false;
+} 
+
+function wp_get_archives ( )
+{
+	return null;
+}
+
+function wp_list_cats ( )
+{
+	return null;
+}
+
+function get_links ( )
+{
+	return null;
+}
+
+function wp_loginout ( )
+{
+	return null;
+}
+
+function wp_meta ( )
+{
+	return null;
+}
 #function theme_print_sidebar ( ) 
 # ignore all things D:
 ## WdG: 23-DEC-2013
