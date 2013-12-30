@@ -351,7 +351,7 @@ function get_sidebar ( $what = 'sidebar' )
 	}
 }
 
-#function __ ( ) 
+#function __ ( s1, s2=null ) 
 # we do not translate
 ## WdG: 23-DEC-2013
 function __( $s1, $s2=null )
@@ -359,6 +359,9 @@ function __( $s1, $s2=null )
 	return $s1;
 }
 
+#function _e ( s1, s2=null ) 
+# is the same as __( s1, s2=null )
+## WdG: 30-DEC-2013
 function _e ( $s1, $s2=null )
 {
 	return __( $s1, $s2 );
