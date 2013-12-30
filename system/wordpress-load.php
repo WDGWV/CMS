@@ -62,7 +62,7 @@ $headline = 'div';
 ## WdG: 23-DEC-2013
 function the_content ( )
 {
-	echo "CONTENT CONTENT CONTENT CONTENT :D";
+	echo '<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_cocomo.js"></script>';
 }
 
 #function the_post ( ) 
@@ -125,6 +125,9 @@ function theme_get_menu ( $nav )
 </div>";
 }
 
+#function wp_list_pages ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function wp_list_pages ( )
 {
 	//MENU...
@@ -419,121 +422,191 @@ function wordpress($WPTHEME)
 	
 }
 
+#function previous_posts_link ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function previous_posts_link ( )
 {
 	return '/';
 }
 
+#function next_posts_link ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function next_posts_link ( )
 {
 	return '/';
 }
 
+#function is_search ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function is_search ( )
 {
 	return false;
 }
 
+#function the_tags ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function the_tags ( )
 {
 	return null;
 } 
 
+#function is_single ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function is_single ( )
 {
-
+	return null;
 } 
 
+#function is_page ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function is_page ( )
 {
-
+	return null;
 }
 
+#function is_category ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function is_category ( ) 
 {
-
+	return null;
 }
 
+#function is_month ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function is_month ( )
 {
-
+	return null;
 }
 
+#function the_ID ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function the_ID ( )
 {
 	return 0;
 }
 
+#function comments_number ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function comments_number ( )
 {
 	return 0;
 }
 
+#function the_permalink ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function the_permalink ( )
 {
 	return null;
 }
 
+#function the_category ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function the_category ( )
 {
 	return null;
 }
 
+#function the_author_link ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function the_author_link ( )
 {
 	return null;
 }
 
+#function the_time ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function the_time ( )
 {
 	return null; //TIME
 } 
 
+#function the_title ( ) 
+# is wp_title();
+## WdG: 30-DEC-2013
 function the_title ( )
 {
 	return wp_title();
 }
 
+#function comments_link ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function comments_link ( )
 {
 	return NULL;
 }
 
+#function readintro ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function readintro ( )
 {
 	//SLOGAN..
 	echo "SLOGAN";
 }
 
+#function is_tag ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function is_tag ( )
 {
 	return false;
 } 
 
+#function wp_get_archives ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function wp_get_archives ( )
 {
 	return null;
 }
 
+#function wp_list_cats ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function wp_list_cats ( )
 {
 	return null;
 }
 
+#function get_links ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function get_links ( )
 {
 	return null;
 }
 
+#function wp_loginout ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function wp_loginout ( )
 {
 	return null;
 }
 
+#function wp_meta ( ) 
+# null returning we don't support it
+## WdG: 30-DEC-2013
 function wp_meta ( )
 {
 	return null;
 }
+
 #function theme_print_sidebar ( ) 
 # ignore all things D:
 ## WdG: 23-DEC-2013
