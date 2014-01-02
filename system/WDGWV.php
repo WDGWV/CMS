@@ -54,13 +54,51 @@
   All Rights Reserved.
 */
 
-require_once 'system/install.php';
-require_once 'system/WDGWV.php';
-require_once 'system/wordpress-load.php';
-require_once 'system/simple_html_dom.php';
-require_once 'system/blogger-compatibility.php';
+#function WDGWV_getTheme ( ) 
+# get the current theme.
+## WdG: 01-JAN-2014
+function WDGWV_getTheme ( )
+{
+	return 'corporate';
+}
 
-if ( !function_exists('isWordpress') )
-	exit("Missing isWordpress.");
+#function WDGWV_getPagename ( ) 
+# get the current page name.
+## WdG: 01-JAN-2014
+function WDGWV_getPagename ( )
+{
+	return 'Home';
+}
 
+#function WDGWV_getTitle ( ) 
+# get the current website title.
+## WdG: 01-JAN-2014
+function WDGWV_getTitle ( )
+{
+	return 'WDGWV CMS v3';	
+}
+
+#function WDGWV_getDescription ( ) 
+# get the current website description.
+## WdG: 01-JAN-2014
+function WDGWV_getDescription ( )
+{
+	return 'testing! the new WDGWV CMS!!!';
+}
+
+#function WDGWV_getSlogan ( ) 
+# get the current website slogan (if needed).
+## WdG: 01-JAN-2014
+function WDGWV_getSlogan ( )
+{
+	return 'This is the page of the new WDGWV cms Version 3.x.x!';
+}
+
+#function WDGWV_getFooter ( ) 
+# get the current website footer (userAjustable).
+## WdG: 01-JAN-2014
+function WDGWV_getFooter ( )
+{
+	return '<img src=\'http://by.wdgp.nl/logo\' width=\'30px\' height=\'0px\'>&copy; yoursite.';
+}
 ?>

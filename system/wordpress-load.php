@@ -260,11 +260,11 @@ function is_singular ( )
 }
 
 #function wp_title ( ) 
-# Load the title
+# Load the title of the page.
 ## WdG: 23-DEC-2013
 function wp_title ( )
 {
-	echo "WDGWV CMS v3";
+	echo WDGWV_getPagename();
 }
 
 #function language_attrubutes ( ) 
@@ -303,11 +303,11 @@ function bloginfo ( $info )
 		break;
 		
 		case 'name':
-			echo "WDGWV CMS v3";
+			echo WDGWV_getTitle();
 		break;
 
 		case 'description':
-			echo "testing!";
+			echo WDGWV_getDescription();
 		break;
 
 		case 'template_directory':
@@ -386,7 +386,7 @@ function get_header ( )
 ## WdG: 23-DEC-2013
 function wp_footer ( )
 {
-	echo "WDGWV CMS";
+	echo WDGWV_getFooter();
 }
 
 #function get_footer ( ) 
@@ -565,7 +565,7 @@ function comments_link ( )
 function readintro ( )
 {
 	//SLOGAN..
-	echo "SLOGAN";
+	echo WDGWV_getSlogan();
 }
 
 #function is_tag ( ) 

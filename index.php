@@ -59,21 +59,21 @@ error_reporting(E_ALL);
 include_once 'includes/core.php';
 
 if ( isInstalled() )
-{
-	#
-	##
-	### MUST BE MADE...
-	##
-	#
-
-	//if ( isBlogger ( 'Bloggerdemo' ) )
-	//	blogger('Bloggerdemo');
-	
-	if ( isWordpress ( 'corporate' ) )
-		wordpress('corporate');
+{	
+	if(false == true) #here comes the WDGWV template parser ;)
+	{
+		// Ignore.
+	}
+	//elseif ( isBlogger ( WDGWV_getTheme() ) ) #for now not supported.
+	//	blogger( WDGWV_getTheme() );
+	elseif ( isWordpress ( WDGWV_getTheme() ) )
+	{
+		wordpress( WDGWV_getTheme() );
+	}
 	else
-		echo "NO THEME";
-	#WORKS FOR ALMOST 99.99%
+	{
+		echo "THEME ".WDGWV_getTheme()." Does not exists!";
+	}
 }
 else
 {
