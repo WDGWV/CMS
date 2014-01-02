@@ -12,12 +12,24 @@
 
           HERE COMES WDGWVSS FORMALY KNOWN AS WDGSS.
 
-We are started on 30 NOV 2013 again to rebuild the system.
-we need to create, test, test, and test the system
+TODO LIST
 
-Last Updates
- * 30-11-2013
- * 25-12-2013
- * 26-12-2013
- * 02-01-2014 19:56 Version: 3.0.0.0
- * 02-01-2014 20:14 Fixed Readme & fixed "Auto Push new Version"
+ * Modules
+   \ agenda
+   \ downloads
+   \ media
+   \ news
+   \ poll
+
+TO TEST
+ * Nothing
+
+FINISHING TOUCH
+ * [95%] Wordpress layout support.
+
+DONE
+ * Setup Online / Offline
+ * Setup Creator (+Auto Push to GitHub)
+
+More?
+ * Add a Pull request on this.
