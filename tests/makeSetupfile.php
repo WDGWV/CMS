@@ -117,5 +117,5 @@ function ParseDir($dir)
 
 ParseDir('../');
 //echo $setup;
-file_put_contents('test.txt', $setup);
+file_put_contents('test.txt', gzcompress($setup));
 ?>

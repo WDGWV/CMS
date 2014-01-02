@@ -244,7 +244,7 @@ function beginOfflineInstall ( )
 {
 	if ( is_readable ( 'install' ) )
 	{
-		if ( parseSetupFiles ( file_get_contents ( 'install' ) ) ) 
+		if ( parseSetupFiles ( gzuncompress ( file_get_contents ( 'install' ) ) ) ) 
 		{
 			echo "Installed!!!";
 		}
