@@ -1,7 +1,5 @@
 TODO LIST
 
- * Setup
-
  * Modules
    \ agenda
    \ downloads
@@ -12,5 +10,12 @@ TODO LIST
 TO TEST
  * Nothing
 
+FINISHING TOUCH
+ * [95%] Wordpress layout support.
+
 DONE
- * Nothing
+ * Setup Online / Offline
+ * Setup Creator (+Auto Push to GitHub)
+
+More?
+ * Add a Pull request on this.
