@@ -52,4 +52,8 @@
 We are started on 30 NOV 2013 again to rebuild the system.
 we need to create, test, test, and test the system
 
-WdG.
+Last Updates
+ * 30-11-2013
+ * 25-12-2013
+ * 26-12-2013
+ 
