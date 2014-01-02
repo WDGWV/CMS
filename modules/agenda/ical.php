@@ -54,14 +54,5 @@
   All Rights Reserved.
 */
 
-if ( defined ( 'WDGWVSystem' ) )
-{
-	if ( !installed ( 'agenda' ) )
-		WDGWV_add_page('agenda', '{AGENDA}');
-
-	WDGWV_add_replacer('AGENDA', 'This is the agenda');
-	WDGWV_add_admin('agenda', mod_adminAgenda())
-}
-
 #TODO
 ?>
