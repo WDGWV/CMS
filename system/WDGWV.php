@@ -70,12 +70,20 @@ function WDGWV_getPagename ( )
 	return 'Home';
 }
 
+#function WDGWV_getVersion ( ) 
+# get WDGWV version :)
+## WdG: 01-JAN-2014
+function WDGWV_getVersion ( )
+{
+	return file_get_contents('./config/.installed');	
+}
+
 #function WDGWV_getTitle ( ) 
 # get the current website title.
 ## WdG: 01-JAN-2014
 function WDGWV_getTitle ( )
 {
-	return 'WDGWV CMS v3';	
+	return 'WDGWV CMS v'.WDGWV_getVersion();	
 }
 
 #function WDGWV_getDescription ( ) 
@@ -91,7 +99,7 @@ function WDGWV_getDescription ( )
 ## WdG: 01-JAN-2014
 function WDGWV_getSlogan ( )
 {
-	return 'This is the page of the new WDGWV cms Version 3.x.x!';
+	return 'This is the page of the new WDGWV cms Version ' . WDGWV_getVersion() . '!';
 }
 
 #function WDGWV_getFooter ( ) 
