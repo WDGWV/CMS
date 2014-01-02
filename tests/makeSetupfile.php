@@ -92,7 +92,7 @@ function ParseDir($dir)
 				$ext    = explode(".", $file);
 				$ext    = $ext[sizeof($ext)-1];
 
-				if ( $ext != 'version')
+				if ( $ext != 'version' ) //older setup record
 				{
 					if ($debug)
 						$setup .= "{$tDir}/{$file}~{$fileVer}~".file_get_contents($dir . '/' . $file)."\r\n";
