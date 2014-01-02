@@ -72,7 +72,7 @@ function isInstalled ( )
 ## WdG: 30 NOV 2013
 function offlineInstall ( ) 
 {
-	if ( file_exists ( 'install.sys' ) )
+	if ( file_exists ( 'install.app' ) )
 		return true;
 	else
 		return false;
@@ -252,9 +252,9 @@ function parseSetupFiles ( $filesString )
 ## WdG: 30 NOV 2013
 function beginOfflineInstall ( )
 {
-	if ( is_readable ( 'install.sys' ) )
+	if ( is_readable ( 'install.app' ) )
 	{
-		if ( parseSetupFiles ( gzuncompress ( file_get_contents ( 'install.sys' ) ) ) ) 
+		if ( parseSetupFiles ( gzuncompress ( file_get_contents ( 'install.app' ) ) ) ) 
 		{
 			echo "Installed!!!";
 		}
@@ -273,7 +273,7 @@ function beginInstall ( )
 	#DOWNLOAD ALL THE FILES.
 	#TODO
 	echo "Please wait downloading...";
-	$downloadURL = "https://github.com/wesdegroot/WDGWVSS_ONLINEDOWNLOADER/blob/master/ONLINEINSTALL/install.sys?raw=true";
+	$downloadURL = "https://github.com/WDGWV/WDGWVSS_ONLINEDOWNLOADER/blob/master/ONLINEINSTALL/install.app?raw=true";
 
 	$opts = array(
   		'http'=>array(
@@ -286,7 +286,7 @@ function beginInstall ( )
 
 	$context = stream_context_create($opts);
 	$file    = file_get_contents ( $downloadURL, false, $context );
-	file_put_contents('install.sys', $file);
+	file_put_contents('install.app', $file);
 
 
 	if ( parseSetupFiles ( gzuncompress ( $file ) ) ) 
