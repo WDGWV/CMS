@@ -54,7 +54,7 @@
   All Rights Reserved.
 */
 
-include_once 'install.php';
+include_once 'install.framework';
 
 	if ( offlineInstall() )
 		beginOfflineInstall();
