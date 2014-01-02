@@ -54,6 +54,7 @@
   All Rights Reserved.
 */
 
+$debug = false;
 
 #function isInstalled()
 #checks if the system is already installed is, or not.
@@ -71,7 +72,7 @@ function isInstalled ( )
 ## WdG: 30 NOV 2013
 function offlineInstall ( ) 
 {
-	if ( file_exists ( 'install' ) )
+	if ( file_exists ( 'install.sys' ) )
 		return true;
 	else
 		return false;
@@ -151,6 +152,7 @@ function setupWrite ( $file, $contents )
 ## WdG: 30 NOV 2013
 function parseSetupFiles ( $filesString )
 {
+	global $debug;
 	$setupLog = array();
 
 	if ( validatedInstall ( $filesString ) )
@@ -203,13 +205,21 @@ function parseSetupFiles ( $filesString )
 
 					if ( sizeof($file) == 3 )
 					{
-						$setupLog['x-files'][base64_decode ( $file[0] )] = $file;
+						if ($debug)
+							$setupLog['x-files'][base64_decode ( $file[0] )] = $file;
 
-						$file1 = setupWrite ( base64_decode ( $file[0] ), 	 		   base64_decode ( $file[2] ) );
-						$file2 = setupWrite ( base64_decode ( $file[0] ) . '.version', base64_decode ( $file[1] ) );
+						$ver = explode("/", base64_decode ( $file[0] ) );
+						$ver[sizeof($ver)-1] = '.' . $ver[sizeof($ver)-1];
+						$ver = implode('/', $ver);
+
+						$file1 = setupWrite ( base64_decode ( $file[0] ), base64_decode ( $file[2] ) );
+						$file2 = setupWrite ( $ver, base64_decode ( $file[1] ) );
 
 						if ( $file1 && $file2 )
 						{
+							if ( substr( PHP_OS, 0, 3 ) == 'WIN' )
+								@system('attrib +h ' . base64_decode ( $file[0] ) . '.version');
+
 							$setupLog['info'][] = 'File "' . base64_decode ( $file[0] ) . '" Created';
 						}
 						else
@@ -242,9 +252,9 @@ function parseSetupFiles ( $filesString )
 ## WdG: 30 NOV 2013
 function beginOfflineInstall ( )
 {
-	if ( is_readable ( 'install' ) )
+	if ( is_readable ( 'install.sys' ) )
 	{
-		if ( parseSetupFiles ( gzuncompress ( file_get_contents ( 'install' ) ) ) ) 
+		if ( parseSetupFiles ( gzuncompress ( file_get_contents ( 'install.sys' ) ) ) ) 
 		{
 			echo "Installed!!!";
 		}
@@ -262,6 +272,31 @@ function beginInstall ( )
 {
 	#DOWNLOAD ALL THE FILES.
 	#TODO
+	echo "Please wait downloading...";
+	$downloadURL = "https://github.com/wesdegroot/WDGWVSS_ONLINEDOWNLOADER/blob/master/ONLINEINSTALL/install.sys?raw=true";
+
+	$opts = array(
+  		'http'=>array(
+    		'method'=>"GET",
+    		'header'=>"Accept-language: en\r\n" .
+             		  "Cookie: WDGWV=SS\r\n".
+             		  "User-Agent: WDGWV CMS Online downloader (http://www.wdgwv.com)"
+  		)
+	);
+
+	$context = stream_context_create($opts);
+	$file    = file_get_contents ( $downloadURL, false, $context );
+	file_put_contents('install.sys', $file);
+
+
+	if ( parseSetupFiles ( gzuncompress ( $file ) ) ) 
+	{
+		echo "Installed!!!";
+	}
+	else
+	{
+		echo file_get_contents('setup.log');
+	}
 }
 
 ?>
