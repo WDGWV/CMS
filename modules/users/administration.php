@@ -54,6 +54,8 @@
   All Rights Reserved.
 */
 
-header("location: ../../../");
-exit;
+include_once 'includes/load.php';
+//include_once 'includes/core.php';
+
+
 ?>
