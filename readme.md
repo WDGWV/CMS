@@ -23,14 +23,14 @@ TODO LIST
  * [00%] Add 'Module Config'
  * [00%] Add 'Hooks'
 
- * Modules
- * [00%] \ agenda
- * [00%] \ downloads
- * [00%] \ media
- * [00%] \ news / Posts
- * [00%] \ poll
- * [05%] \ users
- * [05%] \ wiki
+Modules
+ * [00%] agenda
+ * [00%] downloads
+ * [00%] media
+ * [00%] news / Posts
+ * [00%] poll
+ * [05%] users
+ * [05%] wiki
 
 TO TEST
  * Nothing
