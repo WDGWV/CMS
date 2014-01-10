@@ -1,2 +1,8 @@
 xx_PRIVATE
 .DS_Store
+.version
+.bak
+.pkg
+.wdgwv
+.unknown
+.error
