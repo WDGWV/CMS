@@ -1,3 +1,7 @@
+WDGWVSS File Tree
+WDGWVSS v3 // 3.0.0.7
+http://www.wdgwv.com
+
 .
 ├── config
 │   ├── index.php
@@ -125,6 +129,7 @@
 ├── setup.log
 ├── system
 │   ├── WDGWV.php
+│   ├── WDGWV_Parser.php
 │   ├── blogger-compatibility.php
 │   ├── db
 │   │   ├── backups
@@ -329,4 +334,4 @@
     ├── push
     └── ver
 
-61 directories, 268 files
+61 directories, 269 files
