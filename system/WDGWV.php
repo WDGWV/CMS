@@ -102,6 +102,21 @@ function WDGWV_getSlogan ( )
 	return 'This is the page of the new WDGWV cms Version ' . WDGWV_getVersion() . '!';
 }
 
+#function WDGWV_getContent ( ) 
+# get the current content for the page.
+## WdG: 13-JAN-2014
+function WDGWV_getContent( )
+{
+	//WDGWV_Parser
+	return '
+Here you\'ll find some statics about this project, for now al the pages are static, and not yet changeable.<br />
+Come back later ;)<br /><br />
+<table><tr><td><script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script></td><td>
+<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_cocomo.js"></script></tr></table>
+<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_users.js?style=blue"></script>
+';
+}
+
 #function WDGWV_getFooter ( ) 
 # get the current website footer (userAjustable).
 ## WdG: 01-JAN-2014

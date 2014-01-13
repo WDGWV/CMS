@@ -62,13 +62,7 @@ $headline = 'div';
 ## WdG: 23-DEC-2013
 function the_content ( )
 {
-	echo '
-Here you\'ll find some statics about this project, for now al the pages are static, and not yet changeable.<br />
-Come back later ;)<br /><br />
-<table><tr><td><script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script></td><td>
-<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_cocomo.js"></script></tr></table>
-<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_users.js?style=blue"></script>
-';
+	echo WDGWV_getContent();
 }
 
 #function the_post ( ) 
