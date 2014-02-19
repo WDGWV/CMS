@@ -64,7 +64,7 @@ class template
 
    	public function __construct( ) 
    	{
-        $this->uniid = uniqid();
+		$this->uniid = uniqid();
    	}
 
  	public function __destruct( ) 
