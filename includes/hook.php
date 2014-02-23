@@ -56,9 +56,15 @@
 
 include_once 'includes/load.php';
 //include_once 'includes/core.php';
+if ( isset ( $WDGWV_HOOKS ) )
+	$WDGWV_HOOKS = array();
 
 #function myfunction()
 # Description
 ## WdG: DD MMM YYYY
-
+function hook($where, $what, $how)
+{
+	global $WDGWV_HOOKS;
+	$WDGWV_HOOKS[$where] = array($how, $what);
+}
 ?>
