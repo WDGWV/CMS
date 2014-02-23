@@ -54,14 +54,16 @@
   All Rights Reserved.
 */
 $i=0;
+
 $start = microtime();
 
-while ($i <= 1000001) {
-	# code...
+while ($i <= 100001) 
+{
 	echo "TEST {$i}\n";
 	$i++;
 }
 
 $stop = microtime();
+
 echo $i . " Tests taked " . ($start - $stop) . "ms";
 ?>
