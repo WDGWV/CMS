@@ -56,7 +56,7 @@
 
 if ( defined ( 'WDGWVSystem' ) )
 {
-	if ( !installed ( 'agenda' ) )
+	if ( !WDGWV_page_exists ( 'agenda' ) )
 		WDGWV_add_page('agenda', '{AGENDA}');
 
 	WDGWV_add_replacer('AGENDA', 'This is the agenda');

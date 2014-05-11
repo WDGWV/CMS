@@ -124,4 +124,29 @@ function WDGWV_getFooter ( )
 {
 	return '<img src=\'http://by.wdgp.nl/logo\' width=\'30px\' height=\'0px\'>&copy; yoursite.';
 }
+
+function WDGWV_page_exists ( $page )
+{
+	if ( /*in database */ false )
+		return true;
+	else
+		return false;
+}
+
+function WDGWV_add_page ( $page, $content )
+{
+	//TODO: ADD TO DATABASE
+}
+
+function WDGWV_add_replacer ( $what, $with )
+{
+	// For mod sys.
+	// And handle it while parsing page...
+	// TODO: See above...
+}
+
+function WDGWV_add_admin ( $page, $content )
+{
+	//TODO: ADD TO DATABASE W/Prefix
+}
 ?>
