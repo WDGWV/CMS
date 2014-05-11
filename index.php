@@ -68,11 +68,13 @@ if ( isInstalled() )
 	//	blogger( WDGWV_getTheme() );
 	elseif ( isWordpress ( WDGWV_getTheme() ) )
 	{
-		wordpress( WDGWV_getTheme() );
+		wordpress(
+					WDGWV_getTheme() 
+				 );
 	}
 	else
 	{
-		echo "THEME ".WDGWV_getTheme()." Does not exists!";
+		echo "THEME " . WDGWV_getTheme() . " Does not exists!";
 	}
 }
 else
@@ -83,4 +85,6 @@ else
 		beginInstall();
 }
 
+echo "<hr>";
+WDGWV_logdump();
 ?>

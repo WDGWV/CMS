@@ -54,16 +54,57 @@
   All Rights Reserved.
 */
 
-require_once 'system/install.php';
-require_once 'system/WDGWV.php';
-require_once 'system/dump.php';
-require_once 'system/WDGWV_Debug.php';
-require_once 'system/WDGWV_Parser.php';
-require_once 'system/wordpress-load.php';
-require_once 'system/simple_html_dom.php';
-require_once 'system/blogger-compatibility.php';
+$WDGWV_DEBUG = array();
+$WDGWV_DEBUG['info']    = array('WDGWV Debug (info) started.');
+$WDGWV_DEBUG['error']   = array('WDGWV Debug (errors) started.');
+$WDGWV_DEBUG['warning'] = array('WDGWV Debug (warnings) started.');
 
-if ( !function_exists('isWordpress') )
-	exit("Missing isWordpress.");
+#function WDGWV_log ( ) 
+# Print something in the log.
+## WdG: 01-JAN-2014
+function WDGWV_log ( $status, $error = 'info' )
+{
+	global $WDGWV_DEBUG;
+
+	if ( $error == 'warn' )
+		$error = 'warning';
+
+	$WDGWV_DEBUG[$error][] = $status;
+}
+
+#function WDGWV_warning ( ) 
+# Make a warning.
+## WdG: 01-JAN-2014
+function WDGWV_warning ( $error )
+{
+	global $WDGWV_DEBUG;
+		trigger_error($error, E_USER_WARNING);
+	
+	WDGWV_log($error, 'warning');
+}
+
+#function WDGWV_error ( ) 
+# Make a error.
+## WdG: 01-JAN-2014
+function WDGWV_error ( $error )
+{
+	global $WDGWV_DEBUG;
+	
+	trigger_error($error, E_USER_ERROR);
+	WDGWV_log($error, 'error');
+}
+
+#function WDGWV_logdump ( return ) 
+# Returns the log.
+## WdG: 01-JAN-2014
+function WDGWV_logdump ( $r=false )
+{
+	global $WDGWV_DEBUG;
+	
+	if ( $r )
+		return $r;
+	else
+		echo dump($WDGWV_DEBUG, true);
+}
 
 ?>
