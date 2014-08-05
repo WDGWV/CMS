@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE cross-domain-policy 
+  SYSTEM "http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd">
+<cross-domain-policy>
+  <allow-access-from domain="googleads.g.doubleclick.net" />
+  <allow-access-from domain="wdgwv.com" />
+  <allow-access-from domain="beta.wdgss.nl" />
+  <allow-access-from domain="home.wdgss.nl" />
+</cross-domain-policy>
