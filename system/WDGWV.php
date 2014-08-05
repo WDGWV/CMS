@@ -114,6 +114,16 @@ Come back later ;)<br /><br />
 <table><tr><td><script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script></td><td>
 <script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_cocomo.js"></script></tr></table>
 <script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_users.js?style=blue"></script>
+<br /><br />
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ONDERAAN -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-5555094756467155"
+     data-ad-slot="1975252506"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 ';
 }
 
