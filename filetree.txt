@@ -1,16 +1,21 @@
 WDGWVSS File Tree
-WDGWVSS v3 // 3.0.0.7
+WDGWVSS v3 // 3.0.1.5
 http://www.wdgwv.com
 
 .
+├── LICENCE.MD
 ├── config
 │   ├── index.php
 │   ├── installed
 │   └── installed.version
+├── crossdomain.xml
 ├── filetree.txt
+├── guidelines.md
 ├── includes
 │   ├── core.php
-│   └── index.php
+│   ├── hook.php
+│   ├── index.php
+│   └── modules.php
 ├── index.php
 ├── modules
 │   ├── agenda
@@ -44,8 +49,6 @@ http://www.wdgwv.com
 │   │   ├── module.php
 │   │   ├── read.php
 │   │   └── write.php
-│   ├── iframe-widget
-│   │   └── screenshot-3.jpg
 │   ├── index.php
 │   ├── media
 │   │   ├── index.php
@@ -67,7 +70,6 @@ http://www.wdgwv.com
 │   │   ├── index.php
 │   │   └── lang
 │   │       └── index.php
-│   ├── untitled\ folder
 │   ├── users
 │   │   ├── administration.php
 │   │   ├── index.php
@@ -129,6 +131,8 @@ http://www.wdgwv.com
 ├── setup.log
 ├── system
 │   ├── WDGWV.php
+│   ├── WDGWV_API.php
+│   ├── WDGWV_Debug.php
 │   ├── WDGWV_Parser.php
 │   ├── blogger-compatibility.php
 │   ├── db
@@ -138,6 +142,8 @@ http://www.wdgwv.com
 │   │   ├── local.php
 │   │   ├── mysql.php
 │   │   └── sqllite.php
+│   ├── db.php
+│   ├── dump.php
 │   ├── index.php
 │   ├── install.php
 │   ├── simple_html_dom.php
@@ -316,22 +322,11 @@ http://www.wdgwv.com
 │   │   └── styles
 │   │       └── index.php
 │   └── index.php
-├── x_tests
-│   ├── e
-│   ├── index.php
-│   ├── run
-│   └── tests.php
-└── xx_PRIVATE
-    ├── SuperTest
-    │   ├── SetupOffline
-    │   ├── SetupOnline
-    │   ├── index.php
-    │   ├── install.app
-    │   └── install.framework
-    ├── SuperTest.zip
-    ├── makeSetup
-    ├── makeSetupfile.php
-    ├── push
-    └── ver
+└── x_tests
+    ├── 2038.pl
+    ├── e
+    ├── index.php
+    ├── run
+    └── tests.php
 
-61 directories, 269 files
+59 directories, 278 files

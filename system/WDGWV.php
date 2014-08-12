@@ -54,6 +54,16 @@
   All Rights Reserved.
 */
 
+#function WDGWV_login ( username, password )
+# Check if login exists en is ok.
+# Return: bool.
+## WdG: 12-AUG-2014
+function WDGWV_login ( $username, $password )
+{
+	//TODO: DATABASE
+	return false;
+}
+
 #function WDGWV_getTheme ( ) 
 # get the current theme.
 ## WdG: 01-JAN-2014
