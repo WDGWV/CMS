@@ -53,26 +53,6 @@ class Blogger {
 			$theme
 		);
 
-		//$html = str_get_html($theme);
-		//foreach($html->find('b:loop') as $element)
-		//{
-		//   echo $element->values. '<br>';
-		//   var_dump($element);
-		//   echo "<hr />";
-		//}
-
-		#$theme = preg_replace_callback(
-		#								"#<b:includable id='(.*)' var='(.*)'>(.*)</b:includable>#",
-		#								"bloggerInclude",
-		#								$theme
-		#							  );
-
-		#$theme = preg_replace_callback(
-		#								"#<b:include name=\"(.*)\"/>#",
-		#								"bloggerLoad",
-		#								$theme
-		#							  );
-
 		$theme = preg_replace(
 			"#<data:blog.pageTitle/>#",
 			"WDGWV CMS v0.0.1",
