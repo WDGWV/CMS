@@ -1,4 +1,8 @@
 <?php
+/** Rederiction page
+ *
+ * Redericts you to the Civilization
+ */
 
 /*
 ------------------------------------------------------------
@@ -47,13 +51,6 @@
 -       (c) WDGWV. 2013, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
--- File-Checked.
--- Checked-by:-WdG.
--- File-created:-WdG.
--- date:-07-06-2013
---
--- © WDGWV, www.wdgwv.com
--- All Rights Reserved.
  */
 
 header("location:../");
