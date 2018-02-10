@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <script type='text/javascript' src='https://cdn.rawgit.com/wdg/_.js/master/latest/_.js'></script>
+  <title>{ITEM:SITE_TITLE} Portal</title>
+  <!-- Bootstrap Core CSS -->
+  <link href="./css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+  <link href="./css/custom.css" rel="stylesheet">
+  <script src='./js/modal.js'></script>
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+      <!-- Logo and responsive toggle -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-globe"></span> {ITEM:SITE_TITLE}</a>
+      </div>
+      <!-- Navbar links -->
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="nav navbar-nav">
+          {GENERATE menu} {MENUITEM}
+          <li>
+            <a href="{LINK}">{NAME}</a>
+          </li>
+          {/MENUITEM} {SUBMENU}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{NAME} <span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="{NAME}">
+              {MENUITEM}
+              <li><a href="{LINK}">{NAME}</a></li>{/MENUITEM}
+            </ul>
+          </li>
+          {/SUBMENU} {/GENERATE}
+        </ul>
+        <!-- Search -->
+        <form class="navbar-form navbar-right" role="search" onsubmit="window.location='/search/'+document.getElementById('search').value;return false;">
+          <div class="form-group">
+            <input type="text" id='search' placeholder="{#search phrase#}" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> {#search#}</button>
+        </form>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+  <div class="navbar-filler">&nbsp;</div>
+  <div class="container-fluid">
+    <!-- Left Column -->
+    <div class="col-sm-3">
+      <!-- STATIC Panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> WIDGET 1 LEFT</h1>
+        </div>
+        <div class="panel-body">
+          <p>
+            Including: static content ;)
+          </p>
+        </div>
+      </div>
+
+      <!-- List-Group Panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><span class="glyphicon glyphicon-random"></span> ACTIONS</h1>
+        </div>
+        <div class="list-group">
+          <a href="#" class="list-group-item">Resource Taxing</a>
+          <a href="#" class="list-group-item">Premier Niche Markets</a>
+          <a href="#" class="list-group-item">Dynamically Innovate</a>
+          <a href="#" class="list-group-item">Objectively Innovate</a>
+          <a href="#" class="list-group-item">Proactively Envisioned</a>
+        </div>
+      </div>
+      <!-- Text Panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title"><span class="glyphicon glyphicon-cog"></span> Dramatically Engage</h1>
+        </div>
+        <div class="panel-body">
+          <p>Objectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top-line web services vis-a-vis cutting-edge deliverables.</p>
+          <p>
+            <button class="btn btn-default">Engage</button>
+          </p>
+        </div>
+      </div>
+      <!-- Text Panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="glyphicon glyphicon-bullhorn"></span> 
+            Active Predomination
+          </h3>
+        </div>
+        <div class="panel-body">
+          <p>Proactively envisioned multimedia based expertise and cross-media growth strategies.</p>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default">Resource</button>
+            <button type="button" class="btn btn-default">Envision</button>
+            <button type="button" class="btn btn-default">Niche</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/Left Column-->
+    <!-- Center Column -->
+    <div class="col-sm-6">
+      <!-- Alert -->
+      <div class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
+        <button type="button" class="close" data-dismiss="alert" onclick="document.querySelectorAll('.alert')[0].style.display='none';return false;" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>{#alert#}:</strong> {#maintenance mode#}
+      </div>
+      <!-- Articles -->
+      <!-- {-TEMPLATE LOAD:'post.html' CONFIG:'TITLE=321;CONTENT=Pzerty;RMLink=/rm/1;KEYWORDS=tag,post,Else;DATE=Today;COMMENTS=2;SHARES=8;'}     -->
+      {ITEM:page}
+      {while post}
+        {TEMPLATE LOAD:'post.html' CONFIG:'TITLE=post.title;CONTENT=post.content;RMLink=post.rmLink;KEYWORDS=post.keywords;DATE=post.date;COMMENTS=post.comments;SHARES=post.shares;READMORE=post.readmore;'}
+      {/while}
+    </div>
+    <!--/Center Column-->
+    <!-- Right Column -->
+    <div class="col-sm-3">
+      <!-- Form -->
+      {if !isset($_SESSION['CMS_USER_LOGIN'])}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="glyphicon glyphicon-log-in"></span>
+            &nbsp;{#log in#}
+          </h3>
+        </div>
+        <div class="panel-body">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="business" name="business" placeholder="{#business name or id#}">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="uid" name="uid" placeholder="{#username#}">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="pwd" name="pwd" placeholder="{#password#}">
+            </div>
+            <button type="submit" onclick="document.querySelectorAll('.alert')[0].style.display='block';return false;" class="btn btn-default">{#log in#}</button>
+          </form>
+        </div>
+      </div>
+      {else}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="glyphicon glyphicon-log-in"></span> 
+            Welcome
+          </h3>
+        </div>
+        <div class="panel-body">
+          {PHP echo $_SESSION['SITE_TITLE'];}
+        </div>
+      </div>
+      {endif}
+      <!-- Progress Bars -->
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <span class="glyphicon glyphicon-scale"></span> 
+            Dramatically Engage
+          </h3>
+        </div>
+        <div class="panel-body">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+              100% Proactively Envisioned
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:80%">
+              80% Objectively Innovated
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width:45%">
+              45% Portalled
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width:35%">
+              35% Done
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Carousel -->
+      <h3><span class="glyphicon glyphicon-modal-window"></span> Tips &amp; Tricks</h3>
+      <div id="side-carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#side-carousel" data-slide-to="0" class="active"></li>
+          <li data-target="#side-carousel" data-slide-to="1"></li>
+          <li data-target="#side-carousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <a href="#">
+              <img class="img-responsive" src="holder.js/400x300?bg=FF8C00&text=Image%201" alt="">
+            </a>
+            <div class="carousel-caption">
+              <h3>{#All rights reserved#}</h3>
+              <p>{#All rights reserved#}</p>
+            </div>
+          </div>
+          <div class="item">
+            <a href="#">
+              <img class="img-responsive" src="holder.js/400x300?bg=FF8C00&text=Image%202" alt="">
+            </a>
+            <div class="carousel-caption">
+              <h3>Efficiently Unleash</h3>
+              <p>Dramatically maintain clicks-and-mortar solutions without functional solutions.</p>
+            </div>
+          </div>
+          <div class="item">
+            <a href="#">
+              <img class="img-responsive" src="holder.js/400x300?bg=FF8C00&text=Image%203" alt="">
+            </a>
+            <div class="carousel-caption">
+              <h3>Proactively Pontificate</h3>
+              <p>Holistically pontificate installed base portals after maintainable products.</p>
+            </div>
+          </div>
+        </div>
+        <a class="left carousel-control" href="#side-carousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">{#Previous#}</span>
+        </a>
+        <a class="right carousel-control" href="#side-carousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">{#Next#}</span>
+        </a>
+      </div>
+    </div>
+    <!--/Right Column -->
+  </div>
+  <!--/container-fluid-->
+  <footer>
+    <div class="footer-blurb">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3 footer-blurb-item">
+            <h3><span class="glyphicon glyphicon-text-size"></span> Dynamic</h3>
+            <p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+            <p><a class="btn btn-default" href="#">Procrastinate</a></p>
+          </div>
+          <div class="col-sm-3 footer-blurb-item">
+            <h3><span class="glyphicon glyphicon-wrench"></span> Efficient</h3>
+            <p>Dramatically maintain clicks-and-mortar solutions without functional solutions. Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. </p>
+            <p><a class="btn btn-default" href="#">Unleash</a></p>
+          </div>
+          <div class="col-sm-3 footer-blurb-item">
+            <h3><span class="glyphicon glyphicon-paperclip"></span> Complete</h3>
+            <p>Professionally cultivate one-to-one customer service with robust ideas. Completely synergize resource taxing relationships via premier niche markets. Dynamically innovate resource-leveling customer service for state of the art customer service.</p>
+            <p><a class="btn btn-default" href="#">Complete</a></p>
+          </div>
+          <div class="col-sm-3 footer-blurb-item">
+            <h3><span class="glyphicon glyphicon-camera"></span> Phosfluorescent</h3>
+            <div class="row">
+              <div class="col-xs-6">
+                <a href="#" class="thumbnail">
+                    <img src="holder.js/110x80" alt="">
+                  </a>
+              </div>
+              <div class="col-xs-6">
+                <a href="#" class="thumbnail">
+                    <img src="holder.js/110x80" alt="">
+                  </a>
+              </div>
+              <div class="col-xs-6">
+                <a href="#" class="thumbnail">
+                    <img src="holder.js/110x80" alt="">
+                  </a>
+              </div>
+              <div class="col-xs-6">
+                <a href="#" class="thumbnail">
+                    <img src="holder.js/110x80" alt="">
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="small-print">
+      <div class="container">
+        <p><a href="{ITEM:PORTAL_URL}special/terms">{#Terms & Conditions#}</a> | <a href="{ITEM:PORTAL_URL}special/privacy">{#Privacy Policy#}</a> | <a href="{ITEM:PORTAL_URL}special/contact">{#Contact#}</a></p>
+        <p>Copyright &copy;&nbsp; {ITEM:year} {ITEM:SITE_TITLE} {#Powered by#} <a href='https://www.wdgwv.com/products/cms' target='_blank'>WDGWV CMS</a>,&nbsp;{#All rights reserved#}.</p>
+      </div>
+    </div>
+  </footer>
+  <!-- jQuery -->
+  <script src="./js/jquery-1.11.3.min.js"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="./js/bootstrap.js"></script>
+  <!-- IE10 viewport bug workaround -->
+  <script src="./js/ie10-viewport-bug-workaround.js"></script>
+  <!-- Placeholder Images -->
+  <script src="./js/holder.min.js"></script>
+</body>
+
+</html>
+<!-- <script type="text/javascript">
+for (var x = 0; x < 202; x++) {
+  window.setTimeout(function (x) {
+    // document.body.style.opacity = x / 100
+    document.querySelectorAll('.container-fluid')[0].style.opacity = x / 5000;
+    document.querySelectorAll('.container-fluid')[0].style.cursor = 'wait';
+
+    openPopup('{#loading user interface#}...', '<progress max="100" value="' + Math.floor(x / 2) + '"></progress> ' + Math.floor(x / 2) + '%<br /><br />{#please wait#}.', 'hidden', 'hidden', 'hidden', 'hidden', '{debug}DEBUG MODE{/debug} {ITEM:SITE_TITLE} CMS')
+    if (x > 200) {
+      document.querySelectorAll('.container-fluid')[0].style.opacity = 1;
+      document.querySelectorAll('.container-fluid')[0].style.cursor = '';
+      document.getElementById('WDGWVdialog').style.display = 'none'
+    }
+  }, 10 * x, String(x))
+}
+</script> -->

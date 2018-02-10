@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head profile="http://gmpg.org/xfn/11">
+  <link rel="stylesheet" href="./style.css" type="text/css" media="screen" />
+  <title>{ITEM:SITE_TITLE}</title>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="header">
+      <h1>{ITEM:SITE_TITLE}</h1>
+    </div>
+    <div id="menu">
+      <ul>
+        {GENERATE menu} {MENUITEM}
+        <li>
+          <a href="{LINK}">{NAME}</a>
+        </li>
+        {/MENUITEM} {SUBMENU}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{NAME} <span class="caret"></span></a>
+          <ul class="dropdown-menu" aria-labelledby="{NAME}">
+            {MENUITEM}
+            <li><a href="{LINK}">{NAME}</a></li>{/MENUITEM}
+          </ul>
+        </li>
+        {/SUBMENU} {/GENERATE}
+      </ul>
+    </div>
+    <div id="content-wrapper">
+      <div id="content-left">
+        <div class="post content-item" id="post-1">
+          <h2 id='pagename' class="post-title content-item-top">
+            {ITEM:pageName}
+          </h2>
+          <div class="content-item-middle-wrapper">
+            <div class="post-text content-item-middle">
+              {ITEM:page}
+            </div>
+          </div>
+          <div class="bottom-info content-item-bottom">
+            <div class="meta-post"></div>
+            <div class="comments-no">&nbsp;</div>
+          </div>
+        </div>
+        <div class="navigation">
+          <div class="alignleft"></div>
+          <div class="alignright"></div>
+        </div>
+      </div>
+      <div id="sidebar">
+        <div id="inside-sidebar">
+          <ul>
+            <li class="sidebar-section-content">
+              SIDEBAR RIGHT
+            </li>
+          </ul>
+        </div>
+      </div>
+      <br style="clear:both" />
+    </div>
+    <div id="footer">
+      Copyright &copy;&nbsp; {ITEM:year} {ITEM:SITE_TITLE} {#Powered by#} <a href='https://www.wdgwv.com/products/cms' target='_blank'>WDGWV CMS</a>,&nbsp;{#All rights reserved#}.
+    </div>
+  </div>
+</body>
+
+</html>

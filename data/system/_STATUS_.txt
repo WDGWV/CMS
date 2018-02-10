@@ -1,0 +1,13 @@
+Done:
+	Debugger.php
+	MySQL.php
+	templateParser.php
+
+Documentation:
+	Installer.php
+
+Todo:
+	...
+
+Removeable:
+	...
