@@ -10,8 +10,8 @@ $emulation = array(
 $pageController = new \WDGWV\CMS\controllers\page("x");
 
 if ($installer->isInstalled()) {
+	// TODO: #4
 	// echo $CMS->serve();
-	// TODO: SEE ABOVE FUNCTION...
 	if ($emulation['Blogger']->isBlogger($CMS->getTheme())) {
 		$emulation['Blogger']->blogger(
 			$CMS->getTheme()
@@ -59,54 +59,13 @@ if ($installer->isInstalled()) {
 		} else if ($pageController->pageExists($_SERVER['REQUEST_URI'])) {
 			$parser->bindParameter('page', $pageController->displayPage($_SERVER['REQUEST_URI']));
 		} elseif (false == true) {
+			// TODO: BLOGPOST #3
 			// BLOGPOST.
 			$parser->bindParameter('page', '');
 		} else {
 			$parser->bindParameter('page', $pageController->displayPage('404'));
 		}
 
-		// $parser->bindParameter('post', array(
-		// 	array(
-		// 		"title" => "{$_SERVER['REQUEST_URI']}",
-		// 		"content" => "Testing it out...",
-		// 		"date" => date("d-m-Y"),
-		// 		"comments" => null,
-		// 		"shares" => null,
-		// 		"keywords" => null,
-		// 	),
-		// 	array(
-		// 		"title" => "Ali B",
-		// 		"content" => "Testing it out...",
-		// 		"date" => @date("d-m-Y H:i"),
-		// 		"comments" => "0",
-		// 		"shares" => "0",
-		// 		"keywords" => "Thank You,Rapper,Gehuwd",
-		// 	),
-		// 	array(
-		// 		"title" => "Bert S",
-		// 		"content" => "Testing it out...",
-		// 		"date" => @date("d-m-Y H:i"),
-		// 		"comments" => "0",
-		// 		"shares" => "0",
-		// 		"keywords" => "Thank You,Sesamstraat,Hond",
-		// 	),
-		// 	array(
-		// 		"title" => "Ernie S",
-		// 		"content" => "Testing it out...",
-		// 		"date" => @date("d-m-Y H:i"),
-		// 		"comments" => "0",
-		// 		"shares" => "0",
-		// 		"keywords" => "Thank You,Sesamstraat,Muis",
-		// 	),
-		// 	array(
-		// 		"title" => "Pino S",
-		// 		"content" => "Testing it out...",
-		// 		"date" => @date("d-m-Y H:i"),
-		// 		"comments" => "0",
-		// 		"shares" => "0",
-		// 		"keywords" => "Thank You,Sesamstraat,Vogel",
-		// 	),
-		// ));
 		/**/
 		$parser->display();
 
