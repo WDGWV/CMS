@@ -22,7 +22,7 @@ class WordPress {
 
 	/* Load the "post" CONTENT */
 	function the_content() {
-		echo WDGWV\CMS\ACTIONS\WDGWV_getContent();
+		echo (new \WDGWV\CMS\base())->getContent();
 	}
 
 	#function the_post ( )
@@ -191,7 +191,7 @@ class WordPress {
 	# Load the title of the page.
 	## WdG: 23-DEC-2013
 	function wp_title() {
-		echo WDGWV\CMS\ACTIONS\WDGWV_getPagename();
+		echo (new \WDGWV\CMS\base())->getPageName();
 	}
 
 #function language_attrubutes ( )
@@ -226,11 +226,11 @@ class WordPress {
 			break;
 
 		case 'name':
-			echo WDGWV\CMS\ACTIONS\WDGWV_getTitle();
+			echo (new \WDGWV\CMS\base())->getTitle();
 			break;
 
 		case 'description':
-			echo WDGWV\CMS\ACTIONS\WDGWV_getDescription();
+			echo (new \WDGWV\CMS\base())->getDescription();
 			break;
 
 		case 'template_directory':
@@ -297,7 +297,7 @@ class WordPress {
 	# We ain't wordpress!
 	## WdG: 23-DEC-2013
 	function wp_footer() {
-		echo WDGWV\CMS\ACTIONS\WDGWV_getFooter();
+		echo (new \WDGWV\CMS\base())->getFooter();
 	}
 
 #function get_footer ( )
@@ -428,7 +428,7 @@ class WordPress {
 	# is wp_title();
 	## WdG: 30-DEC-2013
 	function the_title() {
-		return wp_title();
+		return (new \WDGWV\CMS\base())->getPageName();
 	}
 
 #function comments_link ( )
@@ -443,7 +443,7 @@ class WordPress {
 	## WdG: 30-DEC-2013
 	function readintro() {
 		//SLOGAN..
-		echo WDGWV\CMS\ACTIONS\WDGWV_getSlogan();
+		echo (new \WDGWV\CMS\base())->getSlogan();
 	}
 
 #function is_tag ( )
