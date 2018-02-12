@@ -624,6 +624,9 @@ class templateParser {
 			$cfg = explode(';', $d[2]);
 			for ($i = 0; $i < sizeof($cfg); $i++) {
 				$_d = explode("=", $cfg[$i]);
+				if ($_d[0] == 'CONTENT') {
+					$_d[1] = base64_decode($_d[1]);
+				}
 				$this->_parameters[] = array($_d[0], isset($_d[1]) ? $_d[1] : null);
 			}
 		}

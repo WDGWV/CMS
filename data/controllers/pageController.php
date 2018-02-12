@@ -13,7 +13,7 @@ class page extends \WDGWV\CMS\controllers\base {
 	}
 
 	public function pageExists($pageID) {
-		return true;
+		return false;
 	}
 
 	public function displayPage($pageID) {

@@ -58,10 +58,21 @@ if ($installer->isInstalled()) {
 			$parser->bindParameter('page', $CMS->getContent());
 		} else if ($pageController->pageExists($_SERVER['REQUEST_URI'])) {
 			$parser->bindParameter('page', $pageController->displayPage($_SERVER['REQUEST_URI']));
-		} elseif (false == true) {
-			// TODO: BLOGPOST #3
-			// BLOGPOST.
+		} elseif (!$CMS->singlePage() && !$pageController->pageExists($_SERVER['REQUEST_URI'])) {
 			$parser->bindParameter('page', '');
+			$blogData = $database->postGetLast();
+
+			$parser->bindParameter('post', array(
+				array(
+					"title" => $blogData[0],
+					"content" => base64_encode($blogData[1]),
+					"date" => $blogData[3],
+					"comments" => null,
+					"shares" => null,
+					"readmore" => null,
+					"keywords" => $blogData[2],
+				),
+			));
 		} else {
 			$parser->bindParameter('page', $pageController->displayPage('404'));
 		}

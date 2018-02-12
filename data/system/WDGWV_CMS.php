@@ -33,7 +33,7 @@ class base extends \WDGWV\General\WDGWVFramework {
 	}
 
 	public function singlePage() {
-		return true;
+		return false;
 	}
 
 	public function getDescription() {
