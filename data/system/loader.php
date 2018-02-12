@@ -27,6 +27,23 @@ require_once CMS_COMPATIBILITY_DIR . 'wordpress.php';
 
 // Load all controllers ('temporary solution')
 require_once CMS_CONTROLLERS_DIR . 'base.php';
+require_once CMS_CONTROLLERS_DIR . 'database.php';
+require_once CMS_CONTROLLERS_DIR . 'plainTextDatabase.php';
+$database = new \WDGWV\CMS\controllers\databases\plainText();
+
+// TEMPORARY
+// TODO: REMOVE ME!!!
+$database->userRegister('wdg', 'test', 'wes@vista.aero', array('userLevel' => 100, 'is_admin' => true));
+if ($database->userLogin('wdg', 'test')) {
+	$_SESSION['CMS_USER_LOGIN'] = 'Wes';
+	$_SESSION['SITE_TITLE'] = 'WDGWV';
+} else {
+	echo "Password Incorrect";
+}
+$database->postCreate('Welcome', $CMS->getContent(), 'Welcome, WDGWV, Tag1, Tag2', date('d-m-Y H:i:s'), array('sticky' => true));
+// /TEMPORARY
+
+require_once CMS_CONTROLLERS_DIR . 'base.php';
 require_once CMS_CONTROLLERS_DIR . 'APIController.php';
 require_once CMS_CONTROLLERS_DIR . 'ContentController.php';
 require_once CMS_CONTROLLERS_DIR . 'FutureController.php'; // Experimental functions.
