@@ -3,13 +3,23 @@ namespace WDGWV\CMS;
 
 class base extends \WDGWV\General\WDGWVFramework {
 	private $config;
+	private $emulation;
 
 	function __construct($customConfiguration = false) {
+		$this->emulation = array(
+			'Blogger' => new \WDGWV\CMS\emulation\Blogger(),
+			'WordPress' => new \WDGWV\CMS\emulation\WordPress(),
+		);
+
 		if ($customConfiguration != false) {
 			$this->config = $customConfiguration;
 		} else {
 			$this->config = new \WDGWV\CMS\Config();
 		}
+	}
+
+	public function database() {
+		// ...
 	}
 
 	public function menu() {
@@ -74,6 +84,56 @@ Come back later ;)<br /><br />
 			return false;
 		}
 
+	}
+
+	public function serve() {
+		global $database;
+		if ($this->emulation['Blogger']->isBlogger($this->getTheme())) {
+			$this->emulation['Blogger']->blogger(
+				$this->getTheme()
+			);
+		} elseif ($this->emulation['WordPress']->isWordpress($this->getTheme())) {
+			$this->emulation['WordPress']->wordpress(
+				$this->getTheme()
+			);
+		} else {
+			$parser = new \WDGWV\General\templateParser(
+				(new \WDGWV\CMS\Config())->debug,
+				null,
+				CMS_TEMPLATE_DIR
+			);
+
+			$pageController = new \WDGWV\CMS\controllers\page(
+				$parser,
+				$this,
+				$database
+			);
+
+			$parser->setParameter(
+				'{ITEM:',
+				'}'
+			);
+
+			$parser->setTemplate(
+				$this->getTheme(),
+				'html',
+				'/data/themes/' . $this->getTheme() . '/'
+			);
+
+			$parser->bindParameter('year', @date('Y'));
+
+			$parser->bindParameter('SITE_TITLE', $this->getTitle());
+
+			$parser->setMenuContents($this->menu());
+
+			$pageController->displayPage();
+
+			$parser->display();
+
+			if ($parser->didDisplay()) {
+				echo "THEME " . $this->getTheme() . " Does not exists!";
+			}
+		}
 	}
 }
 ?>
