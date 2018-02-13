@@ -19,17 +19,26 @@ $installer = new WDGWV\CMS\Installer();
 
 require_once CMS_SYSTEM_DIR . 'templateParser.php';
 require_once CMS_SYSTEM_DIR . 'MySQL.php';
-require_once CMS_SYSTEM_DIR . 'WDGWV_Cms.php';
-$CMS = new WDGWV\CMS\base($_config);
 
 require_once CMS_COMPATIBILITY_DIR . 'blogger.php';
 require_once CMS_COMPATIBILITY_DIR . 'wordpress.php';
 
-// Load all controllers ('temporary solution')
+require_once CMS_CONTROLLERS_DIR . 'base.php';
+require_once CMS_CONTROLLERS_DIR . 'APIController.php';
+require_once CMS_CONTROLLERS_DIR . 'ContentController.php';
+require_once CMS_CONTROLLERS_DIR . 'FutureController.php';
+require_once CMS_CONTROLLERS_DIR . 'LayoutController.php';
+require_once CMS_CONTROLLERS_DIR . 'MenuController.php';
+require_once CMS_CONTROLLERS_DIR . 'UserController.php';
+require_once CMS_CONTROLLERS_DIR . 'pageController.php';
+require_once CMS_CONTROLLERS_DIR . 'ShopController.php';
 require_once CMS_CONTROLLERS_DIR . 'base.php';
 require_once CMS_CONTROLLERS_DIR . 'database.php';
 require_once CMS_CONTROLLERS_DIR . 'plainTextDatabase.php';
+
+require_once CMS_SYSTEM_DIR . 'WDGWV_Cms.php';
 $database = new \WDGWV\CMS\controllers\databases\plainText();
+$CMS = new WDGWV\CMS\base($_config);
 
 // TEMPORARY
 // TODO: REMOVE ME!!!
@@ -43,32 +52,10 @@ if ($database->userLogin('wdg', 'test')) {
 $database->postCreate('Welcome', $CMS->getContent(), 'Welcome, WDGWV, Tag1, Tag2', date('d-m-Y H:i:s'), array('sticky' => true));
 // /TEMPORARY
 
-require_once CMS_CONTROLLERS_DIR . 'base.php';
-require_once CMS_CONTROLLERS_DIR . 'APIController.php';
-require_once CMS_CONTROLLERS_DIR . 'ContentController.php';
-require_once CMS_CONTROLLERS_DIR . 'FutureController.php'; // Experimental functions.
-require_once CMS_CONTROLLERS_DIR . 'LayoutController.php';
-require_once CMS_CONTROLLERS_DIR . 'MenuController.php';
-require_once CMS_CONTROLLERS_DIR . 'pageController.php';
-require_once CMS_CONTROLLERS_DIR . 'ShopController.php';
-require_once CMS_CONTROLLERS_DIR . 'UserController.php';
-
 if ($_config->debug) {
 	$installer->setDebugger($debugger);
 }
 
 // Relase after continue
 unset($_config);
-
-// $loader = new \WDGWV\General\WDGWVCMSFileLoader();
-// $loader->load(array(
-// 'languageController',
-// 'Debugger',
-// 'WDGWV_CMS_Installer',
-// 'WDGWV_Templateparser',
-// 'MySQL',
-// 'WDGWV_CMS',
-// 'wordpress-compatibility',
-// ));
-
 ?>

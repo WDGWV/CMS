@@ -92,19 +92,18 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		// ... Offline
 	}
 
-	private function postExists($postTitle, $strict = false) {
+	public function postExists($postTitle, $strict = false) {
 		if ($strict) {
 			return isset($this->postDatabase[$postTitle]);
 		}
 
 		for ($i = 0; $i < sizeof($this->postDatabase); $i++) {
-			if (!in_array($postTitle, $this->postDatabase[$i])) {
+			if (strtolower($postTitle) !== strtolower($this->postDatabase[$i][0])) {
 				// continue
 			} else {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -137,9 +136,21 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		return true;
 	}
 
-	public function postLoad($postID) {
-		if ($this->postExists($postID, true)) {
-			return $this->postDatabase[$postID];
+	public function postLoad($postID, $strict = false) {
+		if ($this->postExists($postID, $strict)) {
+			if (is_numeric($postID)) {
+				return $this->postDatabase[$postID];
+			} else {
+				for ($i = 0; $i < sizeof($this->postDatabase); $i++) {
+					if (strtolower($postID) !== strtolower($this->postDatabase[$i][0])) {
+						// continue
+					} else {
+						return $this->postDatabase[$i];
+					}
+				}
+			}
+		} else {
+			echo "postID does not exists!";
 		}
 	}
 
