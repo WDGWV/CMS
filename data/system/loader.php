@@ -1,6 +1,4 @@
 <?php
-// include './data/include/template.php';
-// include './data/include/MySQL.php';
 define('CMS_SYSTEM_DIR', './data/system/');
 define('CMS_TEMPLATE_DIR', './data/themes/');
 define('CMS_CONTROLLERS_DIR', './data/controllers/');
