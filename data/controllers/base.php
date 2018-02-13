@@ -1,7 +1,7 @@
 <?php
 namespace WDGWV\CMS\controllers;
 
-class base extends \WDGWV\CMS\base {
+class base {
 	private static $databaseConnection = '';
 
 	public function __construct($databaseConnection) {

@@ -6,6 +6,7 @@ class Config extends \WDGWV\General\WDGWVFramework {
 		//.. if...
 		return 'WDGWV CMS v' . $this->getVersion();
 	}
+
 	public function theme() {
 		return 'portal';
 	}
@@ -14,11 +15,7 @@ class Config extends \WDGWV\General\WDGWVFramework {
 		// Temporary static.
 		return array(
 			"home" => "/",
-			"products" => array(
-				"." => "#/customer/.",
-				".." => "#/customer/..",
-				"..." => "#/customer/...",
-			),
+			"blog" => "/blog",
 			"extendable cms" => array(
 				"." => "/invoice/.",
 				".." => "/invoice/..",
