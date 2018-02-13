@@ -1,9 +1,89 @@
 <?php
+/** CMS Installer
+ *
+ * it installs it for you!
+ */
 
 namespace WDGWV\CMS;
 
+/*
+------------------------------------------------------------
+-                :....................,:,                  -
+-              ,.`,,,::;;;;;;;;;;;;;;;;:;`                 -
+-            `...`,::;:::::;;;;;;;;;;;;;::'                -
+-           ,..``,,,::::::::::::::::;:;;:::;               -
+-          :.,,``..::;;,,,,,,,,,,,,,:;;;;;::;`             -
+-         ,.,,,`...,:.:,,,,,,,,,,,,,:;:;;;;:;;             -
+-        `..,,``...;;,;::::::::::::::'';';';:''            -
+-        ,,,,,``..:;,;;:::::::::::::;';;';';;'';           -
+-       ,,,,,``....;,,:::::::;;;;;;;;':'''';''+;           -
+-       :,::```....,,,:;;;;;;;;;;;;;;;''''';';';;          -
+-      `,,::``.....,,,;;;;;;;;;;;;;;;;'''''';';;;'         -
+-      :;:::``......,;;;;;;;;:::::;;;;'''''';;;;:-         -
+-      ;;;::,`.....,::;;::::::;;;;;;;;'''''';;,;;,         -
+-      ;:;;:;`....,:::::::::::::::::;;;;'''':;,;;;         -
+-      ';;;;;.,,,,::::::::::::::::::;;;;;''':::;;'         -
+-      ;';;;;.;,,,,::::::::::::::::;;;;;;;''::;;;'         -
+-      ;'';;:;..,,,;;;:;;:::;;;;;;;;;;;;;;;':::;;'         -
+-      ;'';;;;;.,,;:;;;;;;;;;;;;;;;;;;;;;;;;;:;':;         -
+-      ;''';;:;;.;;;;;;;;;;;;;;;;;;;;;;;;;;;''';:.         -
+-      :';';;;;;;::,,,,,,,,,,,,,,:;;;;;;;;;;'''';          -
+-       '';;;;:;;;.,,,,,,,,,,,,,,,,:;;;;;;;;'''''          -
+-       '''';;;;;:..,,,,,,,,,,,,,,,,,;;;;;;;''':,          -
+-       .'''';;;;....,,,,,,,,,,,,,,,,,,,:;;;''''           -
+-        ''''';;;;....,,,,,,,,,,,,,,,,,,;;;''';.           -
+-         '''';;;::.......,,,,,,,,,,,,,:;;;''''            -
+-         `''';;;;:,......,,,,,,,,,,,,,;;;;;''             -
+-          .'';;;;;:.....,,,,,,,,,,,,,,:;;;;'              -
+-           `;;;;;:,....,,,,,,,,,,,,,,,:;;''               -
+-             ;';;,,..,.,,,,,,,,,,,,,,,;;',                -
+-               '';:,,,,,,,,,,,,,,,::;;;:                  -
+-                 `:;'''''''''''''''';:.                   -
+-                                                          -
+- ,,,::::::::::::::::::::::::;;;;,:::::::::::::::::::::::: -
+- ,::::::::::::::::::::::::::;;;;,:::::::::::::::::::::::: -
+- ,:; ## ## ##  #####     ####      ## ## ##  ##   ##  ;:: -
+- ,,; ## ## ##  ## ##    ##         ## ## ##  ##   ##  ;:: -
+- ,,; ## ## ##  ##  ##  ##   ####   ## ## ##   ## ##   ;:: -
+- ,,' ## ## ##  ## ##    ##    ##   ## ## ##   ## ##   ::: -
+- ,:: ########  ####      ######    ########    ###    ::: -
+- ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
+- ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
+-                                                          -
+-       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-    Websites, Apps, Hosting, Services, Development.       -
+------------------------------------------------------------
+ */
+
+/**
+ *
+ * WDGWV CMS Installer Class
+ *
+ * Installer.
+ *
+ * @package    WDGWV
+ * @subpackage WDGWV/CMS
+ * @author     Wesley de Groot <wes@wdgwv.com>
+ * @version    v1.0s
+ * @access     public
+ */
 class Installer {
+	/**
+	 * debugger
+	 *
+	 * @since v1.0a
+	 * @access private
+	 * @return bool $debug
+	 */
 	private $debug = false;
+
+	/**
+	 * debugger class
+	 *
+	 * @since v1.0a
+	 * @access private
+	 * @return class $debugger
+	 */
 	private $debugger = null;
 
 	function setDebugger($debugger) {
@@ -11,9 +91,14 @@ class Installer {
 		$this->debugger = $debugger;
 	}
 
-	#function isInstalled()
-	#checks if the system is already installed is, or not.
-	## WdG: 30 NOV 2013
+	/**
+	 *
+	 * checks if the system is already installed is, or not.
+	 *
+	 * @since v1.0a
+	 * @access public
+	 * @return void
+	 */
 	function isInstalled() {
 		if (file_exists('./data/config/installed')) {
 			return true;
@@ -22,9 +107,14 @@ class Installer {
 		}
 	}
 
-	#function canOfflineInstall()
-	#checks if the files are already downloaded is.
-	## WdG: 30 NOV 2013
+	/**
+	 *
+	 * checks if the files are already downloaded is.
+	 *
+	 * @since v1.0a
+	 * @access public
+	 * @return void
+	 */
 	function canOfflineInstall() {
 		if (file_exists('install.app')) {
 			return true;
@@ -33,16 +123,28 @@ class Installer {
 		}
 	}
 
-	#function unichr( str )
-	# turns int into unicode HTML
-	## WdG: 5 DEC 2013
+	/**
+	 *
+	 * turns int into unicode HTML
+	 *
+	 * @since v1.0a
+	 * @param string $u the Unicode
+	 * @access public
+	 * @return void
+	 */
 	private function unichr($u) {
 		return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
 	}
 
-	#function tochr ( string(str) )
-	#turns chars into code
-	## WdG: 5 DEC 2013
+	/**
+	 *
+	 * turns chars into code
+	 *
+	 * @since v1.0a
+	 * @param string $char character
+	 * @access public
+	 * @return void
+	 */
 	private function tochr($char) {
 		$i = 0;
 		$number = '';
@@ -53,9 +155,15 @@ class Installer {
 		return $number;
 	}
 
-	#function validatedInstall( file(str) )
-	#checks if the file is a real WDGWV Setupfile!
-	## WdG: 30 NOV 2013
+	/**
+	 *
+	 * checks if the file is a real WDGWV Setupfile!
+	 *
+	 * @since v1.0a
+	 * @param string $filesString files as String
+	 * @access public
+	 * @return void
+	 */
 	private function validatedInstall($filesString) {
 		$checked = array();
 
@@ -75,9 +183,16 @@ class Installer {
 
 	}
 
-	#function setupWrite ( file, contents )
-	#write contents down to a specified file.
-	## WdG: 30 NOV 2013
+	/**
+	 *
+	 * write contents down to a specified file.
+	 *
+	 * @since v1.0a
+	 * @param string $file Filename
+	 * @param string $contents File content
+	 * @access public
+	 * @return void
+	 */
 	private function setupWrite($file, $contents) {
 		$handle = @fopen($file, 'w');
 
@@ -97,9 +212,15 @@ class Installer {
 		}
 	}
 
-	#function parseSetupFile ( files(str) )
-	#handle the install ;)
-	## WdG: 30 NOV 2013
+	/**
+	 *
+	 * handle the install
+	 *
+	 * @since v1.0a
+	 * @param string $filesString files as String
+	 * @access public
+	 * @return void
+	 */
 	private function parseSetupFiles($filesString) {
 		$setupLog = array();
 
@@ -183,9 +304,14 @@ class Installer {
 		return true;
 	}
 
-	#function beginOfflineInstal()
-	#begins a offline install.
-	## WdG: 30 NOV 2013
+	/**
+	 *
+	 * begins a offline install.
+	 *
+	 * @since v1.0a
+	 * @access public
+	 * @return void
+	 */
 	function beginOfflineInstall() {
 		if (is_readable('install.app')) {
 			if (parseSetupFiles(gzuncompress(file_get_contents('install.app')))) {
@@ -196,9 +322,14 @@ class Installer {
 		}
 	}
 
-	#function beginOnlineInstall()
-	#begins the "online" install.
-	## WdG: 30 NOV 2013
+	/**
+	 *
+	 * begins a "online" install.
+	 *
+	 * @since v1.0a
+	 * @access public
+	 * @return void
+	 */
 	function beginOnlineInstall() {
 		#DOWNLOAD ALL THE FILES.
 		echo "Please wait downloading...";
