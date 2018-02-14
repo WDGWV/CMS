@@ -6,7 +6,9 @@ define('MENU_DB', DB_PATH . 'menuItems.db');
 define('USER_DB', DB_PATH . 'userInfo.db');
 define('POST_DB', DB_PATH . 'posts.db'); // Tip, Purge every year.
 define('PAGE_DB', DB_PATH . 'pages.db');
-define('SHOP_DB', DB_PATH . 'shop.db');
+define('SHOP_DB', DB_PATH . 'shopItems.db');
+define('WIKI_DB', DB_PATH . 'wikiItems.db');
+define('FORUM_DB', DB_PATH . 'forumItems.db');
 
 class plainText extends \WDGWV\CMS\controllers\databases\base {
 	private $userDatabase = array();
@@ -15,6 +17,7 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	private $pageDatabase = array();
 	private $shopDatabase = array();
 
+	private $forumDatabase = array();
 	public function __construct() {
 		if (!file_exists(MENU_DB)) {
 			if (!touch(MENU_DB)) {
@@ -72,13 +75,39 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 			if (!touch(SHOP_DB)) {
 				// ... DEBuGGER
 				// .. FATAL ERROR
-				echo "COULD NOT CREATE POSTS DATABASE";
+				echo "COULD NOT CREATE SHOP DATABASE";
 			}
 		}
 
 		$_shop = @gzuncompress(file_get_contents(SHOP_DB));
 		if (strlen($_shop) > 10) {
 			$this->shopDatabase = json_decode($_shop);
+		}
+
+		if (!file_exists(WIKI_DB)) {
+			if (!touch(WIKI_DB)) {
+				// ... DEBuGGER
+				// .. FATAL ERROR
+				echo "COULD NOT CREATE WIKI DATABASE";
+			}
+		}
+
+		$_wiki = @gzuncompress(file_get_contents(WIKI_DB));
+		if (strlen($_wiki) > 10) {
+			$this->wikiDatabase = json_decode($_wiki);
+		}
+
+		if (!file_exists(FORUM_DB)) {
+			if (!touch(FORUM_DB)) {
+				// ... DEBuGGER
+				// .. FATAL ERROR
+				echo "COULD NOT CREATE FORUM DATABASE";
+			}
+		}
+
+		$_forum = @gzuncompress(file_get_contents(FORUM_DB));
+		if (strlen($_forum) > 10) {
+			$this->forumDatabase = json_decode($_forum);
 		}
 
 		if (!$this->userExists('admin')) {
@@ -105,7 +134,9 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		file_put_contents(USER_DB, gzcompress(json_encode($this->userDatabase), 9));
 		file_put_contents(POST_DB, gzcompress(json_encode($this->postDatabase), 9));
 		file_put_contents(PAGE_DB, gzcompress(json_encode($this->pageDatabase), 9));
-		file_put_contents(SHOP_DB, gzcompress(json_encode($this->pageDatabase), 9));
+		file_put_contents(SHOP_DB, gzcompress(json_encode($this->shopDatabase), 9));
+		file_put_contents(WIKI_DB, gzcompress(json_encode($this->wikiDatabase), 9));
+		file_put_contents(FORUM_DB, gzcompress(json_encode($this->forumDatabase), 9));
 	}
 
 	public function getMenuItems() {
