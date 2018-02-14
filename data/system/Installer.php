@@ -100,7 +100,7 @@ class Installer {
 	 * @return void
 	 */
 	function isInstalled() {
-		if (file_exists('./data/config/installed')) {
+		if (file_exists('./data/system/installed')) {
 			return true;
 		} else {
 			return false;

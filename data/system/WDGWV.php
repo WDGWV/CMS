@@ -2,7 +2,7 @@
 namespace WDGWV\General;
 
 class WDGWV {
-	static private $version = '0.75';
+	public $version = '0.75';
 	static private $release = 'debug';
 	public $debug = false;
 
@@ -56,11 +56,36 @@ class FileLoader extends \WDGWV\General\WDGWV {
 		$isFound = false;
 
 		$tryAtPath = array(
-			sprintf('%s%s/%s.php', $this->fileDirectory, $this->controllersDirectory, $fileName),
-			sprintf('%s%s/%s/module.php', $this->fileDirectory, $this->modulesDirectory, $fileName),
-			sprintf('%s%s/%s/extension.php', $this->fileDirectory, $this->extensionsDirectory, $fileName),
-			sprintf('%s%s/%s.php', $this->fileDirectory, $this->classesDirectory, $fileName),
-			sprintf('%s%s/%s.php', $this->fileDirectory, $this->fallbackDirectory, $fileName),
+			sprintf(
+				'%s%s/%s.php',
+				$this->fileDirectory,
+				$this->controllersDirectory,
+				$fileName
+			),
+			sprintf(
+				'%s%s/%s/module.php',
+				$this->fileDirectory,
+				$this->modulesDirectory,
+				$fileName
+			),
+			sprintf(
+				'%s%s/%s/extension.php',
+				$this->fileDirectory,
+				$this->extensionsDirectory,
+				$fileName
+			),
+			sprintf(
+				'%s%s/%s.php',
+				$this->fileDirectory,
+				$this->classesDirectory,
+				$fileName
+			),
+			sprintf(
+				'%s%s/%s.php',
+				$this->fileDirectory,
+				$this->fallbackDirectory,
+				$fileName
+			),
 		);
 
 		for ($i = 0; $i < sizeof($tryAtPath); $i++) {
