@@ -1,17 +1,19 @@
 <?php
 namespace WDGWV\CMS\controllers\databases;
 
-define('DB_PATH', './data/database/_');
+define('DB_PATH', './data/database/');
 define('MENU_DB', DB_PATH . 'menuItems.db');
 define('USER_DB', DB_PATH . 'userInfo.db');
 define('POST_DB', DB_PATH . 'posts.db'); // Tip, Purge every year.
 define('PAGE_DB', DB_PATH . 'pages.db');
+define('SHOP_DB', DB_PATH . 'shop.db');
 
 class plainText extends \WDGWV\CMS\controllers\databases\base {
 	private $userDatabase = array();
 	private $menuDatabase = array();
 	private $postDatabase = array();
 	private $pageDatabase = array();
+	private $shopDatabase = array();
 
 	public function __construct() {
 		if (!file_exists(MENU_DB)) {
@@ -66,6 +68,19 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 			$this->postDatabase = json_decode($_post);
 		}
 
+		if (!file_exists(SHOP_DB)) {
+			if (!touch(SHOP_DB)) {
+				// ... DEBuGGER
+				// .. FATAL ERROR
+				echo "COULD NOT CREATE POSTS DATABASE";
+			}
+		}
+
+		$_shop = @gzuncompress(file_get_contents(SHOP_DB));
+		if (strlen($_shop) > 10) {
+			$this->shopDatabase = json_decode($_shop);
+		}
+
 		if (!$this->userExists('admin')) {
 			$this->userDatabase[] = array(
 				'admin',
@@ -73,7 +88,15 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 				'admin@localhost',
 				array('userLevel' => 100, 'is_admin' => true),
 			);
-			return true;
+		}
+		if (!$this->postExists('Welcome')) {
+			$this->postDatabase[] = array(
+				'Welcome to the WDGWV CMS!',
+				'Welcome to the WDGWV CMS!<br />',
+				'Welcome,WDGWV,CMS',
+				date('d-m-Y H:i:s'),
+				array('userID' => 0, 'sticky' => true),
+			);
 		}
 	}
 
@@ -82,6 +105,7 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		file_put_contents(USER_DB, gzcompress(json_encode($this->userDatabase), 9));
 		file_put_contents(POST_DB, gzcompress(json_encode($this->postDatabase), 9));
 		file_put_contents(PAGE_DB, gzcompress(json_encode($this->pageDatabase), 9));
+		file_put_contents(SHOP_DB, gzcompress(json_encode($this->pageDatabase), 9));
 	}
 
 	public function getMenuItems() {

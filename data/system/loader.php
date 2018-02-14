@@ -47,7 +47,7 @@ if ($database->userLogin('wdg', 'test')) {
 } else {
 	echo "Password Incorrect";
 }
-$database->postCreate('Welcome', $CMS->getContent(), 'Welcome, WDGWV, Tag1, Tag2', date('d-m-Y H:i:s'), array('sticky' => true));
+
 // /TEMPORARY
 
 if ($_config->debug) {
