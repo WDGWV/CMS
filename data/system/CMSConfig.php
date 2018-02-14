@@ -50,7 +50,7 @@ class Config extends \WDGWV\General\WDGWVFramework {
 	 * DO NOT CHANGE BELOW
 	 */
 	public function getVersion() {
-		return file_get_contents('./data/config/installed.version');
+		return (new \WDGWV\General\WDGWV())->version;
 	}
 }
 
