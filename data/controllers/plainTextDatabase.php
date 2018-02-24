@@ -2,22 +2,27 @@
 namespace WDGWV\CMS\controllers\databases;
 
 define('DB_PATH', './data/database/');
+define('CMS_DB', DB_PATH . 'CMS.db');
 define('MENU_DB', DB_PATH . 'menuItems.db');
 define('USER_DB', DB_PATH . 'userInfo.db');
 define('POST_DB', DB_PATH . 'posts.db'); // Tip, Purge every year.
 define('PAGE_DB', DB_PATH . 'pages.db');
 define('SHOP_DB', DB_PATH . 'shopItems.db');
 define('WIKI_DB', DB_PATH . 'wikiItems.db');
+define('ORDER_DB', DB_PATH . 'orders.db');
 define('FORUM_DB', DB_PATH . 'forumItems.db');
 
 class plainText extends \WDGWV\CMS\controllers\databases\base {
+	private $CMSDatabase = array();
 	private $userDatabase = array();
 	private $menuDatabase = array();
 	private $postDatabase = array();
 	private $pageDatabase = array();
 	private $shopDatabase = array();
-
+	private $wikiDatabase = array();
+	private $orderDatabase = array();
 	private $forumDatabase = array();
+
 	public function __construct() {
 		if (!file_exists(MENU_DB)) {
 			if (!touch(MENU_DB)) {
@@ -97,6 +102,32 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 			$this->wikiDatabase = json_decode($_wiki);
 		}
 
+		if (!file_exists(CMS_DB)) {
+			if (!touch(CMS_DB)) {
+				// ... DEBuGGER
+				// .. FATAL ERROR
+				echo "COULD NOT CREATE CMS DATABASE";
+			}
+		}
+
+		$_CMS = @gzuncompress(file_get_contents(CMS));
+		if (strlen($_CMS) > 10) {
+			$this->CMSDatabase = json_decode($_CMS);
+		}
+
+		if (!file_exists(ORDER_DB)) {
+			if (!touch(ORDER_DB)) {
+				// ... DEBuGGER
+				// .. FATAL ERROR
+				echo "COULD NOT CREATE ORDER DATABASE";
+			}
+		}
+
+		$_order = @gzuncompress(file_get_contents(ORDER_DB));
+		if (strlen($_order) > 10) {
+			$this->orderDatabase = json_decode($_order);
+		}
+
 		if (!file_exists(FORUM_DB)) {
 			if (!touch(FORUM_DB)) {
 				// ... DEBuGGER
@@ -130,12 +161,14 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function __destruct() {
+		file_put_contents(CMS_DB, gzcompress(json_encode($this->CMSDatabase), 9));
 		file_put_contents(MENU_DB, gzcompress(json_encode($this->menuDatabase), 9));
 		file_put_contents(USER_DB, gzcompress(json_encode($this->userDatabase), 9));
 		file_put_contents(POST_DB, gzcompress(json_encode($this->postDatabase), 9));
 		file_put_contents(PAGE_DB, gzcompress(json_encode($this->pageDatabase), 9));
 		file_put_contents(SHOP_DB, gzcompress(json_encode($this->shopDatabase), 9));
 		file_put_contents(WIKI_DB, gzcompress(json_encode($this->wikiDatabase), 9));
+		file_put_contents(ORDER_DB, gzcompress(json_encode($this->orderDatabase), 9));
 		file_put_contents(FORUM_DB, gzcompress(json_encode($this->forumDatabase), 9));
 	}
 
