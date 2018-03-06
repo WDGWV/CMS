@@ -138,6 +138,7 @@ class templateParser {
 		$this->config['minify'] = !$debug;
 		$this->config['debug'] = $debug;
 		$this->parameters = array();
+		$this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
 	}
 
 	/**
@@ -346,6 +347,12 @@ class templateParser {
 		$template = preg_replace(
 			'/\{PHP\}(.*)\{\/PHP\}/s', //Dangerous, do not use if you don't know what you are doing
 			'<?php \\1 ?>',
+			$template
+		);
+
+		$template = preg_replace(
+			'/\{DECODE:(.*?)\}/',
+			'<?php echo base64_decode(\'\\1\'); ?>',
 			$template
 		);
 
@@ -638,8 +645,20 @@ class templateParser {
 	}
 
 	public function __validParameter($d) {
+		if (sizeof($this->_parameters) === 0) {
+			$this->debugger->log('we\'re not in a sub loop so \'_parameters\' is empty, checking other \'parameters\'');
+			for ($i = 0; $i < sizeof($this->parameters); $i++) {
+				if ($this->parameters[$i][0] == $d[1]) {
+					$this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
+					if (!empty($this->parameters[$i][1])) {
+						return $this->_parse($d[2], $this->parameters);
+					}
+				}
+			}
+		}
 		for ($i = 0; $i < sizeof($this->_parameters); $i++) {
 			if ($this->_parameters[$i][0] == $d[1]) {
+				$this->debugger->log("found parameter '{$d[1]}' in \$this->_parameters[$i][0]");
 				if (!empty($this->_parameters[$i][1])) {
 					return $this->_parse($d[2], $this->_parameters);
 				}

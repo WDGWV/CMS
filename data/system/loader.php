@@ -10,7 +10,7 @@ require_once CMS_SYSTEM_DIR . 'CMSConfig.php';
 $_config = new WDGWV\CMS\Config();
 
 require_once CMS_SYSTEM_DIR . 'Debugger.php';
-$debugger = new WDGWV\CMS\Debugger();
+$debugger = \WDGWV\CMS\Debugger::sharedInstance();
 
 require_once CMS_SYSTEM_DIR . 'Installer.php';
 $installer = new WDGWV\CMS\Installer();
@@ -35,7 +35,7 @@ require_once CMS_CONTROLLERS_DIR . 'database.php';
 require_once CMS_CONTROLLERS_DIR . 'plainTextDatabase.php';
 
 require_once CMS_SYSTEM_DIR . 'WDGWV_Cms.php';
-$database = new \WDGWV\CMS\controllers\databases\plainText();
+$database = \WDGWV\CMS\controllers\databases\plainText::sharedInstance();
 $CMS = new WDGWV\CMS\base($_config);
 
 // TEMPORARY

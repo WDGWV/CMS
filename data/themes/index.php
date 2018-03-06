@@ -1,5 +1,4 @@
 <?php
-<?php
 /** Rederiction page
  *
  * Redericts you to the Civilization

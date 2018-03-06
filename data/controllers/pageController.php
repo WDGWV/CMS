@@ -86,11 +86,11 @@ class page extends \WDGWV\CMS\controllers\base {
 		}
 
 		if ($activeComponent === 'search') {
-			$this->parser->bindParameter('page', 'SEARCHING FOR ' . $subComponent . '; PLEASE WAIT');
+			$this->parser->bindParameter('page', sprintf('Searching \'%s\'...', $subComponent));
 			return;
 		}
 
-		$this->parser->bindParameter('page', 'THE PAGE X DOES NOT EXISTS');
+		$this->parser->bindParameter('page', sprintf('THE PAGE \'%s\' DOES NOT EXISTS', $activeComponent));
 		return;
 	}
 }
