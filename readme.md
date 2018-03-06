@@ -1,43 +1,16 @@
-     ,,,::::::::::::::::::::::::;;;;,::::::::::::::::::::::::
-     ,::::::::::::::::::::::::::;;;;,::::::::::::::::::::::::
-     ,:; ## ## ##  #####     ####      ## ## ##  ##   ##  ;::
-     ,,; ## ## ##  ## ##    ##         ## ## ##  ##   ##  ;::
-     ,,; ## ## ##  ##  ##  ##   ####   ## ## ##   ## ##   ;::
-     ,,' ## ## ##  ## ##    ##    ##   ## ## ##   ## ##   :::
-     ,:: ########  ####      ######    ########    ###    :::
-     ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;:::::::::::::::
-     ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;:::
-    	 websites, Apps, Hosting, Services, Development.     
+This is an old experiment, i try to make this a complete functional **cms**.
+with support for webshops, blogs, landingpages *build-in*.
 
+If you want to help, thanks in advance!
 
-          HERE COMES WDGWVSS FORMALY KNOWN AS WDGSS.
----
-/!\ [Want to download the last version? click here](https://github.com/WDGWV/WDGWVSS_ONLINEDOWNLOADER "REPO") /!\
----
----
 
 ## WHAT TO Do, Test, Create?
 
-### System
- * [00%] Add database Support (MySQL)
- * [00%] Add 'Real Pages'
- * [00%] Add 'Static Pages'
- * [00%] Add 'Config Panel'
- * [00%] Add 'Auto Updater'
- * [02%] Add 'Module Loader'
- * [05%] Add 'Module Config'
- * [05%] Add 'Hooks'
- * [00%] Add 'Spam + XSS Protection'
- * [00%] Add 'Something special...'
+### Todo
+ * [Please see this issue #13](http://https://github.com/WDGWV/WDGWVSS/issues/13)
 
 ### Modules
- * [00%] agenda
- * [00%] downloads
- * [00%] media
- * [00%] news / Posts
- * [00%] poll
- * [05%] users
- * [05%] wiki
+ * [Please see this issue #16](http://https://github.com/WDGWV/WDGWVSS/issues/16)
 
 ### To test
  * Nothing
@@ -54,3 +27,13 @@
 ### More?
  * Make a issue on this repo.
  * Add a Pull request on this.
+
+---
+
+Goals:
+
+- Do not use a framework like 'Yii'
+- Leave the application opensource, and public domain
+- Happy users, happy visitors.
+
+Made with 💙 in 🇳🇱
