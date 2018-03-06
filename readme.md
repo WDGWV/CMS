@@ -7,10 +7,10 @@ If you want to help, thanks in advance!
 ## WHAT TO Do, Test, Create?
 
 ### Todo
- * [Please see this issue #13](http://https://github.com/WDGWV/WDGWVSS/issues/13)
+ * [Please see this issue #13](https://github.com/WDGWV/WDGWVSS/issues/13)
 
 ### Modules
- * [Please see this issue #16](http://https://github.com/WDGWV/WDGWVSS/issues/16)
+ * [Please see this issue #16](https://github.com/WDGWV/WDGWVSS/issues/16)
 
 ### To test
  * Nothing
