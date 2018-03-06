@@ -75,6 +75,26 @@ $WDGWV_DEBUG['warning'] = array('WDGWV Debug (warnings) started.');
  */
 class Debugger {
 	/**
+	 * Call the debugger
+	 * @since Version 1.0
+	 */
+	public static function sharedInstance() {
+		static $inst = null;
+		if ($inst === null) {
+			$inst = new \WDGWV\CMS\Debugger();
+		}
+		return $inst;
+	}
+
+	/**
+	 * Private so nobody else can instantiate it
+	 *
+	 */
+	private function __construct() {
+
+	}
+
+	/**
 	 * Log a message
 	 * @param string $message Logmessage
 	 * @param bool $error custom error code

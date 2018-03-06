@@ -23,7 +23,23 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	private $orderDatabase = array();
 	private $forumDatabase = array();
 
-	public function __construct() {
+	/**
+	 * Call the database
+	 * @since Version 1.0
+	 */
+	public static function sharedInstance() {
+		static $inst = null;
+		if ($inst === null) {
+			$inst = new \WDGWV\CMS\controllers\databases\plainText();
+		}
+		return $inst;
+	}
+
+	/**
+	 * Private so nobody else can instantiate it
+	 *
+	 */
+	private function __construct() {
 		if (!file_exists(MENU_DB)) {
 			if (!touch(MENU_DB)) {
 				// ... DEBuGGER
