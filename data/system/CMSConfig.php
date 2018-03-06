@@ -8,13 +8,16 @@ class Config extends \WDGWV\General\WDGWVFramework {
 	}
 
 	public function theme() {
+		// TO RUN NORMAL MODE
 		return 'portal';
+		// TO TEST ADMIN:
+		// return 'admin';
 	}
 
 	public function menu() {
 		// Temporary static.
 		return array(
-			"home" => "/",
+			"home" => "/home",
 			"blog" => "/blog",
 			"extendable cms" => array(
 				"." => "/invoice/.",
