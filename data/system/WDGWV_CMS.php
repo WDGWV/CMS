@@ -22,6 +22,8 @@ class base extends \WDGWV\General\WDGWVFramework {
 		// ...
 	}
 
+	// REMOVEME
+	// TODO: REMOVE ME
 	public function menu() {
 		return $this->config->menu();
 	}
