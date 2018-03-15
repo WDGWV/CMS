@@ -22,8 +22,6 @@ class base extends \WDGWV\General\WDGWVFramework {
 		// ...
 	}
 
-	// REMOVEME
-	// TODO: REMOVE ME
 	public function menu() {
 		return $this->config->menu();
 	}
@@ -77,15 +75,6 @@ Come back later ;)<br /><br />
 
 	public function getFooter() {
 		return '<img src=\'http://by.wdgp.nl/logo\' width=\'30px\' height=\'0px\'>&copy; yoursite.';
-	}
-
-	public function page_exists($page) {
-		if ( /* in database */false) {
-			return true;
-		} else {
-			return false;
-		}
-
 	}
 
 	public function serve() {
