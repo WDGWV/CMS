@@ -391,9 +391,10 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 			return $this->CMSDatabase['menu'];
 		} else {
 			return array(
-				'home' => '/home',
-				'administration' => '/administration',
-				'about' => '/about',
+				'Home' => '/home',
+				'Blog' => '/blog',
+				'Administration' => '/administration',
+				'About' => '/about',
 			);
 		}
 	}
