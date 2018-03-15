@@ -219,6 +219,8 @@ class templateParser {
 	 * @since Version 2.0
 	 */
 	public function bindParameter($parameter, $replaceWith) {
+		\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter %s => %s', $parameter, $replaceWith));
+
 		$this->parameters[] = array($parameter, $replaceWith);
 	}
 

@@ -124,6 +124,15 @@ Come back later ;)<br /><br />
 
 			$parser->bindParameter('SITE_TITLE', $this->getTitle());
 
+			$parser->bindParameter('copyright',
+				sprintf(
+					'Copyright&nbsp;&copy;&nbsp;%s&nbsp;%s&nbsp;%s&nbsp;<a href=\'https://www.wdgwv.com/products/cms\' target=\'_blank\'>WDGWV CMS</a>,&nbsp;%s.', @date('Y'),
+					$this->getTitle(),
+					function_exists('__') ? \__('Powered by') : ('Powered by'),
+					function_exists('__') ? \__('All rights reserved') : ('All rights reserved')
+				)
+			);
+
 			$parser->setMenuContents($this->menu());
 
 			$pageController->displayPage();

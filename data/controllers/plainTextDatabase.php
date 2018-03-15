@@ -321,7 +321,7 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		}
 	}
 
-	public function userRegister($userID, $userPassword, $userEmail, $options) {
+	public function userRegister($userID, $userPassword, $userEmail, $options = array()) {
 		if (!$this->userExists($userID)) {
 			$this->userDatabase[] = array(
 				$userID,
@@ -333,5 +333,60 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		} else {
 			return false;
 		}
+	}
+
+	public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0) {
+		if ($pageID === 0) {
+			if (!$this->pageExists($pageTitle)) {
+				$this->pageDatabase[] = array(
+					$pageTitle,
+					$pageContents,
+					$pageKeywords,
+					time(),
+					$pageOptions,
+				);
+			} else {
+				return false;
+			}
+		} else {
+			$this->pageDatabase[$pageID] = array(
+				$pageTitle,
+				$pageContents,
+				$pageKeywords,
+				time(),
+				$pageOptions,
+			);
+		}
+		return true;
+	}
+
+	public function pageExists($pageTitleOrID, $strict = false) {
+		if ($strict) {
+			return isset($this->pageDatabase[$pageTitleOrID]);
+		}
+
+		for ($i = 0; $i < sizeof($this->pageDatabase); $i++) {
+			if (strtolower($pageTitleOrID) !== strtolower($this->pageDatabase[$i][0])) {
+				// continue
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function loadPage($pageTitleOrID, $strict = false) {
+		if ($strict) {
+			return ($this->pageDatabase[$pageTitleOrID]);
+		}
+
+		for ($i = 0; $i < sizeof($this->pageDatabase); $i++) {
+			if (strtolower($pageTitleOrID) !== strtolower($this->pageDatabase[$i][0])) {
+				// continue
+			} else {
+				return $this->pageDatabase[$i];
+			}
+		}
+		return false;
 	}
 }
