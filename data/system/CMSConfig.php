@@ -9,9 +9,9 @@ class Config extends \WDGWV\General\WDGWVFramework {
 
 	public function theme() {
 		// TO RUN NORMAL MODE
-		return 'portal';
+		// return 'portal';
 		// TO TEST ADMIN:
-		// return 'admin';
+		return 'admin';
 	}
 
 	public function menu() {
@@ -43,12 +43,6 @@ class Config extends \WDGWV\General\WDGWVFramework {
 		);
 	}
 
-	/**
-	 * Page Specific
-	 */
-	public function pagename() {
-		return 'Home';
-	}
 	/**
 	 * DO NOT CHANGE BELOW
 	 */

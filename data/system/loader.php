@@ -13,7 +13,7 @@ require_once CMS_SYSTEM_DIR . 'Debugger.php';
 $debugger = \WDGWV\CMS\Debugger::sharedInstance();
 
 require_once CMS_SYSTEM_DIR . 'Installer.php';
-$installer = new WDGWV\CMS\Installer();
+$installer = \WDGWV\CMS\Installer::sharedInstance();
 
 require_once CMS_SYSTEM_DIR . 'templateParser.php';
 require_once CMS_SYSTEM_DIR . 'MySQL.php';
@@ -47,7 +47,9 @@ if ($database->userLogin('wdg', 'test')) {
 } else {
 	echo "Password Incorrect";
 }
+//$pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0
 
+$database->createPage('home', 'Welcome at the homepage!', 'Welcome,WDGWV,CMS', array('user' => 0));
 // /TEMPORARY
 
 if ($_config->debug) {

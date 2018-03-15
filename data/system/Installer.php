@@ -86,6 +86,18 @@ class Installer {
 	 */
 	private $debugger = null;
 
+	/**
+	 * Call the shared instance
+	 * @since Version 1.0
+	 */
+	public static function sharedInstance() {
+		static $inst = null;
+		if ($inst === null) {
+			$inst = new \WDGWV\CMS\Installer();
+		}
+		return $inst;
+	}
+
 	function setDebugger($debugger) {
 		$this->debug = true;
 		$this->debugger = $debugger;

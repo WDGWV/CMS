@@ -42,25 +42,29 @@ class page extends \WDGWV\CMS\controllers\base {
 
 			return;
 		}
+
 		if ($this->CMS->singlePage()) {
 			$parser->bindParameter('page', $this->CMS->getContent());
 			return;
 		}
+		if ($activeComponent === '') {
+			$activeComponent = 'home';
+		}
 
-		if ($activeComponent === "blog") {
+		if ($activeComponent === 'blog') {
 			if (!empty($subComponent)) {
 				if ($this->database->postExists($subComponent)) {
 					$blogData = $this->database->postLoad($subComponent);
 
 					$this->parser->bindParameter('post', array(
 						array(
-							"title" => $blogData[0],
-							"content" => base64_encode($blogData[1]),
-							"date" => $blogData[3],
-							"comments" => null,
-							"shares" => null,
-							"readmore" => null,
-							"keywords" => $blogData[2],
+							'title' => $blogData[0],
+							'content' => base64_encode($blogData[1]),
+							'date' => $blogData[3],
+							'comments' => null,
+							'shares' => null,
+							'readmore' => null,
+							'keywords' => $blogData[2],
 						),
 					));
 					$this->parser->bindParameter('page', '');
@@ -72,13 +76,13 @@ class page extends \WDGWV\CMS\controllers\base {
 
 				$this->parser->bindParameter('post', array(
 					array(
-						"title" => $blogData[0],
-						"content" => base64_encode($blogData[1]),
-						"date" => $blogData[3],
-						"comments" => null,
-						"shares" => null,
-						"readmore" => null,
-						"keywords" => $blogData[2],
+						'title' => $blogData[0],
+						'content' => base64_encode($blogData[1]),
+						'date' => $blogData[3],
+						'comments' => null,
+						'shares' => null,
+						'readmore' => null,
+						'keywords' => $blogData[2],
 					),
 				));
 				return;
@@ -87,10 +91,18 @@ class page extends \WDGWV\CMS\controllers\base {
 
 		if ($activeComponent === 'search') {
 			$this->parser->bindParameter('page', sprintf('Searching \'%s\'...', $subComponent));
+			$this->parser->bindParameter('title', $activeComponent);
+			return;
+		}
+
+		if ($this->database->pageExists($activeComponent)) {
+			$this->parser->bindParameter('page', $this->database->loadPage($activeComponent)[1]);
+			$this->parser->bindParameter('title', $activeComponent);
 			return;
 		}
 
 		$this->parser->bindParameter('page', sprintf('THE PAGE \'%s\' DOES NOT EXISTS', $activeComponent));
+		$this->parser->bindParameter('title', $activeComponent);
 		return;
 	}
 }
