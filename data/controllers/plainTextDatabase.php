@@ -188,14 +188,6 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		file_put_contents(FORUM_DB, gzcompress(json_encode($this->forumDatabase), 9));
 	}
 
-	public function getMenuItems() {
-		// ... Offline
-	}
-
-	public function setMenuItems($menuItems) {
-		// ... Offline
-	}
-
 	public function postExists($postTitle, $strict = false) {
 		if ($strict) {
 			return isset($this->postDatabase[$postTitle]);
@@ -399,9 +391,9 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 			return $this->CMSDatabase['menu'];
 		} else {
 			return array(
-				'home'				=> '/home',
-				'administration'	=> '/administration',
-				'about'				=> '/about'
+				'home' => '/home',
+				'administration' => '/administration',
+				'about' => '/about',
 			);
 		}
 	}
