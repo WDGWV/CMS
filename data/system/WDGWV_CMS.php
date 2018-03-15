@@ -35,7 +35,7 @@ class base extends \WDGWV\General\WDGWVFramework {
 	}
 
 	public function getTitle() {
-		return $this->config->title();
+		return 'WDGWV CMS'; // Wordpress....
 	}
 
 	public function maintenanceMode() {

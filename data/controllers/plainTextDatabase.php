@@ -389,4 +389,20 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		}
 		return false;
 	}
+
+	public function setMenuItems($menuItemsArray) {
+		$this->CMSDatabase['menu'] = $menuItemsArray;
+	}
+
+	public function loadMenu() {
+		if (is_array($this->CMSDatabase['menu'])) {
+			return $this->CMSDatabase['menu'];
+		} else {
+			return array(
+				'home'				=> '/home',
+				'administration'	=> '/administration',
+				'about'				=> '/about'
+			);
+		}
+	}
 }
