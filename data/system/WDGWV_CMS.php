@@ -74,7 +74,14 @@ Come back later ;)<br /><br />
 	}
 
 	public function getFooter() {
-		return '<img src=\'http://by.wdgp.nl/logo\' width=\'30px\' height=\'0px\'>&copy; yoursite.';
+		return sprintf(
+			'%s&#32;&#169;&#32;%s&#32;%s&#32;%s&#32;<a href=\'https://www.wdgwv.com/products/cms\' target=\'_blank\'>&#87;&#68;&#71;&#87;&#86;&#32;&#67;&#77;&#83;</a>,&#32;%s&#46;',
+			$this->h(function_exists('__') ? \__('Copyright') : ('Copyright')),
+			$this->h(@date('Y')),
+			$this->h($this->getTitle()),
+			$this->h(function_exists('__') ? \__('Powered by') : ('Powered by')),
+			$this->h(function_exists('__') ? \__('All rights reserved') : ('All rights reserved'))
+		);
 	}
 
 	public function serve() {
@@ -116,12 +123,7 @@ Come back later ;)<br /><br />
 			$parser->bindParameter('SITE_TITLE', $this->getTitle());
 
 			$parser->bindParameter('copyright',
-				sprintf(
-					'Copyright&nbsp;&copy;&nbsp;%s&nbsp;%s&nbsp;%s&nbsp;<a href=\'https://www.wdgwv.com/products/cms\' target=\'_blank\'>WDGWV CMS</a>,&nbsp;%s.', @date('Y'),
-					$this->getTitle(),
-					function_exists('__') ? \__('Powered by') : ('Powered by'),
-					function_exists('__') ? \__('All rights reserved') : ('All rights reserved')
-				)
+				$this->getFooter()
 			);
 
 			$parser->setMenuContents($database->loadMenu());
@@ -134,6 +136,15 @@ Come back later ;)<br /><br />
 				echo "THEME " . $this->getTheme() . " Does not exists!";
 			}
 		}
+	}
+
+	private function h($s) {
+		$out = '';
+		for ($i = 0;isset($s[$i]); $i++) {
+			$x = ord($s[$i]);
+			$out .= '&#' . $x . ';';
+		}
+		return $out;
 	}
 }
 ?>
