@@ -2,11 +2,6 @@
 namespace WDGWV\CMS;
 
 class Config extends \WDGWV\General\WDGWVFramework {
-	public function title() {
-		//.. if...
-		return 'WDGWV CMS v' . $this->getVersion();
-	}
-
 	public function theme() {
 		// TO RUN NORMAL MODE
 		// return 'portal';
