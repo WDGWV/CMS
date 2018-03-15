@@ -219,7 +219,13 @@ class templateParser {
 	 * @since Version 2.0
 	 */
 	public function bindParameter($parameter, $replaceWith) {
-		\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter %s => %s', $parameter, $replaceWith));
+		if (class_exists('\WDGWV\CMS\Debugger')) {
+			if (!is_array($replaceWith)) {
+				\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, $replaceWith));
+			} else {
+				\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, json_encode($replaceWith)));
+			}
+		}
 
 		$this->parameters[] = array($parameter, $replaceWith);
 	}

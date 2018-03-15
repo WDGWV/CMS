@@ -9,35 +9,6 @@ class Config extends \WDGWV\General\WDGWVFramework {
 		return 'admin';
 	}
 
-	public function menu() {
-		// Temporary static.
-		return array(
-			"home" => "/home",
-			"blog" => "/blog",
-			"extendable cms" => array(
-				"." => "/invoice/.",
-				".." => "/invoice/..",
-				"..." => "/invoice/...",
-			),
-			"with" => array(
-				"." => "/purchaseorder/.",
-				".." => "/purchaseorder/..",
-				"..." => "/purchaseorder/...",
-			),
-			"built in" => array(
-				"." => "/personell/.",
-				".." => "/personell/..",
-				"..." => "/personell/...",
-			),
-			"webshop" => array(
-				"." => "/personell/.",
-				".." => "/personell/..",
-				"..." => "/personell/...",
-			),
-			"about" => "/about",
-		);
-	}
-
 	/**
 	 * DO NOT CHANGE BELOW
 	 */
