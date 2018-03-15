@@ -387,7 +387,7 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function loadMenu() {
-		if (is_array($this->CMSDatabase['menu'])) {
+		if (is_array(@$this->CMSDatabase['menu'])) {
 			return $this->CMSDatabase['menu'];
 		} else {
 			return array(

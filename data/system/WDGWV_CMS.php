@@ -124,7 +124,7 @@ Come back later ;)<br /><br />
 				)
 			);
 
-			$parser->setMenuContents($this->menu());
+			$parser->setMenuContents($database->loadMenu());
 
 			$pageController->displayPage();
 
