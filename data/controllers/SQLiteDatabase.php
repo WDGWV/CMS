@@ -2,7 +2,7 @@
 namespace WDGWV\CMS\controllers\databases;
 
 define('DB_PATH', './data/database/');
-define('CMS_DB', DB_PATH . 'CMS.db');
+define('CMS_DB', DB_PATH . 'CMS.sqllite');
 
 class SQLite extends \WDGWV\CMS\controllers\databases\base {
 	private $db = null;
@@ -25,7 +25,7 @@ class SQLite extends \WDGWV\CMS\controllers\databases\base {
 	 */
 	private function __construct() {
 		try {
-			$this->db = new PDO(sprintf('sqlite:%s.sqlite', CMS_DB));
+			$this->db = new PDO(sprintf('sqlite:%s', CMS_DB));
 		} catch (PDOException $e) {
 			print 'Exception : ' . $e->getMessage();
 		}
