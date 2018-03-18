@@ -269,7 +269,7 @@ class Installer {
 						}
 					} elseif (substr($explodeAll[$i], 0, 1) == "~" && substr($explodeAll[$i], 0, 2) != "~~") {
 						// PUT TO DB
-						#TODO
+						// NOT SUPPORTED.
 					} else {
 						$file = explode("~", $explodeAll[$i]);
 
