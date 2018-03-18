@@ -219,12 +219,10 @@ class templateParser {
 	 * @since Version 2.0
 	 */
 	public function bindParameter($parameter, $replaceWith) {
-		if (class_exists('\WDGWV\CMS\Debugger')) {
-			if (!is_array($replaceWith)) {
-				\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, $replaceWith));
-			} else {
-				\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, json_encode($replaceWith)));
-			}
+		if (!is_array($replaceWith)) {
+			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, $replaceWith));
+		} else {
+			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, json_encode($replaceWith)));
 		}
 
 		$this->parameters[] = array($parameter, $replaceWith);
@@ -590,33 +588,48 @@ class templateParser {
 		$subMenuItem = isset($subMenuItem[0]) ? $subMenuItem[0] : $this->fatalError("Failed to load sub menu items!");
 
 		if (isset($this->config['menuContents'])) {
-			foreach ($this->config['menuContents'] as $item => $urlOrSubmenu) {
+			foreach ($this->config['menuContents'] as $i => $data) {
+				// Walk trough items.
 				global $lang;
 
-				if (!is_array($urlOrSubmenu)) {
-					$addItem = $generalMenuItem;
-					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($item) : $item), $addItem);
-					$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $urlOrSubmenu, $addItem);
-
-					$this->config['generatedMenu'] .= $addItem;
+				if (!is_array($data)) {
+					$this->fatalError("Malformed menu data.");
 				} else {
-					$addItem = $subMenuHeader;
-					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($item) : $item), $addItem);
+					if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+						$addItem = $subMenuHeader;
+					} else {
+						$addItem = $generalMenuItem;
+					}
+
+					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($data['name']) : $data['name']), $addItem);
+					$addItem = preg_replace("/\{ICON\}/", (isset($data['icon']) ? $data['icon'] : ''), $addItem);
+
+					if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
+						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $data['url'], $addItem);
+					}
+
 					$this->config['generatedMenu'] .= $addItem;
 
-					foreach ($urlOrSubmenu as $nestedItem => $nestedURL) {
-						if (!is_array($nestedURL)) {
-							$addItem = $subMenuItem;
-							$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($nestedItem) : $nestedItem), $addItem);
-							$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $nestedURL, $addItem);
+					if (isset($data['submenu'])) {
+						if (is_array($data['submenu'])) {
+							foreach ($data['submenu'] as $ii => $subData) {
+								if (is_array($subData)) {
+									$addItem = $subMenuItem;
+									$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($subData['name']) : $subData['name']), $addItem);
+									$addItem = preg_replace("/\{ICON\}/", (isset($subData['icon']) ? $subData['icon'] : ''), $addItem);
+									$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $subData['url'], $addItem);
 
-							$this->config['generatedMenu'] .= $addItem;
-						} else {
-							$this->fatalError("Nested Submenu is not supported yet.");
+									$this->config['generatedMenu'] .= $addItem;
+								} else {
+									$this->fatalError("Invalid submenu data.");
+								}
+							}
 						}
 					}
 
-					$this->config['generatedMenu'] .= $subMenuFooter;
+					if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+						$this->config['generatedMenu'] .= $subMenuFooter;
+					}
 				}
 			}
 		}
@@ -654,7 +667,7 @@ class templateParser {
 
 	public function __validParameter($d) {
 		if (sizeof($this->_parameters) === 0) {
-			$this->debugger->log('we\'re not in a sub loop so \'_parameters\' is empty, checking other \'parameters\'');
+			$this->debugger->log('we\'re not in a sub loop so \'_parameters\' is empty, checking other \'parameters\'.');
 			for ($i = 0; $i < sizeof($this->parameters); $i++) {
 				if ($this->parameters[$i][0] == $d[1]) {
 					$this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
@@ -666,7 +679,7 @@ class templateParser {
 		}
 		for ($i = 0; $i < sizeof($this->_parameters); $i++) {
 			if ($this->_parameters[$i][0] == $d[1]) {
-				$this->debugger->log("found parameter '{$d[1]}' in \$this->_parameters[$i][0]");
+				$this->debugger->log("found parameter '{$d[1]}' in \$this->_parameters[$i][0].");
 				if (!empty($this->_parameters[$i][1])) {
 					return $this->_parse($d[2], $this->_parameters);
 				}

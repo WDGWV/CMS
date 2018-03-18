@@ -3,6 +3,7 @@ namespace WDGWV\General;
 
 class WDGWV {
 	public $version = '0.75';
+	// DEBUG PARAMETER
 	static private $release = 'debug';
 	public $debug = false;
 
