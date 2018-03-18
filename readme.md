@@ -37,3 +37,6 @@ Goals:
 - Happy users, happy visitors.
 
 Made with 💙 in 🇳🇱
+
+---
+[development version](https://github.com/wdg/WDGWVSS) @wdg
