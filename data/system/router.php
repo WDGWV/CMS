@@ -1,6 +1,9 @@
 <?php
 namespace WDGWV\CMS;
 
+/*
+This class will probally never get used, but is here for now.
+*/
 class router {
 	private $router = array();
 

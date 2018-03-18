@@ -220,9 +220,9 @@ class templateParser {
 	 */
 	public function bindParameter($parameter, $replaceWith) {
 		if (!is_array($replaceWith)) {
-			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, $replaceWith));
+			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, $replaceWith));
 		} else {
-			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, json_encode($replaceWith)));
+			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, json_encode($replaceWith)));
 		}
 
 		$this->parameters[] = array($parameter, $replaceWith);
@@ -667,7 +667,7 @@ class templateParser {
 
 	public function __validParameter($d) {
 		if (sizeof($this->_parameters) === 0) {
-			$this->debugger->log('we\'re not in a sub loop so \'_parameters\' is empty, checking other \'parameters\'');
+			$this->debugger->log('we\'re not in a sub loop so \'_parameters\' is empty, checking other \'parameters\'.');
 			for ($i = 0; $i < sizeof($this->parameters); $i++) {
 				if ($this->parameters[$i][0] == $d[1]) {
 					$this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
@@ -679,7 +679,7 @@ class templateParser {
 		}
 		for ($i = 0; $i < sizeof($this->_parameters); $i++) {
 			if ($this->_parameters[$i][0] == $d[1]) {
-				$this->debugger->log("found parameter '{$d[1]}' in \$this->_parameters[$i][0]");
+				$this->debugger->log("found parameter '{$d[1]}' in \$this->_parameters[$i][0].");
 				if (!empty($this->_parameters[$i][1])) {
 					return $this->_parse($d[2], $this->_parameters);
 				}

@@ -3,7 +3,15 @@ namespace WDGWV\CMS\controllers\databases;
 
 class base {
 	//
-	protected function createMenuDB() {
+	protected function generateSystemDB() {
+		return array(
+			'installed' => time(),
+			'theme' => 'portal',
+			'language' => 'en_US',
+		);
+	}
+
+	protected function generateMenuDB() {
 		return array(
 			array(
 				'name' => 'Home',
