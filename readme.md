@@ -2,7 +2,7 @@ This is an old experiment, i try to make this a complete functional **cms**.
 with support for webshops, blogs, landingpages *build-in*.
 
 If you want to help, thanks in advance!
-
+[development version](https://github.com/wdg/WDGWVSS) @wdg
 
 ## WHAT TO Do, Test, Create?
 
@@ -37,6 +37,3 @@ Goals:
 - Happy users, happy visitors.
 
 Made with 💙 in 🇳🇱
-
----
-[development version](https://github.com/wdg/WDGWVSS) @wdg
