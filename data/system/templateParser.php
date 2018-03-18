@@ -219,12 +219,10 @@ class templateParser {
 	 * @since Version 2.0
 	 */
 	public function bindParameter($parameter, $replaceWith) {
-		if (class_exists('\WDGWV\CMS\Debugger')) {
-			if (!is_array($replaceWith)) {
-				\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, $replaceWith));
-			} else {
-				\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, json_encode($replaceWith)));
-			}
+		if (!is_array($replaceWith)) {
+			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, $replaceWith));
+		} else {
+			$this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'', $parameter, json_encode($replaceWith)));
 		}
 
 		$this->parameters[] = array($parameter, $replaceWith);
@@ -592,14 +590,14 @@ class templateParser {
 		if (isset($this->config['menuContents'])) {
 			// print_r($this->config['menuContents']);
 
-			\WDGWV\CMS\Debugger::sharedInstance()->log('$this->config[menuContents]');
-			\WDGWV\CMS\Debugger::sharedInstance()->log($this->config['menuContents']);
+			$this->debugger->log('$this->config[menuContents]');
+			$this->debugger->log($this->config['menuContents']);
 			foreach ($this->config['menuContents'] as $i => $data) {
 				// Walk trough items.
 				// foreach ($_data as $item => $data) {
 				global $lang;
 
-				\WDGWV\CMS\Debugger::sharedInstance()->log(array('item' => $i, 'data' => $data));
+				$this->debugger->log(array('item' => $i, 'data' => $data));
 				// print_r($item);
 
 				if (!is_array($data)) {
