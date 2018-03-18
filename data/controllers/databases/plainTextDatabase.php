@@ -393,12 +393,7 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		if (is_array(@$this->CMSDatabase['menu'])) {
 			return $this->CMSDatabase['menu'];
 		} else {
-			return $this->CMSDatabase['menu'] = array(
-				'Home' => '/home',
-				'Blog' => '/blog',
-				'Administration' => '/administration',
-				'About' => '/about',
-			);
+			return $this->CMSDatabase['menu'] = $this->createMenuDB();
 		}
 	}
 }
