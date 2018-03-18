@@ -590,33 +590,57 @@ class templateParser {
 		$subMenuItem = isset($subMenuItem[0]) ? $subMenuItem[0] : $this->fatalError("Failed to load sub menu items!");
 
 		if (isset($this->config['menuContents'])) {
-			foreach ($this->config['menuContents'] as $item => $urlOrSubmenu) {
+			// print_r($this->config['menuContents']);
+
+			\WDGWV\CMS\Debugger::sharedInstance()->log('$this->config[menuContents]');
+			\WDGWV\CMS\Debugger::sharedInstance()->log($this->config['menuContents']);
+			foreach ($this->config['menuContents'] as $i => $data) {
+				// Walk trough items.
+				// foreach ($_data as $item => $data) {
 				global $lang;
 
-				if (!is_array($urlOrSubmenu)) {
-					$addItem = $generalMenuItem;
-					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($item) : $item), $addItem);
-					$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $urlOrSubmenu, $addItem);
+				\WDGWV\CMS\Debugger::sharedInstance()->log(array('item' => $i, 'data' => $data));
+				// print_r($item);
 
-					$this->config['generatedMenu'] .= $addItem;
+				if (!is_array($data)) {
+					$this->fatalError("Malformed menu data.");
 				} else {
-					$addItem = $subMenuHeader;
-					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($item) : $item), $addItem);
+					if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+						$addItem = $subMenuHeader;
+					} else {
+						$addItem = $generalMenuItem;
+					}
+					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($data['name']) : $data['name']), $addItem);
+					$addItem = preg_replace("/\{ICON\}/", (isset($data['icon']) ? $data['icon'] : ''), $addItem);
+					if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+
+					} else {
+						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $data['url'], $addItem);
+					}
 					$this->config['generatedMenu'] .= $addItem;
 
-					foreach ($urlOrSubmenu as $nestedItem => $nestedURL) {
-						if (!is_array($nestedURL)) {
-							$addItem = $subMenuItem;
-							$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($nestedItem) : $nestedItem), $addItem);
-							$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $nestedURL, $addItem);
+					if (isset($data['submenu'])) {
+						if (is_array($data['submenu'])) {
+							foreach ($data['submenu'] as $ii => $subData) {
+								// print_r($subData);
 
-							$this->config['generatedMenu'] .= $addItem;
-						} else {
-							$this->fatalError("Nested Submenu is not supported yet.");
+								if (is_array($subData)) {
+									$addItem = $subMenuItem;
+									$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($subData['name']) : $subData['name']), $addItem);
+									$addItem = preg_replace("/\{ICON\}/", (isset($subData['icon']) ? $subData['icon'] : ''), $addItem);
+									$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $subData['url'], $addItem);
+
+									$this->config['generatedMenu'] .= $addItem;
+								} else {
+									// $this->fatalError("Nested Submenu is not supported yet.");
+								}
+							}
 						}
 					}
 
-					$this->config['generatedMenu'] .= $subMenuFooter;
+					if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+						$this->config['generatedMenu'] .= $subMenuFooter;
+					}
 				}
 			}
 		}

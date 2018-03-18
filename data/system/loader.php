@@ -3,6 +3,7 @@ define('CMS_SYSTEM_DIR', './data/system/');
 define('CMS_TEMPLATE_DIR', './data/themes/');
 define('CMS_CONTROLLERS_DIR', './data/controllers/');
 define('CMS_COMPATIBILITY_DIR', './data/compatibility/');
+define('CMS_DBCONTROLLERS_DIR', './data/controllers/databases/');
 
 require_once CMS_SYSTEM_DIR . 'WDGWV.php';
 
@@ -32,7 +33,9 @@ require_once CMS_CONTROLLERS_DIR . 'pageController.php';
 require_once CMS_CONTROLLERS_DIR . 'ShopController.php';
 require_once CMS_CONTROLLERS_DIR . 'base.php';
 require_once CMS_CONTROLLERS_DIR . 'database.php';
-require_once CMS_CONTROLLERS_DIR . 'plainTextDatabase.php';
+require_once CMS_DBCONTROLLERS_DIR . 'plainTextDatabase.php';
+require_once CMS_DBCONTROLLERS_DIR . 'SQLiteDatabase.php';
+require_once CMS_DBCONTROLLERS_DIR . 'MySQLdatabase.php';
 
 require_once CMS_SYSTEM_DIR . 'WDGWV_Cms.php';
 $database = \WDGWV\CMS\controllers\databases\plainText::sharedInstance();
