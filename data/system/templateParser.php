@@ -588,17 +588,9 @@ class templateParser {
 		$subMenuItem = isset($subMenuItem[0]) ? $subMenuItem[0] : $this->fatalError("Failed to load sub menu items!");
 
 		if (isset($this->config['menuContents'])) {
-			// print_r($this->config['menuContents']);
-
-			$this->debugger->log('$this->config[menuContents]');
-			$this->debugger->log($this->config['menuContents']);
 			foreach ($this->config['menuContents'] as $i => $data) {
 				// Walk trough items.
-				// foreach ($_data as $item => $data) {
 				global $lang;
-
-				$this->debugger->log(array('item' => $i, 'data' => $data));
-				// print_r($item);
 
 				if (!is_array($data)) {
 					$this->fatalError("Malformed menu data.");
@@ -608,20 +600,19 @@ class templateParser {
 					} else {
 						$addItem = $generalMenuItem;
 					}
+
 					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($data['name']) : $data['name']), $addItem);
 					$addItem = preg_replace("/\{ICON\}/", (isset($data['icon']) ? $data['icon'] : ''), $addItem);
-					if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
 
-					} else {
+					if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
 						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $data['url'], $addItem);
 					}
+
 					$this->config['generatedMenu'] .= $addItem;
 
 					if (isset($data['submenu'])) {
 						if (is_array($data['submenu'])) {
 							foreach ($data['submenu'] as $ii => $subData) {
-								// print_r($subData);
-
 								if (is_array($subData)) {
 									$addItem = $subMenuItem;
 									$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($subData['name']) : $subData['name']), $addItem);
@@ -630,7 +621,7 @@ class templateParser {
 
 									$this->config['generatedMenu'] .= $addItem;
 								} else {
-									// $this->fatalError("Nested Submenu is not supported yet.");
+									$this->fatalError("Invalid submenu data.");
 								}
 							}
 						}
