@@ -277,7 +277,6 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	private function userExists($userID) {
 		for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
 			if (isset($this->userDatabase[$i]->username) && $this->userDatabase[$i]->username !== $userID) {
-				// if ($this->userDatabase[$i]['username'] !== $userID) {
 				continue;
 			} else {
 				return true;
