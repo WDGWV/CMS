@@ -605,7 +605,7 @@ class templateParser {
 					$addItem = preg_replace("/\{ICON\}/", (isset($data['icon']) ? $data['icon'] : ''), $addItem);
 
 					if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
-						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $data['url'], $addItem);
+						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", isset($data['url']) ? $data['url'] : '#', $addItem);
 					}
 
 					$this->config['generatedMenu'] .= $addItem;
@@ -617,7 +617,7 @@ class templateParser {
 									$addItem = $subMenuItem;
 									$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($subData['name']) : $subData['name']), $addItem);
 									$addItem = preg_replace("/\{ICON\}/", (isset($subData['icon']) ? $subData['icon'] : ''), $addItem);
-									$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $subData['url'], $addItem);
+									$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", isset($subData['url']) ? $subData['url'] : '#', $addItem);
 
 									$this->config['generatedMenu'] .= $addItem;
 								} else {
