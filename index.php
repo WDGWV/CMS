@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 
-include_once './data/system/loader.php';
+include_once './data/WDGWV/CMS/loader.php';
 
 if ($installer->isInstalled()) {
 	$CMS->serve();

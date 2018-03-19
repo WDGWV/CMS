@@ -56,7 +56,7 @@
 /**
  * Define System directory
  */
-define('CMS_SYSTEM_DIR', './data/system/');
+define('CMS_SYSTEM_DIR', './data/WDGWV/CMS/');
 
 /**
  * Define Template directory
@@ -66,22 +66,22 @@ define('CMS_TEMPLATE_DIR', './data/themes/');
 /**
  * Define Controleers directory
  */
-define('CMS_CONTROLLERS_DIR', './data/controllers/');
+define('CMS_CONTROLLERS_DIR', './data/WDGWV/CMS/controllers/');
 
 /**
  * Define Compatibility directory
  */
-define('CMS_COMPATIBILITY_DIR', './data/compatibility/');
+define('CMS_COMPATIBILITY_DIR', './data/WDGWV/CMS/emulation/');
 
 /**
  * Define Database Controllers directory
  */
-define('CMS_DBCONTROLLERS_DIR', './data/controllers/databases/');
+define('CMS_DBCONTROLLERS_DIR', './data/WDGWV/CMS/controllers/databases/');
 
 /**
  * Load up the main class
  */
-require_once CMS_SYSTEM_DIR . 'WDGWV.php';
+require_once CMS_SYSTEM_DIR . '../General/WDGWV.php';
 
 /**
  * Load the configuration
@@ -122,9 +122,9 @@ $installer = \WDGWV\CMS\Installer::sharedInstance();
 require_once CMS_CONTROLLERS_DIR . 'base.php';
 
 /**
- * Load the Database Controller
+ * Load the Base Database Controller
  */
-require_once CMS_CONTROLLERS_DIR . 'database.php';
+require_once CMS_DBCONTROLLERS_DIR . 'base.php';
 
 /**
  * Load the Plain Text Database Controller
@@ -170,26 +170,6 @@ require_once CMS_CONTROLLERS_DIR . 'base.php';
  * Load the API Controller
  */
 require_once CMS_CONTROLLERS_DIR . 'APIController.php';
-
-/**
- * Load the Content Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'ContentController.php';
-
-/**
- * Load the Future Controller (experimental features)
- */
-require_once CMS_CONTROLLERS_DIR . 'FutureController.php';
-
-/**
- * Load the Layout Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'LayoutController.php';
-
-/**
- * Load the Menu Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'MenuController.php';
 
 /**
  * Load the User Controller
