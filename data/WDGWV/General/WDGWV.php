@@ -16,9 +16,6 @@ class WDGWV {
 	}
 }
 
-class WDGWVFramework extends WDGWV {
-}
-
 namespace WDGWV\CMS;
 class FileLoader extends \WDGWV\General\WDGWV {
 	private $fileDirectory = '';

@@ -161,8 +161,11 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		}
 
 		if (!$this->userExists('admin')) {
-			$this->userDatabase = $this->generateUserDB();
-			$this->userDatabase[] = array(
+			if (is_array($this->generateUserDB())) {
+				$this->userDatabase[] = (object) $this->generateUserDB();
+			}
+
+			$this->userDatabase[] = (object) array(
 				'username' => 'admin',
 				'password' => hash('sha512', 'changeme'),
 				'email' => 'admin@localhost',
@@ -273,13 +276,16 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 	private function userExists($userID) {
 		for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
-			if ($this->userDatabase[$i]->username !== $userID) {
+			if (isset($this->userDatabase[$i]->username) && $this->userDatabase[$i]->username !== $userID) {
 				continue;
 			} else {
 				return true;
 			}
 		}
 
+		if (sizeof($this->userDatabase) == 0) {
+			echo "Unown error occured.<script>window.location.reload();</script>";
+		}
 		return false;
 	}
 
@@ -289,8 +295,11 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 	public function userLogin($userID, $userPassword) {
 		for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
+			// Loaded
+			// stdClass Object
 			if (
-				$this->userDatabase[$i]->password != $userPassword &&
+				isset($this->userDatabase[$i]->password) &&
+				$this->userDatabase[$i]->password == hash('sha512', $userPassword) &&
 				(
 					$i === $userID Or // userID matches DB ID
 					$this->userDatabase[$i]->username === $userID Or // userID matches userName
@@ -321,14 +330,15 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 	public function userRegister($userID, $userPassword, $userEmail, $options = array()) {
 		if (!$this->userExists($userID)) {
-			$this->userDatabase[] = array(
-				'username' => $userID,
-				'password' => hash('sha512', $userPassword),
-				'email' => $userEmail,
-				'userlevel' => 'member',
-				'is_activated' => false,
-				'extra' => $options,
-			);
+			$user = new \stdClass();
+			$user->username = $userID;
+			$user->password = hash('sha512', $userPassword);
+			$user->email = $userEmail;
+			$user->userlevel = 'member';
+			$user->is_activated = false;
+			$user->extra = $options;
+
+			$this->userDatabase[] = $user;
 
 			return true;
 		} else {

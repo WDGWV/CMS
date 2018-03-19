@@ -53,40 +53,31 @@
 ------------------------------------------------------------
  */
 
-/**
- * Define System directory
- */
-define('CMS_SYSTEM_DIR', './data/WDGWV/CMS/');
+//TODO: Setup Autoloader.
+function autloadWDGWVCMS($class) {
+	$fileName = str_replace('\\', '/', $class);
+	$fileName = sprintf('./data/%s.php', $fileName);
+
+	if (file_exists($fileName)) {
+		require_once $fileName;
+	} else {
+		if (sizeof(explode('\\', $class)) > 1) {
+			echo "<b>WARNING</b><br />";
+			echo "Couldn't load class <b>{$class}</b> the required file is missing!<br />";
+			echo "Attempted to load: {$fileName}";
+			exit();
+		}
+	}
+
+	return;
+}
+
+spl_autoload_register('autloadWDGWVCMS');
 
 /**
  * Define Template directory
  */
 define('CMS_TEMPLATE_DIR', './data/themes/');
-
-/**
- * Define Controleers directory
- */
-define('CMS_CONTROLLERS_DIR', './data/WDGWV/CMS/controllers/');
-
-/**
- * Define Compatibility directory
- */
-define('CMS_COMPATIBILITY_DIR', './data/WDGWV/CMS/emulation/');
-
-/**
- * Define Database Controllers directory
- */
-define('CMS_DBCONTROLLERS_DIR', './data/WDGWV/CMS/controllers/databases/');
-
-/**
- * Load up the main class
- */
-require_once CMS_SYSTEM_DIR . '../General/WDGWV.php';
-
-/**
- * Load the configuration
- */
-require_once CMS_SYSTEM_DIR . 'CMSConfig.php';
 
 /**
  * Initialize the configuration
@@ -95,112 +86,30 @@ require_once CMS_SYSTEM_DIR . 'CMSConfig.php';
 $_config = new WDGWV\CMS\Config();
 
 /**
- * Load the debugger
- */
-require_once CMS_SYSTEM_DIR . 'Debugger.php';
-
-/**
  * Initialize the debugger
  * @param $debugger class The debugger class
  */
 $debugger = \WDGWV\CMS\Debugger::sharedInstance();
 
 /**
- * Load the installer
- */
-require_once CMS_SYSTEM_DIR . 'Installer.php';
-
-/**
  * Initialize the installer
  * @param $installer class The installer class
  */
 $installer = \WDGWV\CMS\Installer::sharedInstance();
-
-/**
- * Load the Base Controller?
- */
-require_once CMS_CONTROLLERS_DIR . 'base.php';
-
-/**
- * Load the Base Database Controller
- */
-require_once CMS_DBCONTROLLERS_DIR . 'base.php';
-
-/**
- * Load the Plain Text Database Controller
- */
-require_once CMS_DBCONTROLLERS_DIR . 'plainTextDatabase.php';
-
-/**
- * Load the SQLite Database Controller
- */
-require_once CMS_DBCONTROLLERS_DIR . 'SQLiteDatabase.php';
-
-/**
- * Load the MySQL Database Controller
- */
-require_once CMS_DBCONTROLLERS_DIR . 'MySQLdatabase.php';
-
-/**
- * Load the templateparser
- */
-require_once CMS_SYSTEM_DIR . 'templateParser.php';
-
-/**
- * Load the MySQL Class (old one)
- */
-require_once CMS_SYSTEM_DIR . 'MySQL.php';
-
-/**
- * Load Emulation class for Blogger support
- */
-require_once CMS_COMPATIBILITY_DIR . 'blogger.php';
-
-/**
- * Load Emulation class for WordPress support
- */
-require_once CMS_COMPATIBILITY_DIR . 'wordpress.php';
-
-/**
- * Load the Base Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'base.php';
-
-/**
- * Load the API Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'APIController.php';
-
-/**
- * Load the User Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'UserController.php';
-
-/**
- * Load the Page Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'pageController.php';
-
-/**
- * Load the Shop Controller
- */
-require_once CMS_CONTROLLERS_DIR . 'ShopController.php';
-
-/**
- * Load the CMS Class (System)
- */
-require_once CMS_SYSTEM_DIR . 'WDGWV_Cms.php';
 $database = \WDGWV\CMS\controllers\databases\plainText::sharedInstance();
 $CMS = new WDGWV\CMS\base($_config);
 
 // TEMPORARY
 // TODO: REMOVE ME!!!
-$database->userRegister('wdg', 'test', 'wes@vista.aero', array('userLevel' => 100, 'is_admin' => true));
-if ($database->userLogin('wdg', 'test')) {
-	$_SESSION['CMS_USER_LOGIN'] = 'Wes';
-	$_SESSION['SITE_TITLE'] = 'WDGWV';
-} else {
-	echo "Password Incorrect";
+$regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userLevel' => 100, 'is_admin' => true));
+// echo ($regi) ? 'Created user' : 'Failed to create';
+if ($regi) {
+	if ($database->userLogin('wdg', 'test')) {
+		$_SESSION['CMS_USER_LOGIN'] = 'Wes';
+		$_SESSION['SITE_TITLE'] = 'WDGWV';
+	} else {
+		echo "Password Incorrect";
+	}
 }
 //$pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0
 
