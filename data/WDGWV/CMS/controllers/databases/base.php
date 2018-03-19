@@ -18,13 +18,11 @@ class base {
 
 	protected function generateUserDB() {
 		return array(
-			array(
-				'username' => 'System', /* Dummy account. impossible to login to it. */
-				'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
-				'userlevel' => 'system',
-				'is_activated' => false,
-				'email' => 'CMS@wdgwv.com',
-			),
+			'username' => 'System', /* Dummy account. impossible to login to it. */
+			'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
+			'userlevel' => 'system',
+			'is_activated' => false,
+			'email' => 'CMS@wdgwv.com',
 		);
 	}
 
