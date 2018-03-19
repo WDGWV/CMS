@@ -161,11 +161,14 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		}
 
 		if (!$this->userExists('admin')) {
+			$this->userDatabase = $this->generateUserDB();
 			$this->userDatabase[] = array(
-				'admin',
-				hash('sha512', 'changeme'),
-				'admin@localhost',
-				array('userLevel' => 100, 'is_admin' => true),
+				'username' => 'admin',
+				'password' => hash('sha512', 'changeme'),
+				'email' => 'admin@localhost',
+				'userlevel' => 'admin',
+				'is_activated' => true,
+				'extra' => array('userLevel' => 100, 'is_admin' => true),
 			);
 		}
 		if (!$this->postExists('Welcome to the WDGWV CMS!')) {
@@ -270,8 +273,8 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 	private function userExists($userID) {
 		for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
-			if (!in_array($userID, $this->userDatabase[$i])) {
-				// continue
+			if ($this->userDatabase[$i]->username !== $userID) {
+				continue;
 			} else {
 				return true;
 			}
@@ -287,11 +290,11 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	public function userLogin($userID, $userPassword) {
 		for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
 			if (
-				$this->userDatabase[$i][1] != $userPassword &&
+				$this->userDatabase[$i]->password != $userPassword &&
 				(
 					$i === $userID Or // userID matches DB ID
-					$this->userDatabase[$i][0] === $userID Or // userID matches userName
-					$this->userDatabase[$i][2] === $userID // userID matches userEmail
+					$this->userDatabase[$i]->username === $userID Or // userID matches userName
+					$this->userDatabase[$i]->email === $userID // userID matches userEmail
 				)
 			) {
 				return true;
@@ -304,8 +307,8 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	public function userDelete($userID) {
 		if ($this->userExists($userID)) {
 			for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
-				if (!in_array($userID, $this->userDatabase[$i])) {
-					// continue
+				if ($this->userDatabase[$i]->username !== $userID) {
+					continue;
 				} else {
 					unset($this->userDatabase[$i]);
 					return true;
@@ -319,11 +322,14 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	public function userRegister($userID, $userPassword, $userEmail, $options = array()) {
 		if (!$this->userExists($userID)) {
 			$this->userDatabase[] = array(
-				$userID,
-				hash('sha512', $userPassword),
-				$userEmail,
-				$options,
+				'username' => $userID,
+				'password' => hash('sha512', $userPassword),
+				'email' => $userEmail,
+				'userlevel' => 'member',
+				'is_activated' => false,
+				'extra' => $options,
 			);
+
 			return true;
 		} else {
 			return false;

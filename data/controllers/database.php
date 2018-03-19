@@ -16,11 +16,24 @@ class base {
 
 	}
 
+	protected function generateUserDB() {
+		return array(
+			array(
+				'username' => 'System', /* Dummy account. impossible to login to it. */
+				'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
+				'userlevel' => 'system',
+				'is_activated' => false,
+				'email' => 'CMS@wdgwv.com',
+			),
+		);
+	}
+
 	protected function generateSystemDB() {
 		return array(
 			'installed' => time(),
 			'theme' => 'portal',
 			'language' => 'en_US',
+			'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'admin', 'root', 'system'),
 		);
 	}
 

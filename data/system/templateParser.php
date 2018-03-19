@@ -173,6 +173,32 @@ class templateParser {
 	}
 
 	/**
+	 * Set Right Column value
+	 *
+	 * @param string[] $menuContents The template directory
+	 * @access public
+	 * @since Version 2.0
+	 */
+	public function setRightColumn($columnContents) {
+		if (is_array($columnContents)) {
+			$this->config['columnContents']['right'] = $columnContents;
+		}
+	}
+
+	/**
+	 * Set Left Column value
+	 *
+	 * @param string[] $menuContents The template directory
+	 * @access public
+	 * @since Version 2.0
+	 */
+	public function setLeftColumn($columnContents) {
+		if (is_array($columnContents)) {
+			$this->config['columnContents']['left'] = $columnContents;
+		}
+	}
+
+	/**
 	 * Set Menu Contents
 	 *
 	 * @param string[] $menuContents The template directory
@@ -446,6 +472,12 @@ class templateParser {
 
 		if (!file_exists('tmp_' . $uniid . '.bin')) {
 			@ob_start();
+			if (!defined('LEFT_COLUMN')) {
+				define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
+			}
+			if (!defined('RIGHT_COLUMN')) {
+				define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
+			}
 			$ob = @eval(sprintf('%s%s%s%s%s', '/* ! */', ' ?>', $template, '<?php ', '/* ! */'));
 			$ob = ob_get_contents();
 			@ob_end_clean();
@@ -458,6 +490,12 @@ class templateParser {
 			}
 		} else {
 			@ob_start();
+			if (!defined('LEFT_COLUMN')) {
+				define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
+			}
+			if (!defined('RIGHT_COLUMN')) {
+				define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
+			}
 			$ob = include 'tmp_' . $uniid . '.bin';
 			$ob = ob_get_contents();
 			@ob_end_clean();
