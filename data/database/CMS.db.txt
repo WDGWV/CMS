@@ -1,0 +1,123 @@
+stdClass Object
+(
+    [installed] => 1521489302
+    [theme] => portal
+    [language] => en_US
+    [userlevels] => Array
+        (
+            [0] => guest
+            [1] => member
+            [2] => vip
+            [3] => moderator
+            [4] => writer
+            [5] => custom
+            [6] => admin
+            [7] => root
+            [8] => system
+        )
+
+    [menu] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [name] => Home
+                    [icon] => home
+                    [url] => /home
+                    [userlevel] => *
+                    [submenu] => 
+                )
+
+            [1] => stdClass Object
+                (
+                    [name] => Blog
+                    [icon] => pencil
+                    [url] => /blog
+                    [userlevel] => *
+                    [submenu] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [name] => Blog
+                                    [url] => /blog
+                                    [icon] => pencil
+                                )
+
+                            [1] => stdClass Object
+                                (
+                                    [name] => Last post
+                                    [url] => /blog/last
+                                    [icon] => rss
+                                )
+
+                        )
+
+                )
+
+            [2] => stdClass Object
+                (
+                    [name] => Administration
+                    [url] => #
+                    [icon] => cogs
+                    [userlevel] => moderator
+                    [submenu] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [name] => Create Post
+                                    [url] => /HAHAAdmin/createPost
+                                    [icon] => pencil
+                                )
+
+                            [1] => stdClass Object
+                                (
+                                    [name] => Edit Post
+                                    [url] => /HAHAAdmin/editPost
+                                    [icon] => pencil
+                                )
+
+                            [2] => stdClass Object
+                                (
+                                    [name] => Create Page
+                                    [url] => /HAHAAdmin/createPage
+                                    [icon] => pencil
+                                )
+
+                            [3] => stdClass Object
+                                (
+                                    [name] => Edit Page
+                                    [url] => /HAHAAdmin/editPage
+                                    [icon] => pencil
+                                )
+
+                            [4] => stdClass Object
+                                (
+                                    [name] =>  
+                                )
+
+                            [5] => stdClass Object
+                                (
+                                    [name] => reset DB
+                                    [url] => /HAHAAdmin/?resetDatabase
+                                )
+
+                            [6] => stdClass Object
+                                (
+                                    [name] => Update (%s)
+                                    [url] => /HAHAAdmin/update
+                                    [icon] => cogs
+                                )
+
+                        )
+
+                )
+
+            [3] => stdClass Object
+                (
+                    [name] => About
+                    [url] => /about
+                    [icon] => address-card-o
+                )
+
+        )
+
+)
