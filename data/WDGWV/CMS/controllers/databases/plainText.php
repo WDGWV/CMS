@@ -162,10 +162,10 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 		if (!$this->userExists('admin')) {
 			if (is_array($this->generateUserDB())) {
-				$this->userDatabase[] = $this->generateUserDB();
+				$this->userDatabase[] = (object) $this->generateUserDB();
 			}
 
-			$this->userDatabase[] = array(
+			$this->userDatabase[] = (object) array(
 				'username' => 'admin',
 				'password' => hash('sha512', 'changeme'),
 				'email' => 'admin@localhost',
