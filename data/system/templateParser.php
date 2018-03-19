@@ -181,6 +181,9 @@ class templateParser {
 	 */
 	public function setRightColumn($columnContents) {
 		if (is_array($columnContents)) {
+			if (!isset($this->config['columnContents'])) {
+				$this->config['columnContents'] = array();
+			}
 			$this->config['columnContents']['right'] = $columnContents;
 		}
 	}
@@ -194,6 +197,9 @@ class templateParser {
 	 */
 	public function setLeftColumn($columnContents) {
 		if (is_array($columnContents)) {
+			if (!isset($this->config['columnContents'])) {
+				$this->config['columnContents'] = array();
+			}
 			$this->config['columnContents']['left'] = $columnContents;
 		}
 	}
