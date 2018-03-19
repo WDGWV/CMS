@@ -6,7 +6,7 @@ class base {
 
 	private function __construct() {
 		$this->CMSConfig = (new \WDGWV\CMS\Config());
-		print_r($this->CMSConfig);
+
 		if (isset($_GET['resetDatabase']) && $this->CMSConfig->debug) {
 			array_map('unlink', glob("./data/database/*.db"));
 		}
