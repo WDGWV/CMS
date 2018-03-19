@@ -112,7 +112,7 @@ class Installer {
 	 * @return void
 	 */
 	function isInstalled() {
-		if (file_exists('./data/system/installed')) {
+		if (file_exists('./data/WDGWV/CMS/installed')) {
 			return true;
 		} else {
 			return false;
