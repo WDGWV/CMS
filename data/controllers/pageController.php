@@ -54,6 +54,7 @@ class page extends \WDGWV\CMS\controllers\base {
 			$parser->bindParameter('page', $this->CMS->getContent());
 			return;
 		}
+
 		if ($activeComponent === '') {
 			$activeComponent = 'home';
 		}
@@ -82,6 +83,22 @@ class page extends \WDGWV\CMS\controllers\base {
 						),
 					));
 					$this->parser->bindParameter('page', '');
+					return;
+				} elseif ($subComponent === 'last') {
+					$this->parser->bindParameter('page', '');
+					$blogData = $this->database->postGetLast();
+
+					$this->parser->bindParameter('post', array(
+						array(
+							'title' => $blogData[0],
+							'content' => base64_encode($blogData[1]),
+							'date' => $blogData[3],
+							'comments' => null,
+							'shares' => null,
+							'readmore' => null,
+							'keywords' => $blogData[2],
+						),
+					));
 					return;
 				}
 			} else {
