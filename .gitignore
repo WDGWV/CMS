@@ -3,3 +3,4 @@ xx_PRIVATE
 .DS_Store
 *.version
 *.tmp
+data/database/*.txt
