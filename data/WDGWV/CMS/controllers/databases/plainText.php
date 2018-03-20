@@ -1,5 +1,59 @@
 <?php
+/** Plain text databse controller
+ *
+ * Controller for a plain text database
+ */
+
 namespace WDGWV\CMS\controllers\databases;
+
+/*
+------------------------------------------------------------
+-                :....................,:,                  -
+-              ,.`,,,::;;;;;;;;;;;;;;;;:;`                 -
+-            `...`,::;:::::;;;;;;;;;;;;;::'                -
+-           ,..``,,,::::::::::::::::;:;;:::;               -
+-          :.,,``..::;;,,,,,,,,,,,,,:;;;;;::;`             -
+-         ,.,,,`...,:.:,,,,,,,,,,,,,:;:;;;;:;;             -
+-        `..,,``...;;,;::::::::::::::'';';';:''            -
+-        ,,,,,``..:;,;;:::::::::::::;';;';';;'';           -
+-       ,,,,,``....;,,:::::::;;;;;;;;':'''';''+;           -
+-       :,::```....,,,:;;;;;;;;;;;;;;;''''';';';;          -
+-      `,,::``.....,,,;;;;;;;;;;;;;;;;'''''';';;;'         -
+-      :;:::``......,;;;;;;;;:::::;;;;'''''';;;;:-         -
+-      ;;;::,`.....,::;;::::::;;;;;;;;'''''';;,;;,         -
+-      ;:;;:;`....,:::::::::::::::::;;;;'''':;,;;;         -
+-      ';;;;;.,,,,::::::::::::::::::;;;;;''':::;;'         -
+-      ;';;;;.;,,,,::::::::::::::::;;;;;;;''::;;;'         -
+-      ;'';;:;..,,,;;;:;;:::;;;;;;;;;;;;;;;':::;;'         -
+-      ;'';;;;;.,,;:;;;;;;;;;;;;;;;;;;;;;;;;;:;':;         -
+-      ;''';;:;;.;;;;;;;;;;;;;;;;;;;;;;;;;;;''';:.         -
+-      :';';;;;;;::,,,,,,,,,,,,,,:;;;;;;;;;;'''';          -
+-       '';;;;:;;;.,,,,,,,,,,,,,,,,:;;;;;;;;'''''          -
+-       '''';;;;;:..,,,,,,,,,,,,,,,,,;;;;;;;''':,          -
+-       .'''';;;;....,,,,,,,,,,,,,,,,,,,:;;;''''           -
+-        ''''';;;;....,,,,,,,,,,,,,,,,,,;;;''';.           -
+-         '''';;;::.......,,,,,,,,,,,,,:;;;''''            -
+-         `''';;;;:,......,,,,,,,,,,,,,;;;;;''             -
+-          .'';;;;;:.....,,,,,,,,,,,,,,:;;;;'              -
+-           `;;;;;:,....,,,,,,,,,,,,,,,:;;''               -
+-             ;';;,,..,.,,,,,,,,,,,,,,,;;',                -
+-               '';:,,,,,,,,,,,,,,,::;;;:                  -
+-                 `:;'''''''''''''''';:.                   -
+-                                                          -
+- ,,,::::::::::::::::::::::::;;;;,:::::::::::::::::::::::: -
+- ,::::::::::::::::::::::::::;;;;,:::::::::::::::::::::::: -
+- ,:; ## ## ##  #####     ####      ## ## ##  ##   ##  ;:: -
+- ,,; ## ## ##  ## ##    ##         ## ## ##  ##   ##  ;:: -
+- ,,; ## ## ##  ##  ##  ##   ####   ## ## ##   ## ##   ;:: -
+- ,,' ## ## ##  ## ##    ##    ##   ## ## ##   ## ##   ::: -
+- ,:: ########  ####      ######    ########    ###    ::: -
+- ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
+- ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
+-                                                          -
+-       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-    Websites, Apps, Hosting, Services, Development.       -
+------------------------------------------------------------
+ */
 
 if (!defined('DB_PATH')) {
 	define('DB_PATH', './data/database/');
@@ -18,7 +72,6 @@ define('PT_FORUM_DB', DB_PATH . 'forumItems.db');
 class plainText extends \WDGWV\CMS\controllers\databases\base {
 	private $CMSDatabase = array();
 	private $userDatabase = array();
-	private $menuDatabase = array();
 	private $postDatabase = array();
 	private $pageDatabase = array();
 	private $shopDatabase = array();
@@ -38,127 +91,44 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		return $inst;
 	}
 
+	private function _loadDatabase($databasePath) {
+		if (!file_exists($databasePath)) {
+			if (!touch($databasePath)) {
+				$databaseName = end(explode("/", $databasePath));
+				$databaseName = explode(".", $databaseName)[0];
+
+				$error = sprintf("<b>Fatal error: Could not create '%s' database.</b>", $databaseName);
+				if (class_exists('\WDGWV\CMS\Debugger')) {
+					\WDGWV\CMS\Debugger::sharedInstance()->error($error);
+				}
+				echo $error;
+
+				exit;
+			}
+
+		}
+
+		$_database = @gzuncompress(file_get_contents($databasePath));
+		if (strlen($_database) > 10) {
+			return json_decode($_database);
+		}
+
+		return array();
+	}
+
 	/**
 	 * Private so nobody else can instantiate it
 	 *
 	 */
 	private function __construct() {
-		if (!file_exists(PT_MENU_DB)) {
-			if (!touch(PT_MENU_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE MENU DATABASE";
-			}
-		}
-
-		$_menu = @gzuncompress(file_get_contents(PT_MENU_DB));
-		if (strlen($_menu) > 10) {
-			$this->menuDatabase = json_decode($_menu);
-		}
-
-		if (!file_exists(PT_PAGE_DB)) {
-			if (!touch(PT_PAGE_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE PAGE DATABASE";
-			}
-		}
-
-		$_PAGE = @gzuncompress(file_get_contents(PT_PAGE_DB));
-		if (strlen($_PAGE) > 10) {
-			$this->pageDatabase = json_decode($_PAGE);
-		}
-
-		if (!file_exists(PT_USER_DB)) {
-			if (!touch(PT_USER_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE USER DATABASE";
-			}
-		}
-
-		$_user = @gzuncompress(file_get_contents(PT_USER_DB));
-		if (strlen($_user) > 10) {
-			$this->userDatabase = json_decode($_user);
-		}
-
-		if (!file_exists(PT_POST_DB)) {
-			if (!touch(PT_POST_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE POSTS DATABASE";
-			}
-		}
-
-		$_post = @gzuncompress(file_get_contents(PT_POST_DB));
-		if (strlen($_post) > 10) {
-			$this->postDatabase = json_decode($_post);
-		}
-
-		if (!file_exists(PT_SHOP_DB)) {
-			if (!touch(PT_SHOP_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE SHOP DATABASE";
-			}
-		}
-
-		$_shop = @gzuncompress(file_get_contents(PT_SHOP_DB));
-		if (strlen($_shop) > 10) {
-			$this->shopDatabase = json_decode($_shop);
-		}
-
-		if (!file_exists(PT_WIKI_DB)) {
-			if (!touch(PT_WIKI_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE WIKI DATABASE";
-			}
-		}
-
-		$_wiki = @gzuncompress(file_get_contents(PT_WIKI_DB));
-		if (strlen($_wiki) > 10) {
-			$this->wikiDatabase = json_decode($_wiki);
-		}
-
-		if (!file_exists(PT_CMS_DB)) {
-			if (!touch(PT_CMS_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE CMS DATABASE";
-			}
-		}
-
-		$_CMS = @gzuncompress(file_get_contents(CMS));
-		if (strlen($_CMS) > 10) {
-			$this->CMSDatabase = json_decode($_CMS);
-		}
-
-		if (!file_exists(PT_ORDER_DB)) {
-			if (!touch(PT_ORDER_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE ORDER DATABASE";
-			}
-		}
-
-		$_order = @gzuncompress(file_get_contents(PT_ORDER_DB));
-		if (strlen($_order) > 10) {
-			$this->orderDatabase = json_decode($_order);
-		}
-
-		if (!file_exists(PT_FORUM_DB)) {
-			if (!touch(PT_FORUM_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE FORUM DATABASE";
-			}
-		}
-
-		$_forum = @gzuncompress(file_get_contents(PT_FORUM_DB));
-		if (strlen($_forum) > 10) {
-			$this->forumDatabase = json_decode($_forum);
-		}
+		$this->pageDatabase = $this->_loadDatabase(PT_PAGE_DB);
+		$this->userDatabase = $this->_loadDatabase(PT_USER_DB);
+		$this->postDatabase = $this->_loadDatabase(PT_POST_DB);
+		$this->shopDatabase = $this->_loadDatabase(PT_SHOP_DB);
+		$this->wikiDatabase = $this->_loadDatabase(PT_WIKI_DB);
+		$this->forumDatabase = $this->_loadDatabase(PT_FORUM_DB);
+		$this->orderDatabase = $this->_loadDatabase(PT_ORDER_DB);
+		$this->CMSDatabase = $this->_loadDatabase(PT_CMS_DB);
 
 		if (!$this->userExists('admin')) {
 			if (is_array($this->generateUserDB())) {
@@ -186,15 +156,70 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function __destruct() {
-		file_put_contents(PT_CMS_DB, gzcompress(json_encode($this->CMSDatabase), 9));
-		file_put_contents(PT_MENU_DB, gzcompress(json_encode($this->menuDatabase), 9));
-		file_put_contents(PT_USER_DB, gzcompress(json_encode($this->userDatabase), 9));
-		file_put_contents(PT_POST_DB, gzcompress(json_encode($this->postDatabase), 9));
-		file_put_contents(PT_PAGE_DB, gzcompress(json_encode($this->pageDatabase), 9));
-		file_put_contents(PT_SHOP_DB, gzcompress(json_encode($this->shopDatabase), 9));
-		file_put_contents(PT_WIKI_DB, gzcompress(json_encode($this->wikiDatabase), 9));
-		file_put_contents(PT_ORDER_DB, gzcompress(json_encode($this->orderDatabase), 9));
-		file_put_contents(PT_FORUM_DB, gzcompress(json_encode($this->forumDatabase), 9));
+		file_put_contents(
+			PT_CMS_DB,
+			gzcompress(
+				json_encode(
+					$this->CMSDatabase
+				), 9
+			)
+		);
+		file_put_contents(
+			PT_USER_DB,
+			gzcompress(
+				json_encode(
+					$this->userDatabase
+				), 9
+			)
+		);
+		file_put_contents(
+			PT_POST_DB,
+			gzcompress(
+				json_encode(
+					$this->postDatabase
+				), 9
+			)
+		);
+		file_put_contents(
+			PT_PAGE_DB,
+			gzcompress(
+				json_encode(
+					$this->pageDatabase
+				), 9
+			)
+		);
+		file_put_contents(
+			PT_SHOP_DB,
+			gzcompress(
+				json_encode(
+					$this->shopDatabase
+				), 9
+			)
+		);
+		file_put_contents(
+			PT_WIKI_DB,
+			gzcompress(
+				json_encode(
+					$this->wikiDatabase
+				), 9
+			)
+		);
+		file_put_contents(
+			PT_ORDER_DB,
+			gzcompress(
+				json_encode(
+					$this->orderDatabase
+				), 9
+			)
+		);
+		file_put_contents(
+			PT_FORUM_DB,
+			gzcompress(
+				json_encode(
+					$this->forumDatabase
+				), 9
+			)
+		);
 	}
 
 	public function postExists($postTitle, $strict = false) {
@@ -406,6 +431,10 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function loadMenu() {
+		if (isset($this->CMSDatabase->menu)) {
+			// force downcast stdClass to array.
+			$this->CMSDatabase = json_decode(json_encode($this->CMSDatabase), true);
+		}
 		if (is_array(@$this->CMSDatabase['menu'])) {
 			return $this->CMSDatabase['menu'];
 		} else {
