@@ -18,7 +18,6 @@ define('PT_FORUM_DB', DB_PATH . 'forumItems.db');
 class plainText extends \WDGWV\CMS\controllers\databases\base {
 	private $CMSDatabase = array();
 	private $userDatabase = array();
-	private $menuDatabase = array();
 	private $postDatabase = array();
 	private $pageDatabase = array();
 	private $shopDatabase = array();
@@ -51,22 +50,9 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 			}
 		}
 
-		$_menu = @gzuncompress(file_get_contents(PT_MENU_DB));
-		if (strlen($_menu) > 10) {
-			$this->menuDatabase = json_decode($_menu);
-		}
-
-		if (!file_exists(PT_PAGE_DB)) {
-			if (!touch(PT_PAGE_DB)) {
-				// ... DEBuGGER
-				// .. FATAL ERROR
-				echo "COULD NOT CREATE PAGE DATABASE";
-			}
-		}
-
-		$_PAGE = @gzuncompress(file_get_contents(PT_PAGE_DB));
-		if (strlen($_PAGE) > 10) {
-			$this->pageDatabase = json_decode($_PAGE);
+		$_page = @gzuncompress(file_get_contents(PT_PAGE_DB));
+		if (strlen($_page) > 10) {
+			$this->pageDatabase = json_decode($_page);
 		}
 
 		if (!file_exists(PT_USER_DB)) {
@@ -187,7 +173,6 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 	public function __destruct() {
 		file_put_contents(PT_CMS_DB, gzcompress(json_encode($this->CMSDatabase), 9));
-		file_put_contents(PT_MENU_DB, gzcompress(json_encode($this->menuDatabase), 9));
 		file_put_contents(PT_USER_DB, gzcompress(json_encode($this->userDatabase), 9));
 		file_put_contents(PT_POST_DB, gzcompress(json_encode($this->postDatabase), 9));
 		file_put_contents(PT_PAGE_DB, gzcompress(json_encode($this->pageDatabase), 9));
