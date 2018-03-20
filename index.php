@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ALL);
-
+$CMSStartTime = microtime(true);
 include_once './data/WDGWV/CMS/loader.php';
 
 if ($installer->isInstalled()) {
@@ -20,5 +20,9 @@ if ((new \WDGWV\CMS\config())->debug) {
 	}
 	echo "<hr>";
 	$debugger->dumpAllClasses();
+}
+$CMSEndTime = microtime(true);
+if ((new \WDGWV\CMS\config())->debug) {
+	echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
 }
 ?>
