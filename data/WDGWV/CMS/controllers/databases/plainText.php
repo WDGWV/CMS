@@ -431,6 +431,10 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function loadMenu() {
+		if (isset($this->CMSDatabase->menu)) {
+			// force downcast stdClass to array.
+			$this->CMSDatabase = json_decode(json_encode($this->CMSDatabase), true);
+		}
 		if (is_array(@$this->CMSDatabase['menu'])) {
 			return $this->CMSDatabase['menu'];
 		} else {
