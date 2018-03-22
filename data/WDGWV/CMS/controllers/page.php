@@ -26,7 +26,7 @@ class page extends \WDGWV\CMS\controllers\base {
 		if (class_exists('\WDGWV\CMS\controllers\hooks')) {
 			$customHooks = \WDGWV\CMS\controllers\hooks::sharedInstance()->getUBBHooks();
 		}
-		$uniid = uniqid(); // Unique ID for parsing.
+		$uniid = uniqid();
 		$replacer = (isset($customHooks) ? $customHooks : array());
 		$replacer[] = array('/\{php\}(.*)\{\/php\}/s', '<?php \\1 ?>');
 
