@@ -120,7 +120,9 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	 * Private so nobody else can instantiate it
 	 *
 	 */
-	private function __construct() {
+	protected function __construct() {
+		parent::__construct();
+
 		$this->pageDatabase = $this->_loadDatabase(PT_PAGE_DB);
 		$this->userDatabase = $this->_loadDatabase(PT_USER_DB);
 		$this->postDatabase = $this->_loadDatabase(PT_POST_DB);
@@ -141,7 +143,7 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 				'email' => 'admin@localhost',
 				'userlevel' => 'admin',
 				'is_activated' => true,
-				'extra' => array('userLevel' => 100, 'is_admin' => true),
+				'extra' => array('userlevel' => 100, 'is_admin' => true),
 			);
 		}
 		if (!$this->postExists('Welcome to the WDGWV CMS!')) {
