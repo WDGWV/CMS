@@ -173,38 +173,6 @@ class templateParser {
 	}
 
 	/**
-	 * Set Right Column value
-	 *
-	 * @param string[] $menuContents The template directory
-	 * @access public
-	 * @since Version 2.0
-	 */
-	public function setRightColumn($columnContents) {
-		if (is_array($columnContents)) {
-			if (!isset($this->config['columnContents'])) {
-				$this->config['columnContents'] = array();
-			}
-			$this->config['columnContents']['right'] = $columnContents;
-		}
-	}
-
-	/**
-	 * Set Left Column value
-	 *
-	 * @param string[] $menuContents The template directory
-	 * @access public
-	 * @since Version 2.0
-	 */
-	public function setLeftColumn($columnContents) {
-		if (is_array($columnContents)) {
-			if (!isset($this->config['columnContents'])) {
-				$this->config['columnContents'] = array();
-			}
-			$this->config['columnContents']['left'] = $columnContents;
-		}
-	}
-
-	/**
 	 * Set Menu Contents
 	 *
 	 * @param string[] $menuContents The template directory
@@ -470,28 +438,19 @@ class templateParser {
 			}
 		}
 
-		if (is_writable('./data/') && !file_exists('./data/temp')) {
-			@mkdir('./data/temp/');
-		}
-		if (is_writable('./data/temp/')) {
-			$fh = @fopen('./data/temp/tmp_tpl_' . $uniid . '.bin', 'w');
+		if (is_writable('.')) {
+			$fh = @fopen('tmp_' . $uniid . '.bin', 'w');
 			@fwrite($fh, $template);
 			@fclose($fh);
 		}
 
-		if (!file_exists('./data/temp/tmp_tpl_' . $uniid . '.bin')) {
+		if (!file_exists('tmp_' . $uniid . '.bin')) {
 			@ob_start();
-			if (!defined('LEFT_COLUMN')) {
-				define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
-			}
-			if (!defined('RIGHT_COLUMN')) {
-				define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
-			}
 			$ob = @eval(sprintf('%s%s%s%s%s', '/* ! */', ' ?>', $template, '<?php ', '/* ! */'));
 			$ob = ob_get_contents();
 			@ob_end_clean();
 
-			@unlink('./data/temp/tmp_tpl_' . $uniid . '.bin');
+			@unlink('tmp_' . $uniid . '.bin');
 			if (!$ob) {
 				$this->fatalError('Failed to parse the template.');
 			} else {
@@ -499,17 +458,11 @@ class templateParser {
 			}
 		} else {
 			@ob_start();
-			if (!defined('LEFT_COLUMN')) {
-				define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
-			}
-			if (!defined('RIGHT_COLUMN')) {
-				define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
-			}
-			$ob = include './data/temp/tmp_tpl_' . $uniid . '.bin';
+			$ob = include 'tmp_' . $uniid . '.bin';
 			$ob = ob_get_contents();
 			@ob_end_clean();
 
-			@unlink('./data/temp/tmp_tpl_' . $uniid . '.bin');
+			@unlink('tmp_' . $uniid . '.bin');
 			if (!$ob) {
 				$this->fatalError('Failed to parse the template.');
 			} else {
@@ -652,7 +605,7 @@ class templateParser {
 					$addItem = preg_replace("/\{ICON\}/", (isset($data['icon']) ? $data['icon'] : ''), $addItem);
 
 					if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
-						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", isset($data['url']) ? $data['url'] : '#', $addItem);
+						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $data['url'], $addItem);
 					}
 
 					$this->config['generatedMenu'] .= $addItem;
@@ -664,7 +617,7 @@ class templateParser {
 									$addItem = $subMenuItem;
 									$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($subData['name']) : $subData['name']), $addItem);
 									$addItem = preg_replace("/\{ICON\}/", (isset($subData['icon']) ? $subData['icon'] : ''), $addItem);
-									$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", isset($subData['url']) ? $subData['url'] : '#', $addItem);
+									$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", $subData['url'], $addItem);
 
 									$this->config['generatedMenu'] .= $addItem;
 								} else {

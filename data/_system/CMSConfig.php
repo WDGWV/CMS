@@ -2,15 +2,11 @@
 namespace WDGWV\CMS;
 
 class Config extends \WDGWV\General\WDGWVFramework {
-	public function adminURL() {
-		return 'administration';
-	}
-
 	public function theme() {
 		// TO RUN NORMAL MODE
-		return 'portal';
+		// return 'portal';
 		// TO TEST ADMIN:
-		// return 'admin';
+		return 'admin';
 	}
 
 	/**

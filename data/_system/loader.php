@@ -53,31 +53,40 @@
 ------------------------------------------------------------
  */
 
-//TODO: Setup Autoloader.
-function autloadWDGWVCMS($class) {
-	$fileName = str_replace('\\', '/', $class);
-	$fileName = sprintf('./data/%s.php', $fileName);
-
-	if (file_exists($fileName)) {
-		require_once $fileName;
-	} else {
-		if (sizeof(explode('\\', $class)) > 1) {
-			echo "<b>WARNING</b><br />";
-			echo "Couldn't load class <b>{$class}</b> the required file is missing!<br />";
-			echo "Attempted to load: {$fileName}";
-			exit();
-		}
-	}
-
-	return;
-}
-
-spl_autoload_register('autloadWDGWVCMS');
+/**
+ * Define System directory
+ */
+define('CMS_SYSTEM_DIR', './data/system/');
 
 /**
  * Define Template directory
  */
 define('CMS_TEMPLATE_DIR', './data/themes/');
+
+/**
+ * Define Controleers directory
+ */
+define('CMS_CONTROLLERS_DIR', './data/controllers/');
+
+/**
+ * Define Compatibility directory
+ */
+define('CMS_COMPATIBILITY_DIR', './data/compatibility/');
+
+/**
+ * Define Database Controllers directory
+ */
+define('CMS_DBCONTROLLERS_DIR', './data/controllers/databases/');
+
+/**
+ * Load up the main class
+ */
+require_once CMS_SYSTEM_DIR . 'WDGWV.php';
+
+/**
+ * Load the configuration
+ */
+require_once CMS_SYSTEM_DIR . 'CMSConfig.php';
 
 /**
  * Initialize the configuration
@@ -86,35 +95,138 @@ define('CMS_TEMPLATE_DIR', './data/themes/');
 $_config = new WDGWV\CMS\Config();
 
 /**
+ * Load the debugger
+ */
+require_once CMS_SYSTEM_DIR . 'Debugger.php';
+
+/**
  * Initialize the debugger
  * @param $debugger class The debugger class
  */
 $debugger = \WDGWV\CMS\Debugger::sharedInstance();
 
 /**
+ * Load the installer
+ */
+require_once CMS_SYSTEM_DIR . 'Installer.php';
+
+/**
  * Initialize the installer
  * @param $installer class The installer class
  */
 $installer = \WDGWV\CMS\Installer::sharedInstance();
+
+/**
+ * Load the Base Controller?
+ */
+require_once CMS_CONTROLLERS_DIR . 'base.php';
+
+/**
+ * Load the Database Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'database.php';
+
+/**
+ * Load the Plain Text Database Controller
+ */
+require_once CMS_DBCONTROLLERS_DIR . 'plainTextDatabase.php';
+
+/**
+ * Load the SQLite Database Controller
+ */
+require_once CMS_DBCONTROLLERS_DIR . 'SQLiteDatabase.php';
+
+/**
+ * Load the MySQL Database Controller
+ */
+require_once CMS_DBCONTROLLERS_DIR . 'MySQLdatabase.php';
+
+/**
+ * Load the templateparser
+ */
+require_once CMS_SYSTEM_DIR . 'templateParser.php';
+
+/**
+ * Load the MySQL Class (old one)
+ */
+require_once CMS_SYSTEM_DIR . 'MySQL.php';
+
+/**
+ * Load Emulation class for Blogger support
+ */
+require_once CMS_COMPATIBILITY_DIR . 'blogger.php';
+
+/**
+ * Load Emulation class for WordPress support
+ */
+require_once CMS_COMPATIBILITY_DIR . 'wordpress.php';
+
+/**
+ * Load the Base Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'base.php';
+
+/**
+ * Load the API Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'APIController.php';
+
+/**
+ * Load the Content Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'ContentController.php';
+
+/**
+ * Load the Future Controller (experimental features)
+ */
+require_once CMS_CONTROLLERS_DIR . 'FutureController.php';
+
+/**
+ * Load the Layout Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'LayoutController.php';
+
+/**
+ * Load the Menu Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'MenuController.php';
+
+/**
+ * Load the User Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'UserController.php';
+
+/**
+ * Load the Page Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'pageController.php';
+
+/**
+ * Load the Shop Controller
+ */
+require_once CMS_CONTROLLERS_DIR . 'ShopController.php';
+
+/**
+ * Load the CMS Class (System)
+ */
+require_once CMS_SYSTEM_DIR . 'WDGWV_Cms.php';
 $database = \WDGWV\CMS\controllers\databases\plainText::sharedInstance();
 $CMS = new WDGWV\CMS\base($_config);
 
 // TEMPORARY
 // TODO: REMOVE ME!!!
-$regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userlevel' => 'admin', 'is_admin' => true));
-// echo ($regi) ? 'Created user' : 'Failed to create';
-if ($regi) {
-	if ($database->userLogin('wdg', 'test')) {
-		$_SESSION['CMS_USER_LOGIN'] = 'Wes';
-		$_SESSION['SITE_TITLE'] = 'WDGWV';
-	} else {
-		echo "Password Incorrect";
-	}
+$database->userRegister('wdg', 'test', 'wes@vista.aero', array('userLevel' => 100, 'is_admin' => true));
+if ($database->userLogin('wdg', 'test')) {
+	$_SESSION['CMS_USER_LOGIN'] = 'Wes';
+	$_SESSION['SITE_TITLE'] = 'WDGWV';
+} else {
+	echo "Password Incorrect";
 }
 //$pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0
 
 $database->createPage('home', 'Welcome at the homepage!', 'Welcome,WDGWV,CMS', array('user' => 0));
-$database->createPage('about', '<h1>Welcome to WDGWV CMS</h1>
+$database->createPage('about', '
+<h1>Welcome to WDGWV CMS</h1>
 Some stats:<br />
 <script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script>
 <br />
@@ -129,15 +241,6 @@ Some stats:<br />
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>', 'WDGWV,CMS', array('user' => 0));
-$database->createPage('debug', "{php}
-	global \$debugger;
-	if(isset(\$debugger)) {
-		echo('<hr>');
-		\$debugger->logdump();
-		echo('<hr>');
-		\$debugger->dumpAllClasses();
-	}
-{/php}", 'WDGWV,CMS,Debug', array('user' => 0, 'userlevel' => 'admin'));
 // /TEMPORARY
 
 if ($_config->debug) {
