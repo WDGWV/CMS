@@ -22,11 +22,89 @@ class page extends \WDGWV\CMS\controllers\base {
 		return false;
 	}
 
+<<<<<<< HEAD
+=======
+	private function parseUBBTags($input) {
+		if (class_exists('\WDGWV\CMS\controllers\hooks')) {
+			$customHooks = \WDGWV\CMS\controllers\hooks::sharedInstance()->getUBBHooks();
+		}
+		$uniid = uniqid();
+		$replacer = (isset($customHooks) ? $customHooks : array());
+		$replacer[] = array('/\{php\}(.*)\{\/php\}/s', '<?php \\1 ?>');
+
+		if (class_exists('\WDGWV\CMS\Debugger')) {
+			\WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Parsing UBB tags with %s replacers', sizeof($replacer)));
+		}
+
+		$parse = $input;
+		foreach ($replacer as $replaceWith) {
+			if (sizeof($replaceWith) !== 2) {
+				continue;
+			}
+
+			$parse = preg_replace($replaceWith[0], $replaceWith[1], $parse);
+		}
+
+		if (is_writable('./data/') && !file_exists('./data/temp')) {
+			@mkdir('./data/temp/');
+		}
+
+		if (is_writable('./data/temp/')) {
+			$fh = @fopen('./data/temp/tmp_page_' . $uniid . '.bin', 'w');
+			@fwrite($fh, $parse);
+			@fclose($fh);
+		}
+
+		if (!file_exists('./data/temp/tmp_page_' . $uniid . '.bin')) {
+			@ob_start();
+			$ob = @eval(sprintf('%s%s%s%s%s', '/* ! */', ' ?>', $uniid, '<?php ', '/* ! */'));
+			$ob = ob_get_contents();
+			@ob_end_clean();
+
+			@unlink('./data/temp/tmp_page_' . $uniid . '.bin');
+			if (!$ob) {
+				return 'Failed to parse the page.';
+			} else {
+				return $ob;
+			}
+		} else {
+			@ob_start();
+			$ob = include './data/temp/tmp_page_' . $uniid . '.bin';
+			$ob = ob_get_contents();
+			@ob_end_clean();
+
+			@unlink('./data/temp/tmp_page_' . $uniid . '.bin');
+			if (!$ob) {
+				return 'Failed to parse the page.';
+			} else {
+				return $ob;
+			}
+		}
+	}
+
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 	public function displayPage($pageID = 'auto') {
 		$e = explode("/", $_SERVER['REQUEST_URI']);
 		$activeComponent = isset($e[1]) ? strtolower($e[1]) : 'home';
 		$subComponent = isset($e[2]) ? strtolower($e[2]) : '';
 
+<<<<<<< HEAD
+=======
+		if ($activeComponent == 'crossdomain.xml' ||
+			$activeComponent == 'crossdomain_xml') {
+			header("content-type: text/xml");
+			echo "<" . "?xml version=\"1.0\"?" . ">" . PHP_EOL;
+			echo "<!DOCTYPE cross-domain-policy " . PHP_EOL;
+			echo "SYSTEM \"http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd\">" . PHP_EOL;
+			echo "<cross-domain-policy>" . PHP_EOL;
+			echo "\t<allow-access-from domain=\"googleads.g.doubleclick.net\" />" . PHP_EOL;
+			echo "\t<allow-access-from domain=\"wdgwv.com\" />" . PHP_EOL;
+			echo "\t<allow-access-from domain=\"" . @$_SERVER['HTTP_HOST'] . "\" />" . PHP_EOL;
+			echo "</cross-domain-policy>";
+			exit;
+		}
+
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 		if ($this->CMS->maintenanceMode()) {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Maintenance mode!');
@@ -138,7 +216,16 @@ class page extends \WDGWV\CMS\controllers\base {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Found page in database');
 			}
+<<<<<<< HEAD
 			$this->parser->bindParameter('page', $this->database->loadPage($activeComponent)[1]);
+=======
+			$this->parser->bindParameter('page', sprintf(
+				"%s",
+				$this->parseUBBTags(
+					$this->database->loadPage($activeComponent)[1]
+				)
+			));
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 			$this->parser->bindParameter('title', $activeComponent);
 			return;
 		}

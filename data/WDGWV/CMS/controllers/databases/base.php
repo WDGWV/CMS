@@ -3,12 +3,31 @@ namespace WDGWV\CMS\controllers\databases;
 
 class base {
 	private $CMSConfig = null;
+<<<<<<< HEAD
 
 	private function __construct() {
+=======
+	static public $baseInit = false;
+
+	protected function __construct() {
+		$this->_init();
+	}
+
+	protected function _init() {
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 		$this->CMSConfig = (new \WDGWV\CMS\Config());
 
 		if (isset($_GET['resetDatabase']) && $this->CMSConfig->debug) {
 			array_map('unlink', glob("./data/database/*.db"));
+<<<<<<< HEAD
+=======
+
+			if (!headers_sent()) {
+				header("location: /?db=clean&debug=true");
+			}
+
+			echo "<script>window.location='/?db=clean&debug=true';</script>";
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 		}
 	}
 
@@ -31,7 +50,11 @@ class base {
 			'installed' => time(),
 			'theme' => 'portal',
 			'language' => 'en_US',
+<<<<<<< HEAD
 			'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'admin', 'root', 'system'),
+=======
+			'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'developer', 'admin', 'root', 'system'),
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 		);
 	}
 
@@ -95,11 +118,40 @@ class base {
 					array(
 						'name' => ' ',
 					),
+<<<<<<< HEAD
+=======
+
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 					($this->CMSConfig->debug) ? array(
 						'name' => 'reset DB',
 						'url' => sprintf('/%s/?resetDatabase', $this->CMSConfig->adminURL()),
 					) : $this->noop(),
 
+<<<<<<< HEAD
+=======
+					($this->CMSConfig->debug) ? array(
+						'name' => 'DEBUG',
+						'url' => sprintf('/debug'),
+					) : $this->noop(),
+
+					array(
+						'name' => ' ',
+					),
+
+					($this->CMSConfig->debug) ? array(
+						'name' => 'Theme = portal',
+						'url' => sprintf('/%s/setTheme/portal', $this->CMSConfig->adminURL()),
+					) : $this->noop(),
+					($this->CMSConfig->debug) ? array(
+						'name' => 'Theme = admin',
+						'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
+					) : $this->noop(),
+
+					array(
+						'name' => ' ',
+					),
+
+>>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 					array(
 						'name' => 'Update (%s)',
 						'url' => sprintf('/%s/update', $this->CMSConfig->adminURL()),
