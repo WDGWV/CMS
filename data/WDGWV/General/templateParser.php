@@ -470,25 +470,16 @@ class templateParser {
 			}
 		}
 
-<<<<<<< HEAD
-		if (is_writable('.')) {
-			$fh = @fopen('tmp_' . $uniid . '.bin', 'w');
-=======
 		if (is_writable('./data/') && !file_exists('./data/temp')) {
 			@mkdir('./data/temp/');
 		}
 		if (is_writable('./data/temp/')) {
 			$fh = @fopen('./data/temp/tmp_tpl_' . $uniid . '.bin', 'w');
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 			@fwrite($fh, $template);
 			@fclose($fh);
 		}
 
-<<<<<<< HEAD
-		if (!file_exists('tmp_' . $uniid . '.bin')) {
-=======
 		if (!file_exists('./data/temp/tmp_tpl_' . $uniid . '.bin')) {
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 			@ob_start();
 			if (!defined('LEFT_COLUMN')) {
 				define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
@@ -500,11 +491,7 @@ class templateParser {
 			$ob = ob_get_contents();
 			@ob_end_clean();
 
-<<<<<<< HEAD
-			@unlink('tmp_' . $uniid . '.bin');
-=======
 			@unlink('./data/temp/tmp_tpl_' . $uniid . '.bin');
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 			if (!$ob) {
 				$this->fatalError('Failed to parse the template.');
 			} else {
@@ -518,19 +505,11 @@ class templateParser {
 			if (!defined('RIGHT_COLUMN')) {
 				define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
 			}
-<<<<<<< HEAD
-			$ob = include 'tmp_' . $uniid . '.bin';
-			$ob = ob_get_contents();
-			@ob_end_clean();
-
-			@unlink('tmp_' . $uniid . '.bin');
-=======
 			$ob = include './data/temp/tmp_tpl_' . $uniid . '.bin';
 			$ob = ob_get_contents();
 			@ob_end_clean();
 
 			@unlink('./data/temp/tmp_tpl_' . $uniid . '.bin');
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 			if (!$ob) {
 				$this->fatalError('Failed to parse the template.');
 			} else {
