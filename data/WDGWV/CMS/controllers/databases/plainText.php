@@ -105,7 +105,6 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 				exit;
 			}
-
 		}
 
 		$_database = @gzuncompress(file_get_contents($databasePath));
@@ -116,6 +115,36 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		return array();
 	}
 
+	private function _saveDatabase($databasePath, $databaseContents) {
+		$error = false;
+		if (!is_writeable($databasePath)) {
+			$error = true;
+		}
+
+		$_compressed = gzcompress(json_encode($databaseContents), 9);
+		if (!file_put_contents($databasePath, $_compressed)) {
+			$error = true;
+		}
+
+		if (file_get_contents($databasePath) !== $_compressed) {
+			$error = true;
+		}
+
+		if ($error) {
+			$databaseName = explode("/", $databasePath);
+			$databaseName = explode(".", end($databaseName))[0];
+
+			$error = sprintf("<b>Fatal error: Could not create '%s' database.</b><br />Expected length: %s, got %s.<br />", $databaseName, strlen($_compressed), strlen(file_get_contents($databasePath)));
+			if (class_exists('\WDGWV\CMS\Debugger')) {
+				\WDGWV\CMS\Debugger::sharedInstance()->error($error);
+
+				\WDGWV\CMS\Debugger::sharedInstance()->error("Expected: {$_compressed}");
+				\WDGWV\CMS\Debugger::sharedInstance()->error("Got: " . file_get_contents($databasePath));
+			}
+
+			echo $error;
+		}
+	}
 	/**
 	 * Private so nobody else can instantiate it
 	 *
@@ -158,70 +187,14 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function __destruct() {
-		file_put_contents(
-			PT_CMS_DB,
-			gzcompress(
-				json_encode(
-					$this->CMSDatabase
-				), 9
-			)
-		);
-		file_put_contents(
-			PT_USER_DB,
-			gzcompress(
-				json_encode(
-					$this->userDatabase
-				), 9
-			)
-		);
-		file_put_contents(
-			PT_POST_DB,
-			gzcompress(
-				json_encode(
-					$this->postDatabase
-				), 9
-			)
-		);
-		file_put_contents(
-			PT_PAGE_DB,
-			gzcompress(
-				json_encode(
-					$this->pageDatabase
-				), 9
-			)
-		);
-		file_put_contents(
-			PT_SHOP_DB,
-			gzcompress(
-				json_encode(
-					$this->shopDatabase
-				), 9
-			)
-		);
-		file_put_contents(
-			PT_WIKI_DB,
-			gzcompress(
-				json_encode(
-					$this->wikiDatabase
-				), 9
-			)
-		);
-		file_put_contents(
-			PT_ORDER_DB,
-			gzcompress(
-				json_encode(
-					$this->orderDatabase
-				), 9
-			)
-		);
-		file_put_contents(
-			PT_FORUM_DB,
-			gzcompress(
-				json_encode(
-					$this->forumDatabase
-				), 9
-			)
-		);
+		$this->_saveDatabase(PT_CMS_DB, $this->CMSDatabase);
+		$this->_saveDatabase(PT_USER_DB, $this->userDatabase);
+		$this->_saveDatabase(PT_POST_DB, $this->postDatabase);
+		$this->_saveDatabase(PT_PAGE_DB, $this->pageDatabase);
+		$this->_saveDatabase(PT_SHOP_DB, $this->shopDatabase);
+		$this->_saveDatabase(PT_WIKI_DB, $this->wikiDatabase);
+		$this->_saveDatabase(PT_ORDER_DB, $this->orderDatabase);
+		$this->_saveDatabase(PT_FORUM_DB, $this->forumDatabase);
 	}
 
 	public function postExists($postTitle, $strict = false) {
@@ -311,6 +284,7 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		}
 
 		if (sizeof($this->userDatabase) == 0) {
+			$this->userDatabase = $this->generateUserDB();
 			echo "Unown error occured.<script>window.location.reload();</script>";
 		}
 		return false;

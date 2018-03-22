@@ -13,13 +13,15 @@ class base {
 		$this->CMSConfig = (new \WDGWV\CMS\Config());
 
 		if (isset($_GET['resetDatabase']) && $this->CMSConfig->debug) {
-			array_map('unlink', glob("./data/database/*.db"));
+			echo "Resetting database";
+			$adminURL = $this->CMSConfig->adminURL();
+			array_map('unlink', glob('./data/database/*.db'));
 
 			if (!headers_sent()) {
-				header("location: /?db=clean&debug=true");
+				header(sprintf('location: /%s/?db=clean&debug=true', $adminURL));
 			}
 
-			echo "<script>window.location='/?db=clean&debug=true';</script>";
+			echo sprintf('<script>window.location=\'/%s/?db=clean&debug=true\';</script>', $adminURL);
 		}
 	}
 
@@ -28,13 +30,13 @@ class base {
 	}
 
 	protected function generateUserDB() {
-		return array(
+		return array(array(
 			'username' => 'System', /* Dummy account. impossible to login to it. */
 			'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
 			'userlevel' => 'system',
 			'is_activated' => false,
 			'email' => 'CMS@wdgwv.com',
-		);
+		));
 	}
 
 	protected function generateSystemDB() {
@@ -109,7 +111,7 @@ class base {
 
 					($this->CMSConfig->debug) ? array(
 						'name' => 'reset DB',
-						'url' => sprintf('/%s/?resetDatabase', $this->CMSConfig->adminURL()),
+						'url' => sprintf('/%s/resetDatabase?resetDatabase', $this->CMSConfig->adminURL()),
 					) : $this->noop(),
 
 					($this->CMSConfig->debug) ? array(
