@@ -141,9 +141,8 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 				\WDGWV\CMS\Debugger::sharedInstance()->error("Expected: {$_compressed}");
 				\WDGWV\CMS\Debugger::sharedInstance()->error("Got: " . file_get_contents($databasePath));
 			}
-			echo $error;
 
-			exit;
+			echo $error;
 		}
 	}
 	/**
