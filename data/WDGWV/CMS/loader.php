@@ -101,11 +101,7 @@ $CMS = new WDGWV\CMS\base($_config);
 
 // TEMPORARY
 // TODO: REMOVE ME!!!
-<<<<<<< HEAD
-$regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userLevel' => 100, 'is_admin' => true));
-=======
 $regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userlevel' => 'admin', 'is_admin' => true));
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 // echo ($regi) ? 'Created user' : 'Failed to create';
 if ($regi) {
 	if ($database->userLogin('wdg', 'test')) {
@@ -118,12 +114,7 @@ if ($regi) {
 //$pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0
 
 $database->createPage('home', 'Welcome at the homepage!', 'Welcome,WDGWV,CMS', array('user' => 0));
-<<<<<<< HEAD
-$database->createPage('about', '
-<h1>Welcome to WDGWV CMS</h1>
-=======
 $database->createPage('about', '<h1>Welcome to WDGWV CMS</h1>
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 Some stats:<br />
 <script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script>
 <br />
@@ -138,8 +129,6 @@ Some stats:<br />
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>', 'WDGWV,CMS', array('user' => 0));
-<<<<<<< HEAD
-=======
 $database->createPage('debug', "{php}
 	global \$debugger;
 	if(isset(\$debugger)) {
@@ -149,7 +138,6 @@ $database->createPage('debug', "{php}
 		\$debugger->dumpAllClasses();
 	}
 {/php}", 'WDGWV,CMS,Debug', array('user' => 0, 'userlevel' => 'admin'));
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 // /TEMPORARY
 
 if ($_config->debug) {

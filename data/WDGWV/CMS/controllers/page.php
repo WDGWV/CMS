@@ -22,8 +22,6 @@ class page extends \WDGWV\CMS\controllers\base {
 		return false;
 	}
 
-<<<<<<< HEAD
-=======
 	private function parseUBBTags($input) {
 		if (class_exists('\WDGWV\CMS\controllers\hooks')) {
 			$customHooks = \WDGWV\CMS\controllers\hooks::sharedInstance()->getUBBHooks();
@@ -82,14 +80,11 @@ class page extends \WDGWV\CMS\controllers\base {
 		}
 	}
 
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 	public function displayPage($pageID = 'auto') {
 		$e = explode("/", $_SERVER['REQUEST_URI']);
 		$activeComponent = isset($e[1]) ? strtolower($e[1]) : 'home';
 		$subComponent = isset($e[2]) ? strtolower($e[2]) : '';
 
-<<<<<<< HEAD
-=======
 		if ($activeComponent == 'crossdomain.xml' ||
 			$activeComponent == 'crossdomain_xml') {
 			header("content-type: text/xml");
@@ -104,7 +99,6 @@ class page extends \WDGWV\CMS\controllers\base {
 			exit;
 		}
 
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 		if ($this->CMS->maintenanceMode()) {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Maintenance mode!');
@@ -216,16 +210,12 @@ class page extends \WDGWV\CMS\controllers\base {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Found page in database');
 			}
-<<<<<<< HEAD
-			$this->parser->bindParameter('page', $this->database->loadPage($activeComponent)[1]);
-=======
 			$this->parser->bindParameter('page', sprintf(
 				"%s",
 				$this->parseUBBTags(
 					$this->database->loadPage($activeComponent)[1]
 				)
 			));
->>>>>>> a738cd24bf61e2f485299c35932d37e7fc5079df
 			$this->parser->bindParameter('title', $activeComponent);
 			return;
 		}
