@@ -2,7 +2,7 @@ This is an old experiment, i try to make this a complete functional **cms**.
 with support for webshops, blogs, landingpages *build-in*.
 
 If you want to help, thanks in advance!
-[development version](https://github.com/wdg/WDGWVSS) @wdg
+[development version](https://github.com/wdg/CMS)
 
 ## WHAT TO Do, Test, Create?
 
