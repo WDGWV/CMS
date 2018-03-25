@@ -406,6 +406,16 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 		$this->CMSDatabase['menu'] = $menuItemsArray;
 	}
 
+	public function getTheme() {
+		return isset($this->CMSDatabase->theme) ? $this->CMSDatabase->theme : 'admin';
+	}
+
+	public function setTheme($themeName) {
+		if (file_exists(sprintf('./data/themes/%s', $themeName))) {
+			$this->CMSDatabase->theme = $themeName;
+			// print_r($this->CMSDatabase);
+		}
+	}
 	public function loadMenu() {
 		if (isset($this->CMSDatabase->menu)) {
 			// force downcast stdClass to array.

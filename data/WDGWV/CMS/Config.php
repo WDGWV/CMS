@@ -8,6 +8,7 @@ class Config extends \WDGWV\General\WDGWVFramework {
 
 	public function theme() {
 		// TO RUN NORMAL MODE
+		return \WDGWV\CMS\controllers\databases\plainText::sharedInstance()->getTheme();
 		return 'portal';
 		// TO TEST ADMIN:
 		// return 'admin';
