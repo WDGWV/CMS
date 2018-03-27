@@ -36,4 +36,10 @@ Goals:
 - Leave the application opensource, and public domain
 - Happy users, happy visitors.
 
+---
+
+See also the [openhub page](http://openhub.net/p/WDGWV-CMS)
+
+---
+
 Made with 💙 in 🇳🇱
