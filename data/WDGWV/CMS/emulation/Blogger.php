@@ -25,8 +25,6 @@ class Blogger {
 
 			return $matches[3];
 		}
-
-//    print_r($matches);
 	}
 
 	function bloggerInclude($matches) {
