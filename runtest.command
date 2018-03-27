@@ -1,0 +1,1 @@
+phpunit --bootstrap data/WDGWV/CMS/loader.php data/tests/Unittest.php 
