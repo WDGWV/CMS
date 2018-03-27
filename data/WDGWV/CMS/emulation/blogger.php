@@ -7,15 +7,6 @@ class Blogger {
 	}
 
 	function bloggerLoop($matches) {
-/*
-<b:loop values='data:links' var='link'>
-<b:if cond='data:link.isCurrentPage'>
-<li><a expr:href='data:link.href' class='active'><data:link.title/></a></li>
-<b:else/>
-<li><a expr:href='data:link.href'><data:link.title/></a></li>
-</b:if>
-</b:loop>
- */
 		if ($matches[1] == 'links') {
 			$matches[3] = preg_replace(
 				"#a expr:href#",

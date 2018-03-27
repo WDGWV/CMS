@@ -10,7 +10,7 @@ if (!defined('CMS_TEMPLATE_DIR')) {
 
 class WordPress {
 	/*
-		is this a wordpress theme?!
+		is this a wordpress theme?
 	*/
 	function isWordpress($WPTHEME) {
 		return (
