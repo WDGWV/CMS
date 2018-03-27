@@ -53,7 +53,6 @@
 ------------------------------------------------------------
  */
 
-//TODO: Setup Autoloader.
 function autloadWDGWVCMS($class) {
 	$fileName = str_replace('\\', '/', $class);
 	$fileName = sprintf('./data/%s.php', $fileName);
