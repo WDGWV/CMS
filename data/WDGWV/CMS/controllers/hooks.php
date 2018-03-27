@@ -39,13 +39,14 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 				for ($i = 0; $i < sizeof($this->hookDatabase['url']); $i++) {
 					$safeMatch = $this->hookDatabase['url'][$i]['name'];
 					$safeMatch = preg_replace("/\//", "\\\\/", $safeMatch);
-					if (preg_match("/" . $safeMatch . "/", $_SERVER['REQUEST_URI'])) {
-						if (function_exists($this->hookDatabase['url'][$i]['action'])) {
-							call_user_func($this->hookDatabase['url'][$i]['action']);
-						} else {
-							echo sprintf('"%s" is not a function!', $this->hookDatabase['url'][$i]['action']);
+					if (isset($_SERVER['REQUEST_URI'])) {
+						if (preg_match("/" . $safeMatch . "/", $_SERVER['REQUEST_URI'])) {
+							if (function_exists($this->hookDatabase['url'][$i]['action'])) {
+								call_user_func($this->hookDatabase['url'][$i]['action']);
+							} else {
+								echo sprintf('"%s" is not a function!', $this->hookDatabase['url'][$i]['action']);
+							}
 						}
-
 					}
 				}
 			}
