@@ -14,12 +14,15 @@ if ($installer->isInstalled()) {
 }
 
 if ((new \WDGWV\CMS\config())->debug) {
-	echo "<hr>";
 	if (isset($debugger)) {
+		echo "<hr>";
+		$debugger->log(array("Hooks" => \WDGWV\CMS\controllers\hooks::sharedInstance()->dumpDatabase()));
 		$debugger->logdump();
+		echo "<hr>";
+		$debugger->dumpAllClasses();
+		echo "<hr>";
+		print_r(\WDGWV\CMS\controllers\hooks::sharedInstance()->dumpDatabase());
 	}
-	echo "<hr>";
-	$debugger->dumpAllClasses();
 }
 $CMSEndTime = microtime(true);
 if ((new \WDGWV\CMS\config())->debug) {
