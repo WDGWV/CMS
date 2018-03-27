@@ -50,14 +50,29 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 				}
 			}
 			break;
-		case '_GET':
-			if (isset($this->hookDatabase['_GET'])) {
-				for ($i = 0; $i < sizeof($this->hookDatabase['_GET']); $i++) {
-					if (isset($_GET[$this->hookDatabase['_GET'][$i]['name']])) {
-						if (function_exists($this->hookDatabase['_GET'][$i]['action'])) {
-							call_user_func($this->hookDatabase['_GET'][$i]['action']);
+
+		case 'get':
+			if (isset($this->hookDatabase['get'])) {
+				for ($i = 0; $i < sizeof($this->hookDatabase['get']); $i++) {
+					if (isset($_GET[$this->hookDatabase['get'][$i]['name']])) {
+						if (function_exists($this->hookDatabase['get'][$i]['action'])) {
+							call_user_func($this->hookDatabase['get'][$i]['action']);
 						} else {
-							echo sprintf('"%s" is not a function!', $this->hookDatabase['_GET'][$i]['action']);
+							echo sprintf('"%s" is not a function!', $this->hookDatabase['get'][$i]['action']);
+						}
+					}
+				}
+			}
+			break;
+
+		case 'post':
+			if (isset($this->hookDatabase['post'])) {
+				for ($i = 0; $i < sizeof($this->hookDatabase['post']); $i++) {
+					if (isset($_POST[$this->hookDatabase['post'][$i]['name']])) {
+						if (function_exists($this->hookDatabase['post'][$i]['action'])) {
+							call_user_func($this->hookDatabase['post'][$i]['action']);
+						} else {
+							echo sprintf('"%s" is not a function!', $this->hookDatabase['post'][$i]['action']);
 						}
 					}
 				}
