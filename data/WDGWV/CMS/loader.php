@@ -108,7 +108,6 @@ function setThemeAdmin() {
 
 $hooks->createHook('url', 'setTheme/portal', '\setThemePortal');
 $hooks->createHook('url', 'setTheme/admin', '\setThemeAdmin');
-$hooks->loopHooks(array('get', 'post', 'url'));
 
 $CMS = new WDGWV\CMS\base($_config);
 

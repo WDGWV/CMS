@@ -155,7 +155,7 @@ class Debugger {
 		if ($r) {
 			return $r;
 		} else {
-			echo self::dump($WDGWV_DEBUG);
+			echo $this->dump($WDGWV_DEBUG);
 		}
 
 	}
@@ -167,55 +167,59 @@ class Debugger {
 	public function dumpAllClasses() {
 		$namespaces = array();
 		foreach (get_declared_classes() as $name) {
-			if (preg_match_all("@[^\\\]+(?=\\\)@iU", $name, $matches)) {
-				$ex = explode("\\", $name);
-				for ($i = 0; $i < sizeof($ex); $i++) {
-					if (sizeof($ex) == 4) {
-						if (!isset($namespaces[$ex[0]])) {
-							$namespaces[$ex[0]] = array();
-						}
+			if (preg_match("/\\\/", $name)) {
+				$x = explode("\\", $name);
 
-						if (!isset($namespaces[$ex[0]][$ex[1]])) {
-							$namespaces[$ex[0]][$ex[1]] = array();
-						}
-
-						if (!isset($namespaces[$ex[0]][$ex[1]][$ex[2]])) {
-							$namespaces[$ex[0]][$ex[1]][$ex[2]] = array();
-						}
-
-						if (!in_array($ex[3], $namespaces[$ex[0]][$ex[1]][$ex[2]])) {
-							$namespaces[$ex[0]][$ex[1]][$ex[2]][] = $ex[3];
-						}
-
+				if (isset($x[0]) && !isset($namespaces[$x[0]])) {
+					if (isset($x[1])) {
+						$namespaces[$x[0]] = array();
+					} else {
+						$namespaces[] = $x[0];
 					}
-					if (sizeof($ex) == 3) {
-						if (!isset($namespaces[$ex[0]])) {
-							$namespaces[$ex[0]] = array();
-						}
+				}
 
-						if (!isset($namespaces[$ex[0]][$ex[1]])) {
-							$namespaces[$ex[0]][$ex[1]] = array();
-						}
-
-						if (!in_array($ex[2], $namespaces[$ex[0]][$ex[1]])) {
-							$namespaces[$ex[0]][$ex[1]][] = $ex[2];
-						}
-
+				if (isset($x[1]) && !isset($namespaces[$x[0]][$x[1]])) {
+					if (isset($x[2])) {
+						$namespaces[$x[0]][$x[1]] = array();
+					} else {
+						$namespaces[$x[0]][] = $x[1];
 					}
-					if (sizeof($ex) == 2) {
-						if (!isset($namespaces[$ex[0]])) {
-							$namespaces[$ex[0]] = array();
-						}
+				}
 
-						if (!in_array($ex[1], $namespaces[$ex[0]])) {
-							$namespaces[$ex[0]][] = $ex[1];
-						}
+				if (isset($x[2]) && !isset($namespaces[$x[0]][$x[1]][$x[2]])) {
+					if (isset($x[3])) {
+						$namespaces[$x[0]][$x[1]][$x[2]] = array();
+					} else {
+						$namespaces[$x[0]][$x[1]][] = $x[2];
 					}
-					// Else: Standard classes. ignore.
+				}
+
+				if (isset($x[3]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]])) {
+					if (isset($x[4])) {
+						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]] = array();
+					} else {
+						$namespaces[$x[0]][$x[1]][$x[2]][] = $x[3];
+					}
+				}
+
+				if (isset($x[4]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]])) {
+					if (isset($x[5])) {
+						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]] = array();
+					} else {
+						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][] = $x[4];
+					}
+				}
+
+				if (isset($x[5]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]][$x[5]])) {
+					if (isset($x[6])) {
+						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]][$x[5]] = array("LIMIT REACHED");
+					} else {
+						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]] = $x[5];
+					}
 				}
 			}
 		}
-		echo self::dump($namespaces);
+		echo $this->dump($namespaces);
 	}
 
 	/**
@@ -263,7 +267,7 @@ class Debugger {
 		if (is_resource($var) || $type == 'resource') {
 			if (get_resource_type($var) == 'stream') {
 				$streamData = stream_get_meta_data($var);
-				$ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">Stream</strong> ' . self::dump($streamData, $depth + 1, false);
+				$ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">Stream</strong> ' . $this->dump($streamData, $depth + 1, false);
 			} else {
 				$ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">' . ucfirst(get_resource_type($var)) . '</strong>';
 			}
@@ -288,7 +292,7 @@ class Debugger {
 				$sp = $sp . '&nbsp;&nbsp;&nbsp;&nbsp;';
 
 				foreach ($var as $k => &$v) {
-					$ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . self::dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . self::dump($v, $depth, false);
+					$ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false);
 					$ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
 				}
 				$depth--;
@@ -338,7 +342,7 @@ class Debugger {
 				$objdepth++;
 
 				foreach ($vars as $k => &$v) {
-					$ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . self::dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . self::dump($v, $depth, false, $objdepth);
+					$ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false, $objdepth);
 					$ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
 				}
 
