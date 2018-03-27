@@ -1,5 +1,7 @@
 <?php
-/** WDGWV Template Parser */
+/**
+ * WDGWV Template Parser
+ */
 
 /*
 ------------------------------------------------------------
@@ -60,8 +62,8 @@ namespace WDGWV\General;
  * @version Version 2.0
  * @author Wesley de Groot / WDGWV
  * @copyright 2017 Wesley de Groot / WDGWV
- * @package WDGWV/General
- * @subpackage TemplateParser
+ * @package WDGWV
+ * @subpackage General
  * @link http://www.wesleydegroot.nl © Wesley de Groot
  * @link https://www.wdgwv.com © WDGWV
  */
