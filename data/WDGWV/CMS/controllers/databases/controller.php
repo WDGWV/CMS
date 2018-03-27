@@ -59,7 +59,7 @@ class controller extends \WDGWV\CMS\controllers\databases\base {
 	private $db = false;
 
 	/**
-	 * Call the database
+	 * Call the database controller
 	 * @since Version 1.0
 	 */
 	public static function sharedInstance() {
@@ -74,7 +74,9 @@ class controller extends \WDGWV\CMS\controllers\databases\base {
 
 	/**
 	 * Private so nobody else can instantiate it
+	 * Call the database
 	 *
+	 * @since Version 1.0
 	 */
 	protected function __construct() {
 		parent::__construct();
@@ -83,6 +85,7 @@ class controller extends \WDGWV\CMS\controllers\databases\base {
 		if ($this->db) {
 			if (!is_object($this->db)) {
 				echo "Failed to load database";
+				exit;
 			}
 		}
 	}
@@ -92,7 +95,10 @@ class controller extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function postExists($postTitle, $strict = false) {
-		return $this->db->postExists($postTitle, $strict);
+		return $this->db->postExists(
+			$postTitle,
+			$strict
+		);
 	}
 
 	public function postGetLast() {
@@ -100,55 +106,102 @@ class controller extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0) {
-		return $this->db->postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID);
+		return $this->db->postCreate(
+			$postTitle,
+			$postContents,
+			$postKeywords,
+			$postDate,
+			$postOptions,
+			$postID
+		);
 	}
 
 	public function postLoad($postID, $strict = false) {
-		return $this->db->postLoad($postID, $strict);
+		return $this->db->postLoad(
+			$postID,
+			$strict
+		);
 	}
 
 	public function postRemove($postID) {
-		return $this->db->postRemove($postID);
+		return $this->db->postRemove(
+			$postID
+		);
 	}
 
 	public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions) {
-		return $this->db->editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions);
+		return $this->db->editPost(
+			$postID,
+			$postTitle,
+			$postContents,
+			$postKeywords,
+			$postDate,
+			$postOptions
+		);
 	}
 
 	private function userExists($userID) {
-		return $this->db->userExists($userID);
+		return $this->db->userExists(
+			$userID
+		);
 	}
 
 	public function userLoad($userID) {
-		return $this->db->userLoad($userID);
+		return $this->db->userLoad(
+			$userID
+		);
 	}
 
 	public function userLogin($userID, $userPassword) {
-		return $this->db->userLogin($userID, $userPassword);
+		return $this->db->userLogin(
+			$userID,
+			$userPassword
+		);
 	}
 
 	public function userDelete($userID) {
-		return $this->db->userDelete($userID);
+		return $this->db->userDelete(
+			$userID
+		);
 	}
 
 	public function userRegister($userID, $userPassword, $userEmail, $options = array()) {
-		return $this->db->userRegister($userID, $userPassword, $userEmail, $options);
+		return $this->db->userRegister(
+			$userID,
+			$userPassword,
+			$userEmail,
+			$options
+		);
 	}
 
 	public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0) {
-		return $this->db->createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions, $pageID);
+		return $this->db->createPage(
+			$pageTitle,
+			$pageContents,
+			$pageKeywords,
+			$pageOptions,
+			$pageID
+		);
 	}
 
 	public function pageExists($pageTitleOrID, $strict = false) {
-		return $this->db->pageExists($pageTitleOrID, $strict);
+		return $this->db->pageExists(
+			$pageTitleOrID,
+			$strict
+		);
 	}
 
 	public function loadPage($pageTitleOrID, $strict = false) {
-		return $this->db->loadPage($pageTitleOrID, $strict);
+		return $this->db->loadPage(
+			$pageTitleOrID,
+			$strict
+		);
 	}
 
 	public function setMenuItems($menuItemsArray) {
-		return $this->db->setMenuItems($menuItemsArray);
+		return $this->db->setMenuItems(
+			$menuItemsArray
+		);
 	}
 
 	public function getTheme() {
@@ -156,7 +209,9 @@ class controller extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function setTheme($themeName) {
-		return $this->db->setTheme($themeName);
+		return $this->db->setTheme(
+			$themeName
+		);
 	}
 
 	public function loadMenu() {
