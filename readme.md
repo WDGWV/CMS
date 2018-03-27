@@ -12,15 +12,8 @@ If you want to help, thanks in advance!
 ### Modules
  * [Please see this issue #16](https://github.com/WDGWV/WDGWVSS/issues/16)
 
-### To test
- * Nothing
-
-### Finishing touch
- * [95%] Wordpress layout support.
-
-### Done
- * [100%] Setup Online / Offline
- * [100%] Setup Creator (+ Auto Push to GitHub)
+### Automatic testing
+ * Travis CI will test it.
 
 ---
 
