@@ -90,13 +90,26 @@ $_config = new WDGWV\CMS\Config();
  * @param $debugger class The debugger class
  */
 $debugger = \WDGWV\CMS\Debugger::sharedInstance();
+$hooks = \WDGWV\CMS\controllers\hooks::sharedInstance();
 
 /**
  * Initialize the installer
  * @param $installer class The installer class
  */
 $installer = \WDGWV\CMS\Installer::sharedInstance();
-$database = \WDGWV\CMS\controllers\databases\plainText::sharedInstance();
+$database = \WDGWV\CMS\controllers\databases\controller::sharedInstance();
+
+function setThemePortal() {
+	\WDGWV\CMS\controllers\databases\controller::sharedInstance()->setTheme('portal');
+}
+function setThemeAdmin() {
+	\WDGWV\CMS\controllers\databases\controller::sharedInstance()->setTheme('admin');
+}
+
+$hooks->createHook('url', 'setTheme/portal', '\setThemePortal');
+$hooks->createHook('url', 'setTheme/admin', '\setThemeAdmin');
+$hooks->loopHooks(array('get', 'post', 'url'));
+
 $CMS = new WDGWV\CMS\base($_config);
 
 // TEMPORARY
