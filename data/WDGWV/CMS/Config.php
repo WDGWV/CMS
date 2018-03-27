@@ -6,12 +6,13 @@ class Config extends \WDGWV\General\WDGWVFramework {
 		return 'administration';
 	}
 
+	public function database() {
+		return 'plainText';
+	}
+
 	public function theme() {
-		// TO RUN NORMAL MODE
-		return \WDGWV\CMS\controllers\databases\plainText::sharedInstance()->getTheme();
-		return 'portal';
-		// TO TEST ADMIN:
-		// return 'admin';
+		return \WDGWV\CMS\controllers\databases\controller::sharedInstance()->getTheme();
+
 	}
 
 	/**

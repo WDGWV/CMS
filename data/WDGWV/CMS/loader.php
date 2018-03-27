@@ -97,13 +97,13 @@ $hooks = \WDGWV\CMS\controllers\hooks::sharedInstance();
  * @param $installer class The installer class
  */
 $installer = \WDGWV\CMS\Installer::sharedInstance();
-$database = \WDGWV\CMS\controllers\databases\plainText::sharedInstance();
+$database = \WDGWV\CMS\controllers\databases\controller::sharedInstance();
 
 function setThemePortal() {
-	\WDGWV\CMS\controllers\databases\plainText::sharedInstance()->setTheme('portal');
+	\WDGWV\CMS\controllers\databases\controller::sharedInstance()->setTheme('portal');
 }
 function setThemeAdmin() {
-	\WDGWV\CMS\controllers\databases\plainText::sharedInstance()->setTheme('admin');
+	\WDGWV\CMS\controllers\databases\controller::sharedInstance()->setTheme('admin');
 }
 
 $hooks->createHook('url', 'setTheme/portal', '\setThemePortal');
