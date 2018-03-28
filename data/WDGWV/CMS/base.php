@@ -98,7 +98,7 @@ Come back later ;)<br /><br />
 			);
 		} else {
 			$parser = new \WDGWV\General\templateParser(
-				(new \WDGWV\CMS\Config())->debug,
+				$this->config->debug,
 				null,
 				CMS_TEMPLATE_DIR
 			);
