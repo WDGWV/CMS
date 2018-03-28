@@ -1,8 +1,10 @@
-This is an old experiment, i try to make this a complete functional **cms**.
-with support for webshops, blogs, landingpages *build-in*.
+This is an <s>old</s> experiment, i try to make this a complete functional **cms**.
+with full support for webshops, blogs, landingpages *build-in*.
 
 If you want to help, thanks in advance!
 [development version](https://github.com/wdg/CMS)
+
+![](https://travis-ci.org/WDGWV/CMS.svg?branch=master)
 
 ## WHAT TO Do, Test, Create?
 
@@ -13,7 +15,7 @@ If you want to help, thanks in advance!
  * [Please see this issue #16](https://github.com/WDGWV/WDGWVSS/issues/16)
 
 ### Automatic testing
- * Travis CI will test it.
+ * Travis CI will test it. -> ![](https://travis-ci.org/WDGWV/CMS.svg?branch=master)
 
 ---
 
