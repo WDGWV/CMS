@@ -98,15 +98,28 @@ $hooks = \WDGWV\CMS\controllers\hooks::sharedInstance();
 $installer = \WDGWV\CMS\Installer::sharedInstance();
 $database = \WDGWV\CMS\controllers\databases\controller::sharedInstance();
 
-function setThemePortal() {
-	\WDGWV\CMS\controllers\databases\controller::sharedInstance()->setTheme('portal');
-}
-function setThemeAdmin() {
-	\WDGWV\CMS\controllers\databases\controller::sharedInstance()->setTheme('admin');
-}
-
-$hooks->createHook('url', 'setTheme/portal', '\setThemePortal');
-$hooks->createHook('url', 'setTheme/admin', '\setThemeAdmin');
+$hooks->createHook(
+	'url',
+	'setTheme/portal',
+	array(
+		\WDGWV\CMS\controllers\databases\controller::sharedInstance(),
+		'setTheme',
+	),
+	array(
+		'portal',
+	)
+);
+$hooks->createHook(
+	'url',
+	'setTheme/admin',
+	array(
+		\WDGWV\CMS\controllers\databases\controller::sharedInstance(),
+		'setTheme',
+	),
+	array(
+		'admin',
+	)
+);
 
 $CMS = new WDGWV\CMS\base($_config);
 

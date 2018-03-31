@@ -41,8 +41,11 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 					$safeMatch = preg_replace("/\//", "\\\\/", $safeMatch);
 					if (isset($_SERVER['REQUEST_URI'])) {
 						if (preg_match("/" . $safeMatch . "/", $_SERVER['REQUEST_URI'])) {
-							if (function_exists($this->hookDatabase['url'][$i]['action'])) {
-								call_user_func($this->hookDatabase['url'][$i]['action']);
+							if (is_callable($this->hookDatabase['url'][$i]['action'])) {
+								call_user_func_array(
+									$this->hookDatabase['url'][$i]['action'],
+									$this->hookDatabase['url'][$i]['params']
+								);
 							} else {
 								echo sprintf('"%s" is not a function!', $this->hookDatabase['url'][$i]['action']);
 							}
@@ -56,8 +59,11 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 			if (isset($this->hookDatabase['get'])) {
 				for ($i = 0; $i < sizeof($this->hookDatabase['get']); $i++) {
 					if (isset($_GET[$this->hookDatabase['get'][$i]['name']])) {
-						if (function_exists($this->hookDatabase['get'][$i]['action'])) {
-							call_user_func($this->hookDatabase['get'][$i]['action']);
+						if (is_callable($this->hookDatabase['get'][$i]['action'])) {
+							call_user_func_array(
+								$this->hookDatabase['get'][$i]['action'],
+								$this->hookDatabase['get'][$i]['params']
+							);
 						} else {
 							echo sprintf('"%s" is not a function!', $this->hookDatabase['get'][$i]['action']);
 						}
@@ -70,8 +76,11 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 			if (isset($this->hookDatabase['post'])) {
 				for ($i = 0; $i < sizeof($this->hookDatabase['post']); $i++) {
 					if (isset($_POST[$this->hookDatabase['post'][$i]['name']])) {
-						if (function_exists($this->hookDatabase['post'][$i]['action'])) {
-							call_user_func($this->hookDatabase['post'][$i]['action']);
+						if (is_callable($this->hookDatabase['post'][$i]['action'])) {
+							call_user_func_array(
+								$this->hookDatabase['post'][$i]['action'],
+								$this->hookDatabase['post'][$i]['params']
+							);
 						} else {
 							echo sprintf('"%s" is not a function!', $this->hookDatabase['post'][$i]['action']);
 						}
@@ -86,8 +95,8 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 		}
 	}
 
-	public function createHook($at, $name, $action) {
-		$this->hookDatabase[$at][] = array('name' => $name, 'action' => $action);
+	public function createHook($at, $name, $action, $params = array()) {
+		$this->hookDatabase[$at][] = array('name' => $name, 'action' => $action, 'params' => $params);
 	}
 
 	public function dumpDatabase() {
