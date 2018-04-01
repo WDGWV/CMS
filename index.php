@@ -16,7 +16,7 @@ if ($installer->isInstalled()) {
 if ((new \WDGWV\CMS\config())->debug) {
 	if (isset($debugger)) {
 		echo "<hr>";
-		$debugger->log(array("Hooks" => \WDGWV\CMS\controllers\hooks::sharedInstance()->dumpDatabase()));
+		$debugger->log(array("Hooks" => \WDGWV\CMS\hooks::sharedInstance()->dumpDatabase()));
 		$debugger->logdump();
 		echo "<hr>";
 		$debugger->dumpAllClasses();

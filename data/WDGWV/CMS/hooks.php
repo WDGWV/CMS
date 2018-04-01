@@ -1,7 +1,7 @@
 <?php
-namespace WDGWV\CMS\controllers;
+namespace WDGWV\CMS;
 
-class hooks extends \WDGWV\CMS\controllers\baseProtected {
+class hooks extends \WDGWV\CMS\baseProtected {
 	private $hookDatabase = array();
 
 	/**
@@ -11,7 +11,7 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\controllers\hooks();
+			$inst = new \WDGWV\CMS\hooks();
 		}
 		return $inst;
 	}
@@ -39,8 +39,9 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 				for ($i = 0; $i < sizeof($this->hookDatabase['url']); $i++) {
 					$safeMatch = $this->hookDatabase['url'][$i]['name'];
 					$safeMatch = preg_replace("/\//", "\\\\/", $safeMatch);
+					$safeMatch = preg_replace("/\*/", "(.*)", $safeMatch);
 					if (isset($_SERVER['REQUEST_URI'])) {
-						if (preg_match("/" . $safeMatch . "/", $_SERVER['REQUEST_URI'])) {
+						if (preg_match("/" . $safeMatch . "$/", $_SERVER['REQUEST_URI'])) {
 							if (is_callable($this->hookDatabase['url'][$i]['action'])) {
 								call_user_func_array(
 									$this->hookDatabase['url'][$i]['action'],
@@ -90,7 +91,7 @@ class hooks extends \WDGWV\CMS\controllers\baseProtected {
 			break;
 
 		default:
-			# code...
+			return;
 			break;
 		}
 	}
