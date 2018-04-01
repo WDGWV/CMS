@@ -23,8 +23,8 @@ class page extends \WDGWV\CMS\controllers\base {
 	}
 
 	private function parseUBBTags($input) {
-		if (class_exists('\WDGWV\CMS\controllers\hooks')) {
-			$customHooks = \WDGWV\CMS\controllers\hooks::sharedInstance()->getUBBHooks();
+		if (class_exists('\WDGWV\CMS\hooks')) {
+			$customHooks = \WDGWV\CMS\hooks::sharedInstance()->getUBBHooks();
 		}
 		$uniid = uniqid();
 		$replacer = (isset($customHooks) ? $customHooks : array());

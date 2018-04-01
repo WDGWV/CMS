@@ -17,7 +17,7 @@ class base extends \WDGWV\General\WDGWVFramework {
 			$this->config = new \WDGWV\CMS\Config();
 		}
 
-		\WDGWV\CMS\controllers\hooks::sharedInstance()->loopHooks(array('get', 'post', 'url'));
+		\WDGWV\CMS\hooks::sharedInstance()->loopHooks(array('get', 'post', 'url'));
 	}
 
 	public function database() {
