@@ -215,6 +215,6 @@ class controller extends \WDGWV\CMS\controllers\databases\base {
 	}
 
 	public function loadMenu() {
-		return $this->db->loadMenu();
+		return array_merge($this->db->loadMenu(), \WDGWV\CMS\hooks::sharedInstance()->loopHook('menu'));
 	}
 }

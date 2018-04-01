@@ -99,12 +99,23 @@ class page extends \WDGWV\CMS\controllers\base {
 			exit;
 		}
 
+		if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor(array('post', 'get', 'url'))) {
+			if (class_exists('\WDGWV\CMS\Debugger')) {
+				\WDGWV\CMS\Debugger::sharedInstance()->log('Override page from module');
+			}
+			$pageData = \WDGWV\CMS\hooks::sharedInstance()->loadPageFor(array('post', 'get', 'url'));
+
+			$this->parser->bindParameter('title', $pageData[0]);
+			$this->parser->bindParameter('page', $pageData[1]);
+			return;
+		}
+
 		if ($this->CMS->maintenanceMode()) {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Maintenance mode!');
 			}
 
-			$parser->bindParameter('post', array(
+			$this->parser->bindParameter('post', array(
 				array(
 					"title" => "Maintenance Mode",
 					"content" => "Please wait...",
@@ -123,7 +134,7 @@ class page extends \WDGWV\CMS\controllers\base {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Single page mode!');
 			}
-			$parser->bindParameter('page', $this->CMS->getContent());
+			$this->parser->bindParameter('page', $this->CMS->getContent());
 			return;
 		}
 

@@ -32,6 +32,26 @@ class hooks extends \WDGWV\CMS\baseProtected {
 		}
 	}
 
+	public function haveHooksFor($which) {
+		if (is_array($which)) {
+			for ($i = 0; $i < sizeof($which); $i++) {
+				if (sizeof($this->loopHook($which[$i])) > 0) {
+					return true;
+				}
+			}
+		}
+	}
+
+	public function loadPageFor($which) {
+		if (is_array($which)) {
+			for ($i = 0; $i < sizeof($which); $i++) {
+				if (sizeof(($x = $this->loopHook($which[$i]))) > 0) {
+					return $x;
+				}
+			}
+		}
+	}
+
 	public function loopHook($at) {
 		switch ($at) {
 		case 'url':
@@ -43,12 +63,12 @@ class hooks extends \WDGWV\CMS\baseProtected {
 					if (isset($_SERVER['REQUEST_URI'])) {
 						if (preg_match("/" . $safeMatch . "$/", $_SERVER['REQUEST_URI'])) {
 							if (is_callable($this->hookDatabase['url'][$i]['action'])) {
-								call_user_func_array(
+								return call_user_func_array(
 									$this->hookDatabase['url'][$i]['action'],
 									$this->hookDatabase['url'][$i]['params']
 								);
 							} else {
-								echo sprintf('"%s" is not a function!', $this->hookDatabase['url'][$i]['action']);
+								echo sprintf('"%s" is not a function!', $this->hookDatabase['url'][$i]['action'][1]);
 							}
 						}
 					}
@@ -61,12 +81,12 @@ class hooks extends \WDGWV\CMS\baseProtected {
 				for ($i = 0; $i < sizeof($this->hookDatabase['get']); $i++) {
 					if (isset($_GET[$this->hookDatabase['get'][$i]['name']])) {
 						if (is_callable($this->hookDatabase['get'][$i]['action'])) {
-							call_user_func_array(
+							return call_user_func_array(
 								$this->hookDatabase['get'][$i]['action'],
 								$this->hookDatabase['get'][$i]['params']
 							);
 						} else {
-							echo sprintf('"%s" is not a function!', $this->hookDatabase['get'][$i]['action']);
+							echo sprintf('"%s" is not a function!', $this->hookDatabase['get'][$i]['action'][1]);
 						}
 					}
 				}
@@ -78,16 +98,26 @@ class hooks extends \WDGWV\CMS\baseProtected {
 				for ($i = 0; $i < sizeof($this->hookDatabase['post']); $i++) {
 					if (isset($_POST[$this->hookDatabase['post'][$i]['name']])) {
 						if (is_callable($this->hookDatabase['post'][$i]['action'])) {
-							call_user_func_array(
+							return call_user_func_array(
 								$this->hookDatabase['post'][$i]['action'],
 								$this->hookDatabase['post'][$i]['params']
 							);
 						} else {
-							echo sprintf('"%s" is not a function!', $this->hookDatabase['post'][$i]['action']);
+							echo sprintf('"%s" is not a function!', $this->hookDatabase['post'][$i]['action'][1]);
 						}
 					}
 				}
 			}
+			break;
+
+		case 'menu':
+			$_temporaryArray = array();
+			if (sizeof($this->hookDatabase['menu']) > 0) {
+				for ($i = 0; $i < sizeof($this->hookDatabase['menu']); $i++) {
+					$_temporaryArray[] = $this->hookDatabase['menu'][$i]['action'];
+				}
+			}
+			return $_temporaryArray;
 			break;
 
 		default:
