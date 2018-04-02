@@ -15,6 +15,8 @@ class Config extends \WDGWV\General\WDGWVFramework {
 
 	}
 
+	//first time generation of keys -> random_bytes
+
 	/**
 	 * DO NOT CHANGE BELOW
 	 */

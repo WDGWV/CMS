@@ -1,4 +1,12 @@
 <?php
+/**
+ * WDGWV CMS Module file.
+ * Full access: false
+ * Module: Test module
+ * Version: 1.0
+ * Description: This is a simple test for a module file.
+ */
+
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -

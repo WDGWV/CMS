@@ -112,6 +112,10 @@ class modules {
 		$this->_reloadModules();
 	}
 
+	public function _displayModuleList() {
+		return $this->loadModules;
+	}
+
 	private function _loadModules() {
 		$f = json_decode(
 			gzuncompress(
@@ -134,6 +138,72 @@ class modules {
 		}
 
 		$this->loadModules = $f;
+	}
+
+	public function information($ofModuleNameOrFilePath) {
+		if (!file_exists($ofModuleNameOrFilePath)) {
+			// Scanning files.
+			echo "Unown file.";
+			return;
+		}
+
+		return $this->parseInformation($ofModuleNameOrFilePath);
+	}
+
+	private function match($exp1, $exp2) {
+		$fixedExpression = $exp1;
+		if (substr($fixedExpression, 0, 1) === ' ') {
+			$fixedExpression = substr($fixedExpression, 1);
+		}
+
+		return (substr($fixedExpression, 0, strlen($exp2)) == $exp2);
+	}
+
+	private function parseInformation($ofModulePath) {
+		/**
+		 * (EXAMPLE)
+		 *
+		 * WDGWV CMS Required file.
+		 * Full access: true
+		 * Module: Update
+		 * Version: 1.0
+		 * Description: Updates WDGWV CMS
+		 * Hash: * INSERT HASH HERE *
+		 */// Needs to be on top of the file.
+
+		$moduleInfo = array();
+		if (file_exists($ofModulePath)) {
+			$fc = file_get_contents($ofModulePath);
+			if ($fc) {
+				$fe = explode('*/', $fc)[0];
+				$fe = explode('/*', $fe)[1];
+				$fe = explode(PHP_EOL, $fe);
+				foreach ($fe as $informationDict) {
+					if ($this->match($informationDict, "* ") && strlen($informationDict) > 3) {
+						$ex = explode(": ", $informationDict);
+						if (!isset($ex[1])) {
+							continue;
+						}
+
+						$safeName = explode(' * ', $ex[0])[1];
+						$safeName = preg_replace('/ /', '_', $safeName);
+						$safeName = preg_replace('/:/', '_', $safeName);
+						$safeName = strtolower($safeName);
+
+						$moduleInfo[$safeName] = $ex[1];
+					}
+				}
+
+				return $moduleInfo;
+			} else {
+				echo "Error reading file";
+			}
+		}
+	}
+	public function _forceReloadModules() {
+		unset($this->loadModules);
+		unlink($this->cacheDB);
+		$this->_reloadModules();
 	}
 
 	private function _reloadModules() {
