@@ -1,0 +1,12 @@
+
+              <div class="col-lg-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    Test module: 'update'.
+                  </div>
+                  <div class="panel-body">
+                    <?php echo base64_decode('This is an example of a test module, which adds an item to the menu, and can display a page.<br />And many more!to use localization use \__('the string which need to be translated')'); ?>
+                  </div>
+                </div>
+              </div>
+              

@@ -94,25 +94,26 @@ class update extends \WDGWV\CMS\extensionBase {
 	}
 
 	public function _display() {
-		$page = 'This is an example of a test module, which adds an item to the menu, and can display a page.<br />And many more!' .
-			'to use localization use \__(\'the string which need to be translated\')';
+		$page = array();
+		$page[] = array(
+			'Test module: \'update\'.',
+			'This is an example of a test module, which adds an item to the menu, and can display a page.<br />And many more!' .
+			'to use localization use \__(\'the string which need to be translated\')');
 
 		for ($i = 0; $i < sizeof($this->moduleList); $i++) {
-			$page .= $this->moduleList[$i];
-			$page .= '<table>';
+			$page1 = $this->moduleList[$i];
+			$page1 .= '<table>';
 			foreach (\WDGWV\CMS\modules::sharedInstance()->information($this->moduleList[$i]) as $info => $value) {
-				$page .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
+				$page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
 			};
-			$page .= '</table>';
-			$page .= "<hr />";
+			$page1 .= '</table>';
+
+			$page[] = array($this->moduleList[$i], $page1);
 		}
 
-		$page .= sprintf('<a href=\'/%s/modules/reindex\'>Force reindex modules</a>', (new \WDGWV\CMS\Config)->adminURL());
+		$page[] = array('reindex', sprintf('<a href=\'/%s/modules/reindex\'>Force reindex modules</a>', (new \WDGWV\CMS\Config)->adminURL()));
 
-		return array(
-			'Test module: \'update\'.',
-			$page,
-		);
+		return $page;
 	}
 }
 

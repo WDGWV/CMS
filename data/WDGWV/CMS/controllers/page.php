@@ -104,8 +104,27 @@ class page extends \WDGWV\CMS\controllers\base {
 			}
 			$pageData = \WDGWV\CMS\hooks::sharedInstance()->loadPageFor(array('post', 'get', 'url'));
 
-			$this->parser->bindParameter('title', $pageData[0]);
-			$this->parser->bindParameter('page', $pageData[1]);
+			if (sizeof($pageData) == 2) {
+				$this->parser->bindParameter('title', $pageData[0]);
+				$this->parser->bindParameter('page', $pageData[1]);
+			} else {
+				// Blog style.
+				$tempArray = array();
+
+				for ($i = 0; $i < sizeof($pageData); $i++) {
+					$tempArray[] = array(
+						"title" => $pageData[$i][0],
+						"content" => base64_encode($pageData[$i][1]),
+						"date" => date("d-m-Y"),
+						"comments" => null,
+						"shares" => null,
+						"readmore" => null,
+						"keywords" => null,
+					);
+				}
+
+				$this->parser->bindParameter('post', $tempArray);
+			}
 			return;
 		}
 
@@ -117,7 +136,7 @@ class page extends \WDGWV\CMS\controllers\base {
 			$this->parser->bindParameter('post', array(
 				array(
 					"title" => "Maintenance Mode",
-					"content" => "Please wait...",
+					"content" => base64_encode("Please wait..."),
 					"date" => date("d-m-Y"),
 					"comments" => null,
 					"shares" => null,
