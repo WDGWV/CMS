@@ -50,7 +50,7 @@
 
 namespace WDGWV\CMS\Modules; /* Module namespace */
 
-class module extends \WDGWV\CMS\extensionBase {
+class update extends \WDGWV\CMS\extensionBase {
 	/**
 	 * Call the sharedInstance
 	 * @since Version 1.0
@@ -58,7 +58,7 @@ class module extends \WDGWV\CMS\extensionBase {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\Modules\module();
+			$inst = new \WDGWV\CMS\Modules\update();
 		}
 		return $inst;
 	}
@@ -73,7 +73,7 @@ class module extends \WDGWV\CMS\extensionBase {
 
 	public function _display() {
 		return array(
-			'Test module: \'module\'.',
+			'Test module: \'update\'.',
 			'This is an example of a test module, which adds an item to the menu, and can display a page.<br />And many more!' .
 			('to use localization use \__(\'the string which need to be translated\')'),
 		);
@@ -82,18 +82,18 @@ class module extends \WDGWV\CMS\extensionBase {
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
-	'module',
+	'administration/update',
 	array(
-		'name' => 'module',
-		'icon' => 'pencil',
-		'url' => '/module',
-		'userlevel' => '*',
+		'name' => 'Administration/Update (1)',
+		'icon' => 'cogs',
+		'url' => sprintf('/%s/update', (new \WDGWV\CMS\Config)->adminURL()),
+		'userlevel' => 'admin',
 	)
 );
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'url',
-	'/module', // Supports also /calendar/i*cs and then /calendar/ixcs works also
-	array(module::sharedInstance(), '_display')
+	sprintf('/%s/update', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(update::sharedInstance(), '_display')
 );
 ?>

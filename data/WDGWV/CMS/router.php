@@ -15,7 +15,7 @@ class router {
 				$router[$address] = $action;
 			} else {
 				if (isset($debugger)) {
-					$debugger->error(sprintf("Function \"%s\" does not exists", $action))
+					$debugger->error(sprintf("Function \"%s\" does not exists", $action));
 				}
 			}
 		}

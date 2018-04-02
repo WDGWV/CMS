@@ -638,6 +638,27 @@ class templateParser {
 
 		if (isset($this->config['menuContents'])) {
 			foreach ($this->config['menuContents'] as $i => $data) {
+				if (preg_match("/\//", $data['name'])) {
+					$e = explode("/", $data['name']);
+
+					foreach ($this->config['menuContents'] as $seeki => $seekData) {
+						if (strtolower($seekData['name']) == strtolower($e[0])) {
+							if (is_array($seekData['submenu'])) {
+								$newData = $data;
+								$newData['name'] = $e[1];
+
+								$this->config['menuContents'][$seeki]['submenu'][] = $newData;
+								unset($this->config['menuContents'][$i]);
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		if (isset($this->config['menuContents'])) {
+			foreach ($this->config['menuContents'] as $i => $data) {
 				// Walk trough items.
 				global $lang;
 
@@ -670,6 +691,10 @@ class templateParser {
 
 									$this->config['generatedMenu'] .= $addItem;
 								} else {
+									echo "<pre>";
+									print_r($this->config['menuContents']);
+									echo "</pre>";
+
 									$this->fatalError("Invalid submenu data.");
 								}
 							}
