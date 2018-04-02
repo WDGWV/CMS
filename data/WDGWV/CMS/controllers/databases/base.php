@@ -131,16 +131,6 @@ class base {
 						'name' => 'Theme = admin',
 						'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
 					) : $this->noop(),
-
-					array(
-						'name' => ' ',
-					),
-
-					array(
-						'name' => 'Update (%s)',
-						'url' => sprintf('/%s/update', $this->CMSConfig->adminURL()),
-						'icon' => 'cogs',
-					),
 				), //.. later
 			),
 			array(

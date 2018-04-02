@@ -82,6 +82,14 @@ class update extends \WDGWV\CMS\extensionBase {
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
+	'administration/ ',
+	array(
+		'name' => 'Administration/ ',
+	)
+);
+
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'menu',
 	'administration/update',
 	array(
 		'name' => 'Administration/Update (1)',

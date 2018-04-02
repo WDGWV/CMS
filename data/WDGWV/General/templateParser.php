@@ -531,6 +531,7 @@ class templateParser {
 		if (is_writable('./data/') && !file_exists('./data/temp')) {
 			@mkdir('./data/temp/');
 		}
+
 		if (is_writable('./data/temp/')) {
 			$fh = @fopen('./data/temp/tmp_tpl_' . $uniid . '.bin', 'w');
 			@fwrite($fh, $template);
@@ -619,7 +620,7 @@ class templateParser {
 								'Missing a replacement key in a while-loop!<br />',
 								'While loop: <b>{$d[1]}</b><br />',
 								'Confirm existence for least one of the following keys: <b>',
-								implode(',', $_keys)
+								implode(', ', $_keys)
 							));
 						}
 
@@ -884,6 +885,7 @@ class templateParser {
 			'/for \(/', // removes unnecessary whitespace (saves: 1 byte)
 			'/\) \{/', // removes unnecessary whitespace (saves: 1 byte)
 		);
+
 		if ($this->config['hidecomments']) {
 			$search[] = '/<!--(.|\s)*?-->/'; // Remove HTML comments (saves: many bytes)
 		}
@@ -911,6 +913,7 @@ class templateParser {
 			'for(',
 			'){',
 		);
+
 		if ($this->config['hidecomments']) {
 			$replace[] = '';
 		}
