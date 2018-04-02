@@ -1,5 +1,5 @@
 # WDGWV CMS
-![](https://travis-ci.org/WDGWV/CMS.svg?branch=master) | [development version](https://github.com/wdg/CMS)
+![](https://travis-ci.org/WDGWV/CMS.svg?branch=master) | [development version](https://github.com/wdg/CMS) | [openhub page](http://openhub.net/p/WDGWV-CMS) | Made with 💙 in 🇳🇱
 
 This is an <s>old</s> experiment, i try to make this a complete functional **cms**.
 with full support for webshops, blogs, landingpages *build-in*.
