@@ -1,10 +1,11 @@
+# WDGWV CMS
+![](https://travis-ci.org/WDGWV/CMS.svg?branch=master) | [development version](https://github.com/wdg/CMS)
+
 This is an <s>old</s> experiment, i try to make this a complete functional **cms**.
 with full support for webshops, blogs, landingpages *build-in*.
 
 If you want to help, thanks in advance!
-[development version](https://github.com/wdg/CMS)
 
-![](https://travis-ci.org/WDGWV/CMS.svg?branch=master)
 
 ## WHAT TO Do, Test, Create?
 
@@ -32,7 +33,7 @@ Goals:
 - Happy users, happy visitors.
 
 ---
-
+w
 See also the [openhub page](http://openhub.net/p/WDGWV-CMS)
 
 ---
