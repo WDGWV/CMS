@@ -2,7 +2,6 @@
 namespace WDGWV\CMS\controllers;
 
 class page extends \WDGWV\CMS\controllers\base {
-	// private static $databaseConnection = '';
 	private $parser = '';
 	private $database = '';
 	private $CMS = '';

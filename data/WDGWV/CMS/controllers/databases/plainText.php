@@ -412,8 +412,9 @@ class plainText extends \WDGWV\CMS\controllers\databases\base {
 
 	public function setTheme($themeName) {
 		if (file_exists(sprintf('./data/themes/%s', $themeName))) {
-			$this->CMSDatabase->theme = $themeName;
-			// print_r($this->CMSDatabase);
+			if (isset($this->CMSDatabase->theme)) {
+				$this->CMSDatabase->theme = $themeName;
+			}
 		}
 	}
 	public function loadMenu() {

@@ -306,103 +306,154 @@ class templateParser {
 			);
 		}
 
+		/**
+		 * Support for "{if X}"
+		 */
 		$template = preg_replace(
 			'/\{if (.*)\}/',
 			'<?php if (\\1) { ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{else}"
+		 */
 		$template = preg_replace(
 			'/\{else\}/',
 			'<?php }else{ ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{/if}"
+		 */
 		$template = preg_replace(
 			'/\{\/if\}/',
 			'<?php } ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{/endif}"
+		 */
 		$template = preg_replace(
 			'/\{endif\}/',
 			'<?php } ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{elseif}"
+		 */
 		$template = preg_replace(
 			'/\{elseif (.*)\}/',
 			'<?php } elseif (\\1) { ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{debug}X{/debug}"
+		 */
 		$template = preg_replace(
 			'/\{debug}(.*)\{\/debug\}/s',
 			$this->config['debug'] ? '\\1' : '',
 			$template
 		);
 
+		/**
+		 * Support for "{!debug}X{/!debug}"
+		 */
 		$template = preg_replace(
 			'/\{\!debug}(.*)\{\/\!debug\}/s',
 			!$this->config['debug'] ? '\\1' : '',
 			$template
 		);
 
+		/**
+		 * Support for "{for X}X{/for}"
+		 */
 		$template = preg_replace_callback(
 			'/\{for (\w+)\}(.*)\{\/for\}/s',
 			array($this, '__parseArray'),
 			$template
 		);
 
+		/**
+		 * Support for "{while X}X{/while}"
+		 * Support for "{while X}X{/wend}"
+		 */
 		$template = preg_replace_callback(
 			'/\{while (\w+)\}(.*)\{\/(while|wend)\}/s',
 			array($this, '__parseWhile'),
 			$template
 		);
 
+		/**
+		 * Support for "{TEMPLATE LOAD:X CONFIG:X}"
+		 */
 		$template = preg_replace_callback(
 			'/\{TEMPLATE LOAD:\'(.*)\' CONFIG:\'(.*)\'\}/',
 			array($this, '__parse'),
 			$template
 		);
 
+		/**
+		 * Support for "{TEMPLATE LOAD:X}"
+		 */
 		$template = preg_replace_callback(
 			"/\{TEMPLATE LOAD:'(.*)'\}/",
 			array($this, '__parse'),
 			$template
 		);
 
+		/**
+		 * Support for "{GENERATE menu}x{/GENERATE}"
+		 */
 		$template = preg_replace_callback(
 			"/\{GENERATE menu\}(.*)\{\/(GENERATE)\}/s",
 			array($this, '__parseMenu'),
 			$template
 		);
 
+		/**
+		 * Support for "{PHP command}"
+		 */
 		$template = preg_replace(
 			'/\{PHP (.*)\}/', //Dangerous, do not use if you don't know what you are doing
 			'<?php \\1 ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{PHP}x{/PHP}"
+		 */
 		$template = preg_replace(
 			'/\{PHP\}(.*)\{\/PHP\}/s', //Dangerous, do not use if you don't know what you are doing
 			'<?php \\1 ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{DECODE:x}"
+		 */
 		$template = preg_replace(
 			'/\{DECODE:(.*?)\}/',
 			'<?php echo base64_decode(\'\\1\'); ?>',
 			$template
 		);
 
+		/**
+		 * Support for "{#x#}"
+		 */
 		$template = preg_replace(
 			'/\{#(.*?)#\}/',
 			'<?php if(function_exists(\'__\')) { echo __(\'\\1\'); }else{ echo \'\\1\'; } ?>',
 			$template
 		);
 
-		// script src="./" support
+		/*
+			 * script src="./" support
+		*/
 		if ($this->config['CDN'] === null) {
 			$template = preg_replace(
 				'/<script(.*)src=("|\')\.\//',
@@ -417,7 +468,9 @@ class templateParser {
 			);
 		}
 
-		// link href="./" support
+		/*
+			 * link href="./" support
+		*/
 		if ($this->config['CDN'] === null) {
 			$template = preg_replace(
 				'/<link(.*)href=("|\')\.\//',
@@ -432,6 +485,9 @@ class templateParser {
 			);
 		}
 
+		/**
+		 * Support for "{ISSET ITEM:X}X{/ISSET}"
+		 */
 		$template = preg_replace_callback(
 			'/\{ISSET ITEM:(\w+)\}(.*)\{\/ISSET\}/',
 			array($this, '__validParameter'),
@@ -475,6 +531,7 @@ class templateParser {
 		if (is_writable('./data/') && !file_exists('./data/temp')) {
 			@mkdir('./data/temp/');
 		}
+
 		if (is_writable('./data/temp/')) {
 			$fh = @fopen('./data/temp/tmp_tpl_' . $uniid . '.bin', 'w');
 			@fwrite($fh, $template);
@@ -563,7 +620,7 @@ class templateParser {
 								'Missing a replacement key in a while-loop!<br />',
 								'While loop: <b>{$d[1]}</b><br />',
 								'Confirm existence for least one of the following keys: <b>',
-								implode(',', $_keys)
+								implode(', ', $_keys)
 							));
 						}
 
@@ -638,7 +695,27 @@ class templateParser {
 
 		if (isset($this->config['menuContents'])) {
 			foreach ($this->config['menuContents'] as $i => $data) {
-				// Walk trough items.
+				if (preg_match("/\//", $data['name'])) {
+					$e = explode("/", $data['name']);
+
+					foreach ($this->config['menuContents'] as $seeki => $seekData) {
+						if (strtolower($seekData['name']) == strtolower($e[0])) {
+							if (is_array($seekData['submenu'])) {
+								$newData = $data;
+								$newData['name'] = $e[1];
+
+								$this->config['menuContents'][$seeki]['submenu'][] = $newData;
+								unset($this->config['menuContents'][$i]);
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		if (isset($this->config['menuContents'])) {
+			foreach ($this->config['menuContents'] as $i => $data) {
 				global $lang;
 
 				if (!is_array($data)) {
@@ -650,11 +727,30 @@ class templateParser {
 						$addItem = $generalMenuItem;
 					}
 
-					$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($data['name']) : $data['name']), $addItem);
-					$addItem = preg_replace("/\{ICON\}/", (isset($data['icon']) ? $data['icon'] : ''), $addItem);
+					$addItem = preg_replace(
+						"/\{NAME\}/", (
+							function_exists('__')
+							? __($data['name'])
+							: $data['name']
+						), $addItem
+					);
+
+					$addItem = preg_replace(
+						"/\{ICON\}/", (
+							isset($data['icon'])
+							? $data['icon']
+							: ''
+						), $addItem
+					);
 
 					if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
-						$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", isset($data['url']) ? $data['url'] : '#', $addItem);
+						$addItem = preg_replace(
+							"/\{(HREF|LINK|URL)\}/", (
+								isset($data['url'])
+								? $data['url']
+								: '#'
+							), $addItem
+						);
 					}
 
 					$this->config['generatedMenu'] .= $addItem;
@@ -664,12 +760,34 @@ class templateParser {
 							foreach ($data['submenu'] as $ii => $subData) {
 								if (is_array($subData)) {
 									$addItem = $subMenuItem;
-									$addItem = preg_replace("/\{NAME\}/", (function_exists('__') ? __($subData['name']) : $subData['name']), $addItem);
-									$addItem = preg_replace("/\{ICON\}/", (isset($subData['icon']) ? $subData['icon'] : ''), $addItem);
-									$addItem = preg_replace("/\{(HREF|LINK|URL)\}/", isset($subData['url']) ? $subData['url'] : '#', $addItem);
+									$addItem = preg_replace(
+										"/\{NAME\}/", (
+											function_exists('__')
+											? __($subData['name'])
+											: $subData['name']
+										), $addItem
+									);
+									$addItem = preg_replace(
+										"/\{ICON\}/", (
+											isset($subData['icon'])
+											? $subData['icon']
+											: ''
+										), $addItem
+									);
+									$addItem = preg_replace(
+										"/\{(HREF|LINK|URL)\}/", (
+											isset($subData['url'])
+											? $subData['url']
+											: '#'
+										), $addItem
+									);
 
 									$this->config['generatedMenu'] .= $addItem;
 								} else {
+									echo "<pre>";
+									print_r($this->config['menuContents']);
+									echo "</pre>";
+
 									$this->fatalError("Invalid submenu data.");
 								}
 							}
@@ -767,6 +885,7 @@ class templateParser {
 			'/for \(/', // removes unnecessary whitespace (saves: 1 byte)
 			'/\) \{/', // removes unnecessary whitespace (saves: 1 byte)
 		);
+
 		if ($this->config['hidecomments']) {
 			$search[] = '/<!--(.|\s)*?-->/'; // Remove HTML comments (saves: many bytes)
 		}
@@ -794,6 +913,7 @@ class templateParser {
 			'for(',
 			'){',
 		);
+
 		if ($this->config['hidecomments']) {
 			$replace[] = '';
 		}

@@ -127,7 +127,11 @@ class hooks extends \WDGWV\CMS\baseProtected {
 	}
 
 	public function createHook($at, $name, $action, $params = array()) {
-		$this->hookDatabase[$at][] = array('name' => $name, 'action' => $action, 'params' => $params);
+		$this->hookDatabase[$at][] = array(
+			'name' => $name,
+			'action' => $action,
+			'params' => $params,
+		);
 	}
 
 	public function dumpDatabase() {
