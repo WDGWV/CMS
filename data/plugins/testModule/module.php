@@ -58,7 +58,7 @@
 
 namespace WDGWV\CMS\Modules; /* Module namespace */
 
-class module extends \WDGWV\CMS\extensionBase {
+class testModule extends \WDGWV\CMS\extensionBase {
 	/**
 	 * Call the sharedInstance
 	 * @since Version 1.0
@@ -66,7 +66,7 @@ class module extends \WDGWV\CMS\extensionBase {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\Modules\module();
+			$inst = new \WDGWV\CMS\Modules\testModule();
 		}
 		return $inst;
 	}
@@ -80,28 +80,30 @@ class module extends \WDGWV\CMS\extensionBase {
 	}
 
 	public function _display() {
-		return array(
+		$page = array(
 			'Test module: \'module\'.',
-			'This is an example of a test module, which adds an item to the menu, and can display a page.<br />And many more!' .
-			('to use localization use \__(\'the string which need to be translated\')'),
+			'This is an example of a test module, which adds an item to the menu, and can display a page.<br />And many more!<br />' .
+			'to use localization use \__(\'the string which need to be translated\')',
 		);
+
+		return $page;
 	}
 }
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
-	'module',
+	'test module',
 	array(
-		'name' => 'module',
+		'name' => 'test module',
 		'icon' => 'pencil',
-		'url' => '/module',
+		'url' => '/testModule',
 		'userlevel' => '*',
 	)
 );
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'url',
-	'/module', // Supports also /calendar/i*cs and then /calendar/ixcs works also
-	array(module::sharedInstance(), '_display')
+	'/testModule', // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(testModule::sharedInstance(), '_display')
 );
 ?>

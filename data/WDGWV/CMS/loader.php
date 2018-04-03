@@ -154,15 +154,6 @@ Some stats:<br />
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>', 'WDGWV,CMS', array('user' => 0));
-$database->createPage('debug', "{php}
-	global \$debugger;
-	if(isset(\$debugger)) {
-		echo('<hr>');
-		\$debugger->logdump();
-		echo('<hr>');
-		\$debugger->dumpAllClasses();
-	}
-{/php}", 'WDGWV,CMS,Debug', array('user' => 0, 'userlevel' => 'admin'));
 // /TEMPORARY
 
 if ($_config->debug) {
