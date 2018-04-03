@@ -12,10 +12,10 @@ class Config extends \WDGWV\General\WDGWVFramework {
 
 	public function theme() {
 		return \WDGWV\CMS\controllers\databases\controller::sharedInstance()->getTheme();
-
 	}
 
 	//first time generation of keys -> random_bytes
+	// echo preg_replace('/=/', null, base64_encode(random_bytes(25)));
 
 	/**
 	 * DO NOT CHANGE BELOW
