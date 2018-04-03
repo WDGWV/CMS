@@ -51,9 +51,30 @@ namespace WDGWV\CMS;
  */
 
 class base extends \WDGWV\General\WDGWVFramework {
+	/**
+	 * The configuration
+	 * @global
+	 * @access private
+	 * @var mixed[] The configuration
+	 * @since Version 1.0
+	 */
 	private $config;
+
+	/**
+	 * The emulation controllers
+	 * @global
+	 * @access private
+	 * @var object[] Emulation controllers
+	 * @since Version 1.0
+	 */
 	private $emulation;
 
+	/**
+	 * Construct
+	 * @param array $customConfiguration CustomConfiguration
+	 * @since Version 1.0
+	 * @return void
+	 */
 	function __construct($customConfiguration = false) {
 		$this->emulation = array(
 			'Blogger' => new \WDGWV\CMS\emulation\Blogger(),
@@ -69,61 +90,102 @@ class base extends \WDGWV\General\WDGWVFramework {
 		\WDGWV\CMS\hooks::sharedInstance()->loopHooks(array('get', 'post', 'url'));
 	}
 
+	/**
+	 * Database
+	 * @since Version 1.0
+	 * @return Object Database
+	 */
 	public function database() {
-		// ...
+		return \\WDGWV\CMS\controllers\databases\controller::sharedInstance();
 	}
 
+	/**
+	 * Menu
+	 * @since Version 1.0
+	 * @return array menu
+	 */
 	public function menu() {
 		return $this->config->menu();
 	}
 
+	/**
+	 * getTheme
+	 * @since Version 1.0
+	 * @return string theme
+	 */
 	public function getTheme() {
 		return $this->config->theme();
 	}
 
+	/**
+	 * getPageName
+	 * @since Version 1.0
+	 * @return string page name
+	 */
 	public function getPageName() {
 		return $this->config->pagename();
 	}
 
+	/**
+	 * getTitle
+	 * @since Version 1.0
+	 * @return string 'WDGWV CMS'
+	 */
 	public function getTitle() {
 		return 'WDGWV CMS'; // Wordpress....
 	}
 
+	/**
+	 * maintenanceMode
+	 * @since Version 1.0
+	 * @return bool false (needs to be database powered)
+	 */
 	public function maintenanceMode() {
-		return false;
+		return false; //TODO: From database
 	}
 
+	/**
+	 * singlePage
+	 * @since Version 1.0
+	 * @return bool false (needs to be database powered)
+	 */
 	public function singlePage() {
-		return false;
+		return false; //TODO: From database
 	}
 
+	/**
+	 * getDescription
+	 * @since Version 1.0
+	 * @return string 'testing!'
+	 */
 	public function getDescription() {
-		return 'testing! the new WDGWV CMS!!!';
+		return 'testing!'; //TODO: From database
 	}
 
+	/**
+	 * getSlogan
+	 * @since Version 1.0
+	 * @return string 'test'
+	 */
 	public function getSlogan() {
-		return 'This is the page of the new WDGWV cms Version ' . WDGWV_getVersion() . '!';
+		return 'test'; //TODO: From database
 	}
 
+	/**
+	 * getContent
+	 * @since Version 1.0
+	 * @return string 'Page'
+	 */
 	public function getContent() {
-		//WDGWV_Parser
-		return 'Here you\'ll find some statics about this project, for now al the pages are static, and not yet changeable.<br />
-Come back later ;)<br /><br />
-<table><tr><td><script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script></td><td>
-<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_cocomo.js"></script></tr></table>
-<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_users.js?style=blue"></script>
-<br /><br />
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- ONDERAAN -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:728px;height:90px"
-     data-ad-client="ca-pub-5555094756467155"
-     data-ad-slot="1975252506"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>';
+		//TODO: From Controllers/page
+		return 'Sorry, i will come later';
 	}
 
+	/**
+	 * getFooter
+	 * @since Version 1.0
+	 * @return string 'Copyright YEAR PAGENAME, Powered by WDGWV CMS. All rights reserved'
+	 */
 	public function getFooter() {
 		return sprintf(
 			'%s&#32;&#169;&#32;%s&#32;%s&#32;%s&#32;<a href=\'https://www.wdgwv.com/products/cms\' target=\'_blank\'>&#87;&#68;&#71;&#87;&#86;&#32;&#67;&#77;&#83;</a>,&#32;%s&#46;',
@@ -135,6 +197,13 @@ Come back later ;)<br /><br />
 		);
 	}
 
+	/**
+	 * Serve
+	 * Serve the page
+	 * 
+	 * @since Version 1.0
+	 * @return void
+	 */
 	public function serve() {
 		global $database;
 		if ($this->emulation['Blogger']->isBlogger($this->getTheme())) {
@@ -189,6 +258,13 @@ Come back later ;)<br /><br />
 		}
 	}
 
+	/**
+	 * h
+	 * CHR to ORD. (&#ORD;) for HTML-encoded messages.
+	 * @param string $s String to encode
+	 * @since Version 1.0
+	 * @return string encoded string
+	 */
 	private function h($s) {
 		$out = '';
 		for ($i = 0;isset($s[$i]); $i++) {
