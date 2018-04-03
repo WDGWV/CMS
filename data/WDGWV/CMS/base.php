@@ -96,7 +96,7 @@ class base extends \WDGWV\General\WDGWVFramework {
 	 * @return Object Database
 	 */
 	public function database() {
-		return \\WDGWV\CMS\controllers\databases\controller::sharedInstance();
+		return \WDGWV\CMS\controllers\databases\controller::sharedInstance();
 	}
 
 	/**
@@ -200,7 +200,7 @@ class base extends \WDGWV\General\WDGWVFramework {
 	/**
 	 * Serve
 	 * Serve the page
-	 * 
+	 *
 	 * @since Version 1.0
 	 * @return void
 	 */
