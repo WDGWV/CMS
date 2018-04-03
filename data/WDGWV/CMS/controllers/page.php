@@ -84,20 +84,6 @@ class page extends \WDGWV\CMS\controllers\base {
 		$activeComponent = isset($e[1]) ? strtolower($e[1]) : 'home';
 		$subComponent = isset($e[2]) ? strtolower($e[2]) : '';
 
-		if ($activeComponent == 'crossdomain.xml' ||
-			$activeComponent == 'crossdomain_xml') {
-			header("content-type: text/xml");
-			echo "<" . "?xml version=\"1.0\"?" . ">" . PHP_EOL;
-			echo "<!DOCTYPE cross-domain-policy " . PHP_EOL;
-			echo "SYSTEM \"http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd\">" . PHP_EOL;
-			echo "<cross-domain-policy>" . PHP_EOL;
-			echo "\t<allow-access-from domain=\"googleads.g.doubleclick.net\" />" . PHP_EOL;
-			echo "\t<allow-access-from domain=\"wdgwv.com\" />" . PHP_EOL;
-			echo "\t<allow-access-from domain=\"" . @$_SERVER['HTTP_HOST'] . "\" />" . PHP_EOL;
-			echo "</cross-domain-policy>";
-			exit;
-		}
-
 		if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor(array('post', 'get', 'url'))) {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Override page from module');
