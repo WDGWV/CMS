@@ -3,6 +3,8 @@
  * WDGWV Template Parser
  */
 
+namespace WDGWV\General;
+
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -
@@ -51,8 +53,6 @@
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
-
-namespace WDGWV\General;
 
 /**
  * WDGWV Template Parser

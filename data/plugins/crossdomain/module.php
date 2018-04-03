@@ -1,5 +1,11 @@
 <?php
-namespace WDGWV\CMS\controllers\databases;
+/**
+ * WDGWV CMS Module file.
+ * Full access: false
+ * Module: crossdomain
+ * Version: 1.0
+ * Description: This generates /crossdomain.xml
+ */
 
 /*
 ------------------------------------------------------------
@@ -50,116 +56,57 @@ namespace WDGWV\CMS\controllers\databases;
 ------------------------------------------------------------
  */
 
-class base {
-	private $CMSConfig = null;
-	static public $baseInit = false;
+namespace WDGWV\CMS\Modules; /* Module namespace */
 
-	protected function __construct() {
-		$this->_init();
-	}
-
-	protected function _init() {
-		$this->CMSConfig = (new \WDGWV\CMS\Config());
-
-		if (isset($_GET['resetDatabase']) && $this->CMSConfig->debug) {
-			echo "Resetting database";
-			$adminURL = $this->CMSConfig->adminURL();
-			array_map('unlink', glob('./data/database/*.db'));
-
-			if (!headers_sent()) {
-				header(sprintf('location: /%s/?db=clean&debug=true', $adminURL));
-			}
-
-			echo sprintf('<script>window.location=\'/%s/?db=clean&debug=true\';</script>', $adminURL);
+class crossdomain extends \WDGWV\CMS\extensionBase {
+	/**
+	 * Call the sharedInstance
+	 * @since Version 1.0
+	 */
+	public static function sharedInstance() {
+		static $inst = null;
+		if ($inst === null) {
+			$inst = new \WDGWV\CMS\Modules\crossdomain();
 		}
+		return $inst;
 	}
 
-	protected function noop() {
+	/**
+	 * Private so nobody else can instantiate it
+	 * @since Version 1.0
+	 */
+	private function __construct() {
 
 	}
 
-	protected function generateUserDB() {
-		return array(array(
-			'username' => 'System', /* Dummy account. impossible to login to it. */
-			'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
-			'userlevel' => 'system',
-			'is_activated' => false,
-			'email' => 'CMS@wdgwv.com',
-		));
-	}
-
-	protected function generateSystemDB() {
-		return array(
-			'installed' => time(),
-			'theme' => 'admin',
-			'language' => 'en_US',
-			'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'developer', 'admin', 'root', 'system'),
-		);
-	}
-
-	protected function generateMenuDB() {
-		if (!isset($this->CMSConfig)) {
-			$this->CMSConfig = (new \WDGWV\CMS\Config());
+	/**
+	 * Generate crossdomain.xml
+	 * @since Version 1.0
+	 * @return string crossdomain
+	 */
+	public function generate() {
+		if (!headers_sent()) {
+			header("content-type: text/xml");
 		}
-
-		return array(
-			array(
-				'name' => 'Home',
-				'icon' => 'home',
-				'url' => '/home',
-				'userlevel' => '*',
-				'submenu' => null,
-			),
-			array(
-				'name' => 'Blog',
-				'icon' => 'pencil',
-				'url' => '/blog',
-				'userlevel' => '*',
-				'submenu' => array(
-					array(
-						'name' => 'Blog',
-						'url' => '/blog',
-						'icon' => 'pencil',
-					),
-					array(
-						'name' => 'Last post',
-						'url' => '/blog/last',
-						'icon' => 'rss',
-					),
-				),
-			),
-			array(
-				'name' => 'Administration',
-				'url' => '#',
-				'icon' => 'cogs',
-				'userlevel' => 'moderator',
-				'submenu' => array(
-					($this->CMSConfig->debug) ? array(
-						'name' => 'reset DB',
-						'url' => sprintf('/%s/resetDatabase?resetDatabase', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-
-					array(
-						'name' => ' ',
-					),
-
-					($this->CMSConfig->debug) ? array(
-						'name' => 'Theme = portal',
-						'url' => sprintf('/%s/setTheme/portal', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-					($this->CMSConfig->debug) ? array(
-						'name' => 'Theme = admin',
-						'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-				), //.. later
-			),
-			array(
-				'name' => 'About',
-				'url' => '/about',
-				'icon' => 'address-card',
-			),
-		);
+		echo "<" . "?xml version=\"1.0\"?" . ">" . PHP_EOL;
+		echo "<!DOCTYPE cross-domain-policy " . PHP_EOL;
+		echo "SYSTEM \"http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd\">" . PHP_EOL;
+		echo "<cross-domain-policy>" . PHP_EOL;
+		echo "\t<allow-access-from domain=\"googleads.g.doubleclick.net\" />" . PHP_EOL;
+		echo "\t<allow-access-from domain=\"wdgwv.com\" />" . PHP_EOL;
+		echo "\t<allow-access-from domain=\"" . @$_SERVER['HTTP_HOST'] . "\" />" . PHP_EOL;
+		echo "</cross-domain-policy>";
+		exit;
 	}
-
 }
+
+/**
+ * Apply hook
+ * @since Version 1.0
+ */
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'url',
+	'/crossdomain*',
+	array(crossdomain::sharedInstance(), 'generate')
+);
 ?>

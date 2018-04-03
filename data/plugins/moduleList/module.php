@@ -1,5 +1,11 @@
 <?php
-namespace WDGWV\CMS\controllers\databases;
+/**
+ * WDGWV CMS Module file.
+ * Full access: false
+ * Module: Test module
+ * Version: 1.0
+ * Description: This is a simple test for a module file.
+ */
 
 /*
 ------------------------------------------------------------
@@ -50,116 +56,103 @@ namespace WDGWV\CMS\controllers\databases;
 ------------------------------------------------------------
  */
 
-class base {
-	private $CMSConfig = null;
-	static public $baseInit = false;
+namespace WDGWV\CMS\Modules; /* Module namespace */
 
-	protected function __construct() {
-		$this->_init();
-	}
-
-	protected function _init() {
-		$this->CMSConfig = (new \WDGWV\CMS\Config());
-
-		if (isset($_GET['resetDatabase']) && $this->CMSConfig->debug) {
-			echo "Resetting database";
-			$adminURL = $this->CMSConfig->adminURL();
-			array_map('unlink', glob('./data/database/*.db'));
-
-			if (!headers_sent()) {
-				header(sprintf('location: /%s/?db=clean&debug=true', $adminURL));
-			}
-
-			echo sprintf('<script>window.location=\'/%s/?db=clean&debug=true\';</script>', $adminURL);
+class moduleList extends \WDGWV\CMS\extensionBase {
+	private $moduleList = array();
+	/**
+	 * Call the sharedInstance
+	 * @since Version 1.0
+	 */
+	public static function sharedInstance() {
+		static $inst = null;
+		if ($inst === null) {
+			$inst = new \WDGWV\CMS\Modules\moduleList();
 		}
+		return $inst;
 	}
 
-	protected function noop() {
-
+	/**
+	 * Private so nobody else can instantiate it
+	 *
+	 */
+	private function __construct() {
+		$this->moduleList = \WDGWV\CMS\modules::sharedInstance()->_displayModuleList();
 	}
 
-	protected function generateUserDB() {
-		return array(array(
-			'username' => 'System', /* Dummy account. impossible to login to it. */
-			'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
-			'userlevel' => 'system',
-			'is_activated' => false,
-			'email' => 'CMS@wdgwv.com',
-		));
+	public function _forceReload() {
+		\WDGWV\CMS\modules::sharedInstance()->_forceReloadModules();
+		if (!headers_sent()) {
+			header("location: /");
+		}
+		echo "<script>window.location='/';</script>";
+		exit;
 	}
 
-	protected function generateSystemDB() {
-		return array(
-			'installed' => time(),
-			'theme' => 'admin',
-			'language' => 'en_US',
-			'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'developer', 'admin', 'root', 'system'),
+	public function _display() {
+		$page = array();
+		$page[] = array(
+			'Module list',
+			'This is module list all loaded modules, it also offers a force-reload option in the bottom of the page',
 		);
-	}
 
-	protected function generateMenuDB() {
-		if (!isset($this->CMSConfig)) {
-			$this->CMSConfig = (new \WDGWV\CMS\Config());
+		for ($i = 0; $i < sizeof($this->moduleList); $i++) {
+			$name = explode('/', $this->moduleList[$i])[sizeof(explode('/', $this->moduleList[$i])) - 2];
+
+			$page1 = $this->moduleList[$i];
+			$page1 .= '<table>';
+			foreach (\WDGWV\CMS\modules::sharedInstance()->information($this->moduleList[$i]) as $info => $value) {
+				if ($info === 'module') {$name = $value;}
+				$page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
+			};
+			$page1 .= '</table>';
+
+			$page[] = array(
+				sprintf('%s module', $name),
+				$page1,
+			);
 		}
 
-		return array(
-			array(
-				'name' => 'Home',
-				'icon' => 'home',
-				'url' => '/home',
-				'userlevel' => '*',
-				'submenu' => null,
-			),
-			array(
-				'name' => 'Blog',
-				'icon' => 'pencil',
-				'url' => '/blog',
-				'userlevel' => '*',
-				'submenu' => array(
-					array(
-						'name' => 'Blog',
-						'url' => '/blog',
-						'icon' => 'pencil',
-					),
-					array(
-						'name' => 'Last post',
-						'url' => '/blog/last',
-						'icon' => 'rss',
-					),
-				),
-			),
-			array(
-				'name' => 'Administration',
-				'url' => '#',
-				'icon' => 'cogs',
-				'userlevel' => 'moderator',
-				'submenu' => array(
-					($this->CMSConfig->debug) ? array(
-						'name' => 'reset DB',
-						'url' => sprintf('/%s/resetDatabase?resetDatabase', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-
-					array(
-						'name' => ' ',
-					),
-
-					($this->CMSConfig->debug) ? array(
-						'name' => 'Theme = portal',
-						'url' => sprintf('/%s/setTheme/portal', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-					($this->CMSConfig->debug) ? array(
-						'name' => 'Theme = admin',
-						'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-				), //.. later
-			),
-			array(
-				'name' => 'About',
-				'url' => '/about',
-				'icon' => 'address-card',
-			),
+		$page[] = array(
+			'Reindex modules',
+			sprintf('<a href=\'/%s/modules/reindex\'>Force reindex modules</a>', (new \WDGWV\CMS\Config)->adminURL()),
 		);
-	}
 
+		return $page;
+	}
 }
+
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'menu',
+	'administration/module list',
+	array(
+		'name' => 'administration/module list',
+		'icon' => 'pencil',
+		'url' => sprintf('/%s/modules/list', (new \WDGWV\CMS\Config)->adminURL()),
+		'userlevel' => 'admin',
+	)
+);
+
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'menu',
+	'administration/module search',
+	array(
+		'name' => 'administration/module search',
+		'icon' => 'pencil',
+		'url' => sprintf('/%s/modules/search', (new \WDGWV\CMS\Config)->adminURL()),
+		'userlevel' => 'admin',
+	)
+);
+
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'url',
+	sprintf('/%s/modules/list', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(moduleList::sharedInstance(), '_display')
+);
+
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'url',
+	sprintf('/%s/modules/reindex', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(moduleList::sharedInstance(), '_forceReload')
+);
 ?>
