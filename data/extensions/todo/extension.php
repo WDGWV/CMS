@@ -85,48 +85,48 @@ class todoExtension extends \WDGWV\CMS\extensionBase {
 				'This is a todo list (static, for creating/debugging use only atm)',
 			),
 
-			array('Plain text Database support', 'Plain text Database support<br /><br />
-				<b>Supported</b>
+			array('Plain text Database support', '---<br />Plain text Database support<br /><br />
+				<b>**Supported**</b><br /><br />
 				<ul>
-					<li><progress min=0 max=100 value=100></progress> 100% | Connection (N/A)</li>
-					<li><progress min=0 max=100 value=100></progress> 000% | ... Other</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=2></progress> 2/2%'),
+					<li>*<progress min=0 max=100 value=100></progress> 100% | Connection (N/A)</li>
+					<li>*<progress min=0 max=100 value=100></progress> 000% | ... Other</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=2></progress> 2/2<br /><br />'),
 
-			array('Extensibility', "Extensibility for plugins<br /><br />
-				<b>Supported</b>
+			array('Extensibility', "---<br />Extensibility for plugins<br /><br />
+				<b>**Supported**</b><br /><br />
 				<ul>
-					<li><progress min=0 max=100 value=100></progress> 100% | Page extensions</li>
-					<li><progress min=0 max=100 value=100></progress> 100% | Menu extensions</li>
-					<li><progress min=0 max=100 value=100></progress> 100% | URL-extensions (override)</li>
-					<li><progress min=0 max=100 value=100></progress> 100% | Specific \$_POST extensions</li>
-					<li><progress min=0 max=100 value=100></progress> 100% | Specific \$_GET extensions</li>
-					<li><progress min=0 max=100 value=25></progress> 025% | Partial: UBB code extensions</li>
+					<li>*<progress min=0 max=100 value=100></progress> 100% | Page extensions</li>
+					<li>*<progress min=0 max=100 value=100></progress> 100% | Menu extensions</li>
+					<li>*<progress min=0 max=100 value=100></progress> 100% | URL-extensions (override)</li>
+					<li>*<progress min=0 max=100 value=100></progress> 100% | Specific \$_POST extensions</li>
+					<li>*<progress min=0 max=100 value=100></progress> 100% | Specific \$_GET extensions</li>
+					<li>*<progress min=0 max=100 value=25></progress> 025% | Partial: UBB code extensions</li>
 				</ul><br />
-				Progress: <progress min=0 max=6 value=5></progress> 5/6", ),
-			array('item 2', 'description<br /><br />
-				<b>Supported</b>
+				Progress: <progress min=0 max=6 value=5></progress> 5/6<br />", ),
+			array('item 2', '---<br />description<br /><br />
+				<b>**Supported**</b><br /><br />
 				<ul>
-					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
-					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
+					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
+					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />'),
 
-			array('MySQL Database support', 'MySQL Database support<br /><br />
-				<b>Supported</b>
+			array('MySQL Database support', '---<br />MySQL Database support<br /><br />
+				<b>**Supported**</b><br /><br />
 				<ul>
-					<li><progress min=0 max=100 value=0></progress> 000% | Connection</li>
-					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
-			array('SQLite Database support', 'SQLite Database support<br /><br />
-				<b>Supported</b>
+					<li>*<progress min=0 max=100 value=0></progress> 000% | Connection</li>
+					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />'),
+			array('SQLite Database support', '---<br />SQLite Database support<br /><br />
+				<b>**Supported**</b><br /><br />
 				<ul>
-					<li><progress min=0 max=100 value=0></progress> 000% | Connection</li>
-					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
+					<li>*<progress min=0 max=100 value=0></progress> 000% | Connection</li>
+					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />'),
 
 			array('MAYBE LATER: CRM',
-				'CRM Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%'),
+				'---<br />CRM Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%<br /><br />'),
 			array('MAYBE LATER: ERP',
-				'ERP Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%'),
+				'---<br />ERP Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%<br /><br />'),
 		);
 
 		return $page;
