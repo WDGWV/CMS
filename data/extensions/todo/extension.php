@@ -90,7 +90,7 @@ class todoExtension extends \WDGWV\CMS\extensionBase {
 				<ul>
 					<li>*<progress min=0 max=100 value=100></progress> 100% | Connection (N/A)</li>
 					<li>*<progress min=0 max=100 value=100></progress> 000% | ... Other</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=2></progress> 2/2%'),
+				</ul><br />Overall progress: <progress min=0 max=2 value=2></progress> 2/2<br /><br />'),
 
 			array('Extensibility', "---<br />Extensibility for plugins<br /><br />
 				<b>**Supported**</b><br /><br />
@@ -102,31 +102,31 @@ class todoExtension extends \WDGWV\CMS\extensionBase {
 					<li>*<progress min=0 max=100 value=100></progress> 100% | Specific \$_GET extensions</li>
 					<li>*<progress min=0 max=100 value=25></progress> 025% | Partial: UBB code extensions</li>
 				</ul><br />
-				Progress: <progress min=0 max=6 value=5></progress> 5/6", ),
+				Progress: <progress min=0 max=6 value=5></progress> 5/6<br />", ),
 			array('item 2', '---<br />description<br /><br />
 				<b>**Supported**</b><br /><br />
 				<ul>
 					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
 					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />'),
 
 			array('MySQL Database support', '---<br />MySQL Database support<br /><br />
 				<b>**Supported**</b><br /><br />
 				<ul>
 					<li>*<progress min=0 max=100 value=0></progress> 000% | Connection</li>
 					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />'),
 			array('SQLite Database support', '---<br />SQLite Database support<br /><br />
 				<b>**Supported**</b><br /><br />
 				<ul>
 					<li>*<progress min=0 max=100 value=0></progress> 000% | Connection</li>
 					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />'),
 
 			array('MAYBE LATER: CRM',
-				'---<br />CRM Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%'),
+				'---<br />CRM Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%<br /><br />'),
 			array('MAYBE LATER: ERP',
-				'---<br />ERP Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%'),
+				'---<br />ERP Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%<br /><br />'),
 		);
 
 		return $page;
