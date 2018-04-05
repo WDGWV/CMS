@@ -124,9 +124,9 @@ class extensionList extends \WDGWV\CMS\extensionBase {
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
-	'administration/Extension list',
+	'administration/Extensions/Extension list',
 	array(
-		'name' => 'administration/Extension list',
+		'name' => 'administration/Extensions/Extension list',
 		'icon' => 'pencil',
 		'url' => sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()),
 		'userlevel' => 'admin',
@@ -135,9 +135,9 @@ class extensionList extends \WDGWV\CMS\extensionBase {
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
-	'administration/Extension search',
+	'administration/Extensions/Extension search',
 	array(
-		'name' => 'administration/Extension search',
+		'name' => 'administration/Extensions/Extension search',
 		'icon' => 'pencil',
 		'url' => sprintf('/%s/extensions/search', (new \WDGWV\CMS\Config)->adminURL()),
 		'userlevel' => 'admin',
