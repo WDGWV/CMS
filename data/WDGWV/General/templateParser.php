@@ -734,12 +734,11 @@ class templateParser {
 							}
 						}
 					} else {
-						echo sprintf(
+						$this->fatalError(sprintf(
 							"<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current:%d<br />menu item creating this issue: <pre>%s</pre>",
 							(((int) sizeof($e)) - 1),
 							preg_replace("/\//", " -> ", $data['name'])
-						);
-						exit;
+						));
 					}
 				}
 			}
@@ -864,11 +863,10 @@ class templateParser {
 
 															$this->config['generatedMenu'] .= $addItem;
 														} else {
-															echo sprintf(
+															$this->fatalError(sprintf(
 																"<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current: 3+<br />menu item creating this issue: <pre>%s</pre>",
 																preg_replace("/\//", " -> ", $subSubData['name'])
-															);
-															exit;
+															));
 														}
 													} else {
 														echo "<pre>";
