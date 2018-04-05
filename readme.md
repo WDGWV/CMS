@@ -12,7 +12,7 @@ If you want to help, thanks in advance!
 ### Todo
  * [Please see this issue #13](https://github.com/WDGWV/WDGWVSS/issues/13)
 
-### Modules
+### Extensions
  * [Please see this issue #16](https://github.com/WDGWV/WDGWVSS/issues/16)
 
 ### Automatic testing

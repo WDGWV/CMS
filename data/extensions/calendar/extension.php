@@ -1,11 +1,10 @@
 <?php
 /**
- * WDGWV CMS Module file.
+ * WDGWV CMS Extension file.
  * Full access: false
- * Module: IP-Ban
+ * Extension: Calendar
  * Version: 1.0
- * Description: Bans IP-Adresses
- * Copyright: Wesley de Groot
+ * Description: Have a nice calendar.
  */
 
 /*
@@ -56,4 +55,39 @@
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
+
+namespace WDGWV\CMS\Extension; /* Extension namespace*/
+
+class calendar extends \WDGWV\CMS\extensionBase {
+	/**
+	 * Call the sharedInstance
+	 * @since Version 1.0
+	 */
+	public static function sharedInstance() {
+		static $inst = null;
+		if ($inst === null) {
+			$inst = new \WDGWV\CMS\Extension\calendar();
+		}
+		return $inst;
+	}
+
+	/**
+	 * Private so nobody else can instantiate it
+	 *
+	 */
+	private function __construct() {
+
+	}
+
+	public function _generateICAL() {
+		echo "Woops, this must be created, sorry!";
+		exit();
+	}
+}
+
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'url',
+	'/calendar/ics', // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(calendar::sharedInstance(), '_generateICAL')
+);
 ?>

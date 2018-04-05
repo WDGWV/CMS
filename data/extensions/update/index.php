@@ -1,12 +1,4 @@
 <?php
-/**
- * WDGWV CMS Module file.
- * Full access: false
- * Module: Calendar
- * Version: 1.0
- * Description: Have a nice calendar.
- */
-
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -

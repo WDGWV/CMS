@@ -693,24 +693,54 @@ class templateParser {
 		$subMenuItem = explode("{/MENUITEM}", $subMenuItem);
 		$subMenuItem = isset($subMenuItem[0]) ? $subMenuItem[0] : $this->fatalError("Failed to load sub menu items!");
 
+		/* Extensions support... */
 		if (isset($this->config['menuContents'])) {
 			foreach ($this->config['menuContents'] as $i => $data) {
 				if (preg_match("/\//", $data['name'])) {
 					$e = explode("/", $data['name']);
+					if (sizeof($e) < 4) {
+						foreach ($this->config['menuContents'] as $seeki => $seekData) {
+							if (strtolower($seekData['name']) == strtolower($e[0])) {
+								if (!isset($e[2])) {
+									if (is_array($seekData['submenu'])) {
+										$newData = $data;
+										$newData['name'] = $e[1];
 
-					foreach ($this->config['menuContents'] as $seeki => $seekData) {
-						if (strtolower($seekData['name']) == strtolower($e[0])) {
-							if (is_array($seekData['submenu'])) {
-								$newData = $data;
-								$newData['name'] = $e[1];
-
-								$this->config['menuContents'][$seeki]['submenu'][] = $newData;
-								unset($this->config['menuContents'][$i]);
+										$this->config['menuContents'][$seeki]['submenu'][] = $newData;
+										unset($this->config['menuContents'][$i]);
+									}
+								} else {
+									// loop, and search, otherwise create sub-in-submenu
+									$foundSubInSub = false;
+									foreach ($seekData['submenu'] as $subI => $subData) {
+										if (strtolower($subData['name']) == strtolower($e[1])) {
+											$foundSubInSub = true;
+											$data['name'] = $e[2];
+											$this->config['menuContents'][$seeki]['submenu'][$subI]['submenu'][] = $data;
+											unset($this->config['menuContents'][$i]);
+										}
+									}
+									if (!$foundSubInSub) {
+										$data['name'] = $e[2];
+										$this->config['menuContents'][$seeki]['submenu'][] = $newSubmenuItem = array(
+											'name' => $e[1],
+											'url' => '#',
+											'userlevel' => (isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'),
+											'submenu' => array($data),
+										);
+										unset($this->config['menuContents'][$i]);
+									}
+								}
 							}
 						}
+					} else {
+						$this->fatalError(sprintf(
+							"<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current:%d<br />menu item creating this issue: <pre>%s</pre>",
+							(((int) sizeof($e)) - 1),
+							preg_replace("/\//", " -> ", $data['name'])
+						));
 					}
 				}
-
 			}
 		}
 
@@ -759,30 +789,98 @@ class templateParser {
 						if (is_array($data['submenu'])) {
 							foreach ($data['submenu'] as $ii => $subData) {
 								if (is_array($subData)) {
-									$addItem = $subMenuItem;
-									$addItem = preg_replace(
-										"/\{NAME\}/", (
-											function_exists('__')
-											? __($subData['name'])
-											: $subData['name']
-										), $addItem
-									);
-									$addItem = preg_replace(
-										"/\{ICON\}/", (
-											isset($subData['icon'])
-											? $subData['icon']
-											: ''
-										), $addItem
-									);
-									$addItem = preg_replace(
-										"/\{(HREF|LINK|URL)\}/", (
-											isset($subData['url'])
-											? $subData['url']
-											: '#'
-										), $addItem
-									);
+									if (!isset($subData['submenu']) || !is_array($subData['submenu'])) {
+										$addItem = $subMenuItem;
+										$addItem = preg_replace(
+											"/\{NAME\}/", (
+												function_exists('__')
+												? __($subData['name'])
+												: $subData['name']
+											), $addItem
+										);
+										$addItem = preg_replace(
+											"/\{ICON\}/", (
+												isset($subData['icon'])
+												? $subData['icon']
+												: ''
+											), $addItem
+										);
+										$addItem = preg_replace(
+											"/\{(HREF|LINK|URL)\}/", (
+												isset($subData['url'])
+												? $subData['url']
+												: '#'
+											), $addItem
+										);
 
-									$this->config['generatedMenu'] .= $addItem;
+										$this->config['generatedMenu'] .= $addItem;
+									} else {
+										$addItem = $subMenuHeader;
+										$addItem = preg_replace(
+											"/\{NAME\}/", (
+												function_exists('__')
+												? __($subData['name'])
+												: $subData['name']
+											), $addItem
+										);
+
+										$addItem = preg_replace(
+											"/\{ICON\}/", (
+												isset($subData['icon'])
+												? $subData['icon']
+												: ''
+											), $addItem
+										);
+										$this->config['generatedMenu'] .= $addItem;
+
+										if (isset($subData['submenu'])) {
+											if (is_array($subData['submenu'])) {
+												foreach ($subData['submenu'] as $ii => $subSubData) {
+													if (is_array($subSubData)) {
+														if (!isset($subSubData['submenu']) || !is_array($subSubData['submenu'])) {
+															$addItem = $subMenuItem;
+															$addItem = preg_replace(
+																"/\{NAME\}/", (
+																	function_exists('__')
+																	? __($subSubData['name'])
+																	: $subSubData['name']
+																), $addItem
+															);
+															$addItem = preg_replace(
+																"/\{ICON\}/", (
+																	isset($subSubData['icon'])
+																	? $subSubData['icon']
+																	: ''
+																), $addItem
+															);
+															$addItem = preg_replace(
+																"/\{(HREF|LINK|URL)\}/", (
+																	isset($subSubData['url'])
+																	? $subSubData['url']
+																	: '#'
+																), $addItem
+															);
+
+															$this->config['generatedMenu'] .= $addItem;
+														} else {
+															$this->fatalError(sprintf(
+																"<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current: 3+<br />menu item creating this issue: <pre>%s</pre>",
+																preg_replace("/\//", " -> ", $subSubData['name'])
+															));
+														}
+													} else {
+														echo "<pre>";
+														print_r($this->config['menuContents']);
+														echo "</pre>";
+
+														$this->fatalError("Invalid submenu data.");
+													}
+												}
+											}
+										}
+
+										$this->config['generatedMenu'] .= $subMenuFooter;
+									}
 								} else {
 									echo "<pre>";
 									print_r($this->config['menuContents']);

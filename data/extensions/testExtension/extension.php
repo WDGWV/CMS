@@ -1,10 +1,10 @@
 <?php
 /**
- * WDGWV CMS Module file.
+ * WDGWV CMS Extension file.
  * Full access: false
- * Module: crossdomain
+ * Extension: Test Extension
  * Version: 1.0
- * Description: This generates /crossdomain.xml
+ * Description: This is a simple test for a Extension file.
  */
 
 /*
@@ -56,9 +56,9 @@
 ------------------------------------------------------------
  */
 
-namespace WDGWV\CMS\Modules; /* Module namespace */
+namespace WDGWV\CMS\Extension; /* Module namespace */
 
-class crossdomain extends \WDGWV\CMS\extensionBase {
+class testExtension extends \WDGWV\CMS\extensionBase {
 	/**
 	 * Call the sharedInstance
 	 * @since Version 1.0
@@ -66,47 +66,44 @@ class crossdomain extends \WDGWV\CMS\extensionBase {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\Modules\crossdomain();
+			$inst = new \WDGWV\CMS\Extension\testExtension();
 		}
 		return $inst;
 	}
 
 	/**
 	 * Private so nobody else can instantiate it
-	 * @since Version 1.0
+	 *
 	 */
 	private function __construct() {
 
 	}
 
-	/**
-	 * Generate crossdomain.xml
-	 * @since Version 1.0
-	 * @return string crossdomain
-	 */
-	public function generate() {
-		if (!headers_sent()) {
-			header("content-type: text/xml");
-		}
-		echo "<" . "?xml version=\"1.0\"?" . ">" . PHP_EOL;
-		echo "<!DOCTYPE cross-domain-policy " . PHP_EOL;
-		echo "SYSTEM \"http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd\">" . PHP_EOL;
-		echo "<cross-domain-policy>" . PHP_EOL;
-		echo "\t<allow-access-from domain=\"googleads.g.doubleclick.net\" />" . PHP_EOL;
-		echo "\t<allow-access-from domain=\"wdgwv.com\" />" . PHP_EOL;
-		echo "\t<allow-access-from domain=\"" . @$_SERVER['HTTP_HOST'] . "\" />" . PHP_EOL;
-		echo "</cross-domain-policy>";
-		exit;
+	public function _display() {
+		$page = array(
+			'Test module: \'module\'.',
+			'This is an example of a test module, which adds an item to the menu, and can display a page.<br />And many more!<br />' .
+			'to use localization use \__(\'the string which need to be translated\')',
+		);
+
+		return $page;
 	}
 }
 
-/**
- * Apply hook
- * @since Version 1.0
- */
+\WDGWV\CMS\hooks::sharedInstance()->createHook(
+	'menu',
+	'test extension',
+	array(
+		'name' => 'test extension',
+		'icon' => 'pencil',
+		'url' => '/testExtension',
+		'userlevel' => '*',
+	)
+);
+
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'url',
-	'/crossdomain*',
-	array(crossdomain::sharedInstance(), 'generate')
+	'/testExtension', // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(testExtension::sharedInstance(), '_display')
 );
 ?>

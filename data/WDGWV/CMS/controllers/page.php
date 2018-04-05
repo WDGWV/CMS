@@ -86,7 +86,7 @@ class page extends \WDGWV\CMS\controllers\base {
 
 		if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor(array('post', 'get', 'url'))) {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
-				\WDGWV\CMS\Debugger::sharedInstance()->log('Override page from module');
+				\WDGWV\CMS\Debugger::sharedInstance()->log('Override page from extension');
 			}
 			$pageData = \WDGWV\CMS\hooks::sharedInstance()->loadPageFor(array('post', 'get', 'url'));
 

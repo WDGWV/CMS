@@ -1,10 +1,10 @@
 <?php
 /**
- * WDGWV CMS Module file.
+ * WDGWV CMS Extension file.
  * Full access: false
- * Module: Test module
+ * Extension: Test Extension
  * Version: 1.0
- * Description: This is a simple test for a module file.
+ * Description: This is a simple test for a Extension file.
  */
 
 /*
@@ -56,10 +56,10 @@
 ------------------------------------------------------------
  */
 
-namespace WDGWV\CMS\Modules; /* Module namespace */
+namespace WDGWV\CMS\Extension; /* Extension namespace */
 
-class moduleList extends \WDGWV\CMS\extensionBase {
-	private $moduleList = array();
+class extensionList extends \WDGWV\CMS\extensionBase {
+	private $extensionList = array();
 	/**
 	 * Call the sharedInstance
 	 * @since Version 1.0
@@ -67,7 +67,7 @@ class moduleList extends \WDGWV\CMS\extensionBase {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\Modules\moduleList();
+			$inst = new \WDGWV\CMS\Extension\extensionList();
 		}
 		return $inst;
 	}
@@ -77,11 +77,11 @@ class moduleList extends \WDGWV\CMS\extensionBase {
 	 *
 	 */
 	private function __construct() {
-		$this->moduleList = \WDGWV\CMS\modules::sharedInstance()->_displayModuleList();
+		$this->extensionList = \WDGWV\CMS\extensions::sharedInstance()->_displayExtensionList();
 	}
 
 	public function _forceReload() {
-		\WDGWV\CMS\modules::sharedInstance()->_forceReloadModules();
+		\WDGWV\CMS\extensions::sharedInstance()->_forceReloadExtensions();
 		if (!headers_sent()) {
 			header("location: /");
 		}
@@ -92,30 +92,30 @@ class moduleList extends \WDGWV\CMS\extensionBase {
 	public function _display() {
 		$page = array();
 		$page[] = array(
-			'Module list',
-			'This is module list all loaded modules, it also offers a force-reload option in the bottom of the page',
+			'Extensions list',
+			'This is an extension what list all loaded extensions, it also offers a force-reload option in the bottom of the page',
 		);
 
-		for ($i = 0; $i < sizeof($this->moduleList); $i++) {
-			$name = explode('/', $this->moduleList[$i])[sizeof(explode('/', $this->moduleList[$i])) - 2];
+		for ($i = 0; $i < sizeof($this->extensionList); $i++) {
+			$name = explode('/', $this->extensionList[$i])[sizeof(explode('/', $this->extensionList[$i])) - 2];
 
-			$page1 = $this->moduleList[$i];
+			$page1 = $this->extensionList[$i];
 			$page1 .= '<table>';
-			foreach (\WDGWV\CMS\modules::sharedInstance()->information($this->moduleList[$i]) as $info => $value) {
-				if ($info === 'module') {$name = $value;}
+			foreach (\WDGWV\CMS\extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
+				if ($info === 'extension') {$name = $value;}
 				$page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
 			};
 			$page1 .= '</table>';
 
 			$page[] = array(
-				sprintf('%s module', $name),
+				sprintf('%s extension', $name),
 				$page1,
 			);
 		}
 
 		$page[] = array(
-			'Reindex modules',
-			sprintf('<a href=\'/%s/modules/reindex\'>Force reindex modules</a>', (new \WDGWV\CMS\Config)->adminURL()),
+			'Reindex extensions',
+			sprintf('<a href=\'/%s/extensions/reindex\'>Force reindex extensions</a>', (new \WDGWV\CMS\Config)->adminURL()),
 		);
 
 		return $page;
@@ -124,35 +124,35 @@ class moduleList extends \WDGWV\CMS\extensionBase {
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
-	'administration/module list',
+	'administration/Extensions/Extension list',
 	array(
-		'name' => 'administration/module list',
+		'name' => 'administration/Extensions/Extension list',
 		'icon' => 'pencil',
-		'url' => sprintf('/%s/modules/list', (new \WDGWV\CMS\Config)->adminURL()),
+		'url' => sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()),
 		'userlevel' => 'admin',
 	)
 );
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
-	'administration/module search',
+	'administration/Extensions/Extension search',
 	array(
-		'name' => 'administration/module search',
+		'name' => 'administration/Extensions/Extension search',
 		'icon' => 'pencil',
-		'url' => sprintf('/%s/modules/search', (new \WDGWV\CMS\Config)->adminURL()),
+		'url' => sprintf('/%s/extensions/search', (new \WDGWV\CMS\Config)->adminURL()),
 		'userlevel' => 'admin',
 	)
 );
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'url',
-	sprintf('/%s/modules/list', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-	array(moduleList::sharedInstance(), '_display')
+	sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(extensionList::sharedInstance(), '_display')
 );
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'url',
-	sprintf('/%s/modules/reindex', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-	array(moduleList::sharedInstance(), '_forceReload')
+	sprintf('/%s/extensions/reindex', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(extensionList::sharedInstance(), '_forceReload')
 );
 ?>
