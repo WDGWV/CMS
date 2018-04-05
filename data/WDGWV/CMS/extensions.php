@@ -1,5 +1,5 @@
 <?php
-/** CMS Modules
+/** CMS Extensions
  *
  * it makes the best extensions for you!
  */
@@ -56,35 +56,35 @@
 namespace WDGWV\CMS;
 
 /**
- * WDGWV CMS Module loader
+ * WDGWV CMS Extension loader
  *
- * This is the WDGWV CMS Module loader
+ * This is the WDGWV CMS Extension loader
  *
  * @version Version 1.0
  * @author Wesley de Groot / WDGWV
  * @copyright 2017 Wesley de Groot / WDGWV
  * @package WDGWV/CMS
- * @subpackage Debugger
+ * @subpackage extensions
  * @link http://www.wesleydegroot.nl © Wesley de Groot
  * @link https://www.wdgwv.com © WDGWV
  */
-class modules {
+class extensions {
 	private $scan_directorys = array(
+		'./data/extensions/',
 		'./data/modules/',
 		'./data/plugins/',
-		'./data/extensions/',
 	);
 
 	private $load_files = array(
+		'extension.php',
 		'module.php',
 		'plugin.php',
-		'extension.php',
 	);
 
 	private $cache = '';
-	private $cacheDB = './data/database/moduleCache.db';
+	private $cacheDB = './data/database/extensionCache.db';
 	private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
-	private $loadModules = array();
+	private $loadExtensions = array();
 
 	/**
 	 * Call the sharedInstance
@@ -93,7 +93,7 @@ class modules {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\modules();
+			$inst = new \WDGWV\CMS\extensions();
 		}
 		return $inst;
 	}
@@ -105,18 +105,18 @@ class modules {
 	private function __construct() {
 		$cacheTime = file_exists($this->cacheDB) ? filemtime($this->cacheDB) : 0;
 		if ($cacheTime && (time() - $cacheTime <= $this->cache_life)) {
-			$this->_loadModules();
+			$this->_loadExtensions();
 			return;
 		}
 
-		$this->_reloadModules();
+		$this->_reloadExtensions();
 	}
 
-	public function _displayModuleList() {
-		return $this->loadModules;
+	public function _displayExtensionList() {
+		return $this->loadExtensions;
 	}
 
-	private function _loadModules() {
+	private function _loadExtensions() {
 		$f = json_decode(
 			gzuncompress(
 				file_get_contents(
@@ -126,7 +126,7 @@ class modules {
 		);
 
 		if (sizeof($f) == 0) {
-			$this->_reloadModules();
+			$this->_reloadExtensions();
 			return;
 		}
 
@@ -137,17 +137,17 @@ class modules {
 			}
 		}
 
-		$this->loadModules = $f;
+		$this->loadExtensions = $f;
 	}
 
-	public function information($ofModuleNameOrFilePath) {
-		if (!file_exists($ofModuleNameOrFilePath)) {
+	public function information($ofExtensionOrFilePath) {
+		if (!file_exists($ofExtensionOrFilePath)) {
 			// Scanning files.
 			echo "Unown file.";
 			return;
 		}
 
-		return $this->parseInformation($ofModuleNameOrFilePath);
+		return $this->parseInformation($ofExtensionOrFilePath);
 	}
 
 	private function match($exp1, $exp2) {
@@ -159,21 +159,21 @@ class modules {
 		return (substr($fixedExpression, 0, strlen($exp2)) == $exp2);
 	}
 
-	private function parseInformation($ofModulePath) {
+	private function parseInformation($ofExtensionFilePath) {
 		/**
 		 * (EXAMPLE)
 		 *
 		 * WDGWV CMS Required file.
 		 * Full access: true
-		 * Module: Update
+		 * Extension: Update
 		 * Version: 1.0
 		 * Description: Updates WDGWV CMS
 		 * Hash: * INSERT HASH HERE *
 		 */// Needs to be on top of the file.
 
-		$moduleInfo = array();
-		if (file_exists($ofModulePath)) {
-			$fc = file_get_contents($ofModulePath);
+		$extensionInfo = array();
+		if (file_exists($ofExtensionFilePath)) {
+			$fc = file_get_contents($ofExtensionFilePath);
 			if ($fc) {
 				$fe = explode('*/', $fc)[0];
 				$fe = explode('/*', $fe)[1];
@@ -190,24 +190,24 @@ class modules {
 						$safeName = preg_replace('/:/', '_', $safeName);
 						$safeName = strtolower($safeName);
 
-						$moduleInfo[$safeName] = $ex[1];
+						$extensionInfo[$safeName] = $ex[1];
 					}
 				}
 
-				return $moduleInfo;
+				return $extensionInfo;
 			} else {
 				echo "Error reading file";
 			}
 		}
 	}
-	public function _forceReloadModules() {
-		unset($this->loadModules);
+	public function _forceReloadExtensions() {
+		unset($this->loadExtensions);
 		unlink($this->cacheDB);
-		$this->_reloadModules();
+		$this->_reloadExtensions();
 	}
 
-	private function _reloadModules() {
-		$this->loadModules = array();
+	private function _reloadExtensions() {
+		$this->loadExtensions = array();
 
 		foreach ($this->scan_directorys as $readDirectory) {
 			if (file_exists($readDirectory) && is_readable($readDirectory)) {
@@ -216,7 +216,7 @@ class modules {
 					if ($current != '.' && $current != '..' && is_dir($readDirectory . $current)) {
 						foreach ($this->load_files as $tryFile) {
 							if (file_exists($readDirectory . $current . '/' . $tryFile)) {
-								$this->loadModules[] = $readDirectory . $current . '/' . $tryFile;
+								$this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
 								require_once $readDirectory . $current . '/' . $tryFile;
 							}
 						}
@@ -236,12 +236,12 @@ class modules {
 				$this->cacheDB,
 				gzcompress(
 					json_encode(
-						$this->loadModules
+						$this->loadExtensions
 					), 9
 				)
 			);
 		} else {
-			echo "Warning 'moduleCache' database not writeable";
+			echo "Warning 'extensionCache' database not writeable";
 		}
 	}
 }

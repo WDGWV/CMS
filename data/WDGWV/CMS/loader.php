@@ -90,7 +90,7 @@ $_config = new WDGWV\CMS\Config();
  */
 $debugger = \WDGWV\CMS\Debugger::sharedInstance();
 $hooks = \WDGWV\CMS\hooks::sharedInstance();
-$modules = \WDGWV\CMS\modules::sharedInstance();
+$extensions = \WDGWV\CMS\extensions::sharedInstance();
 
 /**
  * Initialize the installer
