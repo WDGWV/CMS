@@ -63,7 +63,11 @@ function autloadWDGWVCMS($class) {
 		if (sizeof(explode('\\', $class)) > 1) {
 			echo "<b>WARNING</b><br />";
 			echo "Couldn't load class <b>{$class}</b> the required file is missing!<br />";
-			echo "Attempted to load: {$fileName}";
+			echo "Attempted to load: {$fileName}<hr />";
+
+			echo "<pre>";
+			debug_print_backtrace();
+			echo "</pre>";
 			exit();
 		}
 	}

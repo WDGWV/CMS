@@ -1,11 +1,10 @@
 <?php
 /**
- * WDGWV CMS Required file.
- * Full access: true
- * Extension: Update
+ * WDGWV CMS Extension file.
+ * Full access: false
+ * Extension: Test Extension
  * Version: 1.0
- * Description: Updates WDGWV CMS
- * Hash: * INSERT HASH HERE *
+ * Description: This is a simple test for a Extension file.
  */
 
 /*
@@ -59,10 +58,7 @@
 
 namespace WDGWV\CMS\Extension; /* Module namespace */
 
-class update extends \WDGWV\CMS\extensionBase {
-	private $updateURL = "https://www.wdgwv.com/upd/cms/?version=%s&module=%s&modver=%s";
-	private $extensionList = array();
-
+class todoExtension extends \WDGWV\CMS\extensionBase {
 	/**
 	 * Call the sharedInstance
 	 * @since Version 1.0
@@ -70,7 +66,7 @@ class update extends \WDGWV\CMS\extensionBase {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\Extension\update();
+			$inst = new \WDGWV\CMS\Extension\todoExtension();
 		}
 		return $inst;
 	}
@@ -80,38 +76,58 @@ class update extends \WDGWV\CMS\extensionBase {
 	 *
 	 */
 	private function __construct() {
-		// Read cached Extensions, if they exists, otherwise, skip.
-		$this->extensionList = \WDGWV\CMS\extensions::sharedInstance()->_displayExtensionList();
-	}
-
-	public function _reload() {
-		\WDGWV\CMS\extensions::sharedInstance()->_forceReloadExtensions();
-		if (!headers_sent()) {
-			header("location: /");
-		}
-		echo "<script>window.location='/';</script>";
-		exit;
 	}
 
 	public function _display() {
-		$page = array();
-		$page[] = array(
-			'Test extension: \'update\'.',
-			'This is an example of a test extension, which adds an item to the menu, and can display a page.<br />And many more!' .
-			'to use localization use \__(\'the string which need to be translated\')');
+		$page = array(
+			array(
+				'Todo list.',
+				'This is a todo list (static, for creating/debugging use only atm)',
+			),
 
-		for ($i = 0; $i < sizeof($this->extensionList); $i++) {
-			$page1 = $this->extensionList[$i];
-			$page1 .= '<table>';
-			foreach (\WDGWV\CMS\extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
-				$page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
-			};
-			$page1 .= '</table>';
+			array('Plain text Database support', 'Plain text Database support<br /><br />
+				<b>Supported</b>
+				<ul>
+					<li><progress min=0 max=100 value=100></progress> 100% | Connection (N/A)</li>
+					<li><progress min=0 max=100 value=100></progress> 000% | ... Other</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=2></progress> 2/2%'),
 
-			$page[] = array($this->extensionList[$i], $page1);
-		}
+			array('Extensibility', "Extensibility for plugins<br /><br />
+				<b>Supported</b>
+				<ul>
+					<li><progress min=0 max=100 value=100></progress> 100% | Page extensions</li>
+					<li><progress min=0 max=100 value=100></progress> 100% | Menu extensions</li>
+					<li><progress min=0 max=100 value=100></progress> 100% | URL-extensions (override)</li>
+					<li><progress min=0 max=100 value=100></progress> 100% | Specific \$_POST extensions</li>
+					<li><progress min=0 max=100 value=100></progress> 100% | Specific \$_GET extensions</li>
+					<li><progress min=0 max=100 value=25></progress> 025% | Partial: UBB code extensions</li>
+				</ul><br />
+				Progress: <progress min=0 max=6 value=5></progress> 5/6", ),
+			array('item 2', 'description<br /><br />
+				<b>Supported</b>
+				<ul>
+					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
+					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
 
-		$page[] = array('reindex', sprintf('<a href=\'/%s/extensions/reindex\'>Force reindex extensions</a>', (new \WDGWV\CMS\Config)->adminURL()));
+			array('MySQL Database support', 'MySQL Database support<br /><br />
+				<b>Supported</b>
+				<ul>
+					<li><progress min=0 max=100 value=0></progress> 000% | Connection</li>
+					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
+			array('SQLite Database support', 'SQLite Database support<br /><br />
+				<b>Supported</b>
+				<ul>
+					<li><progress min=0 max=100 value=0></progress> 000% | Connection</li>
+					<li><progress min=0 max=100 value=0></progress> 000% | ...</li>
+				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2%'),
+
+			array('MAYBE LATER: CRM',
+				'CRM Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%'),
+			array('MAYBE LATER: ERP',
+				'ERP Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%'),
+		);
 
 		return $page;
 	}
@@ -119,32 +135,18 @@ class update extends \WDGWV\CMS\extensionBase {
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'menu',
-	'administration/ ',
+	'TODO',
 	array(
-		'name' => 'Administration/ ',
-	)
-);
-
-\WDGWV\CMS\hooks::sharedInstance()->createHook(
-	'menu',
-	'administration/update',
-	array(
-		'name' => 'Administration/Update (1)',
-		'icon' => 'cogs',
-		'url' => sprintf('/%s/update', (new \WDGWV\CMS\Config)->adminURL()),
-		'userlevel' => 'admin',
+		'name' => 'TODO',
+		'icon' => 'pencil',
+		'url' => '/dev/TODO',
+		'userlevel' => '*',
 	)
 );
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
 	'url',
-	sprintf('/%s/update', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-	array(update::sharedInstance(), '_display')
-);
-
-\WDGWV\CMS\hooks::sharedInstance()->createHook(
-	'url',
-	sprintf('/%s/extensions/reindex', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-	array(update::sharedInstance(), '_reload')
+	'/dev/TODO', // Supports also /calendar/i*cs and then /calendar/ixcs works also
+	array(todoExtension::sharedInstance(), '_display')
 );
 ?>
