@@ -1,10 +1,11 @@
 <?php
 /**
  * WDGWV CMS Extension file.
- * Full access: false
- * Extension: Test Extension
+ * Full access: true
+ * Extension: Demo mode
  * Version: 1.0
- * Description: This is a simple test for a Extension file.
+ * Description: Disable all admin calls.
+ * Hash: * INSERT HASH HERE *
  */
 
 /*
@@ -56,10 +57,9 @@
 ------------------------------------------------------------
  */
 
-namespace WDGWV\CMS\Extension; /* Extension namespace */
+namespace WDGWV\CMS\Extension; /* Module namespace */
 
-class extensionList extends \WDGWV\CMS\extensionBase {
-	private $extensionList = array();
+class demoMode extends \WDGWV\CMS\extensionBase {
 	/**
 	 * Call the sharedInstance
 	 * @since Version 1.0
@@ -67,7 +67,7 @@ class extensionList extends \WDGWV\CMS\extensionBase {
 	public static function sharedInstance() {
 		static $inst = null;
 		if ($inst === null) {
-			$inst = new \WDGWV\CMS\Extension\extensionList();
+			$inst = new \WDGWV\CMS\Extension\demoMode();
 		}
 		return $inst;
 	}
@@ -76,87 +76,53 @@ class extensionList extends \WDGWV\CMS\extensionBase {
 	 * Private so nobody else can instantiate it
 	 *
 	 */
-	private function __construct() {
-		$this->extensionList = \WDGWV\CMS\extensions::sharedInstance()->_displayExtensionList();
-	}
-
-	public function _forceReload() {
-		\WDGWV\CMS\extensions::sharedInstance()->_forceReloadExtensions();
-		if (!headers_sent()) {
-			header("location: /");
-		}
-		echo "<script>window.location='/';</script>";
-		exit;
-	}
+	private function __construct() {}
 
 	public function _display() {
-		if (isset($_GET['reIndex'])) {
-			$this->_forceReload();
+		unset($_POST);
+		$_POST = array();
+		unset($_GET);
+		$_GET = array();
+
+		if (sizeof($_GET) > 0 ||
+			sizeof($_POST) > 0) {
+			$page = array(
+				'⚠️ Warning: Couldn\'t remove post data.',
+				'<table><tr><td style=\'font-size: 124px;\'>⚠️</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><h1>Warning</h1><h3>Demo mode activated</h3><br />All changes on system settings are <b>rejected</b>.<br /><br />In about 5 seconds you\'ll be redericted to saftey.</td></tr></table><script>window.setTimeout(function () {history.back(-1);}, 5000);</script>');
+
+			return $page;
 		}
 
-		$page = array();
-		$page[] = array(
-			'Extensions list',
-			'This is an extension what list all loaded extensions, it also offers a force-reload option in the bottom of the page',
-		);
-
-		for ($i = 0; $i < sizeof($this->extensionList); $i++) {
-			$name = explode('/', $this->extensionList[$i])[sizeof(explode('/', $this->extensionList[$i])) - 2];
-
-			$page1 = $this->extensionList[$i];
-			$page1 .= '<table>';
-			foreach (\WDGWV\CMS\extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
-				if ($info === 'extension') {$name = $value;}
-				$page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
-			};
-			$page1 .= '</table>';
-
-			$page[] = array(
-				sprintf('%s extension', $name),
-				$page1,
-			);
-		}
-
-		$page[] = array(
-			'Reindex extensions',
-			sprintf('<a href=\'/%s/extensions/list?reIndex=now\'>Force reindex extensions</a>', (new \WDGWV\CMS\Config)->adminURL()),
-		);
-
-		return $page;
+		return;
 	}
 }
 
 \WDGWV\CMS\hooks::sharedInstance()->createHook(
-	'menu',
-	'administration/Extensions/Extension list',
+	'after-content',
+	'demo mode',
 	array(
-		'name' => 'administration/Extensions/Extension list',
-		'icon' => 'pencil',
-		'url' => sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()),
-		'userlevel' => 'admin',
+		'demo mode',
+		'Welcome on this public <a href=\'https://www.wdgwv.com/products/cms\' target=\'_blank\'>WDGWV CMS</a> demo server.<br />You can browse the interface, but you can\'t make changes on the system.',
 	)
 );
 
-\WDGWV\CMS\hooks::sharedInstance()->createHook(
-	'menu',
-	'administration/Extensions/Extension search',
-	array(
-		'name' => 'administration/Extensions/Extension search',
-		'icon' => 'pencil',
-		'url' => sprintf('/%s/extensions/search', (new \WDGWV\CMS\Config)->adminURL()),
-		'userlevel' => 'admin',
-	)
-);
+if (sizeof($_GET) > 0 ||
+	sizeof($_POST) > 0) {
+	// Display Warning.
+	\WDGWV\CMS\hooks::sharedInstance()->createHook(
+		'before-content',
+		'warning',
+		array(
+			'⚠️ Warning: Demo mode activated',
+			'<table><tr><td style=\'font-size: 124px;\'>⚠️</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><h1>Warning</h1><h3>Demo mode activated</h3><br />All changes on system settings are disabled.</td></tr></table>',
+		)
+	);
 
-\WDGWV\CMS\hooks::sharedInstance()->createHook(
-	'url',
-	sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-	array(extensionList::sharedInstance(), '_display')
-);
-
-// \WDGWV\CMS\hooks::sharedInstance()->createHook(
-// 	'url',
-// 	sprintf('/%s/extensions/reindex', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-// 	array(extensionList::sharedInstance(), '_forceReload')
-// );
+	// Remove all values.
+	\WDGWV\CMS\hooks::sharedInstance()->createHook(
+		'url',
+		sprintf('/%s*', (new \WDGWV\CMS\Config())->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
+		array(demoMode::sharedInstance(), '_display')
+	);
+}
 ?>

@@ -88,9 +88,38 @@ class page extends \WDGWV\CMS\controllers\base {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Override page from extension');
 			}
+
 			$pageData = \WDGWV\CMS\hooks::sharedInstance()->loadPageFor(array('post', 'get', 'url'));
 
-			if (sizeof($pageData) == 2) {
+			if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('before-content')) {
+				if (!is_array($pageData[0])) {
+					$pageData = array(
+						\WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content'),
+						$pageData,
+					);
+				} else {
+					$pageData = array_merge(
+						array(\WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content')),
+						$pageData
+					);
+				}
+			}
+
+			if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('after-content')) {
+				if (!is_array($pageData[0])) {
+					$pageData = array(
+						$pageData,
+						\WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content'),
+					);
+				} else {
+					$pageData = array_merge(
+						$pageData,
+						array(\WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content'))
+					);
+				}
+			}
+
+			if (!is_array($pageData[0])) {
 				$this->parser->bindParameter('title', $pageData[0]);
 				$this->parser->bindParameter('page', $pageData[1]);
 			} else {
@@ -110,6 +139,7 @@ class page extends \WDGWV\CMS\controllers\base {
 				}
 
 				$this->parser->bindParameter('post', $tempArray);
+				$this->parser->bindParameter('page', '');
 			}
 			return;
 		}
@@ -158,7 +188,7 @@ class page extends \WDGWV\CMS\controllers\base {
 					}
 					$blogData = $this->database->postLoad($subComponent);
 
-					$this->parser->bindParameter('post', array(
+					$post = array(
 						array(
 							'title' => $blogData[0],
 							'content' => base64_encode($blogData[1]),
@@ -168,14 +198,45 @@ class page extends \WDGWV\CMS\controllers\base {
 							'readmore' => null,
 							'keywords' => $blogData[2],
 						),
-					));
+					);
+
+					if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('before-content')) {
+						$myData = \WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content');
+						$myPost = array(array(
+							"title" => $myData[0],
+							"content" => base64_encode($myData[1]),
+							"date" => date("d-m-Y"),
+							"comments" => null,
+							"shares" => null,
+							"readmore" => null,
+							"keywords" => null,
+						));
+
+						$post = array_merge($myPost, $post);
+					}
+
+					if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('after-content')) {
+						$myData = \WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content');
+						$myPost = array(array(
+							"title" => $myData[0],
+							"content" => base64_encode($myData[1]),
+							"date" => date("d-m-Y"),
+							"comments" => null,
+							"shares" => null,
+							"readmore" => null,
+							"keywords" => null,
+						));
+
+						$post = array_merge($post, $myPost);
+					}
+
+					$this->parser->bindParameter('post', $post);
 					$this->parser->bindParameter('page', '');
 					return;
 				} elseif ($subComponent === 'last') {
 					$this->parser->bindParameter('page', '');
 					$blogData = $this->database->postGetLast();
-
-					$this->parser->bindParameter('post', array(
+					$post = array(
 						array(
 							'title' => $blogData[0],
 							'content' => base64_encode($blogData[1]),
@@ -185,7 +246,39 @@ class page extends \WDGWV\CMS\controllers\base {
 							'readmore' => null,
 							'keywords' => $blogData[2],
 						),
-					));
+					);
+
+					if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('before-content')) {
+						$myData = \WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content');
+						$myPost = array(array(
+							"title" => $myData[0],
+							"content" => base64_encode($myData[1]),
+							"date" => date("d-m-Y"),
+							"comments" => null,
+							"shares" => null,
+							"readmore" => null,
+							"keywords" => null,
+						));
+
+						$post = array_merge($myPost, $post);
+					}
+
+					if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('after-content')) {
+						$myData = \WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content');
+						$myPost = array(array(
+							"title" => $myData[0],
+							"content" => base64_encode($myData[1]),
+							"date" => date("d-m-Y"),
+							"comments" => null,
+							"shares" => null,
+							"readmore" => null,
+							"keywords" => null,
+						));
+
+						$post = array_merge($post, $myPost);
+					}
+
+					$this->parser->bindParameter('post', $post);
 					return;
 				}
 			} else {
@@ -195,52 +288,170 @@ class page extends \WDGWV\CMS\controllers\base {
 
 				$this->parser->bindParameter('page', '');
 				$blogData = $this->database->postGetLast();
-
-				$this->parser->bindParameter('post', array(
-					array(
-						'title' => $blogData[0],
-						'content' => base64_encode($blogData[1]),
-						'date' => $blogData[3],
-						'comments' => null,
-						'shares' => null,
-						'readmore' => null,
-						'keywords' => $blogData[2],
-					),
+				$post = array(array(
+					'title' => $blogData[0],
+					'content' => base64_encode($blogData[1]),
+					'date' => $blogData[3],
+					'comments' => null,
+					'shares' => null,
+					'readmore' => null,
+					'keywords' => $blogData[2],
 				));
+
+				if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('before-content')) {
+					$myData = \WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content');
+					$myPost = array(array(
+						"title" => $myData[0],
+						"content" => base64_encode($myData[1]),
+						"date" => date("d-m-Y"),
+						"comments" => null,
+						"shares" => null,
+						"readmore" => null,
+						"keywords" => null,
+					));
+
+					$post = array_merge($myPost, $post);
+				}
+
+				if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('after-content')) {
+					$myData = \WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content');
+					$myPost = array(array(
+						"title" => $myData[0],
+						"content" => base64_encode($myData[1]),
+						"date" => date("d-m-Y"),
+						"comments" => null,
+						"shares" => null,
+						"readmore" => null,
+						"keywords" => null,
+					));
+
+					$post = array_merge($post, $myPost);
+				}
+
+				$this->parser->bindParameter('post', $post);
 				return;
 			}
 		}
 
-		if ($activeComponent === 'search') {
-			if (class_exists('\WDGWV\CMS\Debugger')) {
-				\WDGWV\CMS\Debugger::sharedInstance()->log('Search mode!');
-			}
-
-			$this->parser->bindParameter('page', sprintf('Searching \'%s\'...', $subComponent));
-			$this->parser->bindParameter('title', $activeComponent);
-			return;
-		}
-
+		/**
+		 * PAGE FROM DATABASE
+		 */
 		if ($this->database->pageExists($activeComponent)) {
 			if (class_exists('\WDGWV\CMS\Debugger')) {
 				\WDGWV\CMS\Debugger::sharedInstance()->log('Found page in database');
 			}
-			$this->parser->bindParameter('page', sprintf(
-				"%s",
+
+			$pageData = [];
+			$pageData = array(
+				$activeComponent,
 				$this->parseUBBTags(
 					$this->database->loadPage($activeComponent)[1]
-				)
-			));
-			$this->parser->bindParameter('title', $activeComponent);
+				),
+			);
+
+			if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('before-content')) {
+				if (!is_array($pageData[0])) {
+					$pageData = array(
+						\WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content'),
+						$pageData,
+					);
+				} else {
+					$pageData = array_merge(
+						array(\WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content')),
+						$pageData
+					);
+				}
+			}
+
+			if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('after-content')) {
+				if (!is_array($pageData[0])) {
+					$pageData = array(
+						$pageData,
+						\WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content'),
+					);
+				} else {
+					$pageData = array_merge(
+						$pageData,
+						array(\WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content'))
+					);
+				}
+			}
+
+			$tempArray = array();
+
+			for ($i = 0; $i < sizeof($pageData); $i++) {
+				$tempArray[] = array(
+					"title" => $pageData[$i][0],
+					"content" => base64_encode($pageData[$i][1]),
+					"date" => date("d-m-Y"),
+					"comments" => null,
+					"shares" => null,
+					"readmore" => null,
+					"keywords" => null,
+				);
+			}
+
+			$this->parser->bindParameter('post', $tempArray);
 			return;
 		}
 
+		/*
+			 * PAGE NOT FOUND
+		*/
 		if (class_exists('\WDGWV\CMS\Debugger')) {
 			\WDGWV\CMS\Debugger::sharedInstance()->log('Page not found!');
 		}
 
-		$this->parser->bindParameter('page', sprintf('THE PAGE \'%s\' DOES NOT EXISTS', $activeComponent));
-		$this->parser->bindParameter('title', $activeComponent);
+		$pageData = [];
+		$pageData = array(
+			$activeComponent,
+			sprintf('THE PAGE \'%s\' DOES NOT EXISTS', $activeComponent),
+		);
+
+		if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('before-content')) {
+			if (!is_array($pageData[0])) {
+				$pageData = array(
+					\WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content'),
+					$pageData,
+				);
+			} else {
+				$pageData = array_merge(
+					array(\WDGWV\CMS\hooks::sharedInstance()->loopHook('before-content')),
+					$pageData
+				);
+			}
+		}
+
+		if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('after-content')) {
+			if (!is_array($pageData[0])) {
+				$pageData = array(
+					$pageData,
+					\WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content'),
+				);
+			} else {
+				$pageData = array_merge(
+					$pageData,
+					array(\WDGWV\CMS\hooks::sharedInstance()->loopHook('after-content'))
+				);
+			}
+		}
+
+		$tempArray = array();
+
+		for ($i = 0; $i < sizeof($pageData); $i++) {
+			$tempArray[] = array(
+				"title" => $pageData[$i][0],
+				"content" => base64_encode($pageData[$i][1]),
+				"date" => date("d-m-Y"),
+				"comments" => null,
+				"shares" => null,
+				"readmore" => null,
+				"keywords" => null,
+			);
+		}
+
+		$this->parser->bindParameter('post', $tempArray);
+
 		return;
 	}
 }
