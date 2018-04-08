@@ -87,7 +87,7 @@ class demoMode extends \WDGWV\CMS\extensionBase {
 		if (sizeof($_GET) > 0 ||
 			sizeof($_POST) > 0) {
 			$page = array(
-				'⚠️ Warning: Couldn\'t remove post data.',
+				'⚠️ Warning: Couldn\'t remove post/get data.',
 				'<table><tr><td style=\'font-size: 124px;\'>⚠️</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><h1>Warning</h1><h3>Demo mode activated</h3><br />All changes on system settings are <b>rejected</b>.<br /><br />In about 5 seconds you\'ll be redericted to saftey.</td></tr></table><script>window.setTimeout(function () {history.back(-1);}, 5000);</script>');
 
 			return $page;
