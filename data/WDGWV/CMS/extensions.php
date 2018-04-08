@@ -209,6 +209,21 @@ class extensions {
 	private function _reloadExtensions() {
 		$this->loadExtensions = array();
 
+		// Check for 'demoMode' first.
+		$current = 'demoMode';
+		foreach ($this->scan_directorys as $readDirectory) {
+			if (file_exists($readDirectory) && is_readable($readDirectory)) {
+				if (file_exists($readDirectory . $current)) {
+					foreach ($this->load_files as $tryFile) {
+						if (file_exists($readDirectory . $current . '/' . $tryFile)) {
+							$this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
+							require_once $readDirectory . $current . '/' . $tryFile;
+						}
+					}
+				}
+			}
+		}
+
 		foreach ($this->scan_directorys as $readDirectory) {
 			if (file_exists($readDirectory) && is_readable($readDirectory)) {
 				$_d = opendir($readDirectory);
@@ -216,8 +231,10 @@ class extensions {
 					if ($current != '.' && $current != '..' && is_dir($readDirectory . $current)) {
 						foreach ($this->load_files as $tryFile) {
 							if (file_exists($readDirectory . $current . '/' . $tryFile)) {
-								$this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
-								require_once $readDirectory . $current . '/' . $tryFile;
+								if (!in_array($readDirectory . $current . '/' . $tryFile, $this->loadExtensions)) {
+									$this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
+									require_once $readDirectory . $current . '/' . $tryFile;
+								}
 							}
 						}
 					}
