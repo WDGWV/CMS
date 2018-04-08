@@ -81,10 +81,15 @@ class extensions {
 		'plugin.php',
 	);
 
+	private $systemModules = array(
+		'extensionManagement',
+	);
+
 	private $cache = '';
 	private $cacheDB = './data/database/extensionCache.db';
 	private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
 	private $loadExtensions = array();
+	private $extensionList = array();
 
 	/**
 	 * Call the sharedInstance
@@ -113,7 +118,7 @@ class extensions {
 	}
 
 	public function _displayExtensionList() {
-		return $this->loadExtensions;
+		return $this->extensionList;
 	}
 
 	private function _loadExtensions() {
@@ -125,19 +130,56 @@ class extensions {
 			), true
 		);
 
-		if (sizeof($f) == 0) {
+		if (sizeof($f[1]) == 0) {
 			$this->_reloadExtensions();
 			return;
 		}
 
-		foreach ($f as $loadFile) {
+		foreach ($f[0] as $loadFile) {
 			Debugger::sharedInstance()->log(sprintf('loading %s', $loadFile));
 			if (file_exists($loadFile)) {
 				require_once $loadFile;
 			}
 		}
 
-		$this->loadExtensions = $f;
+		$this->loadExtensions = $f[0];
+		$this->extensionList = $f[1];
+	}
+
+	public function isSystem($ext) {
+		if (sizeof(explode('/', $ext)) > 1) {
+			return in_array(explode('/', $ext)[3], $this->systemModules);
+		}
+
+		foreach ($this->systemModules as $checkExtension) {
+			foreach ($this->information($checkExtension) as $info => $value) {
+				if ($info === 'extension') {
+					if ($value === $ext) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public function isActive($ext) {
+		if (sizeof(explode('/', $ext)) > 1) {
+			return in_array($ext, $this->loadExtensions);
+		}
+
+		foreach ($this->loadExtensions as $checkExtension) {
+			foreach ($this->information($checkExtension) as $info => $value) {
+				if ($info === 'extension') {
+					if ($value === $ext) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public function information($ofExtensionOrFilePath) {
@@ -201,6 +243,7 @@ class extensions {
 		}
 	}
 	public function _forceReloadExtensions() {
+		unset($this->extensionList);
 		unset($this->loadExtensions);
 		unlink($this->cacheDB);
 		$this->_reloadExtensions();
@@ -208,6 +251,7 @@ class extensions {
 
 	private function _reloadExtensions() {
 		$this->loadExtensions = array();
+		$this->extensionList = array();
 
 		// Check for 'demoMode' first.
 		$current = 'demoMode';
@@ -217,6 +261,7 @@ class extensions {
 					foreach ($this->load_files as $tryFile) {
 						if (file_exists($readDirectory . $current . '/' . $tryFile)) {
 							$this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
+							$this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
 							require_once $readDirectory . $current . '/' . $tryFile;
 						}
 					}
@@ -232,7 +277,11 @@ class extensions {
 						foreach ($this->load_files as $tryFile) {
 							if (file_exists($readDirectory . $current . '/' . $tryFile)) {
 								if (!in_array($readDirectory . $current . '/' . $tryFile, $this->loadExtensions)) {
-									$this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
+									if (in_array($current, $this->systemModules)) {
+										$this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
+									}
+
+									$this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
 									require_once $readDirectory . $current . '/' . $tryFile;
 								}
 							}
@@ -253,7 +302,7 @@ class extensions {
 				$this->cacheDB,
 				gzcompress(
 					json_encode(
-						$this->loadExtensions
+						array($this->loadExtensions, $this->extensionList)
 					), 9
 				)
 			);
