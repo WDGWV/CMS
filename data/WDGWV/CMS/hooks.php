@@ -133,6 +133,14 @@ class hooks extends \WDGWV\CMS\baseProtected {
 			}
 			break;
 
+		case 'script':
+			if (isset($this->hookDatabase['script'])) {
+				for ($i = 0; $i < sizeof($this->hookDatabase['script']); $i++) {
+					return $this->hookDatabase['script'][$i]['action'];
+				}
+			}
+			break;
+
 		case 'url':
 			if (isset($this->hookDatabase['url'])) {
 				for ($i = 0; $i < sizeof($this->hookDatabase['url']); $i++) {

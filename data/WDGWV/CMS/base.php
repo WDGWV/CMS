@@ -252,6 +252,13 @@ class base extends \WDGWV\General\WDGWVFramework {
 
 			$parser->display();
 
+			if (\WDGWV\CMS\hooks::sharedInstance()->haveHooksFor('script')) {
+				echo sprintf(
+					'<script type=\'text/javascript\'>%s</script>',
+					\WDGWV\CMS\hooks::sharedInstance()->loopHook('script')
+				);
+			}
+
 			if ($parser->didDisplay()) {
 				echo "THEME " . $this->getTheme() . " Does not exists!";
 			}

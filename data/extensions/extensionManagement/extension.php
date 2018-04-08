@@ -95,6 +95,12 @@ class extensionList extends \WDGWV\CMS\extensionBase {
 			$this->_forceReload();
 		}
 
+		\WDGWV\CMS\hooks::sharedInstance()->createHook(
+			'script',
+			'Resize classes',
+			"$('.col-lg-12').attr('class', 'col-lg-5');"
+		);
+
 		$page = array();
 		$page[] = array(
 			'Extensions list',
