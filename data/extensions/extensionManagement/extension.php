@@ -1,10 +1,11 @@
 <?php
 /**
- * WDGWV CMS Extension file.
- * Full access: false
- * Extension: Test Extension
+ * WDGWV CMS System file.
+ * Full access: true
+ * Extension: Extension Managament
  * Version: 1.0
- * Description: This is a simple test for a Extension file.
+ * Description: This manages all your extensions.
+ * Hash: * INSERT HASH HERE *
  */
 
 /*
@@ -94,6 +95,12 @@ class extensionList extends \WDGWV\CMS\extensionBase {
 			$this->_forceReload();
 		}
 
+		\WDGWV\CMS\hooks::sharedInstance()->createHook(
+			'script',
+			'Resize classes',
+			"$('.col-lg-12').attr('class', 'col-lg-5');"
+		);
+
 		$page = array();
 		$page[] = array(
 			'Extensions list',
@@ -104,15 +111,27 @@ class extensionList extends \WDGWV\CMS\extensionBase {
 			$name = explode('/', $this->extensionList[$i])[sizeof(explode('/', $this->extensionList[$i])) - 2];
 
 			$page1 = $this->extensionList[$i];
+
 			$page1 .= '<table>';
 			foreach (\WDGWV\CMS\extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
 				if ($info === 'extension') {$name = $value;}
-				$page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
+				$page1 .= sprintf(
+					"<tr><td>%s:</td><td>%s</td></tr>",
+					$info, htmlspecialchars($value)
+				);
 			};
 			$page1 .= '</table>';
 
 			$page[] = array(
-				sprintf('%s extension', $name),
+				sprintf('%s extension<span class=\'right\'><button onClick="window.location=\'/%s/extensions/list?%sExtension=%s\'"%s>%s \'%s\'</button></span>',
+					$name,
+					(new \WDGWV\CMS\Config)->adminURL(),
+					(\WDGWV\CMS\extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'disable' : 'enable'),
+					$name,
+					(\WDGWV\CMS\extensions::sharedInstance()->isSystem($this->extensionList[$i]) ? 'disabled' : ''),
+					(\WDGWV\CMS\extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'Disable' : 'Enable'),
+					$name
+				),
 				$page1,
 			);
 		}
