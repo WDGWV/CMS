@@ -73,319 +73,328 @@ $WDGWV_DEBUG['warning'] = array('WDGWV Debug (warnings) started.');
  * @link http://www.wesleydegroot.nl © Wesley de Groot
  * @link https://www.wdgwv.com © WDGWV
  */
-class Debugger {
-	/**
-	 * Call the debugger
-	 * @since Version 1.0
-	 */
-	public static function sharedInstance() {
-		static $inst = null;
-		if ($inst === null) {
-			$inst = new \WDGWV\CMS\Debugger();
-		}
-		return $inst;
-	}
+class Debugger
+{
+    /**
+     * Call the debugger
+     * @since Version 1.0
+     */
+    public static function sharedInstance()
+    {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new \WDGWV\CMS\Debugger();
+        }
+        return $inst;
+    }
 
-	/**
-	 * Private so nobody else can instantiate it
-	 *
-	 */
-	private function __construct() {
+    /**
+     * Private so nobody else can instantiate it
+     *
+     */
+    private function __construct()
+    {
 
-	}
+    }
 
-	/**
-	 * Log a message
-	 * @param string $message Logmessage
-	 * @param bool $error custom error code
-	 * @since Version 1.0
-	 */
-	public function log($message, $error = 'info') {
-		global $WDGWV_DEBUG;
+    /**
+     * Log a message
+     * @param string $message Logmessage
+     * @param bool $error custom error code
+     * @since Version 1.0
+     */
+    public function log($message, $error = 'info')
+    {
+        global $WDGWV_DEBUG;
 
-		if ($error == 'warn') {
-			$error = 'warning';
-		}
+        if ($error == 'warn') {
+            $error = 'warning';
+        }
 
-		$WDGWV_DEBUG[$error][] = $message;
-	}
+        $WDGWV_DEBUG[$error][] = $message;
+    }
 
-	/**
-	 * Warning message
-	 * @param string $message Logmessage
-	 * @param bool $invokeWarning trigger_error? (default: false)
-	 * @since Version 1.0
-	 */
-	public function warning($message, $invokeWarning = false) {
-		global $WDGWV_DEBUG;
-		$caller = debug_backtrace()[0];
+    /**
+     * Warning message
+     * @param string $message Logmessage
+     * @param bool $invokeWarning trigger_error? (default: false)
+     * @since Version 1.0
+     */
+    public function warning($message, $invokeWarning = false)
+    {
+        global $WDGWV_DEBUG;
+        $caller = debug_backtrace()[0];
 
-		if ($invokeWarning) {
-			trigger_error($message . ' in <strong>' . $caller['file'] . '</strong> on line <strong>' . $caller['line'] . '</strong>' . "\n<br /> From error handler", E_USER_WARNING);
-		}
+        if ($invokeWarning) {
+            trigger_error($message . ' in <strong>' . $caller['file'] . '</strong> on line <strong>' . $caller['line'] . '</strong>' . "\n<br /> From error handler", E_USER_WARNING);
+        }
 
-		$this->log($message, 'warning');
-	}
+        $this->log($message, 'warning');
+    }
 
-	/**
-	 * Error message
-	 * @param string $message Logmessage
-	 * @param bool $invokeWarning trigger_error? (default: false)
-	 * @since Version 1.0
-	 */
-	public function error($message, $invokeWarning = false) {
-		global $WDGWV_DEBUG;
-		$caller = debug_backtrace()[0];
+    /**
+     * Error message
+     * @param string $message Logmessage
+     * @param bool $invokeWarning trigger_error? (default: false)
+     * @since Version 1.0
+     */
+    public function error($message, $invokeWarning = false)
+    {
+        global $WDGWV_DEBUG;
+        $caller = debug_backtrace()[0];
 
-		if ($invokeWarning) {
-			trigger_error($message . ' in <strong>' . $caller['file'] . '</strong> on line <strong>' . $caller['line'] . '</strong>' . "\n<br /><!-- From error handler", E_USER_ERROR);
-		}
+        if ($invokeWarning) {
+            trigger_error($message . ' in <strong>' . $caller['file'] . '</strong> on line <strong>' . $caller['line'] . '</strong>' . "\n<br /><!-- From error handler", E_USER_ERROR);
+        }
 
-		$this->log($message, 'error');
-	}
+        $this->log($message, 'error');
+    }
 
-	/**
-	 * Dump log to HTML
-	 * @param bool $r return?
-	 * @since Version 1.0
-	 */
-	public function logdump($r = false) {
-		global $WDGWV_DEBUG;
+    /**
+     * Dump log to HTML
+     * @param bool $r return?
+     * @since Version 1.0
+     */
+    public function logdump($r = false)
+    {
+        global $WDGWV_DEBUG;
 
-		if ($r) {
-			return $r;
-		} else {
-			echo $this->dump($WDGWV_DEBUG);
-		}
+        if ($r) {
+            return $r;
+        } else {
+            echo $this->dump($WDGWV_DEBUG);
+        }
 
-	}
-	/**
-	 * Dump all namespaces and classes to HTML
-	 * @param bool $r return?
-	 * @since Version 1.0
-	 */
-	public function dumpAllClasses() {
-		$namespaces = array();
-		foreach (get_declared_classes() as $name) {
-			if (preg_match("/\\\/", $name)) {
-				$x = explode("\\", $name);
+    }
+    /**
+     * Dump all namespaces and classes to HTML
+     * @param bool $r return?
+     * @since Version 1.0
+     */
+    public function dumpAllClasses()
+    {
+        $namespaces = array();
+        foreach (get_declared_classes() as $name) {
+            if (preg_match("/\\\/", $name)) {
+                $x = explode("\\", $name);
 
-				if (isset($x[0]) && !isset($namespaces[$x[0]])) {
-					if (isset($x[1])) {
-						$namespaces[$x[0]] = array();
-					} else {
-						$namespaces[] = $x[0];
-					}
-				}
+                if (isset($x[0]) && !isset($namespaces[$x[0]])) {
+                    if (isset($x[1])) {
+                        $namespaces[$x[0]] = array();
+                    } else {
+                        $namespaces[] = $x[0];
+                    }
+                }
 
-				if (isset($x[1]) && !isset($namespaces[$x[0]][$x[1]])) {
-					if (isset($x[2])) {
-						$namespaces[$x[0]][$x[1]] = array();
-					} else {
-						$namespaces[$x[0]][] = $x[1];
-					}
-				}
+                if (isset($x[1]) && !isset($namespaces[$x[0]][$x[1]])) {
+                    if (isset($x[2])) {
+                        $namespaces[$x[0]][$x[1]] = array();
+                    } else {
+                        $namespaces[$x[0]][] = $x[1];
+                    }
+                }
 
-				if (isset($x[2]) && !isset($namespaces[$x[0]][$x[1]][$x[2]])) {
-					if (isset($x[3])) {
-						$namespaces[$x[0]][$x[1]][$x[2]] = array();
-					} else {
-						$namespaces[$x[0]][$x[1]][] = $x[2];
-					}
-				}
+                if (isset($x[2]) && !isset($namespaces[$x[0]][$x[1]][$x[2]])) {
+                    if (isset($x[3])) {
+                        $namespaces[$x[0]][$x[1]][$x[2]] = array();
+                    } else {
+                        $namespaces[$x[0]][$x[1]][] = $x[2];
+                    }
+                }
 
-				if (isset($x[3]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]])) {
-					if (isset($x[4])) {
-						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]] = array();
-					} else {
-						$namespaces[$x[0]][$x[1]][$x[2]][] = $x[3];
-					}
-				}
+                if (isset($x[3]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]])) {
+                    if (isset($x[4])) {
+                        $namespaces[$x[0]][$x[1]][$x[2]][$x[3]] = array();
+                    } else {
+                        $namespaces[$x[0]][$x[1]][$x[2]][] = $x[3];
+                    }
+                }
 
-				if (isset($x[4]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]])) {
-					if (isset($x[5])) {
-						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]] = array();
-					} else {
-						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][] = $x[4];
-					}
-				}
+                if (isset($x[4]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]])) {
+                    if (isset($x[5])) {
+                        $namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]] = array();
+                    } else {
+                        $namespaces[$x[0]][$x[1]][$x[2]][$x[3]][] = $x[4];
+                    }
+                }
 
-				if (isset($x[5]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]][$x[5]])) {
-					if (isset($x[6])) {
-						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]][$x[5]] = array("LIMIT REACHED");
-					} else {
-						$namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]] = $x[5];
-					}
-				}
-			}
-		}
-		echo $this->dump($namespaces);
-	}
+                if (isset($x[5]) && !isset($namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]][$x[5]])) {
+                    if (isset($x[6])) {
+                        $namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]][$x[5]] = array("LIMIT REACHED");
+                    } else {
+                        $namespaces[$x[0]][$x[1]][$x[2]][$x[3]][$x[4]] = $x[5];
+                    }
+                }
+            }
+        }
+        echo $this->dump($namespaces);
+    }
 
-	/**
-	 * Dump to HTML
-	 * @param string $orgVar Log what?
-	 * @param int $depth Which dept we are
-	 * @param string $firstcall Is this the first call (leave true!)
-	 * @param int $objdepth Depth of the object
-	 * @since Version 1.0
-	 */
-	public function dump($orgvar = NULL, $depth = 0, $firstcall = true, $objdepth = 0) {
-		// first check if the variable has already been parsed
-		$keyvar = 'the_elegant_dump_recursion_protection_scheme';
+    /**
+     * Dump to HTML
+     * @param string $orgVar Log what?
+     * @param int $depth Which dept we are
+     * @param string $firstcall Is this the first call (leave true!)
+     * @param int $objdepth Depth of the object
+     * @since Version 1.0
+     */
+    public function dump($orgvar = null, $depth = 0, $firstcall = true, $objdepth = 0)
+    {
+        // first check if the variable has already been parsed
+        $keyvar = 'the_elegant_dump_recursion_protection_scheme';
 
-		//Anti recursie
-		if (is_array($orgvar) && isset($orgvar[$keyvar])) {
-			// the passed variable is already being parsed!
-			$real_var = &$orgvar[$keyvar];
-			$type = gettype($real_var);
-			$recursed = 'Recursion!';
-		} else {
-			if ($objdepth > 3) {
-				$recursed = 'Copy of Object printed 3 times.';
-			} else {
-				$recursed = false;
-			}
-		}
+        //Anti recursie
+        if (is_array($orgvar) && isset($orgvar[$keyvar])) {
+            // the passed variable is already being parsed!
+            $real_var = &$orgvar[$keyvar];
+            $type = gettype($real_var);
+            $recursed = 'Recursion!';
+        } else {
+            if ($objdepth > 3) {
+                $recursed = 'Copy of Object printed 3 times.';
+            } else {
+                $recursed = false;
+            }
+        }
 
-		$var = array($keyvar => $orgvar);
-		$var = $var[$keyvar];
+        $var = array($keyvar => $orgvar);
+        $var = $var[$keyvar];
 
-		// we will insert an elegant parser-stopper
+        // we will insert an elegant parser-stopper
 
-		$type = gettype($var);
+        $type = gettype($var);
 
-		$c['bg'] = ini_get('highlight.bg');
-		$c['comment'] = ini_get('highlight.comment');
-		$c['default'] = ini_get('highlight.default');
-		$c['html'] = ini_get('highlight.html');
-		$c['keyword'] = ini_get('highlight.keyword');
-		$c['string'] = ini_get('highlight.string');
+        $c['bg'] = ini_get('highlight.bg');
+        $c['comment'] = ini_get('highlight.comment');
+        $c['default'] = ini_get('highlight.default');
+        $c['html'] = ini_get('highlight.html');
+        $c['keyword'] = ini_get('highlight.keyword');
+        $c['string'] = ini_get('highlight.string');
 
-		$sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
+        $sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
-		if (is_resource($var) || $type == 'resource') {
-			if (get_resource_type($var) == 'stream') {
-				$streamData = stream_get_meta_data($var);
-				$ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">Stream</strong> ' . $this->dump($streamData, $depth + 1, false);
-			} else {
-				$ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">' . ucfirst(get_resource_type($var)) . '</strong>';
-			}
-		} elseif (is_array($var) || $type == 'array') {
-			$depth++;
-			$i = count($var);
+        if (is_resource($var) || $type == 'resource') {
+            if (get_resource_type($var) == 'stream') {
+                $streamData = stream_get_meta_data($var);
+                $ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">Stream</strong> ' . $this->dump($streamData, $depth + 1, false);
+            } else {
+                $ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">' . ucfirst(get_resource_type($var)) . '</strong>';
+            }
+        } elseif (is_array($var) || $type == 'array') {
+            $depth++;
+            $i = count($var);
 
-			$uniqueId = rand();
+            $uniqueId = rand();
 
-			if ($i && !$recursed) {
+            if ($i && !$recursed) {
 
-				if (!$firstcall && $i > 2) {
-					$default_state = 'none';
-					$dots = '...';
-				} else {
-					$default_state = 'inline';
-					$dots = '';
-				}
+                if (!$firstcall && $i > 2) {
+                    $default_state = 'none';
+                    $dots = '...';
+                } else {
+                    $default_state = 'inline';
+                    $dots = '';
+                }
 
-				$ret = '<a href="#" style="color: ' . $c['default'] . '; text-decoration: none;" onclick="arr = document.getElementById(\'arr_' . $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId . '\'); if(arr.style.display == \'none\') {arr.style.display = \'inline\'; dots.innerHTML = \'\'} else {arr.style.display = \'none\'; dots.innerHTML = \'...\'} this.blur(); return false;">array</a> <span style="color: ' . $c['html'] . ';">(</span>';
-				$ret .= '<code style="display: ' . $default_state . ';" id="arr_' . $uniqueId . '"><br>';
-				$sp = $sp . '&nbsp;&nbsp;&nbsp;&nbsp;';
+                $ret = '<a href="#" style="color: ' . $c['default'] . '; text-decoration: none;" onclick="arr = document.getElementById(\'arr_' . $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId . '\'); if(arr.style.display == \'none\') {arr.style.display = \'inline\'; dots.innerHTML = \'\'} else {arr.style.display = \'none\'; dots.innerHTML = \'...\'} this.blur(); return false;">array</a> <span style="color: ' . $c['html'] . ';">(</span>';
+                $ret .= '<code style="display: ' . $default_state . ';" id="arr_' . $uniqueId . '"><br>';
+                $sp = $sp . '&nbsp;&nbsp;&nbsp;&nbsp;';
 
-				foreach ($var as $k => &$v) {
-					$ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false);
-					$ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
-				}
-				$depth--;
-				$sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
+                foreach ($var as $k => &$v) {
+                    $ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false);
+                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
+                }
+                $depth--;
+                $sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
-				$ret .= $sp . '</code><span style="color: ' . $c['html'] . ';" id="dots_' . $uniqueId . '" >' . $dots . '</span><span style="color: ' . $c['html'] . ';">)</span>';
-			} else {
-				$ret = '<span style="color: ' . $c['default'] . ';">array </span> <span style="color: ' . $c['html'] . ';">( ' . ($recursed ? '<strong style="color: red;">' . $recursed . '</strong>' : '') . ' )</span>';
-			}
-		} elseif (is_bool($var) || $type == 'bool') {
-			$ret = '<span style="color: ' . $c['keyword'] . ';">' . ($var ? 'true' : 'false') . '</span>';
-		} elseif (is_float($var) || is_int($var) || is_numeric($var) || $type == 'double' || $type == 'integer') {
-			$ret = '<span style="color: ' . $c['string'] . ';">' . $var . '</span>';
-		} elseif (is_object($var) || $type == 'object') {
+                $ret .= $sp . '</code><span style="color: ' . $c['html'] . ';" id="dots_' . $uniqueId . '" >' . $dots . '</span><span style="color: ' . $c['html'] . ';">)</span>';
+            } else {
+                $ret = '<span style="color: ' . $c['default'] . ';">array </span> <span style="color: ' . $c['html'] . ';">( ' . ($recursed ? '<strong style="color: red;">' . $recursed . '</strong>' : '') . ' )</span>';
+            }
+        } elseif (is_bool($var) || $type == 'bool') {
+            $ret = '<span style="color: ' . $c['keyword'] . ';">' . ($var ? 'true' : 'false') . '</span>';
+        } elseif (is_float($var) || is_int($var) || is_numeric($var) || $type == 'double' || $type == 'integer') {
+            $ret = '<span style="color: ' . $c['string'] . ';">' . $var . '</span>';
+        } elseif (is_object($var) || $type == 'object') {
 
-			$vars = get_object_vars($var);
-			$methods = get_class_methods($var);
+            $vars = get_object_vars($var);
+            $methods = get_class_methods($var);
 
-			// Bouw stamboom op
-			$tmp = $var;
-			$parents = array();
-			while ($tmp = get_parent_class($tmp)) {
-				$parents[] = $tmp;
-			}
+            // Bouw stamboom op
+            $tmp = $var;
+            $parents = array();
+            while ($tmp = get_parent_class($tmp)) {
+                $parents[] = $tmp;
+            }
 
-			$tree = implode(' -> ', array_merge($parents, array(get_class($var))));
+            $tree = implode(' -> ', array_merge($parents, array(get_class($var))));
 
-			$depth++;
-			$i = count($vars) + count($methods);
+            $depth++;
+            $i = count($vars) + count($methods);
 
-			$uniqueId = rand();
+            $uniqueId = rand();
 
-			if ($i && !$recursed) {
-				$ret = '<a href="#" style="color: ' . $c['keyword'] . '; text-decoration: none;" onclick="obj = document.getElementById(\'obj_' . $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId . '\'); if(obj.style.display == \'none\') {obj.style.display = \'inline\'; dots.innerHTML = \'\'} else {obj.style.display = \'none\'; dots.innerHTML = \'...\'} this.blur(); return false;">Object: <span style="color: ' . $c['default'] . ';">' . $tree . '</span></a> <span style="color: ' . $c['html'] . ';">{</span>';
+            if ($i && !$recursed) {
+                $ret = '<a href="#" style="color: ' . $c['keyword'] . '; text-decoration: none;" onclick="obj = document.getElementById(\'obj_' . $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId . '\'); if(obj.style.display == \'none\') {obj.style.display = \'inline\'; dots.innerHTML = \'\'} else {obj.style.display = \'none\'; dots.innerHTML = \'...\'} this.blur(); return false;">Object: <span style="color: ' . $c['default'] . ';">' . $tree . '</span></a> <span style="color: ' . $c['html'] . ';">{</span>';
 
-				if (!$firstcall && $i > 2) {
-					$default_state = 'none';
-					$dots = '...';
-				} else {
-					$default_state = 'inline';
-					$dots = '';
-				}
+                if (!$firstcall && $i > 2) {
+                    $default_state = 'none';
+                    $dots = '...';
+                } else {
+                    $default_state = 'inline';
+                    $dots = '';
+                }
 
-				$ret .= '<code style="display: ' . $default_state . ';" id="obj_' . $uniqueId . '"><br>';
-				$sp = $sp . '&nbsp;&nbsp;&nbsp;&nbsp;';
+                $ret .= '<code style="display: ' . $default_state . ';" id="obj_' . $uniqueId . '"><br>';
+                $sp = $sp . '&nbsp;&nbsp;&nbsp;&nbsp;';
 
-				$objdepth++;
+                $objdepth++;
 
-				foreach ($vars as $k => &$v) {
-					$ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false, $objdepth);
-					$ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
-				}
+                foreach ($vars as $k => &$v) {
+                    $ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false, $objdepth);
+                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
+                }
 
-				foreach ($methods as $k => $v) {
-					$ret .= $sp . '<span style="color: ' . $c['default'] . ';">function</span> <span style="color: ' . $c['html'] . ';">' . $v . '()</span>';
-					$ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
-				}
-				$depth--;
-				$sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
+                foreach ($methods as $k => $v) {
+                    $ret .= $sp . '<span style="color: ' . $c['default'] . ';">function</span> <span style="color: ' . $c['html'] . ';">' . $v . '()</span>';
+                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
+                }
+                $depth--;
+                $sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
-				$ret .= $sp . '</code><span id="dots_' . $uniqueId . '" style="color: ' . $c['html'] . '">' . $dots . '</span><span style="color: ' . $c['html'] . ';">}</span>';
-			} else {
-				$ret = '<span style="color: ' . $c['keyword'] . ';">Object: </span><span style="color: ' . $c['default'] . ';">' . $tree . '</span> <span style="color: ' . $c['html'] . ';">{ ' . ($recursed ? '<strong style="color: red;">' . $recursed . '</strong>' : '') . ' }</span>';
-			}
+                $ret .= $sp . '</code><span id="dots_' . $uniqueId . '" style="color: ' . $c['html'] . '">' . $dots . '</span><span style="color: ' . $c['html'] . ';">}</span>';
+            } else {
+                $ret = '<span style="color: ' . $c['keyword'] . ';">Object: </span><span style="color: ' . $c['default'] . ';">' . $tree . '</span> <span style="color: ' . $c['html'] . ';">{ ' . ($recursed ? '<strong style="color: red;">' . $recursed . '</strong>' : '') . ' }</span>';
+            }
 
-		} elseif (is_string($var) || $type == 'string') {
-			$ret = '<span style="color: ' . $c['string'] . ';">\'' . $var . '\'</span>';
-		} elseif (is_null($var) || $type == 'NULL') {
-			$ret = '<span style="color: ' . $c['keyword'] . ';">NULL</span>';
-		} else {
-			$ret = '<strong style="color: red;">Unknown: </strong><span style="color: ' . $c['html'] . ';">' . gettype($var) . '</span>';
-		}
+        } elseif (is_string($var) || $type == 'string') {
+            $ret = '<span style="color: ' . $c['string'] . ';">\'' . $var . '\'</span>';
+        } elseif (is_null($var) || $type == 'NULL') {
+            $ret = '<span style="color: ' . $c['keyword'] . ';">NULL</span>';
+        } else {
+            $ret = '<strong style="color: red;">Unknown: </strong><span style="color: ' . $c['html'] . ';">' . gettype($var) . '</span>';
+        }
 
-		if ($firstcall) {
-			return '<code style="display: block; background-color: ' . $c['bg'] . '; border: 1px solid black; padding: 5px; margin: 5px;">' . $ret . '</code>';
-		} else {
-			return $ret;
-		}
-	}
+        if ($firstcall) {
+            return '<code style="display: block; background-color: ' . $c['bg'] . '; border: 1px solid black; padding: 5px; margin: 5px;">' . $ret . '</code>';
+        } else {
+            return $ret;
+        }
+    }
 
-	/**
-	 * If array_fill is missing
-	 * @param string $iStart where to start
-	 * @param string $iLen where to end
-	 * @param string $vValue which value?
-	 * @since Version 1.0
-	 */
-	private function warray_fill($iStart, $iLen, $vValue) {
-		$aResult = array();
-		for ($iCount = $iStart; $iCount < $iLen + $iStart; $iCount++) {
-			$aResult[$iCount] = $vValue;
-		}
-		return $aResult;
-	}
+    /**
+     * If array_fill is missing
+     * @param string $iStart where to start
+     * @param string $iLen where to end
+     * @param string $vValue which value?
+     * @since Version 1.0
+     */
+    private function warray_fill($iStart, $iLen, $vValue)
+    {
+        $aResult = array();
+        for ($iCount = $iStart; $iCount < $iLen + $iStart; $iCount++) {
+            $aResult[$iCount] = $vValue;
+        }
+        return $aResult;
+    }
 }
-?>

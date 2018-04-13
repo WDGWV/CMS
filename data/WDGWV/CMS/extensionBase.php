@@ -68,26 +68,27 @@ namespace WDGWV\CMS;
  * @link http://www.wesleydegroot.nl © Wesley de Groot
  * @link https://www.wdgwv.com © WDGWV
  */
-class extensionBase {
-	/**
-	 * Call the sharedInstance
-	 * @since Version 1.0
-	 */
-	public static function sharedInstance() {
-		static $inst = null;
-		if ($inst === null) {
-			$inst = new \WDGWV\CMS\extensionBase();
-		}
-		return $inst;
-	}
+class ExtensionBase
+{
+    /**
+     * Call the sharedInstance
+     * @since Version 1.0
+     */
+    public static function sharedInstance()
+    {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new \WDGWV\CMS\ExtensionBase();
+        }
+        return $inst;
+    }
 
-	/**
-	 * Private so nobody else can instantiate it
-	 *
-	 */
-	private function __construct() {
+    /**
+     * Private so nobody else can instantiate it
+     *
+     */
+    private function __construct()
+    {
 
-	}
+    }
 }
-
-?>

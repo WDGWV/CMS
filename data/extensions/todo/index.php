@@ -50,4 +50,3 @@
 
 header("location: ../../");
 exit;
-?>

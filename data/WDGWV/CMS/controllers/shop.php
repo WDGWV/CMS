@@ -1,16 +1,17 @@
 <?php
-namespace WDGWV\CMS\controllers;
+namespace WDGWV\CMS\Controllers;
 
-class shop extends \WDGWV\CMS\controllers\base {
-	private static $databaseConnection = '';
+class Shop extends \WDGWV\CMS\Controllers\Base
+{
+    private static $databaseConnection = '';
 
-	public function __construct($databaseConnection) {
-		static::$databaseConnection = $databaseConnection;
-	}
+    public function __construct($databaseConnection)
+    {
+        static::$databaseConnection = $databaseConnection;
+    }
 
-	public function getUserById($userID) {
-		return;
-	}
+    public function getUserById($userID)
+    {
+        return;
+    }
 }
-
-?>

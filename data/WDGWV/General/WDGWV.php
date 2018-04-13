@@ -65,51 +65,53 @@ namespace WDGWV\General;
  * @link http://www.wesleydegroot.nl © Wesley de Groot
  * @link https://www.wdgwv.com © WDGWV
  */
-class WDGWV {
-	/**
-	 * Version number of 'WDGWV' framework
-	 *
-	 * @since 1.0
-	 * @var string version versionnumber
-	 */
-	public $version = '0.75';
+class WDGWV
+{
+    /**
+     * Version number of 'WDGWV' framework
+     *
+     * @since 1.0
+     * @var string version versionnumber
+     */
+    public $version = '0.75';
 
-	/**
-	 * release or debug status for 'WDGWV' framework
-	 *
-	 * @since 1.0
-	 * @static $release release status
-	 * @internal
-	 */
-	static private $release = 'debug';
+    /**
+     * release or debug status for 'WDGWV' framework
+     *
+     * @since 1.0
+     * @static $release release status
+     * @internal
+     */
+    private static $release = 'debug';
 
-	/**
-	 * debugging status for 'WDGWV' framework
-	 *
-	 * @since 1.0
-	 * @internal
-	 * @var bool debug debugmode
-	 */
-	public $debug = false;
+    /**
+     * debugging status for 'WDGWV' framework
+     *
+     * @since 1.0
+     * @internal
+     * @var bool debug debugmode
+     */
+    public $debug = false;
 
-	/**
-	 * Construction class
-	 *
-	 * @since 1.0
-	 * @return void
-	 */
-	public function __construct() {
-		$this->debug = ('debug' == \WDGWV\General\WDGWV::$release) ? true : false;
-	}
+    /**
+     * Construction class
+     *
+     * @since 1.0
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->debug = ('debug' == \WDGWV\General\WDGWV::$release) ? true : false;
+    }
 
-	/**
-	 * Debugmode
-	 *
-	 * @since 1.0
-	 * @return bool
-	 */
-	private function debug() {
-		return ('debug' == static::$release) ? true : false;
-	}
+    /**
+     * Debugmode
+     *
+     * @since 1.0
+     * @return bool
+     */
+    private function debug()
+    {
+        return ('debug' == static::$release) ? true : false;
+    }
 }
-?>

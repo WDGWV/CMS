@@ -1,9 +1,10 @@
 <?php
 namespace WDGWV\CMS;
 
-class baseProtected {
-	protected function __construct() {
-
-	}
+class BaseProtected
+{
+    protected function __construct()
+    {
+        return;
+    }
 }
-?>

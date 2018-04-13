@@ -1,16 +1,17 @@
 <?php
-namespace WDGWV\CMS\controllers;
+namespace WDGWV\CMS\Controllers;
 
-class API extends \WDGWV\CMS\controllers\base {
-	private static $databaseConnection = '';
+class API extends \WDGWV\CMS\Controllers\base
+{
+    private static $databaseConnection = '';
 
-	public function __construct($databaseConnection) {
-		static::$databaseConnection = $databaseConnection;
-	}
+    public function __construct($databaseConnection)
+    {
+        static::$databaseConnection = $databaseConnection;
+    }
 
-	public function getUserById($userID) {
-		return;
-	}
+    public function getUserById($userID)
+    {
+        return;
+    }
 }
-
-?>

@@ -53,26 +53,27 @@
 ------------------------------------------------------------
  */
 
-function autloadWDGWVCMS($class) {
-	$fileName = str_replace('\\', '/', $class);
-	$fileName = sprintf('./data/%s.php', $fileName);
+function autloadWDGWVCMS($class)
+{
+    $fileName = str_replace('\\', '/', $class);
+    $fileName = sprintf('./data/%s.php', $fileName);
 
-	if (file_exists($fileName)) {
-		require_once $fileName;
-	} else {
-		if (sizeof(explode('\\', $class)) > 1) {
-			echo "<b>WARNING</b><br />";
-			echo "Couldn't load class <b>{$class}</b> the required file is missing!<br />";
-			echo "Attempted to load: {$fileName}<hr />";
+    if (file_exists($fileName)) {
+        require_once $fileName;
+    } else {
+        if (sizeof(explode('\\', $class)) > 1) {
+            echo "<b>WARNING</b><br />";
+            echo "Couldn't load class <b>{$class}</b> the required file is missing!<br />";
+            echo "Attempted to load: {$fileName}<hr />";
 
-			echo "<pre>";
-			debug_print_backtrace();
-			echo "</pre>";
-			exit();
-		}
-	}
+            echo "<pre>";
+            debug_print_backtrace();
+            echo "</pre>";
+            exit();
+        }
+    }
 
-	return;
+    return;
 }
 
 spl_autoload_register('autloadWDGWVCMS');
@@ -93,7 +94,7 @@ $_config = new WDGWV\CMS\Config();
  * @param $debugger class The debugger class
  */
 $debugger = \WDGWV\CMS\Debugger::sharedInstance();
-$hooks = \WDGWV\CMS\hooks::sharedInstance();
+$hooks = \WDGWV\CMS\Hooks::sharedInstance();
 $extensions = \WDGWV\CMS\extensions::sharedInstance();
 
 /**
@@ -104,41 +105,41 @@ $installer = \WDGWV\CMS\Installer::sharedInstance();
 $database = \WDGWV\CMS\controllers\databases\controller::sharedInstance();
 
 $hooks->createHook(
-	'url',
-	'/setTheme/portal',
-	array(
-		\WDGWV\CMS\controllers\databases\controller::sharedInstance(),
-		'setTheme',
-	),
-	array(
-		'portal',
-	)
+    'url',
+    '/setTheme/portal',
+    array(
+        \WDGWV\CMS\controllers\databases\controller::sharedInstance(),
+        'setTheme',
+    ),
+    array(
+        'portal',
+    )
 );
 $hooks->createHook(
-	'url',
-	'/setTheme/admin',
-	array(
-		\WDGWV\CMS\controllers\databases\controller::sharedInstance(),
-		'setTheme',
-	),
-	array(
-		'admin',
-	)
+    'url',
+    '/setTheme/admin',
+    array(
+        \WDGWV\CMS\controllers\databases\controller::sharedInstance(),
+        'setTheme',
+    ),
+    array(
+        'admin',
+    )
 );
 
-$CMS = new WDGWV\CMS\base($_config);
+$CMS = \WDGWV\CMS\base::sharedInstance();
 
 // TEMPORARY
 // TODO: REMOVE ME!!!
 $regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userlevel' => 'admin', 'is_admin' => true));
 // echo ($regi) ? 'Created user' : 'Failed to create';
 if ($regi) {
-	if ($database->userLogin('wdg', 'test')) {
-		$_SESSION['CMS_USER_LOGIN'] = 'Wes';
-		$_SESSION['SITE_TITLE'] = 'WDGWV';
-	} else {
-		echo "Password Incorrect";
-	}
+    if ($database->userLogin('wdg', 'test')) {
+        $_SESSION['CMS_USER_LOGIN'] = 'Wes';
+        $_SESSION['SITE_TITLE'] = 'WDGWV';
+    } else {
+        echo "Password Incorrect";
+    }
 }
 //$pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0
 
@@ -161,9 +162,8 @@ Some stats:<br />
 // /TEMPORARY
 
 if ($_config->debug) {
-	$installer->setDebugger($debugger);
+    $installer->setDebugger($debugger);
 }
 
 // Relase after continue
 unset($_config);
-?>

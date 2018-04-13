@@ -52,27 +52,26 @@ error_reporting(E_ALL);
 $CMSStartTime = microtime(true);
 include_once './data/WDGWV/CMS/loader.php';
 
-if ($installer->isInstalled()) {
-	$CMS->serve();
+if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
+    \WDGWV\CMS\base::sharedInstance()->serve();
 } else {
-	if ($installer->canOfflineInstall()) {
-		$installer->beginOfflineInstall();
-	} else {
-		$installer->beginOnlineInstall();
-	}
+    if (\WDGWV\CMS\Installer::sharedInstance()->canOfflineInstall()) {
+        \WDGWV\CMS\Installer::sharedInstance()->beginOfflineInstall();
+    } else {
+        \WDGWV\CMS\Installer::sharedInstance()->beginOnlineInstall();
+    }
 }
 
 if ((new \WDGWV\CMS\config())->debug) {
-	if (isset($debugger)) {
-		echo "<hr>";
-		$debugger->log(array("Hooks" => \WDGWV\CMS\hooks::sharedInstance()->dumpDatabase()));
-		$debugger->logdump();
-		echo "<hr>";
-		$debugger->dumpAllClasses();
-	}
+    if (isset($debugger)) {
+        echo "<hr>";
+        $debugger->log(array("Hooks" => \WDGWV\CMS\Hooks::sharedInstance()->dumpDatabase()));
+        $debugger->logdump();
+        echo "<hr>";
+        $debugger->dumpAllClasses();
+    }
 }
 $CMSEndTime = microtime(true);
 if ((new \WDGWV\CMS\config())->debug) {
-	echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
+    echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
 }
-?>

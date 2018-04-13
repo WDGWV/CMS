@@ -1,5 +1,5 @@
 <?php
-namespace WDGWV\CMS\controllers\databases;
+namespace WDGWV\CMS\Controllers\Databases;
 
 /*
 ------------------------------------------------------------
@@ -50,116 +50,122 @@ namespace WDGWV\CMS\controllers\databases;
 ------------------------------------------------------------
  */
 
-class base {
-	private $CMSConfig = null;
-	static public $baseInit = false;
+class Base
+{
+    private $CMSConfig = null;
+    public static $baseInit = false;
 
-	protected function __construct() {
-		$this->_init();
-	}
+    protected function __construct()
+    {
+        $this->_init();
+    }
 
-	protected function _init() {
-		$this->CMSConfig = (new \WDGWV\CMS\Config());
+    protected function _init()
+    {
+        $this->CMSConfig = (new \WDGWV\CMS\Config());
 
-		if (isset($_GET['resetDatabase']) && $this->CMSConfig->debug) {
-			echo "Resetting database";
-			$adminURL = $this->CMSConfig->adminURL();
-			array_map('unlink', glob('./data/database/*.db'));
+        if (isset($_GET['resetDatabase']) && $this->CMSConfig->debug) {
+            echo "Resetting database";
+            $adminURL = $this->CMSConfig->adminURL();
+            array_map('unlink', glob('./data/database/*.db'));
 
-			if (!headers_sent()) {
-				header(sprintf('location: /%s/?db=clean&debug=true', $adminURL));
-			}
+            if (!headers_sent()) {
+                header(sprintf('location: /%s/?db=clean&debug=true', $adminURL));
+            }
 
-			echo sprintf('<script>window.location=\'/%s/?db=clean&debug=true\';</script>', $adminURL);
-		}
-	}
+            echo sprintf('<script>window.location=\'/%s/?db=clean&debug=true\';</script>', $adminURL);
+        }
+    }
 
-	protected function noop() {
+    protected function noop()
+    {
 
-	}
+    }
 
-	protected function generateUserDB() {
-		return array(array(
-			'username' => 'System', /* Dummy account. impossible to login to it. */
-			'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
-			'userlevel' => 'system',
-			'is_activated' => false,
-			'email' => 'CMS@wdgwv.com',
-		));
-	}
+    protected function generateUserDB()
+    {
+        return array(array(
+            'username' => 'System', /* Dummy account. impossible to login to it. */
+            'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
+            'userlevel' => 'system',
+            'is_activated' => false,
+            'email' => 'CMS@wdgwv.com',
+        ));
+    }
 
-	protected function generateSystemDB() {
-		return array(
-			'installed' => time(),
-			'theme' => 'admin',
-			'language' => 'en_US',
-			'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'developer', 'admin', 'root', 'system'),
-		);
-	}
+    protected function generateSystemDB()
+    {
+        return array(
+            'installed' => time(),
+            'theme' => 'admin',
+            'language' => 'en_US',
+            'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'developer', 'admin', 'root', 'system'),
+        );
+    }
 
-	protected function generateMenuDB() {
-		if (!isset($this->CMSConfig)) {
-			$this->CMSConfig = (new \WDGWV\CMS\Config());
-		}
+    protected function generateMenuDB()
+    {
+        if (!isset($this->CMSConfig)) {
+            $this->CMSConfig = (new \WDGWV\CMS\Config());
+        }
 
-		return array(
-			array(
-				'name' => 'Home',
-				'icon' => 'home',
-				'url' => '/home',
-				'userlevel' => '*',
-				'submenu' => null,
-			),
-			array(
-				'name' => 'Blog',
-				'icon' => 'pencil',
-				'url' => '/blog',
-				'userlevel' => '*',
-				'submenu' => array(
-					array(
-						'name' => 'Blog',
-						'url' => '/blog',
-						'icon' => 'pencil',
-					),
-					array(
-						'name' => 'Last post',
-						'url' => '/blog/last',
-						'icon' => 'rss',
-					),
-				),
-			),
-			array(
-				'name' => 'Administration',
-				'url' => '#',
-				'icon' => 'cogs',
-				'userlevel' => 'moderator',
-				'submenu' => array(
-					($this->CMSConfig->debug) ? array(
-						'name' => 'reset DB',
-						'url' => sprintf('/%s/resetDatabase?resetDatabase', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
+        return array(
+            array(
+                'name' => 'Home',
+                'icon' => 'home',
+                'url' => '/home',
+                'userlevel' => '*',
+                'submenu' => null,
+            ),
+            array(
+                'name' => 'Blog',
+                'icon' => 'pencil',
+                'url' => '/blog',
+                'userlevel' => '*',
+                'submenu' => array(
+                    array(
+                        'name' => 'Blog',
+                        'url' => '/blog',
+                        'icon' => 'pencil',
+                    ),
+                    array(
+                        'name' => 'Last post',
+                        'url' => '/blog/last',
+                        'icon' => 'rss',
+                    ),
+                ),
+            ),
+            array(
+                'name' => 'Administration',
+                'url' => '#',
+                'icon' => 'cogs',
+                'userlevel' => 'moderator',
+                'submenu' => array(
+                    ($this->CMSConfig->debug) ? array(
+                        'name' => 'reset DB',
+                        'url' => sprintf('/%s/resetDatabase?resetDatabase', $this->CMSConfig->adminURL()),
+                    ) : $this->noop(),
 
-					array(
-						'name' => ' ',
-					),
+                    array(
+                        'name' => ' ',
+                    ),
 
-					($this->CMSConfig->debug) ? array(
-						'name' => 'Theme = portal',
-						'url' => sprintf('/%s/setTheme/portal', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-					($this->CMSConfig->debug) ? array(
-						'name' => 'Theme = admin',
-						'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
-					) : $this->noop(),
-				), //.. later
-			),
-			array(
-				'name' => 'About',
-				'url' => '/about',
-				'icon' => 'address-card',
-			),
-		);
-	}
+                    ($this->CMSConfig->debug) ? array(
+                        'name' => 'Theme = portal',
+                        'url' => sprintf('/%s/setTheme/portal', $this->CMSConfig->adminURL()),
+                    ) : $this->noop(),
+                    ($this->CMSConfig->debug) ? array(
+                        'name' => 'Theme = admin',
+                        'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
+                    ) : $this->noop(),
+                ), //.. later
+            ),
+            array(
+                'name' => 'About',
+                'url' => '/about',
+                'icon' => 'address-card',
+            ),
+        );
+    }
 
 }
-?>

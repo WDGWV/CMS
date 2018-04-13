@@ -55,4 +55,3 @@
 
 header("location: ../");
 exit;
-?>

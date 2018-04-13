@@ -65,6 +65,6 @@ namespace WDGWV\General;
  * @link http://www.wesleydegroot.nl © Wesley de Groot
  * @link https://www.wdgwv.com © WDGWV
  */
-class WDGWVFramework extends WDGWV {
+class WDGWVFramework extends WDGWV
+{
 }
-?>

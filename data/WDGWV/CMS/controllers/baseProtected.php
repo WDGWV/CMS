@@ -1,10 +1,10 @@
 <?php
-namespace WDGWV\CMS\controllers;
+namespace WDGWV\CMS\Controllers;
 
-class baseProtected {
-	protected function __construct() {
-
-	}
+class BaseProtected
+{
+    protected function __construct()
+    {
+        return;
+    }
 }
-
-?>
