@@ -4,3 +4,5 @@ php:
   - '7.1'
 script: 
   - phpunit --bootstrap data/WDGWV/CMS/Loader.php data/tests/Unittest.php
+notifications:
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
