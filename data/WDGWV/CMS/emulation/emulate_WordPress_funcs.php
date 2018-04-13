@@ -53,11 +53,11 @@
  */
 
 if (!isset($emulation['wordpress'])) {
-    $emulation['wordpress'] = new \WDGWV\CMS\emulation\WordPress();
+    $emulation['wordpress'] = new \WDGWV\CMS\Emulation\WordPress();
 }
 
 /**
- * Shortcut for WordPress from 'the_content(...)' to \WDGWV\CMS\emulation\WordPress()->the_content(...)
+ * Shortcut for WordPress from 'the_content(...)' to \WDGWV\CMS\Emulation\WordPress()->the_content(...)
  * @since Version 1.0
  */
 function the_content()
@@ -67,7 +67,7 @@ function the_content()
 }
 
 /**
- * Shortcut for WordPress from 'the_post(...)' to \WDGWV\CMS\emulation\WordPress()->the_post(...)
+ * Shortcut for WordPress from 'the_post(...)' to \WDGWV\CMS\Emulation\WordPress()->the_post(...)
  * @since Version 1.0
  */
 function the_post()
@@ -77,7 +77,7 @@ function the_post()
 }
 
 /**
- * Shortcut for WordPress from 'theme_is_home(...)' to \WDGWV\CMS\emulation\WordPress()->theme_is_home(...)
+ * Shortcut for WordPress from 'theme_is_home(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_is_home(...)
  * @since Version 1.0
  */
 function theme_is_home()
@@ -87,7 +87,7 @@ function theme_is_home()
 }
 
 /**
- * Shortcut for WordPress from 'theme_get_dynamic_sidebar_data(...)' to \WDGWV\CMS\emulation\WordPress()->theme_get_dynamic_sidebar_data(...)
+ * Shortcut for WordPress from 'theme_get_dynamic_sidebar_data(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_get_dynamic_sidebar_data(...)
  * @since Version 1.0
  */
 function theme_get_dynamic_sidebar_data()
@@ -97,7 +97,7 @@ function theme_get_dynamic_sidebar_data()
 }
 
 /**
- * Shortcut for WordPress from 'is_home(...)' to \WDGWV\CMS\emulation\WordPress()->is_home(...)
+ * Shortcut for WordPress from 'is_home(...)' to \WDGWV\CMS\Emulation\WordPress()->is_home(...)
  * @since Version 1.0
  */
 function is_home()
@@ -107,7 +107,7 @@ function is_home()
 }
 
 /**
- * Shortcut for WordPress from 'get_option(...)' to \WDGWV\CMS\emulation\WordPress()->get_option(...)
+ * Shortcut for WordPress from 'get_option(...)' to \WDGWV\CMS\Emulation\WordPress()->get_option(...)
  * @since Version 1.0
  */
 function get_option($option)
@@ -117,7 +117,7 @@ function get_option($option)
 }
 
 /**
- * Shortcut for WordPress from 'theme_get_menu(...)' to \WDGWV\CMS\emulation\WordPress()->theme_get_menu(...)
+ * Shortcut for WordPress from 'theme_get_menu(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_get_menu(...)
  * @since Version 1.0
  */
 function theme_get_menu($nav)
@@ -127,7 +127,7 @@ function theme_get_menu($nav)
 }
 
 /**
- * Shortcut for WordPress from 'wp_list_pages(...)' to \WDGWV\CMS\emulation\WordPress()->wp_list_pages(...)
+ * Shortcut for WordPress from 'wp_list_pages(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_list_pages(...)
  * @since Version 1.0
  */
 function wp_list_pages()
@@ -137,7 +137,7 @@ function wp_list_pages()
 }
 
 /**
- * Shortcut for WordPress from 'theme_get_option(...)' to \WDGWV\CMS\emulation\WordPress()->theme_get_option(...)
+ * Shortcut for WordPress from 'theme_get_option(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_get_option(...)
  * @since Version 1.0
  */
 function theme_get_option($sidebar)
@@ -147,7 +147,7 @@ function theme_get_option($sidebar)
 }
 
 /**
- * Shortcut for WordPress from 'wp_head(...)' to \WDGWV\CMS\emulation\WordPress()->wp_head(...)
+ * Shortcut for WordPress from 'wp_head(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_head(...)
  * @since Version 1.0
  */
 function wp_head()
@@ -157,7 +157,7 @@ function wp_head()
 }
 
 /**
- * Shortcut for WordPress from 'body_class(...)' to \WDGWV\CMS\emulation\WordPress()->body_class(...)
+ * Shortcut for WordPress from 'body_class(...)' to \WDGWV\CMS\Emulation\WordPress()->body_class(...)
  * @since Version 1.0
  */
 function body_class()
@@ -167,7 +167,7 @@ function body_class()
 }
 
 /**
- * Shortcut for WordPress from 'remove_action(...)' to \WDGWV\CMS\emulation\WordPress()->remove_action(...)
+ * Shortcut for WordPress from 'remove_action(...)' to \WDGWV\CMS\Emulation\WordPress()->remove_action(...)
  * @since Version 1.0
  */
 function remove_action($p1 = null, $p2 = null, $p3 = null)
@@ -177,7 +177,7 @@ function remove_action($p1 = null, $p2 = null, $p3 = null)
 }
 
 /**
- * Shortcut for WordPress from 'get_post_format(...)' to \WDGWV\CMS\emulation\WordPress()->get_post_format(...)
+ * Shortcut for WordPress from 'get_post_format(...)' to \WDGWV\CMS\Emulation\WordPress()->get_post_format(...)
  * @since Version 1.0
  */
 function get_post_format()
@@ -187,7 +187,7 @@ function get_post_format()
 }
 
 /**
- * Shortcut for WordPress from 'get_template_part(...)' to \WDGWV\CMS\emulation\WordPress()->get_template_part(...)
+ * Shortcut for WordPress from 'get_template_part(...)' to \WDGWV\CMS\Emulation\WordPress()->get_template_part(...)
  * @since Version 1.0
  */
 function get_template_part($p1 = null, $p2 = null)
@@ -197,7 +197,7 @@ function get_template_part($p1 = null, $p2 = null)
 }
 
 /**
- * Shortcut for WordPress from 'have_posts(...)' to \WDGWV\CMS\emulation\WordPress()->have_posts(...)
+ * Shortcut for WordPress from 'have_posts(...)' to \WDGWV\CMS\Emulation\WordPress()->have_posts(...)
  * @since Version 1.0
  */
 function have_posts()
@@ -207,7 +207,7 @@ function have_posts()
 }
 
 /**
- * Shortcut for WordPress from 'is_singular(...)' to \WDGWV\CMS\emulation\WordPress()->is_singular(...)
+ * Shortcut for WordPress from 'is_singular(...)' to \WDGWV\CMS\Emulation\WordPress()->is_singular(...)
  * @since Version 1.0
  */
 function is_singular()
@@ -217,7 +217,7 @@ function is_singular()
 }
 
 /**
- * Shortcut for WordPress from 'wp_title(...)' to \WDGWV\CMS\emulation\WordPress()->wp_title(...)
+ * Shortcut for WordPress from 'wp_title(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_title(...)
  * @since Version 1.0
  */
 function wp_title()
@@ -227,7 +227,7 @@ function wp_title()
 }
 
 /**
- * Shortcut for WordPress from 'language_attributes(...)' to \WDGWV\CMS\emulation\WordPress()->language_attributes(...)
+ * Shortcut for WordPress from 'language_attributes(...)' to \WDGWV\CMS\Emulation\WordPress()->language_attributes(...)
  * @since Version 1.0
  */
 function language_attributes()
@@ -237,7 +237,7 @@ function language_attributes()
 }
 
 /**
- * Shortcut for WordPress from 'theme_page_navigation(...)' to \WDGWV\CMS\emulation\WordPress()->theme_page_navigation(...)
+ * Shortcut for WordPress from 'theme_page_navigation(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_page_navigation(...)
  * @since Version 1.0
  */
 function theme_page_navigation($p1 = null)
@@ -247,7 +247,7 @@ function theme_page_navigation($p1 = null)
 }
 
 /**
- * Shortcut for WordPress from 'do_shortcode(...)' to \WDGWV\CMS\emulation\WordPress()->do_shortcode(...)
+ * Shortcut for WordPress from 'do_shortcode(...)' to \WDGWV\CMS\Emulation\WordPress()->do_shortcode(...)
  * @since Version 1.0
  */
 function do_shortcode($item = null)
@@ -257,7 +257,7 @@ function do_shortcode($item = null)
 }
 
 /**
- * Shortcut for WordPress from 'bloginfo(...)' to \WDGWV\CMS\emulation\WordPress()->bloginfo(...)
+ * Shortcut for WordPress from 'bloginfo(...)' to \WDGWV\CMS\Emulation\WordPress()->bloginfo(...)
  * @since Version 1.0
  */
 function bloginfo($info)
@@ -267,7 +267,7 @@ function bloginfo($info)
 }
 
 /**
- * Shortcut for WordPress from 'get_sidebar(...)' to \WDGWV\CMS\emulation\WordPress()->get_sidebar(...)
+ * Shortcut for WordPress from 'get_sidebar(...)' to \WDGWV\CMS\Emulation\WordPress()->get_sidebar(...)
  * @since Version 1.0
  */
 function get_sidebar($load = 'sidebar')
@@ -277,7 +277,7 @@ function get_sidebar($load = 'sidebar')
 }
 
 /**
- * Shortcut for WordPress from '_e(...)' to \WDGWV\CMS\emulation\WordPress()->_e(...)
+ * Shortcut for WordPress from '_e(...)' to \WDGWV\CMS\Emulation\WordPress()->_e(...)
  * @since Version 1.0
  */
 function _e($p1, $p2 = null)
@@ -287,7 +287,7 @@ function _e($p1, $p2 = null)
 }
 
 /**
- * Shortcut for WordPress from 'get_header(...)' to \WDGWV\CMS\emulation\WordPress()->get_header(...)
+ * Shortcut for WordPress from 'get_header(...)' to \WDGWV\CMS\Emulation\WordPress()->get_header(...)
  * @since Version 1.0
  */
 function get_header()
@@ -297,7 +297,7 @@ function get_header()
 }
 
 /**
- * Shortcut for WordPress from 'wp_footer(...)' to \WDGWV\CMS\emulation\WordPress()->wp_footer(...)
+ * Shortcut for WordPress from 'wp_footer(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_footer(...)
  * @since Version 1.0
  */
 function wp_footer()
@@ -307,7 +307,7 @@ function wp_footer()
 }
 
 /**
- * Shortcut for WordPress from 'get_footer(...)' to \WDGWV\CMS\emulation\WordPress()->get_footer(...)
+ * Shortcut for WordPress from 'get_footer(...)' to \WDGWV\CMS\Emulation\WordPress()->get_footer(...)
  * @since Version 1.0
  */
 function get_footer()
@@ -317,7 +317,7 @@ function get_footer()
 }
 
 /**
- * Shortcut for WordPress from 'wordpress(...)' to \WDGWV\CMS\emulation\WordPress()->wordpress(...)
+ * Shortcut for WordPress from 'wordpress(...)' to \WDGWV\CMS\Emulation\WordPress()->wordpress(...)
  * @since Version 1.0
  */
 function wordpress($WPTheme)
@@ -327,7 +327,7 @@ function wordpress($WPTheme)
 }
 
 /**
- * Shortcut for WordPress from 'previous_posts_link(...)' to \WDGWV\CMS\emulation\WordPress()->previous_posts_link(...)
+ * Shortcut for WordPress from 'previous_posts_link(...)' to \WDGWV\CMS\Emulation\WordPress()->previous_posts_link(...)
  * @since Version 1.0
  */
 function previous_posts_link()
@@ -337,7 +337,7 @@ function previous_posts_link()
 }
 
 /**
- * Shortcut for WordPress from 'next_posts_link(...)' to \WDGWV\CMS\emulation\WordPress()->next_posts_link(...)
+ * Shortcut for WordPress from 'next_posts_link(...)' to \WDGWV\CMS\Emulation\WordPress()->next_posts_link(...)
  * @since Version 1.0
  */
 function next_posts_link()
@@ -347,7 +347,7 @@ function next_posts_link()
 }
 
 /**
- * Shortcut for WordPress from 'is_search(...)' to \WDGWV\CMS\emulation\WordPress()->is_search(...)
+ * Shortcut for WordPress from 'is_search(...)' to \WDGWV\CMS\Emulation\WordPress()->is_search(...)
  * @since Version 1.0
  */
 function is_search()
@@ -357,7 +357,7 @@ function is_search()
 }
 
 /**
- * Shortcut for WordPress from 'the_tags(...)' to \WDGWV\CMS\emulation\WordPress()->the_tags(...)
+ * Shortcut for WordPress from 'the_tags(...)' to \WDGWV\CMS\Emulation\WordPress()->the_tags(...)
  * @since Version 1.0
  */
 function the_tags()
@@ -367,7 +367,7 @@ function the_tags()
 }
 
 /**
- * Shortcut for WordPress from 'is_single(...)' to \WDGWV\CMS\emulation\WordPress()->is_single(...)
+ * Shortcut for WordPress from 'is_single(...)' to \WDGWV\CMS\Emulation\WordPress()->is_single(...)
  * @since Version 1.0
  */
 function is_single()
@@ -377,7 +377,7 @@ function is_single()
 }
 
 /**
- * Shortcut for WordPress from 'is_page(...)' to \WDGWV\CMS\emulation\WordPress()->is_page(...)
+ * Shortcut for WordPress from 'is_page(...)' to \WDGWV\CMS\Emulation\WordPress()->is_page(...)
  * @since Version 1.0
  */
 function is_page()
@@ -387,7 +387,7 @@ function is_page()
 }
 
 /**
- * Shortcut for WordPress from 'is_category(...)' to \WDGWV\CMS\emulation\WordPress()->is_category(...)
+ * Shortcut for WordPress from 'is_category(...)' to \WDGWV\CMS\Emulation\WordPress()->is_category(...)
  * @since Version 1.0
  */
 function is_category()
@@ -397,7 +397,7 @@ function is_category()
 }
 
 /**
- * Shortcut for WordPress from 'is_month(...)' to \WDGWV\CMS\emulation\WordPress()->is_month(...)
+ * Shortcut for WordPress from 'is_month(...)' to \WDGWV\CMS\Emulation\WordPress()->is_month(...)
  * @since Version 1.0
  */
 function is_month()
@@ -407,7 +407,7 @@ function is_month()
 }
 
 /**
- * Shortcut for WordPress from 'the_ID(...)' to \WDGWV\CMS\emulation\WordPress()->the_ID(...)
+ * Shortcut for WordPress from 'the_ID(...)' to \WDGWV\CMS\Emulation\WordPress()->the_ID(...)
  * @since Version 1.0
  */
 function the_ID()
@@ -417,7 +417,7 @@ function the_ID()
 }
 
 /**
- * Shortcut for WordPress from 'comments_number(...)' to \WDGWV\CMS\emulation\WordPress()->comments_number(...)
+ * Shortcut for WordPress from 'comments_number(...)' to \WDGWV\CMS\Emulation\WordPress()->comments_number(...)
  * @since Version 1.0
  */
 function comments_number()
@@ -427,7 +427,7 @@ function comments_number()
 }
 
 /**
- * Shortcut for WordPress from 'the_permalink(...)' to \WDGWV\CMS\emulation\WordPress()->the_permalink(...)
+ * Shortcut for WordPress from 'the_permalink(...)' to \WDGWV\CMS\Emulation\WordPress()->the_permalink(...)
  * @since Version 1.0
  */
 function the_permalink()
@@ -437,7 +437,7 @@ function the_permalink()
 }
 
 /**
- * Shortcut for WordPress from 'the_category(...)' to \WDGWV\CMS\emulation\WordPress()->the_category(...)
+ * Shortcut for WordPress from 'the_category(...)' to \WDGWV\CMS\Emulation\WordPress()->the_category(...)
  * @since Version 1.0
  */
 function the_category()
@@ -447,7 +447,7 @@ function the_category()
 }
 
 /**
- * Shortcut for WordPress from 'the_author_link(...)' to \WDGWV\CMS\emulation\WordPress()->the_author_link(...)
+ * Shortcut for WordPress from 'the_author_link(...)' to \WDGWV\CMS\Emulation\WordPress()->the_author_link(...)
  * @since Version 1.0
  */
 function the_author_link()
@@ -457,7 +457,7 @@ function the_author_link()
 }
 
 /**
- * Shortcut for WordPress from 'the_time(...)' to \WDGWV\CMS\emulation\WordPress()->the_time(...)
+ * Shortcut for WordPress from 'the_time(...)' to \WDGWV\CMS\Emulation\WordPress()->the_time(...)
  * @since Version 1.0
  */
 function the_time()
@@ -467,7 +467,7 @@ function the_time()
 }
 
 /**
- * Shortcut for WordPress from 'the_title(...)' to \WDGWV\CMS\emulation\WordPress()->the_title(...)
+ * Shortcut for WordPress from 'the_title(...)' to \WDGWV\CMS\Emulation\WordPress()->the_title(...)
  * @since Version 1.0
  */
 function the_title()
@@ -477,7 +477,7 @@ function the_title()
 }
 
 /**
- * Shortcut for WordPress from 'comments_link(...)' to \WDGWV\CMS\emulation\WordPress()->comments_link(...)
+ * Shortcut for WordPress from 'comments_link(...)' to \WDGWV\CMS\Emulation\WordPress()->comments_link(...)
  * @since Version 1.0
  */
 function comments_link()
@@ -487,7 +487,7 @@ function comments_link()
 }
 
 /**
- * Shortcut for WordPress from 'readintro(...)' to \WDGWV\CMS\emulation\WordPress()->readintro(...)
+ * Shortcut for WordPress from 'readintro(...)' to \WDGWV\CMS\Emulation\WordPress()->readintro(...)
  * @since Version 1.0
  */
 function readintro()
@@ -497,7 +497,7 @@ function readintro()
 }
 
 /**
- * Shortcut for WordPress from 'is_tag(...)' to \WDGWV\CMS\emulation\WordPress()->is_tag(...)
+ * Shortcut for WordPress from 'is_tag(...)' to \WDGWV\CMS\Emulation\WordPress()->is_tag(...)
  * @since Version 1.0
  */
 function is_tag()
@@ -507,7 +507,7 @@ function is_tag()
 }
 
 /**
- * Shortcut for WordPress from 'wp_get_archives(...)' to \WDGWV\CMS\emulation\WordPress()->wp_get_archives(...)
+ * Shortcut for WordPress from 'wp_get_archives(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_get_archives(...)
  * @since Version 1.0
  */
 function wp_get_archives()
@@ -517,7 +517,7 @@ function wp_get_archives()
 }
 
 /**
- * Shortcut for WordPress from 'wp_list_cats(...)' to \WDGWV\CMS\emulation\WordPress()->wp_list_cats(...)
+ * Shortcut for WordPress from 'wp_list_cats(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_list_cats(...)
  * @since Version 1.0
  */
 function wp_list_cats()
@@ -527,7 +527,7 @@ function wp_list_cats()
 }
 
 /**
- * Shortcut for WordPress from 'get_links(...)' to \WDGWV\CMS\emulation\WordPress()->get_links(...)
+ * Shortcut for WordPress from 'get_links(...)' to \WDGWV\CMS\Emulation\WordPress()->get_links(...)
  * @since Version 1.0
  */
 function get_links()
@@ -537,7 +537,7 @@ function get_links()
 }
 
 /**
- * Shortcut for WordPress from 'wp_loginout(...)' to \WDGWV\CMS\emulation\WordPress()->wp_loginout(...)
+ * Shortcut for WordPress from 'wp_loginout(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_loginout(...)
  * @since Version 1.0
  */
 function wp_loginout()
@@ -547,7 +547,7 @@ function wp_loginout()
 }
 
 /**
- * Shortcut for WordPress from 'wp_meta(...)' to \WDGWV\CMS\emulation\WordPress()->wp_meta(...)
+ * Shortcut for WordPress from 'wp_meta(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_meta(...)
  * @since Version 1.0
  */
 function wp_meta()
@@ -557,7 +557,7 @@ function wp_meta()
 }
 
 /**
- * Shortcut for WordPress from 'theme_print_sidebar(...)' to \WDGWV\CMS\emulation\WordPress()->theme_print_sidebar(...)
+ * Shortcut for WordPress from 'theme_print_sidebar(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_print_sidebar(...)
  * @since Version 1.0
  */
 function theme_print_sidebar($what)
@@ -567,7 +567,7 @@ function theme_print_sidebar($what)
 }
 
 /**
- * Shortcut for WordPress from 'theme_has_layout_part(...)' to \WDGWV\CMS\emulation\WordPress()->theme_has_layout_part(...)
+ * Shortcut for WordPress from 'theme_has_layout_part(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_has_layout_part(...)
  * @since Version 1.0
  */
 function theme_has_layout_part($part)
@@ -577,7 +577,7 @@ function theme_has_layout_part($part)
 }
 
 /**
- * Shortcut for WordPress from 'get_num_queries(...)' to \WDGWV\CMS\emulation\WordPress()->get_num_queries(...)
+ * Shortcut for WordPress from 'get_num_queries(...)' to \WDGWV\CMS\Emulation\WordPress()->get_num_queries(...)
  * @since Version 1.0
  */
 function get_num_queries()
@@ -587,7 +587,7 @@ function get_num_queries()
 }
 
 /**
- * Shortcut for WordPress from 'timer_stop(...)' to \WDGWV\CMS\emulation\WordPress()->timer_stop(...)
+ * Shortcut for WordPress from 'timer_stop(...)' to \WDGWV\CMS\Emulation\WordPress()->timer_stop(...)
  * @since Version 1.0
  */
 function timer_stop()
@@ -597,7 +597,7 @@ function timer_stop()
 }
 
 /**
- * Shortcut for WordPress from 'theme_wordpress(...)' to \WDGWV\CMS\emulation\WordPress()->theme_wordpress(...)
+ * Shortcut for WordPress from 'theme_wordpress(...)' to \WDGWV\CMS\Emulation\WordPress()->theme_wordpress(...)
  * @since Version 1.0
  */
 function theme_wordpress($p)
@@ -607,7 +607,7 @@ function theme_wordpress($p)
 }
 
 /**
- * Shortcut for WordPress from 'trailingslashit(...)' to \WDGWV\CMS\emulation\WordPress()->trailingslashit(...)
+ * Shortcut for WordPress from 'trailingslashit(...)' to \WDGWV\CMS\Emulation\WordPress()->trailingslashit(...)
  * @since Version 1.0
  */
 function trailingslashit($item)
@@ -617,7 +617,7 @@ function trailingslashit($item)
 }
 
 /**
- * Shortcut for WordPress from 'get_template_directory(...)' to \WDGWV\CMS\emulation\WordPress()->get_template_directory(...)
+ * Shortcut for WordPress from 'get_template_directory(...)' to \WDGWV\CMS\Emulation\WordPress()->get_template_directory(...)
  * @since Version 1.0
  */
 function get_template_directory()
@@ -627,7 +627,7 @@ function get_template_directory()
 }
 
 /**
- * Shortcut for WordPress from 'esc_url(...)' to \WDGWV\CMS\emulation\WordPress()->esc_url(...)
+ * Shortcut for WordPress from 'esc_url(...)' to \WDGWV\CMS\Emulation\WordPress()->esc_url(...)
  * @since Version 1.0
  */
 function esc_url($url)
@@ -637,7 +637,7 @@ function esc_url($url)
 }
 
 /**
- * Shortcut for WordPress from 'home_url(...)' to \WDGWV\CMS\emulation\WordPress()->home_url(...)
+ * Shortcut for WordPress from 'home_url(...)' to \WDGWV\CMS\Emulation\WordPress()->home_url(...)
  * @since Version 1.0
  */
 function home_url($url)
@@ -647,7 +647,7 @@ function home_url($url)
 }
 
 /**
- * Shortcut for WordPress from 'is_day(...)' to \WDGWV\CMS\emulation\WordPress()->is_day(...)
+ * Shortcut for WordPress from 'is_day(...)' to \WDGWV\CMS\Emulation\WordPress()->is_day(...)
  * @since Version 1.0
  */
 function is_day($date)
@@ -657,7 +657,7 @@ function is_day($date)
 }
 
 /**
- * Shortcut for WordPress from 'get_the_date(...)' to \WDGWV\CMS\emulation\WordPress()->get_the_date(...)
+ * Shortcut for WordPress from 'get_the_date(...)' to \WDGWV\CMS\Emulation\WordPress()->get_the_date(...)
  * @since Version 1.0
  */
 function get_the_date($date)
@@ -667,7 +667,7 @@ function get_the_date($date)
 }
 
 /**
- * Shortcut for WordPress from 'single_cat_title(...)' to \WDGWV\CMS\emulation\WordPress()->single_cat_title(...)
+ * Shortcut for WordPress from 'single_cat_title(...)' to \WDGWV\CMS\Emulation\WordPress()->single_cat_title(...)
  * @since Version 1.0
  */
 function single_cat_title($one, $par = false)
@@ -677,7 +677,7 @@ function single_cat_title($one, $par = false)
 }
 
 /**
- * Shortcut for WordPress from 'get_the_author(...)' to \WDGWV\CMS\emulation\WordPress()->get_the_author(...)
+ * Shortcut for WordPress from 'get_the_author(...)' to \WDGWV\CMS\Emulation\WordPress()->get_the_author(...)
  * @since Version 1.0
  */
 function get_the_author()
@@ -687,7 +687,7 @@ function get_the_author()
 }
 
 /**
- * Shortcut for WordPress from 'get_the_author_meta(...)' to \WDGWV\CMS\emulation\WordPress()->get_the_author_meta(...)
+ * Shortcut for WordPress from 'get_the_author_meta(...)' to \WDGWV\CMS\Emulation\WordPress()->get_the_author_meta(...)
  * @since Version 1.0
  */
 function get_the_author_meta($what)
@@ -697,7 +697,7 @@ function get_the_author_meta($what)
 }
 
 /**
- * Shortcut for WordPress from 'get_avatar(...)' to \WDGWV\CMS\emulation\WordPress()->get_avatar(...)
+ * Shortcut for WordPress from 'get_avatar(...)' to \WDGWV\CMS\Emulation\WordPress()->get_avatar(...)
  * @since Version 1.0
  */
 function get_avatar($from, $size)
@@ -707,7 +707,7 @@ function get_avatar($from, $size)
 }
 
 /**
- * Shortcut for WordPress from 'rewind_posts(...)' to \WDGWV\CMS\emulation\WordPress()->rewind_posts(...)
+ * Shortcut for WordPress from 'rewind_posts(...)' to \WDGWV\CMS\Emulation\WordPress()->rewind_posts(...)
  * @since Version 1.0
  */
 function rewind_posts()
@@ -717,7 +717,7 @@ function rewind_posts()
 }
 
 /**
- * Shortcut for WordPress from 'of_get_option(...)' to \WDGWV\CMS\emulation\WordPress()->of_get_option(...)
+ * Shortcut for WordPress from 'of_get_option(...)' to \WDGWV\CMS\Emulation\WordPress()->of_get_option(...)
  * @since Version 1.0
  */
 function of_get_option($option)
@@ -727,7 +727,7 @@ function of_get_option($option)
 }
 
 /**
- * Shortcut for WordPress from 'get_query_var(...)' to \WDGWV\CMS\emulation\WordPress()->get_query_var(...)
+ * Shortcut for WordPress from 'get_query_var(...)' to \WDGWV\CMS\Emulation\WordPress()->get_query_var(...)
  * @since Version 1.0
  */
 function get_query_var($what)
@@ -737,7 +737,7 @@ function get_query_var($what)
 }
 
 /**
- * Shortcut for WordPress from 'get_search_query(...)' to \WDGWV\CMS\emulation\WordPress()->get_search_query(...)
+ * Shortcut for WordPress from 'get_search_query(...)' to \WDGWV\CMS\Emulation\WordPress()->get_search_query(...)
  * @since Version 1.0
  */
 function get_search_query()
@@ -747,7 +747,7 @@ function get_search_query()
 }
 
 /**
- * Shortcut for WordPress from 'do_action(...)' to \WDGWV\CMS\emulation\WordPress()->do_action(...)
+ * Shortcut for WordPress from 'do_action(...)' to \WDGWV\CMS\Emulation\WordPress()->do_action(...)
  * @since Version 1.0
  */
 function do_action()
@@ -757,7 +757,7 @@ function do_action()
 }
 
 /**
- * Shortcut for WordPress from 'is_active_sidebar(...)' to \WDGWV\CMS\emulation\WordPress()->is_active_sidebar(...)
+ * Shortcut for WordPress from 'is_active_sidebar(...)' to \WDGWV\CMS\Emulation\WordPress()->is_active_sidebar(...)
  * @since Version 1.0
  */
 function is_active_sidebar($pidebar)
@@ -767,7 +767,7 @@ function is_active_sidebar($pidebar)
 }
 
 /**
- * Shortcut for WordPress from 'dynamic_sidebar(...)' to \WDGWV\CMS\emulation\WordPress()->dynamic_sidebar(...)
+ * Shortcut for WordPress from 'dynamic_sidebar(...)' to \WDGWV\CMS\Emulation\WordPress()->dynamic_sidebar(...)
  * @since Version 1.0
  */
 function dynamic_sidebar()
@@ -777,7 +777,7 @@ function dynamic_sidebar()
 }
 
 /**
- * Shortcut for WordPress from 'wp_register(...)' to \WDGWV\CMS\emulation\WordPress()->wp_register(...)
+ * Shortcut for WordPress from 'wp_register(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_register(...)
  * @since Version 1.0
  */
 function wp_register()
@@ -787,7 +787,7 @@ function wp_register()
 }
 
 /**
- * Shortcut for WordPress from 'post_class(...)' to \WDGWV\CMS\emulation\WordPress()->post_class(...)
+ * Shortcut for WordPress from 'post_class(...)' to \WDGWV\CMS\Emulation\WordPress()->post_class(...)
  * @since Version 1.0
  */
 function post_class()
@@ -797,7 +797,7 @@ function post_class()
 }
 
 /**
- * Shortcut for WordPress from 'edit_post_link(...)' to \WDGWV\CMS\emulation\WordPress()->edit_post_link(...)
+ * Shortcut for WordPress from 'edit_post_link(...)' to \WDGWV\CMS\Emulation\WordPress()->edit_post_link(...)
  * @since Version 1.0
  */
 function edit_post_link()
@@ -807,7 +807,7 @@ function edit_post_link()
 }
 
 /**
- * Shortcut for WordPress from 'comments_template(...)' to \WDGWV\CMS\emulation\WordPress()->comments_template(...)
+ * Shortcut for WordPress from 'comments_template(...)' to \WDGWV\CMS\Emulation\WordPress()->comments_template(...)
  * @since Version 1.0
  */
 function comments_template($what, $switch)
@@ -817,7 +817,7 @@ function comments_template($what, $switch)
 }
 
 /**
- * Shortcut for WordPress from 'comments_popup_link(...)' to \WDGWV\CMS\emulation\WordPress()->comments_popup_link(...)
+ * Shortcut for WordPress from 'comments_popup_link(...)' to \WDGWV\CMS\Emulation\WordPress()->comments_popup_link(...)
  * @since Version 1.0
  */
 function comments_popup_link($leave, $one, $more)
@@ -827,7 +827,7 @@ function comments_popup_link($leave, $one, $more)
 }
 
 /**
- * Shortcut for WordPress from 'wp_pagenavi(...)' to \WDGWV\CMS\emulation\WordPress()->wp_pagenavi(...)
+ * Shortcut for WordPress from 'wp_pagenavi(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_pagenavi(...)
  * @since Version 1.0
  */
 function wp_pagenavi()
@@ -837,7 +837,7 @@ function wp_pagenavi()
 }
 
 /**
- * Shortcut for WordPress from 'post_password_required(...)' to \WDGWV\CMS\emulation\WordPress()->post_password_required(...)
+ * Shortcut for WordPress from 'post_password_required(...)' to \WDGWV\CMS\Emulation\WordPress()->post_password_required(...)
  * @since Version 1.0
  */
 function post_password_required()
@@ -847,7 +847,7 @@ function post_password_required()
 }
 
 /**
- * Shortcut for WordPress from 'have_comments(...)' to \WDGWV\CMS\emulation\WordPress()->have_comments(...)
+ * Shortcut for WordPress from 'have_comments(...)' to \WDGWV\CMS\Emulation\WordPress()->have_comments(...)
  * @since Version 1.0
  */
 function have_comments()
@@ -857,7 +857,7 @@ function have_comments()
 }
 
 /**
- * Shortcut for WordPress from 'wp_list_comments(...)' to \WDGWV\CMS\emulation\WordPress()->wp_list_comments(...)
+ * Shortcut for WordPress from 'wp_list_comments(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_list_comments(...)
  * @since Version 1.0
  */
 function wp_list_comments($how)
@@ -867,7 +867,7 @@ function wp_list_comments($how)
 }
 
 /**
- * Shortcut for WordPress from 'get_comment_pages_count(...)' to \WDGWV\CMS\emulation\WordPress()->get_comment_pages_count(...)
+ * Shortcut for WordPress from 'get_comment_pages_count(...)' to \WDGWV\CMS\Emulation\WordPress()->get_comment_pages_count(...)
  * @since Version 1.0
  */
 function get_comment_pages_count()
@@ -877,7 +877,7 @@ function get_comment_pages_count()
 }
 
 /**
- * Shortcut for WordPress from 'previous_comments_link(...)' to \WDGWV\CMS\emulation\WordPress()->previous_comments_link(...)
+ * Shortcut for WordPress from 'previous_comments_link(...)' to \WDGWV\CMS\Emulation\WordPress()->previous_comments_link(...)
  * @since Version 1.0
  */
 function previous_comments_link()
@@ -887,7 +887,7 @@ function previous_comments_link()
 }
 
 /**
- * Shortcut for WordPress from 'next_comments_link(...)' to \WDGWV\CMS\emulation\WordPress()->next_comments_link(...)
+ * Shortcut for WordPress from 'next_comments_link(...)' to \WDGWV\CMS\Emulation\WordPress()->next_comments_link(...)
  * @since Version 1.0
  */
 function next_comments_link()
@@ -897,7 +897,7 @@ function next_comments_link()
 }
 
 /**
- * Shortcut for WordPress from 'comments_open(...)' to \WDGWV\CMS\emulation\WordPress()->comments_open(...)
+ * Shortcut for WordPress from 'comments_open(...)' to \WDGWV\CMS\Emulation\WordPress()->comments_open(...)
  * @since Version 1.0
  */
 function comments_open()
@@ -907,7 +907,7 @@ function comments_open()
 }
 
 /**
- * Shortcut for WordPress from 'post_type_supports(...)' to \WDGWV\CMS\emulation\WordPress()->post_type_supports(...)
+ * Shortcut for WordPress from 'post_type_supports(...)' to \WDGWV\CMS\Emulation\WordPress()->post_type_supports(...)
  * @since Version 1.0
  */
 function post_type_supports($supports, $region = 'comments')
@@ -917,7 +917,7 @@ function post_type_supports($supports, $region = 'comments')
 }
 
 /**
- * Shortcut for WordPress from 'get_post_type(...)' to \WDGWV\CMS\emulation\WordPress()->get_post_type(...)
+ * Shortcut for WordPress from 'get_post_type(...)' to \WDGWV\CMS\Emulation\WordPress()->get_post_type(...)
  * @since Version 1.0
  */
 function get_post_type()
@@ -927,7 +927,7 @@ function get_post_type()
 }
 
 /**
- * Shortcut for WordPress from 'comment_form(...)' to \WDGWV\CMS\emulation\WordPress()->comment_form(...)
+ * Shortcut for WordPress from 'comment_form(...)' to \WDGWV\CMS\Emulation\WordPress()->comment_form(...)
  * @since Version 1.0
  */
 function comment_form($array)
@@ -937,7 +937,7 @@ function comment_form($array)
 }
 
 /**
- * Shortcut for WordPress from 'has_nav_menu(...)' to \WDGWV\CMS\emulation\WordPress()->has_nav_menu(...)
+ * Shortcut for WordPress from 'has_nav_menu(...)' to \WDGWV\CMS\Emulation\WordPress()->has_nav_menu(...)
  * @since Version 1.0
  */
 function has_nav_menu()
@@ -947,7 +947,7 @@ function has_nav_menu()
 }
 
 /**
- * Shortcut for WordPress from 'wp_nav_menu(...)' to \WDGWV\CMS\emulation\WordPress()->wp_nav_menu(...)
+ * Shortcut for WordPress from 'wp_nav_menu(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_nav_menu(...)
  * @since Version 1.0
  */
 function wp_nav_menu()
@@ -957,7 +957,7 @@ function wp_nav_menu()
 }
 
 /**
- * Shortcut for WordPress from 'get_post_meta(...)' to \WDGWV\CMS\emulation\WordPress()->get_post_meta(...)
+ * Shortcut for WordPress from 'get_post_meta(...)' to \WDGWV\CMS\Emulation\WordPress()->get_post_meta(...)
  * @since Version 1.0
  */
 function get_post_meta($what, $where, $how)
@@ -967,7 +967,7 @@ function get_post_meta($what, $where, $how)
 }
 
 /**
- * Shortcut for WordPress from 'delete_post_meta(...)' to \WDGWV\CMS\emulation\WordPress()->delete_post_meta(...)
+ * Shortcut for WordPress from 'delete_post_meta(...)' to \WDGWV\CMS\Emulation\WordPress()->delete_post_meta(...)
  * @since Version 1.0
  */
 function delete_post_meta($id, $count)
@@ -977,7 +977,7 @@ function delete_post_meta($id, $count)
 }
 
 /**
- * Shortcut for WordPress from 'add_post_meta(...)' to \WDGWV\CMS\emulation\WordPress()->add_post_meta(...)
+ * Shortcut for WordPress from 'add_post_meta(...)' to \WDGWV\CMS\Emulation\WordPress()->add_post_meta(...)
  * @since Version 1.0
  */
 function add_post_meta($id, $countkey, $count)
@@ -987,7 +987,7 @@ function add_post_meta($id, $countkey, $count)
 }
 
 /**
- * Shortcut for WordPress from 'update_post_meta(...)' to \WDGWV\CMS\emulation\WordPress()->update_post_meta(...)
+ * Shortcut for WordPress from 'update_post_meta(...)' to \WDGWV\CMS\Emulation\WordPress()->update_post_meta(...)
  * @since Version 1.0
  */
 function update_post_meta($id, $countkey, $count)
@@ -997,7 +997,7 @@ function update_post_meta($id, $countkey, $count)
 }
 
 /**
- * Shortcut for WordPress from 'locate_template(...)' to \WDGWV\CMS\emulation\WordPress()->locate_template(...)
+ * Shortcut for WordPress from 'locate_template(...)' to \WDGWV\CMS\Emulation\WordPress()->locate_template(...)
  * @since Version 1.0
  */
 function locate_template($template, $options)
@@ -1007,7 +1007,7 @@ function locate_template($template, $options)
 }
 
 /**
- * Shortcut for WordPress from 'apply_filters(...)' to \WDGWV\CMS\emulation\WordPress()->apply_filters(...)
+ * Shortcut for WordPress from 'apply_filters(...)' to \WDGWV\CMS\Emulation\WordPress()->apply_filters(...)
  * @since Version 1.0
  */
 function apply_filters($filter, $options)
@@ -1017,7 +1017,7 @@ function apply_filters($filter, $options)
 }
 
 /**
- * Shortcut for WordPress from 'is_front_page(...)' to \WDGWV\CMS\emulation\WordPress()->is_front_page(...)
+ * Shortcut for WordPress from 'is_front_page(...)' to \WDGWV\CMS\Emulation\WordPress()->is_front_page(...)
  * @since Version 1.0
  */
 function is_front_page()
@@ -1027,7 +1027,7 @@ function is_front_page()
 }
 
 /**
- * Shortcut for WordPress from 'esc_attr(...)' to \WDGWV\CMS\emulation\WordPress()->esc_attr(...)
+ * Shortcut for WordPress from 'esc_attr(...)' to \WDGWV\CMS\Emulation\WordPress()->esc_attr(...)
  * @since Version 1.0
  */
 function esc_attr($escape)
@@ -1037,7 +1037,7 @@ function esc_attr($escape)
 }
 
 /**
- * Shortcut for WordPress from 'is_plugin_active(...)' to \WDGWV\CMS\emulation\WordPress()->is_plugin_active(...)
+ * Shortcut for WordPress from 'is_plugin_active(...)' to \WDGWV\CMS\Emulation\WordPress()->is_plugin_active(...)
  * @since Version 1.0
  */
 function is_plugin_active($path)
@@ -1047,7 +1047,7 @@ function is_plugin_active($path)
 }
 
 /**
- * Shortcut for WordPress from 'get_stylesheet_directory_uri(...)' to \WDGWV\CMS\emulation\WordPress()->get_stylesheet_directory_uri(...)
+ * Shortcut for WordPress from 'get_stylesheet_directory_uri(...)' to \WDGWV\CMS\Emulation\WordPress()->get_stylesheet_directory_uri(...)
  * @since Version 1.0
  */
 function get_stylesheet_directory_uri()
@@ -1057,7 +1057,7 @@ function get_stylesheet_directory_uri()
 }
 
 /**
- * Shortcut for WordPress from 'get_pages(...)' to \WDGWV\CMS\emulation\WordPress()->get_pages(...)
+ * Shortcut for WordPress from 'get_pages(...)' to \WDGWV\CMS\Emulation\WordPress()->get_pages(...)
  * @since Version 1.0
  */
 function get_pages($how)
@@ -1067,7 +1067,7 @@ function get_pages($how)
 }
 
 /**
- * Shortcut for WordPress from 'get_categories(...)' to \WDGWV\CMS\emulation\WordPress()->get_categories(...)
+ * Shortcut for WordPress from 'get_categories(...)' to \WDGWV\CMS\Emulation\WordPress()->get_categories(...)
  * @since Version 1.0
  */
 function get_categories($how)
@@ -1077,7 +1077,7 @@ function get_categories($how)
 }
 
 /**
- * Shortcut for WordPress from 'update_option(...)' to \WDGWV\CMS\emulation\WordPress()->update_option(...)
+ * Shortcut for WordPress from 'update_option(...)' to \WDGWV\CMS\Emulation\WordPress()->update_option(...)
  * @since Version 1.0
  */
 function update_option($what)
@@ -1087,7 +1087,7 @@ function update_option($what)
 }
 
 /**
- * Shortcut for WordPress from 'has_post_thumbnail(...)' to \WDGWV\CMS\emulation\WordPress()->has_post_thumbnail(...)
+ * Shortcut for WordPress from 'has_post_thumbnail(...)' to \WDGWV\CMS\Emulation\WordPress()->has_post_thumbnail(...)
  * @since Version 1.0
  */
 function has_post_thumbnail()
@@ -1097,7 +1097,7 @@ function has_post_thumbnail()
 }
 
 /**
- * Shortcut for WordPress from 'the_post_thumbnail(...)' to \WDGWV\CMS\emulation\WordPress()->the_post_thumbnail(...)
+ * Shortcut for WordPress from 'the_post_thumbnail(...)' to \WDGWV\CMS\Emulation\WordPress()->the_post_thumbnail(...)
  * @since Version 1.0
  */
 function the_post_thumbnail($kind)
@@ -1107,7 +1107,7 @@ function the_post_thumbnail($kind)
 }
 
 /**
- * Shortcut for WordPress from 'get_template_directory_uri(...)' to \WDGWV\CMS\emulation\WordPress()->get_template_directory_uri(...)
+ * Shortcut for WordPress from 'get_template_directory_uri(...)' to \WDGWV\CMS\Emulation\WordPress()->get_template_directory_uri(...)
  * @since Version 1.0
  */
 function get_template_directory_uri()
@@ -1117,7 +1117,7 @@ function get_template_directory_uri()
 }
 
 /**
- * Shortcut for WordPress from 'wp_get_object_terms(...)' to \WDGWV\CMS\emulation\WordPress()->wp_get_object_terms(...)
+ * Shortcut for WordPress from 'wp_get_object_terms(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_get_object_terms(...)
  * @since Version 1.0
  */
 function wp_get_object_terms($id, $theme)
@@ -1127,7 +1127,7 @@ function wp_get_object_terms($id, $theme)
 }
 
 /**
- * Shortcut for WordPress from 'wp_reset_postdata(...)' to \WDGWV\CMS\emulation\WordPress()->wp_reset_postdata(...)
+ * Shortcut for WordPress from 'wp_reset_postdata(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_reset_postdata(...)
  * @since Version 1.0
  */
 function wp_reset_postdata()
@@ -1137,7 +1137,7 @@ function wp_reset_postdata()
 }
 
 /**
- * Shortcut for WordPress from 'the_author_posts_link(...)' to \WDGWV\CMS\emulation\WordPress()->the_author_posts_link(...)
+ * Shortcut for WordPress from 'the_author_posts_link(...)' to \WDGWV\CMS\Emulation\WordPress()->the_author_posts_link(...)
  * @since Version 1.0
  */
 function the_author_posts_link()
@@ -1147,7 +1147,7 @@ function the_author_posts_link()
 }
 
 /**
- * Shortcut for WordPress from 'is_sticky(...)' to \WDGWV\CMS\emulation\WordPress()->is_sticky(...)
+ * Shortcut for WordPress from 'is_sticky(...)' to \WDGWV\CMS\Emulation\WordPress()->is_sticky(...)
  * @since Version 1.0
  */
 function is_sticky()
@@ -1157,7 +1157,7 @@ function is_sticky()
 }
 
 /**
- * Shortcut for WordPress from 'get_search_form(...)' to \WDGWV\CMS\emulation\WordPress()->get_search_form(...)
+ * Shortcut for WordPress from 'get_search_form(...)' to \WDGWV\CMS\Emulation\WordPress()->get_search_form(...)
  * @since Version 1.0
  */
 function get_search_form()
@@ -1167,7 +1167,7 @@ function get_search_form()
 }
 
 /**
- * Shortcut for WordPress from 'add_theme_support(...)' to \WDGWV\CMS\emulation\WordPress()->add_theme_support(...)
+ * Shortcut for WordPress from 'add_theme_support(...)' to \WDGWV\CMS\Emulation\WordPress()->add_theme_support(...)
  * @since Version 1.0
  */
 function add_theme_support($what, $options = null)
@@ -1177,7 +1177,7 @@ function add_theme_support($what, $options = null)
 }
 
 /**
- * Shortcut for WordPress from 'add_image_size(...)' to \WDGWV\CMS\emulation\WordPress()->add_image_size(...)
+ * Shortcut for WordPress from 'add_image_size(...)' to \WDGWV\CMS\Emulation\WordPress()->add_image_size(...)
  * @since Version 1.0
  */
 function add_image_size($kind, $width, $height, $load)
@@ -1187,7 +1187,7 @@ function add_image_size($kind, $width, $height, $load)
 }
 
 /**
- * Shortcut for WordPress from 'register_nav_menus(...)' to \WDGWV\CMS\emulation\WordPress()->register_nav_menus(...)
+ * Shortcut for WordPress from 'register_nav_menus(...)' to \WDGWV\CMS\Emulation\WordPress()->register_nav_menus(...)
  * @since Version 1.0
  */
 function register_nav_menus($menu)
@@ -1197,7 +1197,7 @@ function register_nav_menus($menu)
 }
 
 /**
- * Shortcut for WordPress from 'load_theme_textdomain(...)' to \WDGWV\CMS\emulation\WordPress()->load_theme_textdomain(...)
+ * Shortcut for WordPress from 'load_theme_textdomain(...)' to \WDGWV\CMS\Emulation\WordPress()->load_theme_textdomain(...)
  * @since Version 1.0
  */
 function load_theme_textdomain($theme, $dir)
@@ -1207,7 +1207,7 @@ function load_theme_textdomain($theme, $dir)
 }
 
 /**
- * Shortcut for WordPress from 'get_locale(...)' to \WDGWV\CMS\emulation\WordPress()->get_locale(...)
+ * Shortcut for WordPress from 'get_locale(...)' to \WDGWV\CMS\Emulation\WordPress()->get_locale(...)
  * @since Version 1.0
  */
 function get_locale()
@@ -1217,7 +1217,7 @@ function get_locale()
 }
 
 /**
- * Shortcut for WordPress from 'add_action(...)' to \WDGWV\CMS\emulation\WordPress()->add_action(...)
+ * Shortcut for WordPress from 'add_action(...)' to \WDGWV\CMS\Emulation\WordPress()->add_action(...)
  * @since Version 1.0
  */
 function add_action($when, $action)
@@ -1227,7 +1227,7 @@ function add_action($when, $action)
 }
 
 /**
- * Shortcut for WordPress from '_n_noop(...)' to \WDGWV\CMS\emulation\WordPress()->_n_noop(...)
+ * Shortcut for WordPress from '_n_noop(...)' to \WDGWV\CMS\Emulation\WordPress()->_n_noop(...)
  * @since Version 1.0
  */
 function _n_noop($what, $other)
@@ -1237,7 +1237,7 @@ function _n_noop($what, $other)
 }
 
 /**
- * Shortcut for WordPress from 'tgmpa(...)' to \WDGWV\CMS\emulation\WordPress()->tgmpa(...)
+ * Shortcut for WordPress from 'tgmpa(...)' to \WDGWV\CMS\Emulation\WordPress()->tgmpa(...)
  * @since Version 1.0
  */
 function tgmpa($some, $thing)
@@ -1247,7 +1247,7 @@ function tgmpa($some, $thing)
 }
 
 /**
- * Shortcut for WordPress from 'add_filter(...)' to \WDGWV\CMS\emulation\WordPress()->add_filter(...)
+ * Shortcut for WordPress from 'add_filter(...)' to \WDGWV\CMS\Emulation\WordPress()->add_filter(...)
  * @since Version 1.0
  */
 function add_filter($when, $what)
@@ -1257,7 +1257,7 @@ function add_filter($when, $what)
 }
 
 /**
- * Shortcut for WordPress from 'is_admin(...)' to \WDGWV\CMS\emulation\WordPress()->is_admin(...)
+ * Shortcut for WordPress from 'is_admin(...)' to \WDGWV\CMS\Emulation\WordPress()->is_admin(...)
  * @since Version 1.0
  */
 function is_admin()
@@ -1267,7 +1267,7 @@ function is_admin()
 }
 
 /**
- * Shortcut for WordPress from 'wp_register_script(...)' to \WDGWV\CMS\emulation\WordPress()->wp_register_script(...)
+ * Shortcut for WordPress from 'wp_register_script(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_register_script(...)
  * @since Version 1.0
  */
 function wp_register_script($script)
@@ -1277,7 +1277,7 @@ function wp_register_script($script)
 }
 
 /**
- * Shortcut for WordPress from 'wp_enqueue_script(...)' to \WDGWV\CMS\emulation\WordPress()->wp_enqueue_script(...)
+ * Shortcut for WordPress from 'wp_enqueue_script(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_enqueue_script(...)
  * @since Version 1.0
  */
 function wp_enqueue_script($what)
@@ -1287,7 +1287,7 @@ function wp_enqueue_script($what)
 }
 
 /**
- * Shortcut for WordPress from 'wp_register_style(...)' to \WDGWV\CMS\emulation\WordPress()->wp_register_style(...)
+ * Shortcut for WordPress from 'wp_register_style(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_register_style(...)
  * @since Version 1.0
  */
 function wp_register_style($style)
@@ -1297,7 +1297,7 @@ function wp_register_style($style)
 }
 
 /**
- * Shortcut for WordPress from 'wp_enqueue_style(...)' to \WDGWV\CMS\emulation\WordPress()->wp_enqueue_style(...)
+ * Shortcut for WordPress from 'wp_enqueue_style(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_enqueue_style(...)
  * @since Version 1.0
  */
 function wp_enqueue_style($what)
@@ -1307,7 +1307,7 @@ function wp_enqueue_style($what)
 }
 
 /**
- * Shortcut for WordPress from 'is_ssl(...)' to \WDGWV\CMS\emulation\WordPress()->is_ssl(...)
+ * Shortcut for WordPress from 'is_ssl(...)' to \WDGWV\CMS\Emulation\WordPress()->is_ssl(...)
  * @since Version 1.0
  */
 function is_ssl()
@@ -1317,7 +1317,7 @@ function is_ssl()
 }
 
 /**
- * Shortcut for WordPress from 'is_author(...)' to \WDGWV\CMS\emulation\WordPress()->is_author(...)
+ * Shortcut for WordPress from 'is_author(...)' to \WDGWV\CMS\Emulation\WordPress()->is_author(...)
  * @since Version 1.0
  */
 function is_author()
@@ -1327,7 +1327,7 @@ function is_author()
 }
 
 /**
- * Shortcut for WordPress from 'is_year(...)' to \WDGWV\CMS\emulation\WordPress()->is_year(...)
+ * Shortcut for WordPress from 'is_year(...)' to \WDGWV\CMS\Emulation\WordPress()->is_year(...)
  * @since Version 1.0
  */
 function is_year($date)
@@ -1337,7 +1337,7 @@ function is_year($date)
 }
 
 /**
- * Shortcut for WordPress from 'register_sidebar(...)' to \WDGWV\CMS\emulation\WordPress()->register_sidebar(...)
+ * Shortcut for WordPress from 'register_sidebar(...)' to \WDGWV\CMS\Emulation\WordPress()->register_sidebar(...)
  * @since Version 1.0
  */
 function register_sidebar($theSidebarItemToAdd)
@@ -1347,7 +1347,7 @@ function register_sidebar($theSidebarItemToAdd)
 }
 
 /**
- * Shortcut for WordPress from 'register_widget(...)' to \WDGWV\CMS\emulation\WordPress()->register_widget(...)
+ * Shortcut for WordPress from 'register_widget(...)' to \WDGWV\CMS\Emulation\WordPress()->register_widget(...)
  * @since Version 1.0
  */
 function register_widget($widget)
@@ -1357,7 +1357,7 @@ function register_widget($widget)
 }
 
 /**
- * Shortcut for WordPress from 'get_the_excerpt(...)' to \WDGWV\CMS\emulation\WordPress()->get_the_excerpt(...)
+ * Shortcut for WordPress from 'get_the_excerpt(...)' to \WDGWV\CMS\Emulation\WordPress()->get_the_excerpt(...)
  * @since Version 1.0
  */
 function get_the_excerpt()
@@ -1367,7 +1367,7 @@ function get_the_excerpt()
 }
 
 /**
- * Shortcut for WordPress from 'get_the_tag_list(...)' to \WDGWV\CMS\emulation\WordPress()->get_the_tag_list(...)
+ * Shortcut for WordPress from 'get_the_tag_list(...)' to \WDGWV\CMS\Emulation\WordPress()->get_the_tag_list(...)
  * @since Version 1.0
  */
 function get_the_tag_list($how, $string)
@@ -1377,7 +1377,7 @@ function get_the_tag_list($how, $string)
 }
 
 /**
- * Shortcut for WordPress from 'get_comment_author_link(...)' to \WDGWV\CMS\emulation\WordPress()->get_comment_author_link(...)
+ * Shortcut for WordPress from 'get_comment_author_link(...)' to \WDGWV\CMS\Emulation\WordPress()->get_comment_author_link(...)
  * @since Version 1.0
  */
 function get_comment_author_link()
@@ -1387,7 +1387,7 @@ function get_comment_author_link()
 }
 
 /**
- * Shortcut for WordPress from 'comment_reply_link(...)' to \WDGWV\CMS\emulation\WordPress()->comment_reply_link(...)
+ * Shortcut for WordPress from 'comment_reply_link(...)' to \WDGWV\CMS\Emulation\WordPress()->comment_reply_link(...)
  * @since Version 1.0
  */
 function comment_reply_link()
@@ -1397,7 +1397,7 @@ function comment_reply_link()
 }
 
 /**
- * Shortcut for WordPress from 'comment_text(...)' to \WDGWV\CMS\emulation\WordPress()->comment_text(...)
+ * Shortcut for WordPress from 'comment_text(...)' to \WDGWV\CMS\Emulation\WordPress()->comment_text(...)
  * @since Version 1.0
  */
 function comment_text()
@@ -1407,7 +1407,7 @@ function comment_text()
 }
 
 /**
- * Shortcut for WordPress from 'is_loggedin(...)' to \WDGWV\CMS\emulation\WordPress()->is_loggedin(...)
+ * Shortcut for WordPress from 'is_loggedin(...)' to \WDGWV\CMS\Emulation\WordPress()->is_loggedin(...)
  * @since Version 1.0
  */
 function is_loggedin()
@@ -1417,7 +1417,7 @@ function is_loggedin()
 }
 
 /**
- * Shortcut for WordPress from 'get_bloginfo(...)' to \WDGWV\CMS\emulation\WordPress()->get_bloginfo(...)
+ * Shortcut for WordPress from 'get_bloginfo(...)' to \WDGWV\CMS\Emulation\WordPress()->get_bloginfo(...)
  * @since Version 1.0
  */
 function get_bloginfo($choise)
@@ -1427,7 +1427,7 @@ function get_bloginfo($choise)
 }
 
 /**
- * Shortcut for WordPress from 'wp_parse_args(...)' to \WDGWV\CMS\emulation\WordPress()->wp_parse_args(...)
+ * Shortcut for WordPress from 'wp_parse_args(...)' to \WDGWV\CMS\Emulation\WordPress()->wp_parse_args(...)
  * @since Version 1.0
  */
 function wp_parse_args($args = null, $array)
@@ -1437,7 +1437,7 @@ function wp_parse_args($args = null, $array)
 }
 
 /**
- * Shortcut for WordPress from 'add_shortcode(...)' to \WDGWV\CMS\emulation\WordPress()->add_shortcode(...)
+ * Shortcut for WordPress from 'add_shortcode(...)' to \WDGWV\CMS\Emulation\WordPress()->add_shortcode(...)
  * @since Version 1.0
  */
 function add_shortcode()

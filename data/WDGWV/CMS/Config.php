@@ -15,7 +15,7 @@ class Config extends \WDGWV\General\WDGWVFramework
 
     public function theme()
     {
-        return \WDGWV\CMS\controllers\databases\controller::sharedInstance()->getTheme();
+        return \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance()->getTheme();
     }
 
     //first time generation of keys -> random_bytes

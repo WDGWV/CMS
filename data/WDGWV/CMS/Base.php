@@ -92,8 +92,8 @@ class Base extends \WDGWV\General\WDGWVFramework
     public function __construct($customConfiguration = false)
     {
         $this->emulation = array(
-            'Blogger' => new \WDGWV\CMS\emulation\Blogger(),
-            'WordPress' => new \WDGWV\CMS\emulation\WordPress(),
+            'Blogger' => new \WDGWV\CMS\Emulation\Blogger(),
+            'WordPress' => new \WDGWV\CMS\Emulation\WordPress(),
         );
 
         if ($customConfiguration != false) {
@@ -112,7 +112,7 @@ class Base extends \WDGWV\General\WDGWVFramework
      */
     public function database()
     {
-        return \WDGWV\CMS\controllers\databases\controller::sharedInstance();
+        return \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
     }
 
     /**

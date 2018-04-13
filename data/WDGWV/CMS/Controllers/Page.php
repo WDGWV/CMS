@@ -26,7 +26,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
 
     private function parseUBBTags($input)
     {
-        if (class_exists('\WDGWV\CMS\hooks')) {
+        if (class_exists('\WDGWV\CMS\Hooks')) {
             $customHooks = \WDGWV\CMS\Hooks::sharedInstance()->getUBBHooks();
         }
         $uniid = uniqid();

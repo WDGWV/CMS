@@ -103,13 +103,13 @@ $extensions = \WDGWV\CMS\Extensions::sharedInstance();
  * @param $installer class The installer class
  */
 $installer = \WDGWV\CMS\Installer::sharedInstance();
-$database = \WDGWV\CMS\controllers\databases\controller::sharedInstance();
+$database = \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
 
 $hooks->createHook(
     'url',
     '/setTheme/portal',
     array(
-        \WDGWV\CMS\controllers\databases\controller::sharedInstance(),
+        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
         'setTheme',
     ),
     array(
@@ -120,7 +120,7 @@ $hooks->createHook(
     'url',
     '/setTheme/admin',
     array(
-        \WDGWV\CMS\controllers\databases\controller::sharedInstance(),
+        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
         'setTheme',
     ),
     array(

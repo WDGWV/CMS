@@ -68,7 +68,7 @@ class Controller extends \WDGWV\CMS\controllers\databases\Base
         static $inst = null;
 
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\controllers\databases\controller();
+            $inst = new \WDGWV\CMS\Controllers\Databases\Controller();
         }
 
         return $inst;
