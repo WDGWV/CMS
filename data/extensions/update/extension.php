@@ -84,12 +84,12 @@ class Update extends \WDGWV\CMS\ExtensionBase
     private function __construct()
     {
         // Read cached Extensions, if they exists, otherwise, skip.
-        $this->extensionList = \WDGWV\CMS\extensions::sharedInstance()->_displayExtensionList();
+        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
     }
 
     public function _reload()
     {
-        \WDGWV\CMS\extensions::sharedInstance()->_forceReloadExtensions();
+        \WDGWV\CMS\Extensions::sharedInstance()->_forceReloadExtensions();
         if (!headers_sent()) {
             header("location: /");
         }
@@ -108,7 +108,7 @@ class Update extends \WDGWV\CMS\ExtensionBase
         for ($i = 0; $i < sizeof($this->extensionList); $i++) {
             $page1 = $this->extensionList[$i];
             $page1 .= '<table>';
-            foreach (\WDGWV\CMS\extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
+            foreach (\WDGWV\CMS\Extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
                 $page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
             };
             $page1 .= '</table>';

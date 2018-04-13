@@ -81,12 +81,12 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
-        $this->extensionList = \WDGWV\CMS\extensions::sharedInstance()->_displayExtensionList();
+        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
     }
 
     public function _forceReload()
     {
-        \WDGWV\CMS\extensions::sharedInstance()->_forceReloadExtensions();
+        \WDGWV\CMS\Extensions::sharedInstance()->_forceReloadExtensions();
         if (!headers_sent()) {
             header("location: /");
         }
@@ -118,7 +118,7 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
             $page1 = $this->extensionList[$i];
 
             $page1 .= '<table>';
-            foreach (\WDGWV\CMS\extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
+            foreach (\WDGWV\CMS\Extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
                 if ($info === 'extension') {$name = $value;}
                 $page1 .= sprintf(
                     "<tr><td>%s:</td><td>%s</td></tr>",
@@ -131,10 +131,10 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
                 sprintf('%s extension<span class=\'right\'><button onClick="window.location=\'/%s/extensions/list?%sExtension=%s\'"%s>%s \'%s\'</button></span>',
                     $name,
                     (new \WDGWV\CMS\Config)->adminURL(),
-                    (\WDGWV\CMS\extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'disable' : 'enable'),
+                    (\WDGWV\CMS\Extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'disable' : 'enable'),
                     $name,
-                    (\WDGWV\CMS\extensions::sharedInstance()->isSystem($this->extensionList[$i]) ? 'disabled' : ''),
-                    (\WDGWV\CMS\extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'Disable' : 'Enable'),
+                    (\WDGWV\CMS\Extensions::sharedInstance()->isSystem($this->extensionList[$i]) ? 'disabled' : ''),
+                    (\WDGWV\CMS\Extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'Disable' : 'Enable'),
                     $name
                 ),
                 $page1,

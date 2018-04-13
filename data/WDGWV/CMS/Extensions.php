@@ -100,7 +100,7 @@ class Extensions
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\extensions();
+            $inst = new \WDGWV\CMS\Extensions();
         }
         return $inst;
     }
