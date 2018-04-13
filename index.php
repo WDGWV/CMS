@@ -53,7 +53,7 @@ $CMSStartTime = microtime(true);
 include_once './data/WDGWV/CMS/Loader.php';
 
 if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
-    \WDGWV\CMS\base::sharedInstance()->serve();
+    \WDGWV\CMS\Base::sharedInstance()->serve();
 } else {
     if (\WDGWV\CMS\Installer::sharedInstance()->canOfflineInstall()) {
         \WDGWV\CMS\Installer::sharedInstance()->beginOfflineInstall();

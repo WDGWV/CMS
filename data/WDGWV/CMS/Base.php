@@ -78,7 +78,7 @@ class Base extends \WDGWV\General\WDGWVFramework
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\base();
+            $inst = new \WDGWV\CMS\Base();
         }
         return $inst;
     }

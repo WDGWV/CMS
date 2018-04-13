@@ -128,7 +128,7 @@ $hooks->createHook(
     )
 );
 
-$CMS = \WDGWV\CMS\base::sharedInstance();
+$CMS = \WDGWV\CMS\Base::sharedInstance();
 
 // TEMPORARY
 // TODO: REMOVE ME!!!
