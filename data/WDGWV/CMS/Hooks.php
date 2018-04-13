@@ -50,7 +50,7 @@ namespace WDGWV\CMS;
 ------------------------------------------------------------
  */
 
-class Hooks extends \WDGWV\CMS\baseProtected
+class Hooks extends \WDGWV\CMS\BaseProtected
 {
     private $hookDatabase = array();
 
