@@ -278,10 +278,12 @@ class Base extends \WDGWV\General\WDGWVFramework
             $parser->display();
 
             if (\WDGWV\CMS\Hooks::sharedInstance()->haveHooksFor('script')) {
-                echo sprintf(
-                    '<script type=\'text/javascript\'>%s</script>',
-                    \WDGWV\CMS\Hooks::sharedInstance()->loopHook('script')
-                );
+                foreach (\WDGWV\CMS\Hooks::sharedInstance()->loopHooks('script') as $script) {
+                    echo sprintf(
+                        '<script type=\'text/javascript\'>%s</script>',
+                        $script
+                    );
+                }
             }
 
             if ($parser->didDisplay()) {
