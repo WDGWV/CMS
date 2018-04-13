@@ -353,7 +353,7 @@ class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\Controllers\Databases\plainText();
+            $inst = new \WDGWV\CMS\Controllers\Databases\PlainText();
         }
         return $inst;
     }
