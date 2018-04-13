@@ -5,7 +5,7 @@ class Config extends \WDGWV\General\WDGWVFramework
 {
     public function adminURL()
     {
-        return 'administration';
+        return 'Administration';
     }
 
     public function database()
