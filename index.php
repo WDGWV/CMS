@@ -50,7 +50,7 @@
 
 error_reporting(E_ALL);
 $CMSStartTime = microtime(true);
-include_once './data/WDGWV/CMS/loader.php';
+include_once './data/WDGWV/CMS/Loader.php';
 
 if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
     \WDGWV\CMS\base::sharedInstance()->serve();

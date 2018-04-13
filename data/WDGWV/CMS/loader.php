@@ -69,7 +69,8 @@ function autloadWDGWVCMS($class)
             echo "<pre>";
             debug_print_backtrace();
             echo "</pre>";
-            exit();
+
+            exit(1); // Exit with error
         }
     }
 
