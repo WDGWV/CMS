@@ -10,7 +10,7 @@ class Config extends \WDGWV\General\WDGWVFramework
 
     public function database()
     {
-        return 'plainText';
+        return 'PlainText';
     }
 
     public function theme()

@@ -84,7 +84,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     {
         parent::__construct();
         $d = (new \WDGWV\CMS\Config())->database();
-        $this->db = call_user_func("\\WDGWV\\CMS\\controllers\\databases\\{$d}::sharedInstance");
+        $this->db = call_user_func("\\WDGWV\\CMS\\Controllers\\Databases\\{$d}::sharedInstance");
         if ($this->db) {
             if (!is_object($this->db)) {
                 echo "Failed to load database";
