@@ -248,7 +248,7 @@ class Base extends \WDGWV\General\WDGWVFramework
                 CMS_TEMPLATE_DIR
             );
 
-            $pageController = new \WDGWV\CMS\controllers\page(
+            $pageController = new \WDGWV\CMS\Controllers\page(
                 $parser,
                 $this,
                 $database

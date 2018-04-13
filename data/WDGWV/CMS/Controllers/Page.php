@@ -1,5 +1,5 @@
 <?php
-namespace WDGWV\CMS\controllers;
+namespace WDGWV\CMS\Controllers;
 
 class Page extends \WDGWV\CMS\Controllers\Base
 {

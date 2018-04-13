@@ -56,7 +56,7 @@ if (!defined('DB_PATH')) {
 
 define('SQLITE_DB', DB_PATH . 'CMS.sqllite');
 
-class SQLite extends \WDGWV\CMS\controllers\databases\base
+class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 {
     private $db = null;
 
@@ -68,7 +68,7 @@ class SQLite extends \WDGWV\CMS\controllers\databases\base
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\controllers\databases\SQLite();
+            $inst = new \WDGWV\CMS\Controllers\Databases\SQLite();
         }
         return $inst;
     }

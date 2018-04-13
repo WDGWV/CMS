@@ -55,7 +55,7 @@ namespace WDGWV\CMS\Controllers\Databases;
 ------------------------------------------------------------
  */
 
-class Controller extends \WDGWV\CMS\controllers\databases\Base
+class Controller extends \WDGWV\CMS\Controllers\Databases\Base
 {
     private $db = false;
 

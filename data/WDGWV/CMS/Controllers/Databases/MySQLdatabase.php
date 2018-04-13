@@ -341,7 +341,7 @@ class MySQLDriver
     }
 }
 
-class mySQLdatabase extends \WDGWV\CMS\controllers\databases\base
+class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
 {
     private $db = null;
 
@@ -353,7 +353,7 @@ class mySQLdatabase extends \WDGWV\CMS\controllers\databases\base
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\controllers\databases\plainText();
+            $inst = new \WDGWV\CMS\Controllers\Databases\plainText();
         }
         return $inst;
     }

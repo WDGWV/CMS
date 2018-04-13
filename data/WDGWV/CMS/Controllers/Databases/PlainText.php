@@ -69,7 +69,7 @@ define('PT_WIKI_DB', DB_PATH . 'wikiItems.db');
 define('PT_ORDER_DB', DB_PATH . 'orders.db');
 define('PT_FORUM_DB', DB_PATH . 'forumItems.db');
 
-class PlainText extends \WDGWV\CMS\controllers\databases\base
+class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 {
     private $CMSDatabase = array();
     private $userDatabase = array();
@@ -88,7 +88,7 @@ class PlainText extends \WDGWV\CMS\controllers\databases\base
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\controllers\databases\plainText();
+            $inst = new \WDGWV\CMS\Controllers\Databases\plainText();
         }
         return $inst;
     }
