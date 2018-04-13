@@ -79,7 +79,7 @@ class Base
 
     protected function noop()
     {
-
+        return;
     }
 
     protected function generateUserDB()
@@ -167,5 +167,4 @@ class Base
             ),
         );
     }
-
 }

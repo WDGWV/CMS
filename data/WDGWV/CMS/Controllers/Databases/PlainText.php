@@ -56,7 +56,7 @@ namespace WDGWV\CMS\Controllers\Databases;
  */
 
 if (!defined('DB_PATH')) {
-    define('DB_PATH', './data/database/');
+    define('DB_PATH', './data/Database/');
 }
 
 define('PT_CMS_DB', DB_PATH . 'CMS.db');

@@ -71,23 +71,23 @@ namespace WDGWV\CMS;
 class Extensions
 {
     private $scan_directorys = array(
-        './data/extensions/',
-        './data/modules/',
-        './data/plugins/',
+        './data/Extensions/',
+        './data/Modules/',
+        './data/Plugins/',
     );
 
     private $load_files = array(
-        'extension.php',
-        'module.php',
-        'plugin.php',
+        'Extension.php',
+        'Module.php',
+        'Plugin.php',
     );
 
     private $systemModules = array(
-        'extensionManagement',
+        'ExtensionManagement',
     );
 
     private $cache = '';
-    private $cacheDB = './data/database/extensionCache.db';
+    private $cacheDB = './data/Database/extensionCache.db';
     private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
     private $loadExtensions = array();
     private $extensionList = array();
@@ -132,7 +132,8 @@ class Extensions
                 file_get_contents(
                     $this->cacheDB
                 )
-            ), true
+            ),
+            true
         );
 
         if (sizeof($f[1]) == 0) {
@@ -265,8 +266,8 @@ class Extensions
         $this->loadExtensions = array();
         $this->extensionList = array();
 
-        // Check for 'demoMode' first.
-        $current = 'demoMode';
+        // Check for 'DemoMode' first.
+        $current = 'DemoMode';
         foreach ($this->scan_directorys as $readDirectory) {
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
                 if (file_exists($readDirectory . $current)) {
@@ -316,11 +317,12 @@ class Extensions
                 gzcompress(
                     json_encode(
                         array($this->loadExtensions, $this->extensionList)
-                    ), 9
+                    ),
+                    9
                 )
             );
         } else {
-            echo "Warning 'extensionCache' database not writeable";
+            echo "Warning 'ExtensionCache' database not writeable";
         }
     }
 }
