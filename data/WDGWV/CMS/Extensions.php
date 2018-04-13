@@ -118,6 +118,8 @@ class Extensions
         }
 
         $this->_reloadExtensions();
+        array_unique($this->loadExtensions);
+        array_unique($this->extensionList);
     }
 
     public function _displayExtensionList()
@@ -127,13 +129,13 @@ class Extensions
 
     private function _loadExtensions()
     {
-        $f = json_decode(
-            gzuncompress(
-                file_get_contents(
+        $f = json_decode( // Decode JSON
+            gzuncompress( // Uncompress
+                file_get_contents( // FGC
                     $this->cacheDB
                 )
             ),
-            true
+            true// explicit to Array.
         );
 
         if (sizeof($f[1]) == 0) {
@@ -141,10 +143,19 @@ class Extensions
             return;
         }
 
+        // Remove Duplicates, if any.
+        $f[0] = array_unique($f[0]);
+        $f[1] = array_unique($f[1]);
+
         foreach ($f[0] as $loadFile) {
             Debugger::sharedInstance()->log(sprintf('loading %s', $loadFile));
             if (file_exists($loadFile)) {
-                require_once $loadFile;
+                $disabled = explode('/', $loadFile);
+                $disabled[sizeof($disabled) - 1] = 'disabled';
+
+                if (!file_exists(implode('/', $disabled))) {
+                    require_once $loadFile;
+                }
             }
         }
 
@@ -275,7 +286,9 @@ class Extensions
                         if (file_exists($readDirectory . $current . '/' . $tryFile)) {
                             $this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
                             $this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
-                            require_once $readDirectory . $current . '/' . $tryFile;
+                            if (!file_exists($readDirectory . $current . '/' . 'disabled')) {
+                                require_once $readDirectory . $current . '/' . $tryFile;
+                            }
                         }
                     }
                 }
@@ -295,7 +308,9 @@ class Extensions
                                     }
 
                                     $this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
-                                    require_once $readDirectory . $current . '/' . $tryFile;
+                                    if (!file_exists($readDirectory . $current . '/' . 'disabled')) {
+                                        require_once $readDirectory . $current . '/' . $tryFile;
+                                    }
                                 }
                             }
                         }

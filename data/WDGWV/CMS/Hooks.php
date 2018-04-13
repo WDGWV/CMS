@@ -84,7 +84,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
 
         for ($i = 0; $i < sizeof($which); $i++) {
-            $this->loopHook($which[$i]);
+            return $this->loopHook($which[$i]);
         }
     }
 
@@ -144,9 +144,11 @@ class Hooks extends \WDGWV\CMS\BaseProtected
 
             case 'script':
                 if (isset($this->hookDatabase['script'])) {
+                    $arr = array();
                     for ($i = 0; $i < sizeof($this->hookDatabase['script']); $i++) {
-                        return $this->hookDatabase['script'][$i]['action'];
+                        $arr[] = $this->hookDatabase['script'][$i]['action'];
                     }
+                    return $arr;
                 }
                 break;
 
@@ -214,6 +216,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
 
             case 'get':
                 if (isset($this->hookDatabase['get'])) {
+                    $this->hookDatabase['get'] = array_unique($this->hookDatabase['get']);
                     for ($i = 0; $i < sizeof($this->hookDatabase['get']); $i++) {
                         if (isset($_GET[$this->hookDatabase['get'][$i]['name']])) {
                             if (is_callable($this->hookDatabase['get'][$i]['action'])) {
@@ -237,6 +240,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
 
             case 'post':
                 if (isset($this->hookDatabase['post'])) {
+                    $this->hookDatabase['post'] = array_unique($this->hookDatabase['post']);
                     for ($i = 0; $i < sizeof($this->hookDatabase['post']); $i++) {
                         if (isset($_POST[$this->hookDatabase['post'][$i]['name']])) {
                             if (is_callable($this->hookDatabase['post'][$i]['action'])) {
