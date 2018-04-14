@@ -34,7 +34,9 @@ class Page extends \WDGWV\CMS\Controllers\Base
         $replacer[] = array('/\{php\}(.*)\{\/php\}/s', '<?php \\1 ?>');
 
         if (class_exists('\WDGWV\CMS\Debugger')) {
-            \WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Parsing UBB tags with %s replacers', sizeof($replacer)));
+            \WDGWV\CMS\Debugger::sharedInstance()->log(
+                sprintf('Parsing UBB tags with %s replacers', sizeof($replacer))
+            );
         }
 
         $parse = $input;
@@ -58,7 +60,16 @@ class Page extends \WDGWV\CMS\Controllers\Base
 
         if (!file_exists('./data/temp/tmp_page_' . $uniid . '.bin')) {
             @ob_start();
-            $ob = @eval(sprintf('%s%s%s%s%s', '/* ! */', ' ?>', $uniid, '<?php ', '/* ! */'));
+            $ob = @eval(
+                sprintf(
+                    '%s%s%s%s%s',
+                    '/* ! */',
+                    ' ?>',
+                    $uniid,
+                    '<?php ',
+                    '/* ! */'
+                )
+            );
             $ob = ob_get_contents();
             @ob_end_clean();
 
