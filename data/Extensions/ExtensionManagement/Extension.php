@@ -88,7 +88,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
     }
 
-    public function display()
+    public function displayList()
     {
         if (isset($_GET['reIndex'])) {
             \WDGWV\CMS\Extensions::sharedInstance()->forceReloadExtensions();
@@ -97,13 +97,13 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
                 header(
                     sprintf(
                         "location: %s",
-                        sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL())
+                        sprintf('/%s/Extensions/List', (new \WDGWV\CMS\Config)->adminURL())
                     )
                 );
             }
             echo sprintf(
                 "<script>window.location='%s';</script>",
-                sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL())
+                sprintf('/%s/Extensions/List', (new \WDGWV\CMS\Config)->adminURL())
             );
             exit;
         }
@@ -178,39 +178,50 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         $page[] = array(
             'Reindex extensions',
             sprintf(
-                '<a href=\'/%s/extensions/list?reIndex=now\'>Force reindex extensions</a>',
+                '<a href=\'/%s/Extensions/List?reIndex=now\'>Force reindex extensions</a>',
                 (new \WDGWV\CMS\Config)->adminURL()
             ),
         );
 
         return $page;
     }
+
+    public function displaySearch()
+    {
+        return array("TITLE", 'CONTENTS');
+    }
 }
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'menu',
-    'administration/Extensions/Extension list',
+    'administration/Extensions/List',
     array(
-        'name' => 'administration/Extensions/Extension list',
+        'name' => 'administration/Extensions/List',
         'icon' => 'pencil',
-        'url' => sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()),
+        'url' => sprintf('/%s/Extensions/List', (new \WDGWV\CMS\Config)->adminURL()),
         'userlevel' => 'admin',
     )
 );
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'menu',
-    'administration/Extensions/Extension search',
+    'administration/Extensions/Search',
     array(
-        'name' => 'administration/Extensions/Extension search',
+        'name' => 'administration/Extensions/Search',
         'icon' => 'pencil',
-        'url' => sprintf('/%s/extensions/search', (new \WDGWV\CMS\Config)->adminURL()),
+        'url' => sprintf('/%s/Extensions/Search', (new \WDGWV\CMS\Config)->adminURL()),
         'userlevel' => 'admin',
     )
 );
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'url',
-    sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ExtensionMananagamentSystem::sharedInstance(), 'display')
+    sprintf('/%s/Extensions/List', (new \WDGWV\CMS\Config)->adminURL()),
+    array(ExtensionMananagamentSystem::sharedInstance(), 'displayList')
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    sprintf('/%s/Extensions/Search', (new \WDGWV\CMS\Config)->adminURL()),
+    array(ExtensionMananagamentSystem::sharedInstance(), 'displaySearch')
 );

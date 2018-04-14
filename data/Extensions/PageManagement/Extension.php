@@ -88,36 +88,47 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         // $this->pageList = \WDGWV\CMS\Pages::sharedInstance()->displayPageList();
     }
 
-    public function display()
+    public function displayList()
     {
-        return;
+        return array("Title", "Contents");
+    }
+
+    public function displayNew()
+    {
+        return array("Title", "Contents");
     }
 }
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'menu',
-    'administration/pages/list',
+    'administration/Pages/List',
     array(
-        'name' => 'administration/pages/list',
+        'name' => 'administration/Pages/List',
         'icon' => 'pencil',
-        'url' => sprintf('/%s/pages/list', (new \WDGWV\CMS\Config)->adminURL()),
+        'url' => sprintf('/%s/Pages/List', (new \WDGWV\CMS\Config)->adminURL()),
         'userlevel' => 'admin',
     )
 );
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'menu',
-    'administration/pages/new',
+    'administration/Pages/New',
     array(
-        'name' => 'administration/pages/new',
+        'name' => 'administration/Pages/New',
         'icon' => 'pencil',
-        'url' => sprintf('/%s/pages/new', (new \WDGWV\CMS\Config)->adminURL()),
+        'url' => sprintf('/%s/Pages/New', (new \WDGWV\CMS\Config)->adminURL()),
         'userlevel' => 'admin',
     )
 );
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'url',
-    sprintf('/%s/pages/list', (new \WDGWV\CMS\Config)->adminURL()),
-    array(PageMananagamentSystem::sharedInstance(), 'display')
+    sprintf('/%s/Pages/New', (new \WDGWV\CMS\Config)->adminURL()),
+    array(PageMananagamentSystem::sharedInstance(), 'displayNew')
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    sprintf('/%s/Pages/List', (new \WDGWV\CMS\Config)->adminURL()),
+    array(PageMananagamentSystem::sharedInstance(), 'displayList')
 );
