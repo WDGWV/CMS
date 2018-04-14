@@ -85,6 +85,8 @@ class Extensions
     private $systemModules = array(
         'ExtensionManagement',
         'DemoMode',
+        'WYSIWYG',
+        'PageManagament',
     );
 
     private $cache = '';
@@ -92,6 +94,7 @@ class Extensions
     private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
     private $loadExtensions = array();
     private $extensionList = array();
+    private $saveOnExit = true;
 
     /**
      * Call the sharedInstance
@@ -223,7 +226,10 @@ class Extensions
                         if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
                             if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
                                 require_once $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                if (!in_array($readDirectory . $extensionPathOrName . '/' . $tryFile, $this->loadExtensions)) {
+                                if (!in_array(
+                                    $readDirectory . $extensionPathOrName . '/' . $tryFile,
+                                    $this->loadExtensions
+                                )) {
                                     $this->loadExtensions[] = $readDirectory . $extensionPathOrName . '/' . $tryFile;
                                 }
                             }
@@ -256,7 +262,8 @@ class Extensions
                         if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
                             if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
                                 for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
-                                    if ($this->loadExtensions[$i] == $readDirectory . $extensionPathOrName . '/' . $tryFile) {
+                                    $fp = $readDirectory . $extensionPathOrName . '/' . $tryFile;
+                                    if ($this->loadExtensions[$i] == $fp) {
                                         unset($this->loadExtensions[$i]);
                                         return;
                                     }
@@ -333,12 +340,18 @@ class Extensions
         }
     }
 
-    public function _forceReloadExtensions()
+    public function forceReloadExtensions()
     {
         unset($this->extensionList);
+        $this->extensionList = array();
         unset($this->loadExtensions);
-        unlink($this->cacheDB);
-        $this->_reloadExtensions();
+        $this->loadExtensions = array();
+
+        if (!unlink($this->cacheDB)) {
+            exit('Failed to remove database');
+        }
+
+        $this->saveOnExit = false;
     }
 
     private function _reloadExtensions()
@@ -391,22 +404,24 @@ class Extensions
 
     public function __destruct()
     {
-        if (!file_exists($this->cacheDB)) {
-            touch($this->cacheDB);
-        }
+        if ($this->saveOnExit) {
+            if (!file_exists($this->cacheDB)) {
+                touch($this->cacheDB);
+            }
 
-        if (is_writable($this->cacheDB)) {
-            file_put_contents(
-                $this->cacheDB,
-                gzcompress(
-                    json_encode(
-                        array($this->loadExtensions, $this->extensionList)
-                    ),
-                    9
-                )
-            );
-        } else {
-            echo "Warning 'ExtensionCache' database not writeable";
+            if (is_writable($this->cacheDB)) {
+                file_put_contents(
+                    $this->cacheDB,
+                    gzcompress(
+                        json_encode(
+                            array($this->loadExtensions, $this->extensionList)
+                        ),
+                        9
+                    )
+                );
+            } else {
+                echo "Warning 'ExtensionCache' database not writeable";
+            }
         }
     }
 }

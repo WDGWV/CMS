@@ -88,20 +88,24 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
     }
 
-    public function forceReload()
-    {
-        \WDGWV\CMS\Extensions::sharedInstance()->_forceReloadExtensions();
-        if (!headers_sent()) {
-            header("location: /");
-        }
-        echo "<script>window.location='/';</script>";
-        exit;
-    }
-
     public function display()
     {
         if (isset($_GET['reIndex'])) {
-            $this->forceReload();
+            \WDGWV\CMS\Extensions::sharedInstance()->forceReloadExtensions();
+
+            if (!headers_sent()) {
+                header(
+                    sprintf(
+                        "location: %s",
+                        sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL())
+                    )
+                );
+            }
+            echo sprintf(
+                "<script>window.location='%s';</script>",
+                sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL())
+            );
+            exit;
         }
 
         if (isset($_GET['enableExtension'])) {
