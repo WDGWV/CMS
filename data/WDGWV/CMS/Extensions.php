@@ -84,6 +84,7 @@ class Extensions
 
     private $systemModules = array(
         'ExtensionManagement',
+        'DemoMode',
     );
 
     private $cache = '';
@@ -205,7 +206,10 @@ class Extensions
     {
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
             if (file_exists($extensionPathOrName)) {
-                $this->loadExtensions[] = $extensionPathOrName;
+                if (!in_array($extensionPathOrName, $this->loadExtensions)) {
+                    require_once $extensionPathOrName;
+                    $this->loadExtensions[] = $extensionPathOrName;
+                }
                 return;
             }
         }
@@ -219,7 +223,9 @@ class Extensions
                         if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
                             if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
                                 require_once $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                $this->loadExtensions[] = $readDirectory . $extensionPathOrName . '/' . $tryFile;
+                                if (!in_array($readDirectory . $extensionPathOrName . '/' . $tryFile, $this->loadExtensions)) {
+                                    $this->loadExtensions[] = $readDirectory . $extensionPathOrName . '/' . $tryFile;
+                                }
                             }
                         }
                     }
@@ -232,9 +238,11 @@ class Extensions
     {
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
             for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
-                if ($this->loadExtensions[$i] == $extensionPathOrName) {
-                    unset($this->loadExtensions[$i]);
-                    return;
+                if (isset($this->loadExtensions[$i])) {
+                    if ($this->loadExtensions[$i] == $extensionPathOrName) {
+                        unset($this->loadExtensions[$i]);
+                        return;
+                    }
                 }
             }
         }

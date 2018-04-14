@@ -2,9 +2,10 @@
 /**
  * WDGWV CMS System file.
  * Full access: true
- * Extension: Extension Managament
+ * Extension: Extension Managament System
  * Version: 1.0
  * Description: This manages all your extensions.
+ * SystemFile: true
  * Hash: * INSERT HASH HERE *
  */
 
@@ -59,9 +60,11 @@
 
 namespace WDGWV\CMS\Extension; /* Extension namespace */
 
-class ExtensionList extends \WDGWV\CMS\ExtensionBase
+class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 {
     private $extensionList = array();
+    private $extensionCtrl;
+
     /**
      * Call the sharedInstance
      * @since Version 1.0
@@ -70,7 +73,7 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\Extension\extensionList();
+            $inst = new \WDGWV\CMS\Extension\ExtensionMananagamentSystem();
         }
         return $inst;
     }
@@ -81,10 +84,11 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
+        $this->extensionCtrl = \WDGWV\CMS\Extensions::sharedInstance();
         $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
     }
 
-    public function _forceReload()
+    public function forceReload()
     {
         \WDGWV\CMS\Extensions::sharedInstance()->_forceReloadExtensions();
         if (!headers_sent()) {
@@ -94,18 +98,18 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
         exit;
     }
 
-    public function _display()
+    public function display()
     {
         if (isset($_GET['reIndex'])) {
-            $this->_forceReload();
+            $this->forceReload();
         }
 
         if (isset($_GET['enableExtension'])) {
-            \WDGWV\CMS\Extensions::sharedInstance()->enableExtension($_GET['enableExtension']);
+            $this->extensionCtrl->enableExtension($_GET['enableExtension']);
         }
 
         if (isset($_GET['disableExtension'])) {
-            \WDGWV\CMS\Extensions::sharedInstance()->disableExtension($_GET['disableExtension']);
+            $this->extensionCtrl->disableExtension($_GET['disableExtension']);
         }
 
         \WDGWV\CMS\Hooks::sharedInstance()->createHook(
@@ -117,32 +121,50 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
         $page = array();
         $page[] = array(
             'Extensions list',
-            'This is an extension what list all loaded extensions, it also offers a force-reload option in the bottom of the page',
+            'This is an extension what list all loaded extensions, ' .
+            'it also offers a force-reload option in the bottom of the page',
         );
 
         for ($i = 0; $i < sizeof($this->extensionList); $i++) {
-            $name = explode('/', $this->extensionList[$i])[sizeof(explode('/', $this->extensionList[$i])) - 2];
+            $name = explode('/', $this->extensionList[$i]);
+            $name = $name[sizeof(explode('/', $this->extensionList[$i])) - 2];
 
             $page1 = $this->extensionList[$i];
 
             $page1 .= '<table>';
-            foreach (\WDGWV\CMS\Extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
-                if ($info === 'extension') {$name = $value;}
+            foreach ($this->extensionCtrl->information($this->extensionList[$i]) as $info => $value) {
+                if ($info === 'extension') {
+                    $name = $value;
+                }
+
                 $page1 .= sprintf(
                     "<tr><td>%s:</td><td>%s</td></tr>",
-                    $info, htmlspecialchars($value)
+                    $info,
+                    htmlspecialchars($value)
                 );
             };
             $page1 .= '</table>';
 
             $page[] = array(
-                sprintf('%s extension<span class=\'right\'><button onClick="window.location=\'/%s/extensions/list?%sExtension=%s\'"%s>%s \'%s\'</button></span>',
+                sprintf(
+                    '%s<span class=\'right\'>' .
+                    '<button onClick="window.location=\'/%s/%s/list?%sExtension=%s\'"%s>%s \'%s\'</button></span>',
                     $name,
                     (new \WDGWV\CMS\Config)->adminURL(),
-                    (\WDGWV\CMS\Extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'disable' : 'enable'),
+                    'extensions',
+                    ($this->extensionCtrl->isActive($this->extensionList[$i])
+                        ? 'disable'
+                        : 'enable'
+                    ),
                     $this->extensionList[$i],
-                    (\WDGWV\CMS\Extensions::sharedInstance()->isSystem($this->extensionList[$i]) ? 'disabled' : ''),
-                    (\WDGWV\CMS\Extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'Disable' : 'Enable'),
+                    ($this->extensionCtrl->isSystem($this->extensionList[$i])
+                        ? 'disabled'
+                        : ''
+                    ),
+                    ($this->extensionCtrl->isActive($this->extensionList[$i])
+                        ? 'Disable'
+                        : 'Enable'
+                    ),
                     $name
                 ),
                 $page1,
@@ -151,7 +173,10 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
 
         $page[] = array(
             'Reindex extensions',
-            sprintf('<a href=\'/%s/extensions/list?reIndex=now\'>Force reindex extensions</a>', (new \WDGWV\CMS\Config)->adminURL()),
+            sprintf(
+                '<a href=\'/%s/extensions/list?reIndex=now\'>Force reindex extensions</a>',
+                (new \WDGWV\CMS\Config)->adminURL()
+            ),
         );
 
         return $page;
@@ -182,12 +207,6 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'url',
-    sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-    array(extensionList::sharedInstance(), '_display')
+    sprintf('/%s/extensions/list', (new \WDGWV\CMS\Config)->adminURL()),
+    array(ExtensionMananagamentSystem::sharedInstance(), 'display')
 );
-
-// \WDGWV\CMS\Hooks::sharedInstance()->createHook(
-//     'url',
-//     sprintf('/%s/extensions/reindex', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-//     array(extensionList::sharedInstance(), '_forceReload')
-// );

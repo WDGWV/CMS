@@ -346,13 +346,12 @@ class Page extends \WDGWV\CMS\Controllers\Base
                 \WDGWV\CMS\Debugger::sharedInstance()->log('Found page in database');
             }
 
-            $pageData = [];
-            $pageData = array(
+            $pageData = array(array(
                 $activeComponent,
                 $this->parseUBBTags(
                     $this->database->loadPage($activeComponent)[1]
                 ),
-            );
+            ));
 
             if (\WDGWV\CMS\Hooks::sharedInstance()->haveHooksFor('before-content')) {
                 if (!is_array($pageData[0])) {

@@ -284,6 +284,17 @@ class Hooks extends \WDGWV\CMS\BaseProtected
             $this->hookDatabase[$at] = array();
         }
 
+        // Disable double hooks...
+        foreach ($this->hookDatabase[$at] as $key => $value) {
+            if (isset($value['name']) && $value['name'] === $name) {
+                return;
+            }
+
+            if (isset($value['action']) && $value['action'] === $action) {
+                return;
+            }
+        }
+
         $this->hookDatabase[$at][] = array(
             'name' => $name,
             'action' => $action,

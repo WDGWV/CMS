@@ -2,7 +2,7 @@
 /**
  * WDGWV CMS System file.
  * Full access: true
- * Extension: Extension Managament
+ * Extension: _.js
  * Version: 1.0
  * Description: Loads _.js
  * Hash: * INSERT HASH HERE *
@@ -87,5 +87,7 @@ class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'script',
     '_.js',
-    "var e=document.createElement('script');e.src='https://raw.githubusercontent.com/wdg/_.js/master/latest/_.js',e.type='text/javascript',document.getElementsByTagName('head')[0].appendChild(e);"
+    "var e=document.createElement('script');" .
+    "e.src='https://raw.githubusercontent.com/wdg/_.js/master/latest/_.js'," .
+    "e.type='text/javascript',document.getElementsByTagName('head')[0].appendChild(e);"
 );
