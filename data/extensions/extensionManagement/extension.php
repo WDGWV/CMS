@@ -100,6 +100,14 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
             $this->_forceReload();
         }
 
+        if (isset($_GET['enableExtension'])) {
+            \WDGWV\CMS\Extensions::sharedInstance()->enableExtension($_GET['enableExtension']);
+        }
+
+        if (isset($_GET['disableExtension'])) {
+            \WDGWV\CMS\Extensions::sharedInstance()->disableExtension($_GET['disableExtension']);
+        }
+
         \WDGWV\CMS\Hooks::sharedInstance()->createHook(
             'script',
             'Resize classes',
@@ -132,7 +140,7 @@ class ExtensionList extends \WDGWV\CMS\ExtensionBase
                     $name,
                     (new \WDGWV\CMS\Config)->adminURL(),
                     (\WDGWV\CMS\Extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'disable' : 'enable'),
-                    $name,
+                    $this->extensionList[$i],
                     (\WDGWV\CMS\Extensions::sharedInstance()->isSystem($this->extensionList[$i]) ? 'disabled' : ''),
                     (\WDGWV\CMS\Extensions::sharedInstance()->isActive($this->extensionList[$i]) ? 'Disable' : 'Enable'),
                     $name

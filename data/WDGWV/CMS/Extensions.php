@@ -201,6 +201,66 @@ class Extensions
         return false;
     }
 
+    public function enableExtension($extensionPathOrName)
+    {
+        if (sizeof(explode('/', $extensionPathOrName)) > 1) {
+            if (file_exists($extensionPathOrName)) {
+                $this->loadExtensions[] = $extensionPathOrName;
+                return;
+            }
+        }
+
+        // Search it...
+        $extensionPathOrName = 'DemoMode';
+        foreach ($this->scan_directorys as $readDirectory) {
+            if (file_exists($readDirectory) && is_readable($readDirectory)) {
+                if (file_exists($readDirectory . $extensionPathOrName)) {
+                    foreach ($this->load_files as $tryFile) {
+                        if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
+                            if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
+                                require_once $readDirectory . $extensionPathOrName . '/' . $tryFile;
+                                $this->loadExtensions[] = $readDirectory . $extensionPathOrName . '/' . $tryFile;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function disableExtension($extensionPathOrName)
+    {
+        if (sizeof(explode('/', $extensionPathOrName)) > 1) {
+            for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
+                if ($this->loadExtensions[$i] == $extensionPathOrName) {
+                    unset($this->loadExtensions[$i]);
+                    return;
+                }
+            }
+        }
+
+        // Search it...
+        $extensionPathOrName = 'DemoMode';
+        foreach ($this->scan_directorys as $readDirectory) {
+            if (file_exists($readDirectory) && is_readable($readDirectory)) {
+                if (file_exists($readDirectory . $extensionPathOrName)) {
+                    foreach ($this->load_files as $tryFile) {
+                        if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
+                            if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
+                                for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
+                                    if ($this->loadExtensions[$i] == $readDirectory . $extensionPathOrName . '/' . $tryFile) {
+                                        unset($this->loadExtensions[$i]);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public function information($ofExtensionOrFilePath)
     {
         if (!file_exists($ofExtensionOrFilePath)) {
@@ -264,6 +324,7 @@ class Extensions
             }
         }
     }
+
     public function _forceReloadExtensions()
     {
         unset($this->extensionList);
