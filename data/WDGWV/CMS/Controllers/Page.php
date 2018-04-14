@@ -418,8 +418,8 @@ class Page extends \WDGWV\CMS\Controllers\Base
             \WDGWV\CMS\Debugger::sharedInstance()->log('Page not found!');
         }
 
-        $pageData = [];
-        $pageData = array(
+        $pageData = array();
+        $pageData[] = array(
             $activeComponent,
             sprintf('THE PAGE \'%s\' DOES NOT EXISTS', $activeComponent),
         );

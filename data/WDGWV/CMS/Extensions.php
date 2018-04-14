@@ -86,7 +86,7 @@ class Extensions
         'ExtensionManagement',
         'DemoMode',
         'WYSIWYG',
-        'PageManagament',
+        'PageManagement',
     );
 
     private $cache = '';
