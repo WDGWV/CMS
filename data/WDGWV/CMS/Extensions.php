@@ -91,6 +91,7 @@ class Extensions
 
     private $cache = '';
     private $cacheDB = './data/Database/extensionCache.db';
+    private $lockFile = './data/Database/extensionCache.lock';
     private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
     private $loadExtensions = array();
     private $extensionList = array();
@@ -124,6 +125,10 @@ class Extensions
         $this->_reloadExtensions();
         array_unique($this->loadExtensions);
         array_unique($this->extensionList);
+
+        if (file_exists($this->lockFile)) {
+            @unlink($this->lockFile);
+        }
     }
 
     public function _displayExtensionList()
@@ -351,10 +356,12 @@ class Extensions
             exit('Failed to remove database');
         }
 
+        $this->_reloadExtensions('FORCE SAVE, MODULE DATABASE RESET');
         $this->saveOnExit = false;
+        @touch($this->lockFile);
     }
 
-    private function _reloadExtensions()
+    private function _reloadExtensions($m = 'Default rescan.')
     {
         $this->loadExtensions = array();
         $this->extensionList = array();
@@ -400,28 +407,42 @@ class Extensions
                 }
             }
         }
+
+        $this->saveDatabase($m);
+    }
+
+    private function saveDatabase($m = 'Default save action on exit')
+    {
+        if (file_exists($this->lockFile)) {
+            return;
+        }
+
+        if (!file_exists($this->cacheDB)) {
+            touch($this->cacheDB);
+        }
+
+        if (is_writable($this->cacheDB)) {
+            file_put_contents(
+                $this->cacheDB,
+                gzcompress(
+                    json_encode(
+                        array(
+                            $this->loadExtensions,
+                            $this->extensionList,
+                        )
+                    ),
+                    9
+                )
+            );
+        } else {
+            echo "Warning 'ExtensionCache' database not writeable";
+        }
     }
 
     public function __destruct()
     {
         if ($this->saveOnExit) {
-            if (!file_exists($this->cacheDB)) {
-                touch($this->cacheDB);
-            }
-
-            if (is_writable($this->cacheDB)) {
-                file_put_contents(
-                    $this->cacheDB,
-                    gzcompress(
-                        json_encode(
-                            array($this->loadExtensions, $this->extensionList)
-                        ),
-                        9
-                    )
-                );
-            } else {
-                echo "Warning 'ExtensionCache' database not writeable";
-            }
+            $this->saveDatabase();
         }
     }
 }
