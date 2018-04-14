@@ -1,13 +1,4 @@
 <?php
-/**
- * WDGWV CMS System file.
- * Full access: true
- * Extension: _.js
- * Version: 1.0
- * Description: Loads _.js
- * Hash: * INSERT HASH HERE *
- */
-
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -
@@ -57,37 +48,5 @@
 ------------------------------------------------------------
  */
 
-namespace WDGWV\CMS\Extension; /* Extension namespace */
-
-class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
-{
-    /**
-     * Call the sharedInstance
-     * @since Version 1.0
-     */
-    public static function sharedInstance()
-    {
-        static $inst = null;
-        if ($inst === null) {
-            $inst = new \WDGWV\CMS\Extension\UnderscoreJS();
-        }
-        return $inst;
-    }
-
-    /**
-     * Private so nobody else can instantiate it
-     *
-     */
-    private function __construct()
-    {
-        return;
-    }
-}
-
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
-    'script',
-    '_.js',
-    "var e=document.createElement('script');" .
-    "e.src='https://raw.githubusercontent.com/wdg/_.js/master/latest/_.js'," .
-    "e.type='text/javascript',document.getElementsByTagName('head')[0].appendChild(e);"
-);
+header("location: ../../");
+exit;

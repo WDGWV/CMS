@@ -1,10 +1,10 @@
 <?php
 /**
- * WDGWV CMS System file.
+ * WDGWV CMS Extension file.
  * Full access: true
- * Extension: _.js
+ * Extension: WYSIWYG
  * Version: 1.0
- * Description: Loads _.js
+ * Description: What You See Is What You Get support.
  * Hash: * INSERT HASH HERE *
  */
 
@@ -57,9 +57,9 @@
 ------------------------------------------------------------
  */
 
-namespace WDGWV\CMS\Extension; /* Extension namespace */
+namespace WDGWV\CMS\Extension; /* Module namespace */
 
-class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
+class WYSIWYG extends \WDGWV\CMS\ExtensionBase
 {
     /**
      * Call the sharedInstance
@@ -69,7 +69,7 @@ class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\Extension\UnderscoreJS();
+            $inst = new \WDGWV\CMS\Extension\WYSIWYG();
         }
         return $inst;
     }
@@ -82,12 +82,15 @@ class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
     {
         return;
     }
+
+    public function displayWYSIWYG()
+    {
+        return;
+    }
 }
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
-    'script',
-    '_.js',
-    "var e=document.createElement('script');" .
-    "e.src='https://raw.githubusercontent.com/wdg/_.js/master/latest/_.js'," .
-    "e.type='text/javascript',document.getElementsByTagName('head')[0].appendChild(e);"
+    'content-edit',
+    'WYSIWYG',
+    array(WYSIWYG::sharedInstance(), 'displayWYSIWYG')
 );

@@ -34,7 +34,9 @@ class Page extends \WDGWV\CMS\Controllers\Base
         $replacer[] = array('/\{php\}(.*)\{\/php\}/s', '<?php \\1 ?>');
 
         if (class_exists('\WDGWV\CMS\Debugger')) {
-            \WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Parsing UBB tags with %s replacers', sizeof($replacer)));
+            \WDGWV\CMS\Debugger::sharedInstance()->log(
+                sprintf('Parsing UBB tags with %s replacers', sizeof($replacer))
+            );
         }
 
         $parse = $input;
@@ -58,7 +60,16 @@ class Page extends \WDGWV\CMS\Controllers\Base
 
         if (!file_exists('./data/temp/tmp_page_' . $uniid . '.bin')) {
             @ob_start();
-            $ob = @eval(sprintf('%s%s%s%s%s', '/* ! */', ' ?>', $uniid, '<?php ', '/* ! */'));
+            $ob = @eval(
+                sprintf(
+                    '%s%s%s%s%s',
+                    '/* ! */',
+                    ' ?>',
+                    $uniid,
+                    '<?php ',
+                    '/* ! */'
+                )
+            );
             $ob = ob_get_contents();
             @ob_end_clean();
 
@@ -346,8 +357,8 @@ class Page extends \WDGWV\CMS\Controllers\Base
                 \WDGWV\CMS\Debugger::sharedInstance()->log('Found page in database');
             }
 
-            $pageData = [];
-            $pageData = array(
+            $pageData = array();
+            $pageData[] = array(
                 $activeComponent,
                 $this->parseUBBTags(
                     $this->database->loadPage($activeComponent)[1]
@@ -407,8 +418,8 @@ class Page extends \WDGWV\CMS\Controllers\Base
             \WDGWV\CMS\Debugger::sharedInstance()->log('Page not found!');
         }
 
-        $pageData = [];
-        $pageData = array(
+        $pageData = array();
+        $pageData[] = array(
             $activeComponent,
             sprintf('THE PAGE \'%s\' DOES NOT EXISTS', $activeComponent),
         );
