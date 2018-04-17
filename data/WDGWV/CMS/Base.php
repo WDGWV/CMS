@@ -242,13 +242,13 @@ class Base extends \WDGWV\General\WDGWVFramework
                 $this->getTheme()
             );
         } else {
-            $parser = new \WDGWV\General\templateParser(
+            $parser = new \WDGWV\General\TemplateParser(
                 $this->config->debug,
                 null,
                 CMS_TEMPLATE_DIR
             );
 
-            $pageController = new \WDGWV\CMS\Controllers\page(
+            $pageController = new \WDGWV\CMS\Controllers\Page(
                 $parser,
                 $this,
                 $database
