@@ -1,4 +1,14 @@
 <?php
+/**
+ * WDGWV CMS System file.
+ * Full access: true
+ * Extension: Blog Managament System
+ * Version: 1.0
+ * Description: This manages all your pages.
+ * SystemFile: true
+ * Hash: * INSERT HASH HERE *
+ */
+
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -
@@ -48,30 +58,77 @@
 ------------------------------------------------------------
  */
 
-error_reporting(E_ALL);
-$CMSStartTime = microtime(true);
-include_once './Data/WDGWV/CMS/Loader.php';
+namespace WDGWV\CMS\Extension; /* Extension namespace */
 
-if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
-    \WDGWV\CMS\Base::sharedInstance()->serve();
-} else {
-    if (\WDGWV\CMS\Installer::sharedInstance()->canOfflineInstall()) {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOfflineInstall();
-    } else {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOnlineInstall();
+class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
+{
+    private $BlogList = array();
+    private $BlogCtrl;
+
+    /**
+     * Call the sharedInstance
+     * @since Version 1.0
+     */
+    public static function sharedInstance()
+    {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new \WDGWV\CMS\Extension\BlogMananagamentSystem();
+        }
+        return $inst;
+    }
+
+    /**
+     * Private so nobody else can instantiate it
+     *
+     */
+    private function __construct()
+    {
+        // $this->BlogCtrl = \WDGWV\CMS\Blogs::sharedInstance();
+        // $this->BlogList = \WDGWV\CMS\Blogs::sharedInstance()->displayBlogList();
+    }
+
+    public function displayList()
+    {
+        return array("Title", "Contents");
+    }
+
+    public function displayNew()
+    {
+        return array("Title", "Contents");
     }
 }
 
-if ((new \WDGWV\CMS\config())->debug) {
-    if (isset($debugger)) {
-        echo "<hr>";
-        $debugger->log(array("Hooks" => \WDGWV\CMS\Hooks::sharedInstance()->dumpDatabase()));
-        $debugger->logdump();
-        echo "<hr>";
-        $debugger->dumpAllClasses();
-    }
-}
-$CMSEndTime = microtime(true);
-if ((new \WDGWV\CMS\config())->debug) {
-    echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
-}
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'menu',
+    'administration/Blogs/List',
+    array(
+        'name' => 'administration/Blogs/List',
+        'icon' => 'pencil',
+        'url' => sprintf('/%s/Blogs/List', (new \WDGWV\CMS\Config)->adminURL()),
+        'userlevel' => 'admin',
+    )
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'menu',
+    'administration/Blogs/New',
+    array(
+        'name' => 'administration/Blogs/New',
+        'icon' => 'pencil',
+        'url' => sprintf('/%s/Blogs/New', (new \WDGWV\CMS\Config)->adminURL()),
+        'userlevel' => 'admin',
+    )
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    sprintf('/%s/Blogs/New', (new \WDGWV\CMS\Config)->adminURL()),
+    array(BlogMananagamentSystem::sharedInstance(), 'displayNew')
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    sprintf('/%s/Blogs/List', (new \WDGWV\CMS\Config)->adminURL()),
+    array(BlogMananagamentSystem::sharedInstance(), 'displayList')
+);

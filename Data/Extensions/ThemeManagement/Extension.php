@@ -1,4 +1,14 @@
 <?php
+/**
+ * WDGWV CMS System file.
+ * Full access: true
+ * Extension: Theme Managament System
+ * Version: 1.0
+ * Description: This manages all your Themes.
+ * SystemFile: true
+ * Hash: * INSERT HASH HERE *
+ */
+
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -
@@ -48,30 +58,77 @@
 ------------------------------------------------------------
  */
 
-error_reporting(E_ALL);
-$CMSStartTime = microtime(true);
-include_once './Data/WDGWV/CMS/Loader.php';
+namespace WDGWV\CMS\Extension; /* Extension namespace */
 
-if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
-    \WDGWV\CMS\Base::sharedInstance()->serve();
-} else {
-    if (\WDGWV\CMS\Installer::sharedInstance()->canOfflineInstall()) {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOfflineInstall();
-    } else {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOnlineInstall();
+class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
+{
+    private $ThemeList = array();
+    private $ThemeCtrl;
+
+    /**
+     * Call the sharedInstance
+     * @since Version 1.0
+     */
+    public static function sharedInstance()
+    {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new \WDGWV\CMS\Extension\ThemeMananagamentSystem();
+        }
+        return $inst;
+    }
+
+    /**
+     * Private so nobody else can instantiate it
+     *
+     */
+    private function __construct()
+    {
+        // $this->ThemeCtrl = \WDGWV\CMS\Themes::sharedInstance();
+        // $this->ThemeList = \WDGWV\CMS\Themes::sharedInstance()->displayThemeList();
+    }
+
+    public function displayList()
+    {
+        return array("Title", "Contents");
+    }
+
+    public function displaySearch()
+    {
+        return array("Title", "Contents");
     }
 }
 
-if ((new \WDGWV\CMS\config())->debug) {
-    if (isset($debugger)) {
-        echo "<hr>";
-        $debugger->log(array("Hooks" => \WDGWV\CMS\Hooks::sharedInstance()->dumpDatabase()));
-        $debugger->logdump();
-        echo "<hr>";
-        $debugger->dumpAllClasses();
-    }
-}
-$CMSEndTime = microtime(true);
-if ((new \WDGWV\CMS\config())->debug) {
-    echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
-}
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'menu',
+    'administration/Themes/List',
+    array(
+        'name' => 'administration/Themes/List',
+        'icon' => 'pencil',
+        'url' => sprintf('/%s/Themes/List', (new \WDGWV\CMS\Config)->adminURL()),
+        'userlevel' => 'admin',
+    )
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'menu',
+    'administration/Themes/Search',
+    array(
+        'name' => 'administration/Themes/Search',
+        'icon' => 'pencil',
+        'url' => sprintf('/%s/Themes/Search', (new \WDGWV\CMS\Config)->adminURL()),
+        'userlevel' => 'admin',
+    )
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    sprintf('/%s/Themes/Search', (new \WDGWV\CMS\Config)->adminURL()),
+    array(ThemeMananagamentSystem::sharedInstance(), 'displaySearch')
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    sprintf('/%s/Themes/List', (new \WDGWV\CMS\Config)->adminURL()),
+    array(ThemeMananagamentSystem::sharedInstance(), 'displayList')
+);
