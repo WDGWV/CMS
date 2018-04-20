@@ -1,4 +1,13 @@
 <?php
+/**
+ * WDGWV CMS Extension file.
+ * Full access: true
+ * Extension: WYSIWYG
+ * Version: 1.0
+ * Description: What You See Is What You Get support.
+ * Hash: * INSERT HASH HERE *
+ */
+
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -
@@ -48,30 +57,59 @@
 ------------------------------------------------------------
  */
 
-error_reporting(E_ALL);
-$CMSStartTime = microtime(true);
-include_once './Data/WDGWV/CMS/Loader.php';
+namespace WDGWV\CMS\Extension; /* Module namespace */
 
-if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
-    \WDGWV\CMS\Base::sharedInstance()->serve();
-} else {
-    if (\WDGWV\CMS\Installer::sharedInstance()->canOfflineInstall()) {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOfflineInstall();
-    } else {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOnlineInstall();
+class WYSIWYG extends \WDGWV\CMS\ExtensionBase
+{
+    /**
+     * Call the sharedInstance
+     * @since Version 1.0
+     */
+    public static function sharedInstance()
+    {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new \WDGWV\CMS\Extension\WYSIWYG();
+        }
+        return $inst;
+    }
+
+    /**
+     * Private so nobody else can instantiate it
+     *
+     */
+    private function __construct()
+    {
+        return;
+    }
+
+    public function displayWYSIWYG()
+    {
+        return;
+    }
+
+    public function displayWYSIWYGjs()
+    {
+        header('content-type: text/javascript');
+        echo file_get_contents('./Data/Extensions/WYSIWYG/WYSIWYG.js');
+        exit;
     }
 }
 
-if ((new \WDGWV\CMS\config())->debug) {
-    if (isset($debugger)) {
-        echo "<hr>";
-        $debugger->log(array("Hooks" => \WDGWV\CMS\Hooks::sharedInstance()->dumpDatabase()));
-        $debugger->logdump();
-        echo "<hr>";
-        $debugger->dumpAllClasses();
-    }
-}
-$CMSEndTime = microtime(true);
-if ((new \WDGWV\CMS\config())->debug) {
-    echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
-}
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'content-edit',
+    'WYSIWYG',
+    array(WYSIWYG::sharedInstance(), 'displayWYSIWYG')
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'head-script',
+    '/WYSIWYG.js',
+    ''
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    '/WYSIWYG*js',
+    array(WYSIWYG::sharedInstance(), 'displayWYSIWYGjs')
+);

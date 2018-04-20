@@ -48,30 +48,6 @@
 ------------------------------------------------------------
  */
 
-error_reporting(E_ALL);
-$CMSStartTime = microtime(true);
-include_once './Data/WDGWV/CMS/Loader.php';
-
-if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
-    \WDGWV\CMS\Base::sharedInstance()->serve();
-} else {
-    if (\WDGWV\CMS\Installer::sharedInstance()->canOfflineInstall()) {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOfflineInstall();
-    } else {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOnlineInstall();
-    }
-}
-
-if ((new \WDGWV\CMS\config())->debug) {
-    if (isset($debugger)) {
-        echo "<hr>";
-        $debugger->log(array("Hooks" => \WDGWV\CMS\Hooks::sharedInstance()->dumpDatabase()));
-        $debugger->logdump();
-        echo "<hr>";
-        $debugger->dumpAllClasses();
-    }
-}
-$CMSEndTime = microtime(true);
-if ((new \WDGWV\CMS\config())->debug) {
-    echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
-}
+header("location: ../../../");
+exit;
+?>
