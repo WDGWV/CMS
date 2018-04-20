@@ -1,6 +1,22 @@
-.phpintel
-xx_PRIVATE
+# MAC OS
 .DS_Store
+
+# PHP Intel
+.phpintel
+
+# Old versioning system
 *.version
+
+# Temporary files
 *.tmp
+
+# Database (decompressed)
 data/database/*.txt
+
+# PHP Documentor
+build
+output
+Documentation/phpdoc-cache-*
+
+# Private (setup generator)
+xx_PRIVATE
