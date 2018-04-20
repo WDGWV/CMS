@@ -16,7 +16,7 @@ data/database/*.txt
 # PHP Documentor
 build
 output
-Documentation/phpdoc-cache-ff*
+Documentation/phpdoc-cache-*
 
 # Private (setup generator)
 xx_PRIVATE
