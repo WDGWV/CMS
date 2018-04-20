@@ -67,7 +67,7 @@ namespace WDGWV\General;
  * @link http://www.wesleydegroot.nl © Wesley de Groot
  * @link https://www.wdgwv.com © WDGWV
  */
-class TemplateParser
+class TemplateParser extends WDGWV
 {
     /**
      * Version number
@@ -125,7 +125,7 @@ class TemplateParser
 
     /**
      * Construct the class
-     * @param string $minify Minify the output
+     * @param string $debug Debug&Minify the output
      * @param string $CDN If you use a CDN put the full url to the files here.
      * @param string $templateDirectory The template directory
      * @since Version 2.0 (Improved)

@@ -1,7 +1,7 @@
 <?php
 namespace WDGWV\CMS;
 
-class Config extends \WDGWV\General\WDGWVFramework
+class Config extends \WDGWV\General\WDGWV
 {
     public function adminURL()
     {

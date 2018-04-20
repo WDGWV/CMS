@@ -50,7 +50,7 @@ namespace WDGWV\CMS;
 ------------------------------------------------------------
  */
 
-class Base extends \WDGWV\General\WDGWVFramework
+class Base extends \WDGWV\General\WDGWV
 {
     /**
      * The configuration

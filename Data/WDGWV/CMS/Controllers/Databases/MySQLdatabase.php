@@ -61,7 +61,7 @@ class MySQLDriver
     # @array,  The database settings
     private $settings;
 
-    # @bool ,  Connected to the database
+    # @? ,  Connected to the database
     private $bConnected = false;
 
     # @object, Object for logging exceptions
