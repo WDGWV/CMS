@@ -163,6 +163,22 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                                     '%s'
                                  );";
     }
+
+    public function __sleep()
+    {
+        return array();
+    }
+
+    public function __wakeup()
+    {
+        try {
+            $this->db = new \PDO(sprintf('sqlite:%s', SQLITE_DB));
+            $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            print 'Exception : ' . $e->getMessage();
+        }
+    }
+
     /**
      * protected so nobody else can instantiate it
      *
