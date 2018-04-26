@@ -79,6 +79,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
     private $wikiDatabase = array();
     private $orderDatabase = array();
     private $forumDatabase = array();
+    private $compressDatabase = false;
 
     /**
      * Call the database
@@ -110,7 +111,11 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             }
         }
 
-        $_database = @gzuncompress(file_get_contents($databasePath));
+        if ($this->compressDatabase) {
+            $_database = @gzuncompress(file_get_contents($databasePath));
+        } else {
+            $_database = file_get_contents($databasePath);
+        }
         if (strlen($_database) > 10) {
             return json_decode($_database);
         }
@@ -125,7 +130,12 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             $error = true;
         }
 
-        $_compressed = gzcompress(json_encode($databaseContents), 9);
+        if ($this->compressDatabase) {
+            $_compressed = gzcompress(json_encode($databaseContents), 9);
+        } else {
+            $_compressed = json_encode($databaseContents);
+        }
+
         if (!file_put_contents($databasePath, $_compressed)) {
             $error = true;
         }
@@ -149,9 +159,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             echo $error;
         }
     }
+
     /**
      * Private so nobody else can instantiate it
-     *
+     * Construct the database
      */
     protected function __construct()
     {

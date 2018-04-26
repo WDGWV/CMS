@@ -101,6 +101,7 @@ class Extensions
     private $loadExtensions = array();
     private $extensionList = array();
     private $saveOnExit = true;
+    private $compressDatabase = true;
 
     /**
      * Call the sharedInstance

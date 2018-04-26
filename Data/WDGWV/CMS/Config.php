@@ -10,7 +10,8 @@ class Config extends \WDGWV\General\WDGWV
 
     public function database()
     {
-        return 'PlainText';
+        return 'SQLite';
+        // return 'PlainText';
     }
 
     public function theme()
