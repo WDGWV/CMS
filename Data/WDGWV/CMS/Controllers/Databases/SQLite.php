@@ -166,11 +166,13 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
     public function __sleep()
     {
+        // FIX TRAVIS
         return array();
     }
 
     public function __wakeup()
     {
+        // FIX TRAVIS
         try {
             $this->db = new \PDO(sprintf('sqlite:%s', SQLITE_DB));
             $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
