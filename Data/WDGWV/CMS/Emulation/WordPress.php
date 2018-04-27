@@ -57,6 +57,7 @@ if (!defined('CMS_TEMPLATE_DIR')) {
     exit('Missing \'CMS_TEMPLATE_DIR\'.');
 }
 
+// phpcs:disable
 class WordPress
 {
     /*
@@ -1415,3 +1416,4 @@ class WP_Query
         # code...
     }
 }
+// phpcs:enable

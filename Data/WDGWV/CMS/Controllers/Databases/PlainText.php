@@ -94,7 +94,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return $inst;
     }
 
-    private function _loadDatabase($databasePath)
+    private function loadDatabase($databasePath)
     {
         if (!file_exists($databasePath)) {
             if (!touch($databasePath)) {
@@ -123,7 +123,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return array();
     }
 
-    private function _saveDatabase($databasePath, $databaseContents)
+    private function saveDatabase($databasePath, $databaseContents)
     {
         $error = false;
         if (!is_writeable($databasePath)) {
@@ -148,7 +148,14 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             $databaseName = explode("/", $databasePath);
             $databaseName = explode(".", end($databaseName))[0];
 
-            $error = sprintf("<b>Fatal error: Could not create '%s' database.</b><br />Expected length: %s, got %s.<br />", $databaseName, strlen($_compressed), strlen(file_get_contents($databasePath)));
+            $error = sprintf(
+                "<b>Fatal error: Could not create '%s' database.</b>" .
+                "<br />Expected length: %s, got %s.<br />",
+                $databaseName,
+                strlen($_compressed),
+                strlen(file_get_contents($databasePath))
+            );
+
             if (class_exists('\WDGWV\CMS\Debugger')) {
                 \WDGWV\CMS\Debugger::sharedInstance()->error($error);
 
@@ -168,14 +175,14 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
     {
         parent::__construct();
 
-        $this->pageDatabase = $this->_loadDatabase(PT_PAGE_DB);
-        $this->userDatabase = $this->_loadDatabase(PT_USER_DB);
-        $this->postDatabase = $this->_loadDatabase(PT_POST_DB);
-        $this->shopDatabase = $this->_loadDatabase(PT_SHOP_DB);
-        $this->wikiDatabase = $this->_loadDatabase(PT_WIKI_DB);
-        $this->forumDatabase = $this->_loadDatabase(PT_FORUM_DB);
-        $this->orderDatabase = $this->_loadDatabase(PT_ORDER_DB);
-        $this->CMSDatabase = $this->_loadDatabase(PT_CMS_DB);
+        $this->pageDatabase = $this->loadDatabase(PT_PAGE_DB);
+        $this->userDatabase = $this->loadDatabase(PT_USER_DB);
+        $this->postDatabase = $this->loadDatabase(PT_POST_DB);
+        $this->shopDatabase = $this->loadDatabase(PT_SHOP_DB);
+        $this->wikiDatabase = $this->loadDatabase(PT_WIKI_DB);
+        $this->forumDatabase = $this->loadDatabase(PT_FORUM_DB);
+        $this->orderDatabase = $this->loadDatabase(PT_ORDER_DB);
+        $this->CMSDatabase = $this->loadDatabase(PT_CMS_DB);
 
         if (!$this->userExists('admin')) {
             if (is_array($this->generateUserDB())) {
@@ -204,14 +211,14 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 
     public function __destruct()
     {
-        $this->_saveDatabase(PT_CMS_DB, $this->CMSDatabase);
-        $this->_saveDatabase(PT_USER_DB, $this->userDatabase);
-        $this->_saveDatabase(PT_POST_DB, $this->postDatabase);
-        $this->_saveDatabase(PT_PAGE_DB, $this->pageDatabase);
-        $this->_saveDatabase(PT_SHOP_DB, $this->shopDatabase);
-        $this->_saveDatabase(PT_WIKI_DB, $this->wikiDatabase);
-        $this->_saveDatabase(PT_ORDER_DB, $this->orderDatabase);
-        $this->_saveDatabase(PT_FORUM_DB, $this->forumDatabase);
+        $this->saveDatabase(PT_CMS_DB, $this->CMSDatabase);
+        $this->saveDatabase(PT_USER_DB, $this->userDatabase);
+        $this->saveDatabase(PT_POST_DB, $this->postDatabase);
+        $this->saveDatabase(PT_PAGE_DB, $this->pageDatabase);
+        $this->saveDatabase(PT_SHOP_DB, $this->shopDatabase);
+        $this->saveDatabase(PT_WIKI_DB, $this->wikiDatabase);
+        $this->saveDatabase(PT_ORDER_DB, $this->orderDatabase);
+        $this->saveDatabase(PT_FORUM_DB, $this->forumDatabase);
     }
 
     public function postExists($postTitle, $strict = false)
@@ -316,7 +323,6 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 
     public function userLoad($userID)
     {
-
     }
 
     public function userLogin($userID, $userPassword)
@@ -324,8 +330,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
             // Loaded
             // stdClass Object
-            if (
-                isset($this->userDatabase[$i]->password) &&
+            if (isset($this->userDatabase[$i]->password) &&
                 $this->userDatabase[$i]->password == hash('sha512', $userPassword) &&
                 (
                     $i === $userID or // userID matches DB ID

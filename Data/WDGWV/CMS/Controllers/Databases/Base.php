@@ -57,10 +57,10 @@ class Base
 
     protected function __construct()
     {
-        $this->_init();
+        $this->init();
     }
 
-    protected function _init()
+    protected function init()
     {
         $this->CMSConfig = (new \WDGWV\CMS\Config());
 
@@ -99,7 +99,18 @@ class Base
             'installed' => time(),
             'theme' => 'admin',
             'language' => 'en_US',
-            'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'developer', 'admin', 'root', 'system'),
+            'userlevels' => array(
+                'guest',
+                'member',
+                'vip',
+                'moderator',
+                'writer',
+                'custom',
+                'developer',
+                'admin',
+                'root',
+                'system',
+            ),
         );
     }
 

@@ -72,7 +72,8 @@ class Blogger
                 "http://www.wdgwv.com",
                 $matches[3]
             );
-            $matches[3] = preg_replace("#<data:link\.name/>#",
+            $matches[3] = preg_replace(
+                "#<data:link\.name/>#",
                 "WDGWV",
                 $matches[3]
             );
@@ -83,12 +84,12 @@ class Blogger
 
     public function bloggerInclude($matches)
     {
-
+        return;
     }
 
     public function bloggerLoad($matches)
     {
-
+        return;
     }
 
     public function bloggerParse($theme, $name)

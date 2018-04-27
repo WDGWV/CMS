@@ -85,7 +85,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     private function __construct()
     {
         $this->extensionCtrl = \WDGWV\CMS\Extensions::sharedInstance();
-        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
+        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->displayExtensionList();
     }
 
     public function displayList()

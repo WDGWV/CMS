@@ -238,9 +238,9 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
     public function userExists($userID)
     {
+        $count = 0;
         $query = "SELECT * FROM users WHERE `username`='%s';";
         $query = sprintf($query, $userID);
-        $count = 0;
         foreach ($this->db->query($query) as $users) {
             $count++;
         }

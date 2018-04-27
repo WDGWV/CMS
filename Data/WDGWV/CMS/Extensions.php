@@ -124,7 +124,7 @@ class Extensions
     {
         $cacheTime = file_exists($this->cacheDB) ? filemtime($this->cacheDB) : 0;
         if ($cacheTime && (time() - $cacheTime <= $this->cache_life)) {
-            $this->_loadExtensions();
+            $this->loadExtensions();
             return;
         }
 
@@ -137,12 +137,12 @@ class Extensions
         }
     }
 
-    public function _displayExtensionList()
+    public function displayExtensionList()
     {
         return $this->extensionList;
     }
 
-    private function _loadExtensions()
+    private function loadExtensions()
     {
         $f = json_decode( // Decode JSON
             gzuncompress( // Uncompress
@@ -390,7 +390,7 @@ class Extensions
         @touch($this->lockFile);
     }
 
-    private function _reloadExtensions($m = 'Default rescan.')
+    private function reloadExtensions($m = 'Default rescan.')
     {
         $this->loadExtensions = array();
         $this->extensionList = array();

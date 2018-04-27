@@ -89,6 +89,6 @@ class ExtensionBase
      */
     private function __construct()
     {
-
+        return;
     }
 }
