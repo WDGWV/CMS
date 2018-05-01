@@ -52,7 +52,14 @@ namespace WDGWV\CMS\Controllers\Databases;
 
 class Base
 {
+    /**
+     * @var mixed
+     */
     private $CMSConfig = null;
+
+    /**
+     * @var mixed
+     */
     public static $baseInit = false;
 
     protected function __construct()
@@ -77,6 +84,9 @@ class Base
         }
     }
 
+    /**
+     * @return null
+     */
     protected function noop()
     {
         return;

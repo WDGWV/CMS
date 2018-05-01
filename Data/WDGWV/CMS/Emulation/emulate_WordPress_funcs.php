@@ -1449,6 +1449,10 @@ function add_shortcode()
 
 class WP_Widget
 {
+    /**
+     * @param $argument
+     * @return null
+     */
     public function __construct($argument = null)
     {
         return;
@@ -1457,14 +1461,24 @@ class WP_Widget
 
 class WP_Query
 {
+    /**
+     * @param $argument
+     * @return null
+     */
     public function __construct($argument = null)
     {
         return;
     }
+    /**
+     * @return null
+     */
     public function have_posts()
     {
         return;
     }
+    /**
+     * @return null
+     */
     public function found_posts()
     {
         return;

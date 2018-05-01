@@ -3,10 +3,26 @@ namespace WDGWV\CMS\Controllers;
 
 class Page extends \WDGWV\CMS\Controllers\Base
 {
+    /**
+     * @var string
+     */
     private $parser = '';
+
+    /**
+     * @var string
+     */
     private $database = '';
+
+    /**
+     * @var string
+     */
     private $CMS = '';
 
+    /**
+     * @param $parser
+     * @param $CMS
+     * @param $databaseConnection
+     */
     public function __construct($parser, $CMS, $databaseConnection = 'std')
     {
         global $database;
@@ -19,11 +35,18 @@ class Page extends \WDGWV\CMS\Controllers\Base
         }
     }
 
+    /**
+     * @param $pageID
+     */
     public function pageExists($pageID)
     {
         return false;
     }
 
+    /**
+     * @param $input
+     * @return mixed
+     */
     private function parseUBBTags($input)
     {
         if (class_exists('\WDGWV\CMS\Hooks')) {
@@ -94,6 +117,10 @@ class Page extends \WDGWV\CMS\Controllers\Base
         }
     }
 
+    /**
+     * @param $pageID
+     * @return null
+     */
     public function displayPage($pageID = 'auto')
     {
         $e = explode("/", $_SERVER['REQUEST_URI']);

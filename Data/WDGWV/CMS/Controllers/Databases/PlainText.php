@@ -71,14 +71,41 @@ define('PT_FORUM_DB', DB_PATH . 'forumItems.PTdb');
 
 class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 {
+    /**
+     * @var array
+     */
     private $CMSDatabase = array();
+    /**
+     * @var array
+     */
     private $userDatabase = array();
+    /**
+     * @var array
+     */
     private $postDatabase = array();
+    /**
+     * @var array
+     */
     private $pageDatabase = array();
+    /**
+     * @var array
+     */
     private $shopDatabase = array();
+    /**
+     * @var array
+     */
     private $wikiDatabase = array();
+    /**
+     * @var array
+     */
     private $orderDatabase = array();
+    /**
+     * @var array
+     */
     private $forumDatabase = array();
+    /**
+     * @var mixed
+     */
     private $compressDatabase = false;
 
     /**
@@ -87,6 +114,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\Controllers\Databases\PlainText();
@@ -94,6 +124,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return $inst;
     }
 
+    /**
+     * @param $databasePath
+     */
     private function loadDatabase($databasePath)
     {
         if (!file_exists($databasePath)) {
@@ -123,6 +156,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return array();
     }
 
+    /**
+     * @param $databasePath
+     * @param $databaseContents
+     */
     private function saveDatabase($databasePath, $databaseContents)
     {
         $error = false;
@@ -221,6 +258,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         $this->saveDatabase(PT_FORUM_DB, $this->forumDatabase);
     }
 
+    /**
+     * @param $postTitle
+     * @param $strict
+     */
     public function postExists($postTitle, $strict = false)
     {
         if ($strict) {
@@ -237,11 +278,22 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function postGetLast()
     {
         return $this->postDatabase[sizeof($this->postDatabase) - 1];
     }
 
+    /**
+     * @param $postTitle
+     * @param $postContents
+     * @param $postKeywords
+     * @param $postDate
+     * @param $postOptions
+     * @param $postID
+     */
     public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0)
     {
         if ($postID === 0) {
@@ -268,6 +320,11 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return true;
     }
 
+    /**
+     * @param $postID
+     * @param $strict
+     * @return mixed
+     */
     public function postLoad($postID, $strict = false)
     {
         if ($this->postExists($postID, $strict)) {
@@ -287,6 +344,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
+    /**
+     * @param $postID
+     */
     public function postRemove($postID)
     {
         if ($this->postExists($postID, true)) {
@@ -294,6 +354,14 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
+    /**
+     * @param $postID
+     * @param $postTitle
+     * @param $postContents
+     * @param $postKeywords
+     * @param $postDate
+     * @param $postOptions
+     */
     public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
         if ($this->postRemove($postID)) {
@@ -304,6 +372,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $userID
+     */
     private function userExists($userID)
     {
         for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
@@ -321,10 +392,17 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $userID
+     */
     public function userLoad($userID)
     {
     }
 
+    /**
+     * @param $userID
+     * @param $userPassword
+     */
     public function userLogin($userID, $userPassword)
     {
         for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
@@ -345,6 +423,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $userID
+     */
     public function userDelete($userID)
     {
         if ($this->userExists($userID)) {
@@ -361,6 +442,12 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
+    /**
+     * @param $userID
+     * @param $userPassword
+     * @param $userEmail
+     * @param array $options
+     */
     public function userRegister($userID, $userPassword, $userEmail, $options = array())
     {
         if (!$this->userExists($userID)) {
@@ -380,6 +467,13 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
+    /**
+     * @param $pageTitle
+     * @param $pageContents
+     * @param $pageKeywords
+     * @param array $pageOptions
+     * @param $pageID
+     */
     public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
         if ($pageID === 0) {
@@ -406,6 +500,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return true;
     }
 
+    /**
+     * @param $pageTitleOrID
+     * @param $strict
+     */
     public function pageExists($pageTitleOrID, $strict = false)
     {
         if ($strict) {
@@ -422,6 +520,11 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $pageTitleOrID
+     * @param $strict
+     * @return mixed
+     */
     public function loadPage($pageTitleOrID, $strict = false)
     {
         if ($strict) {
@@ -438,6 +541,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $menuItemsArray
+     */
     public function setMenuItems($menuItemsArray)
     {
         $this->CMSDatabase['menu'] = $menuItemsArray;
@@ -448,6 +554,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return isset($this->CMSDatabase->theme) ? $this->CMSDatabase->theme : 'admin';
     }
 
+    /**
+     * @param $themeName
+     */
     public function setTheme($themeName)
     {
         if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
@@ -456,6 +565,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             }
         }
     }
+    /**
+     * @return mixed
+     */
     public function loadMenu()
     {
         if (isset($this->CMSDatabase->menu)) {

@@ -70,18 +70,27 @@ namespace WDGWV\CMS;
  */
 class Extensions
 {
+    /**
+     * @var array
+     */
     private $scan_directorys = array(
         './Data/Extensions/',
         './Data/Modules/',
         './Data/Plugins/',
     );
 
+    /**
+     * @var array
+     */
     private $load_files = array(
         'Extension.php',
         'Module.php',
         'Plugin.php',
     );
 
+    /**
+     * @var array
+     */
     private $systemModules = array(
         'ExtensionManagement',
         'DemoMode',
@@ -94,13 +103,44 @@ class Extensions
         // ''
     );
 
+    /**
+     * @var string
+     */
     private $cache = '';
+
+    /**
+     * @var string
+     */
     private $cacheDB = './Data/Database/extensionCache.PTdb';
+
+    /**
+     * @var string
+     */
     private $lockFile = './Data/Database/extensionCache.PTlock';
+
+    /**
+     * @var int
+     */
     private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
+
+    /**
+     * @var array
+     */
     private $loadExtensions = array();
+
+    /**
+     * @var array
+     */
+
     private $extensionList = array();
+    /**
+     * @var mixed
+     */
+
     private $saveOnExit = true;
+    /**
+     * @var mixed
+     */
     private $compressDatabase = true;
 
     /**
@@ -109,6 +149,9 @@ class Extensions
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\Extensions();
@@ -137,11 +180,17 @@ class Extensions
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function displayExtensionList()
     {
         return $this->extensionList;
     }
 
+    /**
+     * @return null
+     */
     private function loadExtensions()
     {
         $f = json_decode( // Decode JSON
@@ -178,6 +227,9 @@ class Extensions
         $this->extensionList = $f[1];
     }
 
+    /**
+     * @param $ext
+     */
     public function isSystem($ext)
     {
         if (sizeof(explode('/', $ext)) > 1) {
@@ -197,6 +249,9 @@ class Extensions
         return false;
     }
 
+    /**
+     * @param $ext
+     */
     public function isActive($ext)
     {
         if (sizeof(explode('/', $ext)) > 1) {
@@ -216,6 +271,10 @@ class Extensions
         return false;
     }
 
+    /**
+     * @param $extensionPathOrName
+     * @return null
+     */
     public function enableExtension($extensionPathOrName)
     {
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
@@ -263,6 +322,10 @@ class Extensions
         $this->saveDatabase(sprintf('Module \'%s\' enabled', $extensionPathOrName));
     }
 
+    /**
+     * @param $extensionPathOrName
+     * @return null
+     */
     public function disableExtension($extensionPathOrName)
     {
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
@@ -310,6 +373,10 @@ class Extensions
         }
     }
 
+    /**
+     * @param $ofExtensionOrFilePath
+     * @return mixed
+     */
     public function information($ofExtensionOrFilePath)
     {
         if (!file_exists($ofExtensionOrFilePath)) {
@@ -321,6 +388,10 @@ class Extensions
         return $this->parseInformation($ofExtensionOrFilePath);
     }
 
+    /**
+     * @param $exp1
+     * @param $exp2
+     */
     private function match($exp1, $exp2)
     {
         $fixedExpression = $exp1;
@@ -331,6 +402,10 @@ class Extensions
         return (substr($fixedExpression, 0, strlen($exp2)) == $exp2);
     }
 
+    /**
+     * @param $ofExtensionFilePath
+     * @return mixed
+     */
     private function parseInformation($ofExtensionFilePath)
     {
         /**
@@ -390,6 +465,9 @@ class Extensions
         @touch($this->lockFile);
     }
 
+    /**
+     * @param $m
+     */
     private function reloadExtensions($m = 'Default rescan.')
     {
         $this->loadExtensions = array();
@@ -440,6 +518,10 @@ class Extensions
         $this->saveDatabase($m);
     }
 
+    /**
+     * @param $m
+     * @return null
+     */
     private function saveDatabase($m = 'Default save action on exit')
     {
         if (file_exists($this->lockFile)) {

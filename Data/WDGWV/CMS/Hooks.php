@@ -52,6 +52,9 @@ namespace WDGWV\CMS;
 
 class Hooks extends \WDGWV\CMS\BaseProtected
 {
+    /**
+     * @var array
+     */
     private $hookDatabase = array();
 
     /**
@@ -60,6 +63,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\hooks();
@@ -67,16 +73,26 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         return $inst;
     }
 
+    /**
+     * @return null
+     */
     protected function __construct()
     {
         return;
     }
 
+    /**
+     * @return null
+     */
     public function getUBBHooks()
     {
         return;
     }
 
+    /**
+     * @param $which
+     * @return mixed
+     */
     public function loopHooks($which)
     {
         if (!is_array($which)) {
@@ -88,6 +104,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * @param $which
+     */
     public function haveHooksFor($which)
     {
         if (!is_array($which)) {
@@ -101,6 +120,10 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * @param $which
+     * @return mixed
+     */
     public function loadHooksFor($which)
     {
         if (!is_array($which)) {
@@ -110,6 +133,10 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         return $this->loadPageFor($which);
     }
 
+    /**
+     * @param $which
+     * @return mixed
+     */
     public function loadPageFor($which)
     {
         if (!is_array($which)) {
@@ -123,6 +150,10 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * @param $at
+     * @return null
+     */
     public function loopHook($at)
     {
         switch ($at) {
@@ -278,6 +309,13 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * @param $at
+     * @param $name
+     * @param $action
+     * @param array $params
+     * @return null
+     */
     public function createHook($at, $name, $action, $params = array())
     {
         if (!isset($this->hookDatabase[$at])) {
@@ -302,6 +340,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         );
     }
 
+    /**
+     * @return mixed
+     */
     public function dumpDatabase()
     {
         return $this->hookDatabase;
