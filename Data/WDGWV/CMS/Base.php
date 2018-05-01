@@ -302,9 +302,9 @@ class Base extends \WDGWV\General\WDGWV
     private function h($s)
     {
         $out = '';
-        for ($i = 0;isset($s[$i]); $i++) {
+        for ($i = 0; isset($s[$i]); $i++) {
             $x = ord($s[$i]);
-            $out .= '&#' . $x . ';';
+            $out .= sprintf('&#%s;', $x);
         }
         return $out;
     }
