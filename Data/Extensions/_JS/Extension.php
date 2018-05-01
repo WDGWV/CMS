@@ -67,6 +67,9 @@ class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\Extension\UnderscoreJS();

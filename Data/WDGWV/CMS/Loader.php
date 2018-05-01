@@ -95,7 +95,17 @@ $_config = new WDGWV\CMS\Config();
  * @param $debugger class The debugger class
  */
 $debugger = \WDGWV\CMS\Debugger::sharedInstance();
+
+/**
+ * Initialize the hooks system
+ * @param $hooks the hooks system
+ */
 $hooks = \WDGWV\CMS\Hooks::sharedInstance();
+
+/**
+ * Initialize the extensions system
+ * @param $extensions the extensions system
+ */
 $extensions = \WDGWV\CMS\Extensions::sharedInstance();
 
 /**
@@ -103,8 +113,14 @@ $extensions = \WDGWV\CMS\Extensions::sharedInstance();
  * @param $installer class The installer class
  */
 $installer = \WDGWV\CMS\Installer::sharedInstance();
+
+/**
+ * Initialize the database
+ * @param $database class The database class
+ */
 $database = \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
 
+//TODO: REMOVE ME
 $hooks->createHook(
     'url',
     '/setTheme/portal',
@@ -116,6 +132,8 @@ $hooks->createHook(
         'portal',
     )
 );
+
+//TODO: REMOVE ME
 $hooks->createHook(
     'url',
     '/setTheme/admin',
@@ -128,9 +146,12 @@ $hooks->createHook(
     )
 );
 
+/**
+ * Initialize the CMS
+ * @param $CMS class The CMS class
+ */
 $CMS = \WDGWV\CMS\Base::sharedInstance();
 
-// TEMPORARY
 // TODO: REMOVE ME!!!
 $regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userlevel' => 'admin', 'is_admin' => true));
 // echo ($regi) ? 'Created user' : 'Failed to create';
@@ -144,7 +165,10 @@ if ($regi) {
 }
 //$pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0
 
+// TODO: REMOVE ME!!!
 $database->createPage('Home', 'Welcome at the homepage!', 'Welcome,WDGWV,CMS', array('user' => 0));
+
+// TODO: REMOVE ME!!!
 $database->createPage('About', '<h1>Welcome to WDGWV CMS</h1>
 Some stats:<br />
 <script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script>
