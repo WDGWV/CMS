@@ -128,7 +128,7 @@ class Extensions
             return;
         }
 
-        $this->_reloadExtensions();
+        $this->reloadExtensions();
         array_unique($this->loadExtensions);
         array_unique($this->extensionList);
 
@@ -154,7 +154,7 @@ class Extensions
         );
 
         if (sizeof($f[1]) == 0) {
-            $this->_reloadExtensions();
+            $this->reloadExtensions();
             return;
         }
 
@@ -385,7 +385,7 @@ class Extensions
             exit('Failed to remove database');
         }
 
-        $this->_reloadExtensions('FORCE SAVE, MODULE DATABASE RESET');
+        $this->reloadExtensions('FORCE SAVE, MODULE DATABASE RESET');
         $this->saveOnExit = false;
         @touch($this->lockFile);
     }

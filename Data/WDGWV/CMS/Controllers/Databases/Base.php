@@ -84,13 +84,23 @@ class Base
 
     protected function generateUserDB()
     {
-        return array(array(
-            'username' => 'System', /* Dummy account. impossible to login to it. */
-            'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
-            'userlevel' => 'system',
-            'is_activated' => false,
-            'email' => 'CMS@wdgwv.com',
-        ));
+        return array(
+            array(
+                'username' => 'System', /* Dummy account. impossible to login to it. */
+                'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
+                'userlevel' => 'system',
+                'is_activated' => false,
+                'email' => 'CMS@wdgwv.com',
+            ),
+            array(
+                'username' => 'admin',
+                'password' => hash('sha512', 'changeme'),
+                'email' => 'admin@localhost',
+                'userlevel' => 'admin',
+                'is_activated' => true,
+                'extra' => array('userlevel' => 100, 'is_admin' => true),
+            ),
+        );
     }
 
     protected function generateSystemDB()

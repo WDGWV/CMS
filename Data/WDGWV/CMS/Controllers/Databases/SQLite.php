@@ -203,15 +203,6 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
             if (is_array($this->generateUserDB())) {
                 $this->userDatabase[] = (object) $this->generateUserDB();
             }
-
-            $this->userDatabase[] = (object) array(
-                'username' => 'admin',
-                'password' => hash('sha512', 'changeme'),
-                'email' => 'admin@localhost',
-                'userlevel' => 'admin',
-                'is_activated' => true,
-                'extra' => array('userlevel' => 100, 'is_admin' => true),
-            );
         }
         if (!$this->postExists('Welcome to the WDGWV CMS!')) {
             $this->postDatabase[] = array(

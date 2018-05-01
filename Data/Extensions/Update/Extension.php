@@ -84,12 +84,12 @@ class Update extends \WDGWV\CMS\ExtensionBase
     private function __construct()
     {
         // Read cached Extensions, if they exists, otherwise, skip.
-        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
+        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->displayExtensionList();
     }
 
     public function _reload()
     {
-        \WDGWV\CMS\Extensions::sharedInstance()->_forceReloadExtensions();
+        \WDGWV\CMS\Extensions::sharedInstance()->forceReloadExtensions();
         if (!headers_sent()) {
             header("location: /");
         }
