@@ -55,10 +55,13 @@ namespace WDGWV\CMS\Controllers\Databases;
 ------------------------------------------------------------
  */
 
+/**
+ * ...
+ */
 class Controller extends \WDGWV\CMS\Controllers\Databases\Base
 {
     /**
-     * @var mixed
+     * @var mixed $db Database class.
      */
     private $db = false;
 
@@ -99,15 +102,20 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
+    /**
+     * destruct the class.
+     */
     public function __destruct()
     {
         //..
     }
 
     /**
-     * @param $postTitle
-     * @param $strict
-     * @return mixed
+     * Does the post exists
+     *
+     * @param string $postTitle Title
+     * @param bool $strict Strict mode?
+     * @return bool
      */
     public function postExists($postTitle, $strict = false)
     {
@@ -118,6 +126,8 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
+     * Get the last Post
+     *
      * @return mixed
      */
     public function postGetLast()
@@ -126,12 +136,14 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $postTitle
-     * @param $postContents
-     * @param $postKeywords
-     * @param $postDate
-     * @param $postOptions
-     * @param $postID
+     * Create a post.
+     *
+     * @param string $postTitle Post title
+     * @param string $postContents Post contents
+     * @param string $postKeywords Post keywords
+     * @param string $postDate Post date
+     * @param mixed $postOptions array of options
+     * @param int $postID Optional, postID
      * @return mixed
      */
     public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0)
@@ -147,8 +159,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $postID
-     * @param $strict
+     * Load Post
+     *
+     * @param int $postID postID
+     * @param bool $strict Strict mode?
      * @return mixed
      */
     public function postLoad($postID, $strict = false)
@@ -160,8 +174,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $postID
-     * @return mixed
+     * Remove post
+     *
+     * @param int $postID postID
+     * @return bool
      */
     public function postRemove($postID)
     {
@@ -171,13 +187,15 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $postID
-     * @param $postTitle
-     * @param $postContents
-     * @param $postKeywords
-     * @param $postDate
-     * @param $postOptions
-     * @return mixed
+     * Edit post
+     *
+     * @param int $postID postID
+     * @param string $postTitle post title
+     * @param string $postContents post contents
+     * @param string $postKeywords post keywords
+     * @param string $postDate post date
+     * @param mixed $postOptions array of options
+     * @return bool
      */
     public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
@@ -192,8 +210,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $userID
-     * @return mixed
+     * user exists?
+     *
+     * @param string|int $userID userID
+     * @return bool
      */
     private function userExists($userID)
     {
@@ -203,7 +223,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $userID
+     * user load
+     *
+     * @param string|int $userID userID
      * @return mixed
      */
     public function userLoad($userID)
@@ -214,8 +236,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $userID
-     * @param $userPassword
+     * user login
+     *
+     * @param string|int $userID userID
+     * @param string $userPassword user password
      * @return mixed
      */
     public function userLogin($userID, $userPassword)
@@ -227,8 +251,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $userID
-     * @return mixed
+     * delete user
+     *
+     * @param string|int $userID userID
+     * @return bool
      */
     public function userDelete($userID)
     {
@@ -238,9 +264,11 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $userID
-     * @param $userPassword
-     * @param $userEmail
+     * register user
+     *
+     * @param int|string $userID userID
+     * @param string $userPassword
+     * @param string $userEmail
      * @param array $options
      * @return mixed
      */
@@ -255,11 +283,13 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $pageTitle
-     * @param $pageContents
-     * @param $pageKeywords
-     * @param array $pageOptions
-     * @param $pageID
+     * create page
+     *
+     * @param string $pageTitle page title
+     * @param string $pageContents page contents
+     * @param string $pageKeywords page keywords
+     * @param array $pageOptions page options
+     * @param int $pageID Page ID (optional)
      * @return mixed
      */
     public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
@@ -274,9 +304,11 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $pageTitleOrID
-     * @param $strict
-     * @return mixed
+     * page exists
+     *
+     * @param string|int $pageTitleOrID page Title Or ID
+     * @param bool $strict strict mode?
+     * @return bool
      */
     public function pageExists($pageTitleOrID, $strict = false)
     {
@@ -287,8 +319,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $pageTitleOrID
-     * @param $strict
+     * load page
+     *
+     * @param string|int $pageTitleOrID page Title Or ID
+     * @param bool $strict strict mode?
      * @return mixed
      */
     public function loadPage($pageTitleOrID, $strict = false)
@@ -300,10 +334,11 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $menuItemsArray
-     * @return mixed
+     * set menu items
+     *
+     * @param array $menuItemsArray array of menu items
      */
-    public function setMenuItems($menuItemsArray)
+    public function setMenuItems($menuItemsArray = array())
     {
         return $this->db->setMenuItems(
             $menuItemsArray
@@ -311,7 +346,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @return mixed
+     * get theme
+     *
+     * @return string theme
      */
     public function getTheme()
     {
@@ -319,8 +356,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * @param $themeName
-     * @return mixed
+     * set theme
+     *
+     * @param string $themeName theme name
      */
     public function setTheme($themeName)
     {
@@ -329,8 +367,16 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
         );
     }
 
+    /**
+     * load menu items
+     *
+     * @return mixed array with menu contents
+     */
     public function loadMenu()
     {
-        return array_merge($this->db->loadMenu(), \WDGWV\CMS\Hooks::sharedInstance()->loopHook('menu'));
+        return array_merge(
+            $this->db->loadMenu(),
+            \WDGWV\CMS\Hooks::sharedInstance()->loopHook('menu')
+        );
     }
 }

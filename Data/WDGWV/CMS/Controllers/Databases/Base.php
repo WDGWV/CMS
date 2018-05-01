@@ -85,6 +85,8 @@ class Base
     }
 
     /**
+     * No-Operation (noop)
+     *
      * @return null
      */
     protected function noop()
