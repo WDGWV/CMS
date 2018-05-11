@@ -62,7 +62,13 @@ namespace WDGWV\CMS\Extension; /* Extension namespace */
 
 class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 {
+    /**
+     * @var array
+     */
     private $ThemeList = array();
+    /**
+     * @var mixed
+     */
     private $ThemeCtrl;
 
     /**
@@ -71,6 +77,9 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\Extension\ThemeMananagamentSystem();
@@ -88,9 +97,113 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         // $this->ThemeList = \WDGWV\CMS\Themes::sharedInstance()->displayThemeList();
     }
 
+    /**
+     * Get theme information
+     *
+     * @param $themePath
+     */
+    private function themeInfo($themePath)
+    {
+        $screenshot = false;
+        $found = false;
+
+        $table = '<table>';
+        if ($screenshot = file_exists($themePath . '/screenshot.png')) {
+            $table .= sprintf(
+                '<tr><td><img src=\'/%s\'></td><td>%s</td><td><table>',
+                $themePath . '/screenshot.png',
+                '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+            );
+        } else {
+            // $table .= '<td>';
+        }
+
+        if (file_exists($themePath)) {
+            if (file_exists($themePath . '/INFO')) {
+                $fgc = file_get_contents($themePath . '/INFO');
+
+                $exploded = explode("\n", $fgc);
+
+                for ($i = 0; $i < sizeof($exploded); $i++) {
+                    $extract = explode(':', $exploded[$i]);
+
+                    if (isset($extract[2])) {
+                        $extract[1] = sprintf(
+                            '<a href=\'%s:%s\' target=\'_blank\'>%s:%s</a>',
+                            $extract[1],
+                            $extract[2],
+                            $extract[1],
+                            $extract[2]
+                        );
+                    }
+
+                    $table .= sprintf(
+                        '<tr><td>%s</td><td>&nbsp;</td><td>%s</td></tr>',
+                        ucfirst(strtolower($extract[0])),
+                        ucwords($extract[1])
+                    );
+                }
+
+                $found = true;
+                // ...
+            }
+
+            if (file_exists($themePath . '/LICENSE')) {
+                // ...
+            }
+        }
+
+        if ($screenshot) {
+            $table .= '</td></tr></table>';
+        }
+
+        $table .= '</tr></table>';
+
+        return $found ? $table : 'Could not load information';
+    }
+
     public function displayList()
     {
-        return array("Title", "Contents");
+        $list = array();
+        // only Name.
+
+        $tableHeader = '%s';
+        $tableHeader .= '<span class=\'right\'>';
+        $tableHeader .= '<button onClick="window.location=\'/%s/%s/List?activateTheme=%s\'">%s \'%s\' Theme</button>';
+        $tableHeader .= '</span>';
+
+        // return array("Title", "Contents");
+        $d = opendir('./Data/Themes/');
+        while (false !== ($file = readdir($d))) {
+            if (($file != '.' && $file != '..') &&
+                is_dir('./Data/Themes/' . $file)
+            ) {
+                $list[] = array(
+                    sprintf(
+                        $tableHeader,
+                        $file,
+                        (new \WDGWV\CMS\Config)->adminURL(),
+                        'Themes',
+                        $file,
+                        'Activate',
+                        $file
+                    ),
+                    $this->themeInfo('./Data/Themes/' . $file),
+                );
+            }
+        }
+
+        \WDGWV\CMS\Hooks::sharedInstance()->createHook(
+            'script',
+            'Resize classes',
+            "$('.col-lg-12').attr('class', 'col-lg-5');"
+        );
+
+        return (
+            sizeof($list) > 0
+            ? $list
+            : array('Error', 'Error while loading')
+        );
     }
 
     public function displaySearch()
@@ -119,6 +232,12 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         'url' => sprintf('/%s/Themes/Search', (new \WDGWV\CMS\Config)->adminURL()),
         'userlevel' => 'admin',
     )
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    sprintf('/%s/Themes/Activate/*', (new \WDGWV\CMS\Config)->adminURL()),
+    array(ThemeMananagamentSystem::sharedInstance(), 'activateTheme')
 );
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(

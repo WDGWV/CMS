@@ -236,7 +236,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
         foreach ($this->create as $key => $value) {
             if (preg_match("/Database/", $key)) {
-                \WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Creating %s database', $key));
+                \WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Creating %s table (if not exists)', $key));
                 $this->db->exec($value);
             }
         }
