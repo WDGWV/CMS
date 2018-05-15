@@ -520,7 +520,21 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postLoad($postID, $strict = false)
     {
-        \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
+        if ($this->postExists($postID, $strict)) {
+            $query = "SELECT * FROM posts WHERE `title` %s '%s';";
+            $query = sprintf($query, ($strict ? '=' : 'LIKE'), $postTitle);
+            foreach ($this->db->query($query) as $post) {
+                return array(
+                    /* title... */$post['title'],
+                    /* contents */$post['contents'],
+                    /* keywords */$post['keywords'],
+                    /* date.... */$post['date'],
+                    /* options. */$post['options'],
+                );
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -534,7 +548,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         $query = "SELECT * FROM posts WHERE `title` %s '%s';";
         $query = sprintf($query, ($strict ? '=' : 'LIKE'), $postTitle);
         $count = 0;
-        foreach ($this->db->query($query) as $page) {
+        foreach ($this->db->query($query) as $post) {
             $count++;
         }
 

@@ -119,10 +119,9 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             'function: pageExists' => 100,
             'function: createPage' => 100,
             'function: editPost' => 0,
-            'function: editPost' => 0,
             'function: postRemove' => 100,
-            'function: postLoad' => 0,
-            'function: postExists' => 0,
+            'function: postLoad' => 100,
+            'function: postExists' => 100,
             'function: postCreate' => 0,
             'function: postGetLast' => 100,
             'function: query' => 100,
@@ -143,7 +142,6 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             'function: loadPage' => 0,
             'function: pageExists' => 0,
             'function: createPage' => 0,
-            'function: editPost' => 0,
             'function: editPost' => 0,
             'function: postRemove' => 0,
             'function: postLoad' => 0,
@@ -169,7 +167,6 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             'function: pageExists' => 100,
             'function: createPage' => 100,
             'function: editPost' => 100,
-            'function: editPost' => 100,
             'function: postRemove' => 100,
             'function: postLoad' => 100,
             'function: postExists' => 100,
@@ -183,9 +180,12 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
 
         $page = array();
         $page[] = array(
-            'Todo list.',
-            'This is a todo list (static, for creating/debugging use only atm)',
+            'CMS Progress',
+            '---<br /><br />This is a todo list (static, for creating/debugging use only atm)',
         );
+
+        $allItemsCount = 0;
+        $allItemsProgress = 0;
 
         foreach ($items as $title => $subitems) {
             $count = 0;
@@ -194,6 +194,9 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             $contents .= '<b>**Progress**</b><br /><br /><ul>';
 
             foreach ($subitems as $key => $value) {
+                $allItemsCount++;
+                $allItemsProgress = $allItemsProgress + $value;
+
                 $count = $count + $value;
                 $c_items++;
 
@@ -215,6 +218,11 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
 
             $page[] = array($title, $contents);
         }
+
+        $calcItems = $allItemsProgress / 100;
+        $calcProgress = round(($calcItems / $allItemsCount) * 100);
+
+        $page[0][1] = "---<br /><br />Overall progress: {$calcItems} of {$allItemsCount} items = {$calcProgress}%";
 
         return $page;
     }
