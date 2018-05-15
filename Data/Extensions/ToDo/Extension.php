@@ -124,7 +124,7 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             'function: postLoad' => 0,
             'function: postExists' => 0,
             'function: postCreate' => 0,
-            'function: postGetLast' => 0,
+            'function: postGetLast' => 100,
             'function: query' => 100,
         );
 
