@@ -299,7 +299,16 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function userDelete($userID)
     {
-        \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
+        if ($this->userExists($userID)) {
+            $query = sprintf(
+                'DELETE FROM `users` WHERE `username`=\'%s\';',
+                $userID
+            );
+
+            return $this->db->exec($query);
+        }
+
+        return false;
     }
 
     /**

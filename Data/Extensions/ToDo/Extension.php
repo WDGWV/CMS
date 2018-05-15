@@ -2,9 +2,9 @@
 /**
  * WDGWV CMS Extension file.
  * Full access: false
- * Extension: Test Extension
+ * Extension: TODO Extension
  * Version: 1.0
- * Description: This is a simple test for a Extension file.
+ * Description: This is a simple test for a static TODO Extension.
  */
 
 /*
@@ -83,67 +83,138 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
 
     public function _display()
     {
-        $page = array(
-            array(
-                'Todo list.',
-                'This is a todo list (static, for creating/debugging use only atm)',
-            ),
+        $items = array();
 
-            array('Plain text Database support', '---<br />Plain text Database support<br /><br />
-				<b>**Supported**</b><br /><br />
-				<ul>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Connection (N/A)</li>
-					<li>*<progress min=0 max=100 value=100></progress> 000% | ... Other</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=2></progress> 2/2<br /><br />', ),
-
-            array('Extensibility', '---<br />Extensibility for extensions/plugins/modules<br /><br />
-				<b>**Supported**</b><br /><br />
-				<ul>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Page extensions</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Menu extensions</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | URL-extensions (override)</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | before-content (one item only)</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | after-content (one item only)</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Specific $_POST extensions</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Specific $_GET extensions</li>
-					<li>*<progress min=0 max=100 value=25></progress> 025% | Partial: UBB code extensions</li>
-				</ul><br />
-				Progress: <progress min=0 max=6 value=5></progress> 7/8<br />'),
-
-            array('Extension: demo mode', '---<br />Extension: demo mode<br /><br />
-				<b>**Supported**</b><br /><br />
-				<ul>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Strip $_POST</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Strip $_GET</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Warning if $_GET or $_POST (before-content)</li>
-					<li>*<progress min=0 max=100 value=100></progress> 100% | Extra footer notice (after-content)</li>
-				</ul><br />Overall progress: <progress min=0 max=4 value=4></progress> 4/4<br /><br />', ),
-
-            array('item 2', '---<br />description<br /><br />
-				<b>**Supported**</b><br /><br />
-				<ul>
-					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
-					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />', ),
-
-            array('MySQL Database support', '---<br />MySQL Database support<br /><br />
-				<b>**Supported**</b><br /><br />
-				<ul>
-					<li>*<progress min=0 max=100 value=0></progress> 000% | Connection</li>
-					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />', ),
-            array('SQLite Database support', '---<br />SQLite Database support<br /><br />
-				<b>**Supported**</b><br /><br />
-				<ul>
-					<li>*<progress min=0 max=100 value=0></progress> 000% | Connection</li>
-					<li>*<progress min=0 max=100 value=0></progress> 000% | ...</li>
-				</ul><br />Overall progress: <progress min=0 max=2 value=0></progress> 0/2<br /><br />', ),
-
-            array('MAYBE LATER: CRM',
-                '---<br />CRM Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%<br /><br />'),
-            array('MAYBE LATER: ERP',
-                '---<br />ERP Support (extension?)<br /><br />Depends on: usage of CMS<br /><br />Progress: <progress min=0 max=100 value=0></progress> 0%<br /><br />'),
+        $items['Extensibility'] = array(
+            'Page extensions' => 100,
+            'Menu extensions' => 100,
+            'URL-extensions (override)' => 100,
+            'before-content (one item only)' => 100,
+            'after-content (one item only)' => 100,
+            'Specific $_POST extensions' => 100,
+            'Specific $_GET extensions' => 100,
+            'Partial: UBB code extensions' => 25,
         );
+
+        $items['Extension: demo mode'] = array(
+            'Strip $_POST' => 100,
+            'Strip $_GET' => 100,
+            'Warning if $_GET or $_POST (before-content)' => 100,
+            'Extra footer notice (after-content)' => 100,
+        );
+
+        $items['Databases: MySQLite Database support'] = array(
+            'Connection' => 100,
+            'Setup database' => 100,
+            'function: userExists' => 100,
+            'function: userRegister' => 100,
+            'function: userDelete' => 100,
+            'function: userLogin' => 0,
+            'function: userLoad' => 0,
+            'function: setTheme' => 100,
+            'function: getTheme' => 100,
+            'function: loadMenu' => 100,
+            'function: setMenuItems' => 100,
+            'function: loadPage' => 100,
+            'function: pageExists' => 100,
+            'function: createPage' => 100,
+            'function: editPost' => 0,
+            'function: editPost' => 0,
+            'function: postRemove' => 0,
+            'function: postLoad' => 0,
+            'function: postExists' => 0,
+            'function: postCreate' => 0,
+            'function: postGetLast' => 0,
+            'function: query' => 100,
+        );
+
+        $items['Databases: MySQL Database support'] = array(
+            'Connection' => 0,
+            'Setup database' => 0,
+            'function: userExists' => 0,
+            'function: userRegister' => 0,
+            'function: userDelete' => 0,
+            'function: userLogin' => 0,
+            'function: userLoad' => 0,
+            'function: setTheme' => 0,
+            'function: getTheme' => 0,
+            'function: loadMenu' => 0,
+            'function: setMenuItems' => 0,
+            'function: loadPage' => 0,
+            'function: pageExists' => 0,
+            'function: createPage' => 0,
+            'function: editPost' => 0,
+            'function: editPost' => 0,
+            'function: postRemove' => 0,
+            'function: postLoad' => 0,
+            'function: postExists' => 0,
+            'function: postCreate' => 0,
+            'function: postGetLast' => 0,
+            'function: query' => 0,
+        );
+
+        $items['Databases: Plain text database support'] = array(
+            'Connection' => 100,
+            'Setup database' => 100,
+            'function: userExists' => 100,
+            'function: userRegister' => 100,
+            'function: userDelete' => 100,
+            'function: userLogin' => 100,
+            'function: userLoad' => 100,
+            'function: setTheme' => 100,
+            'function: getTheme' => 100,
+            'function: loadMenu' => 100,
+            'function: setMenuItems' => 100,
+            'function: loadPage' => 100,
+            'function: pageExists' => 100,
+            'function: createPage' => 100,
+            'function: editPost' => 100,
+            'function: editPost' => 100,
+            'function: postRemove' => 100,
+            'function: postLoad' => 100,
+            'function: postExists' => 100,
+            'function: postCreate' => 100,
+            'function: postGetLast' => 100,
+            'function: query' => 100,
+        );
+        /**
+         * DO NOT CHANGE AFTER THIS LINE
+         */
+
+        $page = array();
+        $page[] = array(
+            'Todo list.',
+            'This is a todo list (static, for creating/debugging use only atm)',
+        );
+
+        foreach ($items as $title => $subitems) {
+            $count = 0;
+            $c_items = 0;
+            $contents = sprintf('---<br />%s<br /><br />', $title);
+            $contents .= '<b>**Progress**</b><br /><br /><ul>';
+
+            foreach ($subitems as $key => $value) {
+                $count = $count + $value;
+                $c_items++;
+
+                $contents .= sprintf(
+                    '<li>*<progress min=0 max=100 value=%s></progress> %s%% | %s</li>',
+                    $value,
+                    $value,
+                    $key
+                );
+            }
+
+            $contents .= sprintf(
+                '</ul><br />Overall progress: <progress min=0 max=%s value=%s></progress> %s/%s<br /><br />',
+                $c_items * 100,
+                $count,
+                $count / 100,
+                $c_items
+            );
+
+            $page[] = array($title, $contents);
+        }
 
         return $page;
     }
