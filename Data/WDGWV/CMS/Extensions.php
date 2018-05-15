@@ -212,7 +212,7 @@ class Extensions
         $f[1] = array_unique($f[1]);
 
         foreach ($f[0] as $loadFile) {
-            Debugger::sharedInstance()->log(sprintf('loading %s', $loadFile));
+            Debugger::sharedInstance()->log(sprintf('loading extension: %s', $loadFile));
             if (file_exists($loadFile)) {
                 $disabled = explode('/', $loadFile);
                 $disabled[sizeof($disabled) - 1] = 'disabled';
@@ -288,7 +288,7 @@ class Extensions
                     @unlink($this->lockFile);
                 }
 
-                $this->saveDatabase(sprintf('Module \'%s\' enabled', $extensionPathOrName));
+                $this->saveDatabase(sprintf('Extension \'%s\' enabled', $extensionPathOrName));
                 return;
             }
         }
@@ -319,7 +319,7 @@ class Extensions
             @unlink($this->lockFile);
         }
 
-        $this->saveDatabase(sprintf('Module \'%s\' enabled', $extensionPathOrName));
+        $this->saveDatabase(sprintf('Extension \'%s\' enabled', $extensionPathOrName));
     }
 
     /**
@@ -338,7 +338,7 @@ class Extensions
                             @unlink($this->lockFile);
                         }
 
-                        $this->saveDatabase(sprintf('Module \'%s\' disabled', $extensionPathOrName));
+                        $this->saveDatabase(sprintf('Extension \'%s\' disabled', $extensionPathOrName));
                         return;
                     }
                 }
@@ -361,7 +361,7 @@ class Extensions
                                             @unlink($this->lockFile);
                                         }
 
-                                        $this->saveDatabase(sprintf('Module \'%s\' disabled', $extensionPathOrName));
+                                        $this->saveDatabase(sprintf('Extension \'%s\' disabled', $extensionPathOrName));
                                         return;
                                     }
                                 }
@@ -460,7 +460,7 @@ class Extensions
             exit('Failed to remove database');
         }
 
-        $this->reloadExtensions('FORCE SAVE, MODULE DATABASE RESET');
+        $this->reloadExtensions('FORCE SAVE, EXTENSION DATABASE RESET');
         $this->saveOnExit = false;
         @touch($this->lockFile);
     }

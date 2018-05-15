@@ -94,6 +94,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                                             `title`         TEXT,
                                             `contents`      TEXT,
                                             `keywords`      TEXT,
+                                            `date`          TEXT,
                                             `options`       TEXT
                                           );";
 
@@ -546,6 +547,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0)
     {
+        \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
     }
 
     /**
@@ -553,7 +555,25 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postGetLast()
     {
-        \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
+        $query = "SELECT * FROM `posts` ORDER BY `id` DESC;";
+        $query = sprintf($query);
+        foreach ($this->db->query($query) as $post) {
+            return array(
+                /* title... */$post['title'],
+                /* contents */$post['contents'],
+                /* keywords */$post['keywords'],
+                /* date.... */$post['date'],
+                /* options. */$post['options'],
+            );
+        }
+
+        return array(
+            /* title... */"Warning",
+            /* contents */"No posts found.",
+            /* keywords */"",
+            /* date.... */date('d-m-Y H:i:s'),
+            /* options. */array('userID' => 0, 'sticky' => true),
+        );
     }
 
     /**
