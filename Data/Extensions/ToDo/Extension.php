@@ -120,7 +120,7 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             'function: createPage' => 100,
             'function: editPost' => 0,
             'function: editPost' => 0,
-            'function: postRemove' => 0,
+            'function: postRemove' => 100,
             'function: postLoad' => 0,
             'function: postExists' => 0,
             'function: postCreate' => 0,

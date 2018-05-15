@@ -501,9 +501,15 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @param $postID
      */
-    public function postRemove($postID)
+    public function postRemove($postID, $strict = false)
     {
-        \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
+        if ($this->postExists($postID, $strict)) {
+            $query = "DELETE FROM posts WHERE `title` %s '%s';";
+            $query = sprintf($query, ($strict ? '=' : 'LIKE'), $postTitle);
+            return $this->db->query($query);
+        }
+
+        return false;
     }
 
     /**
