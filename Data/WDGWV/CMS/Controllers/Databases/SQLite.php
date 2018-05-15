@@ -320,6 +320,14 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function userLogin($userID, $userPassword)
     {
         \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
+        $count = 0;
+        $query = "SELECT * FROM users WHERE `username`='%s' AND `password`='%s';";
+        $query = sprintf($query, $userID, hash('sha512', $userPassword));
+        foreach ($this->db->query($query) as $users) {
+            $count++;
+        }
+
+        return ($count !== 0);
     }
 
     /**
