@@ -149,7 +149,6 @@ class Extensions
      *
      * @var array
      */
-
     private $extensionList = array();
 
     /**
