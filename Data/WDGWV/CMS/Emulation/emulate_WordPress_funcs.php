@@ -52,6 +52,10 @@
 ------------------------------------------------------------
  */
 
+if (!isset($emulation)) {
+    $emulation = array();
+}
+
 if (!isset($emulation['wordpress'])) {
     $emulation['wordpress'] = new \WDGWV\CMS\Emulation\WordPress();
 }

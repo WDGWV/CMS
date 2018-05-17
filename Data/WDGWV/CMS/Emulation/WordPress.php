@@ -63,8 +63,12 @@ class WordPress
     /*
     is this a wordpress theme?
      */
+
     /**
+     * is it a Wordpress theme?
+     *
      * @param $WPTHEME
+     * @return bool wordpress theme?
      */
     public function isWordpress($WPTHEME)
     {
@@ -75,23 +79,28 @@ class WordPress
         ) ? true : false);
     }
 
-    /* Load the "post" CONTENT */
+    /**
+     * Load the "post" CONTENT
+     * @return string the contents
+     */
     public function the_content()
     {
         echo \WDGWV\CMS\Base::sharedInstance()->getContent();
     }
 
-    #function the_post ( )
-    # Load the "post" CONTENT
-    ## WdG: 23-DEC-2013
+    /**
+     * Load the "post" CONTENT
+     * @return [type] [description]
+     */
     public function the_post()
     {
         //    echo "CONTENT CONTENT CONTENT CONTENT :D";
     }
 
-#function theme_is_home ( )
-    # yep. it's the homepage
-    ## WdG: 23-DEC-2013
+    /**
+     * yep. it's the homepage
+     * @return bool true
+     */
     public function theme_is_home()
     {
         return true;
@@ -1527,25 +1536,28 @@ class WordPress
         #TODO: WP:get_comment_author_link
     }
 
-#function comment_reply_link ( )
-    #TODO
-    ## WdG: 5 DEC 2013
+    /**
+     * [comment_reply_link description]
+     * @return [type] [description]
+     */
     public function comment_reply_link()
     {
         #TODO: WP:comment_reply_link
     }
 
-#function comment_text ( )
-    #TODO
-    ## WdG: 5 DEC 2013
+    /**
+     * ???
+     * @return void [description]
+     */
     public function comment_text()
     {
         #TODO: WP:comment_text
     }
 
-#function get_sidebar ( )
-    #Check if the user is logged in...
-    ## WdG: 5 DEC 2013
+    /**
+     * Check if the user is logged in...
+     * @return boolean user logged in?
+     */
     public function is_loggedin()
     {
         if (isset($_SESSION['WDGWV_USER_ID'])) {
@@ -1559,10 +1571,9 @@ class WordPress
         }
     }
 
-#function get_bloginfo ( )
-    # Returns the blog info
-    ## WdG: 13 DEC 2013
     /**
+     * Returns the blog info
+     *
      * @param $choise
      */
     public function get_bloginfo($choise)
@@ -1578,10 +1589,9 @@ class WordPress
         }
     }
 
-#function wp_parse_args ( )
-    # Parse Arguments
-    ## WdG: 13 DEC 2013
     /**
+     * Parse Arguments
+     *
      * @param $args
      * @param null $array
      * @return mixed
@@ -1591,9 +1601,9 @@ class WordPress
         return $array;
     }
 
-#function add_shortcode ( )
-    #Just to remove a error
-    ## WdG: 13 DEC 2013
+    /**
+     * Just to remove a error
+     */
     public function add_shortcode()
     {
 
@@ -1641,17 +1651,11 @@ class WP_Query
         #                'paged' => $paged )
     }
 
-#function have_posts ( )
-    #TODO
-    ## WdG: 5 DEC 2013
     public function have_posts()
     {
         #TODO
     }
 
-#function found_posts ( )
-    #TODO
-    ## WdG: 5 DEC 2013
     public function found_posts()
     {
         # code...

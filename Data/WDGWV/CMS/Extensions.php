@@ -71,15 +71,19 @@ namespace WDGWV\CMS;
 class Extensions
 {
     /**
+     * Scan this directories for Extensions
+     *
      * @var array
      */
-    private $scan_directorys = array(
+    private $scan_directories = array(
         './Data/Extensions/',
         './Data/Modules/',
         './Data/Plugins/',
     );
 
     /**
+     * Define possible Extension filenames
+     *
      * @var array
      */
     private $load_files = array(
@@ -89,9 +93,11 @@ class Extensions
     );
 
     /**
+     * Define system Extensions/Modules
+     *
      * @var array
      */
-    private $systemModules = array(
+    private $systemExtensions = array(
         'ExtensionManagement',
         'DemoMode',
         'WYSIWYG',
@@ -104,47 +110,62 @@ class Extensions
     );
 
     /**
+     * The Cache.
+     *
      * @var string
      */
     private $cache = '';
 
     /**
+     * Cache database file.
+     *
      * @var string
      */
     private $cacheDB = './Data/Database/extensionCache.PTdb';
 
     /**
+     * the 'lock' file.
+     *
      * @var string
      */
     private $lockFile = './Data/Database/extensionCache.PTlock';
 
     /**
+     * Cache lifetime (in seconds)
+     *
      * @var int
      */
     private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
 
     /**
+     * Load this extensions
+     *
      * @var array
      */
     private $loadExtensions = array();
 
     /**
+     * Extensions list
+     *
      * @var array
      */
 
     private $extensionList = array();
-    /**
-     * @var mixed
-     */
 
-    private $saveOnExit = true;
     /**
-     * @var mixed
+     * Save on Exit.
+     * @var bool
+     */
+    private $saveOnExit = true;
+
+    /**
+     * @var bool
      */
     private $compressDatabase = true;
 
     /**
      * Call the sharedInstance
+     *
      * @since Version 1.0
      */
     public static function sharedInstance()
@@ -181,6 +202,8 @@ class Extensions
     }
 
     /**
+     * Display extension list
+     *
      * @return mixed
      */
     public function displayExtensionList()
@@ -189,6 +212,8 @@ class Extensions
     }
 
     /**
+     * Load extensions database
+     *
      * @return null
      */
     private function loadExtensions()
@@ -228,15 +253,21 @@ class Extensions
     }
 
     /**
+     * Is it a system Extension
+     *
      * @param $ext
+     * @return bool is it a system extension?
      */
     public function isSystem($ext)
     {
         if (sizeof(explode('/', $ext)) > 1) {
-            return in_array(explode('/', $ext)[3], $this->systemModules);
+            return in_array(
+                explode('/', $ext)[3],
+                $this->systemExtensions
+            );
         }
 
-        foreach ($this->systemModules as $checkExtension) {
+        foreach ($this->systemExtensions as $checkExtension) {
             foreach ($this->information($checkExtension) as $info => $value) {
                 if ($info === 'extension') {
                     if ($value === $ext) {
@@ -250,7 +281,10 @@ class Extensions
     }
 
     /**
+     * is it an active Extension?
+     *
      * @param $ext
+     * @return bool active?
      */
     public function isActive($ext)
     {
@@ -295,7 +329,7 @@ class Extensions
 
         // Search it...
         $extensionPathOrName = 'DemoMode';
-        foreach ($this->scan_directorys as $readDirectory) {
+        foreach ($this->scan_directories as $readDirectory) {
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
                 if (file_exists($readDirectory . $extensionPathOrName)) {
                     foreach ($this->load_files as $tryFile) {
@@ -323,6 +357,8 @@ class Extensions
     }
 
     /**
+     * Disable an extension
+     *
      * @param $extensionPathOrName
      * @return null
      */
@@ -347,7 +383,7 @@ class Extensions
 
         // Search it...
         $extensionPathOrName = 'DemoMode';
-        foreach ($this->scan_directorys as $readDirectory) {
+        foreach ($this->scan_directories as $readDirectory) {
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
                 if (file_exists($readDirectory . $extensionPathOrName)) {
                     foreach ($this->load_files as $tryFile) {
@@ -374,6 +410,8 @@ class Extensions
     }
 
     /**
+     * extension information
+     *
      * @param $ofExtensionOrFilePath
      * @return mixed
      */
@@ -403,6 +441,8 @@ class Extensions
     }
 
     /**
+     * parse information of an extension
+     *
      * @param $ofExtensionFilePath
      * @return mixed
      */
@@ -449,6 +489,10 @@ class Extensions
         }
     }
 
+    /**
+     * Force reload extensions
+     * @return void
+     */
     public function forceReloadExtensions()
     {
         unset($this->extensionList);
@@ -466,7 +510,8 @@ class Extensions
     }
 
     /**
-     * @param $m
+     * reload extensions
+     * @param $m message
      */
     private function reloadExtensions($m = 'Default rescan.')
     {
@@ -475,7 +520,7 @@ class Extensions
 
         // Check for 'DemoMode' first.
         $current = 'DemoMode';
-        foreach ($this->scan_directorys as $readDirectory) {
+        foreach ($this->scan_directories as $readDirectory) {
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
                 if (file_exists($readDirectory . $current)) {
                     foreach ($this->load_files as $tryFile) {
@@ -491,7 +536,7 @@ class Extensions
             }
         }
 
-        foreach ($this->scan_directorys as $readDirectory) {
+        foreach ($this->scan_directories as $readDirectory) {
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
                 $_d = opendir($readDirectory);
                 while (($current = readdir($_d)) !== false) {
@@ -499,7 +544,7 @@ class Extensions
                         foreach ($this->load_files as $tryFile) {
                             if (file_exists($readDirectory . $current . '/' . $tryFile)) {
                                 if (!in_array($readDirectory . $current . '/' . $tryFile, $this->loadExtensions)) {
-                                    if (in_array($current, $this->systemModules)) {
+                                    if (in_array($current, $this->systemExtensions)) {
                                         $this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
                                     }
 
@@ -519,7 +564,9 @@ class Extensions
     }
 
     /**
-     * @param $m
+     * save database
+     *
+     * @param $m message
      * @return null
      */
     private function saveDatabase($m = 'Default save action on exit')
@@ -550,6 +597,9 @@ class Extensions
         }
     }
 
+    /**
+     * Bye!
+     */
     public function __destruct()
     {
         if ($this->saveOnExit) {
