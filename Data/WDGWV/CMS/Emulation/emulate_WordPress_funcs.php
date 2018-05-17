@@ -52,10 +52,15 @@
 ------------------------------------------------------------
  */
 
+if (!isset($emulation)) {
+    $emulation = array();
+}
+
 if (!isset($emulation['wordpress'])) {
     $emulation['wordpress'] = new \WDGWV\CMS\Emulation\WordPress();
 }
 
+// phpcs:disable
 /**
  * Shortcut for WordPress from 'the_content(...)' to \WDGWV\CMS\Emulation\WordPress()->the_content(...)
  * @since Version 1.0
@@ -1448,18 +1453,40 @@ function add_shortcode()
 
 class WP_Widget
 {
+    /**
+     * @param $argument
+     * @return null
+     */
     public function __construct($argument = null)
-    {}
+    {
+        return;
+    }
 }
 
 class WP_Query
 {
+    /**
+     * @param $argument
+     * @return null
+     */
     public function __construct($argument = null)
-    {}
+    {
+        return;
+    }
+    /**
+     * @return null
+     */
     public function have_posts()
-    {}
+    {
+        return;
+    }
+    /**
+     * @return null
+     */
     public function found_posts()
-    {}
+    {
+        return;
+    }
 }
 
 #Fixes some Warnings.
@@ -1468,3 +1495,4 @@ while (!is_array(@$theme_ob_stack)) {
     global $theme_ob_stack;
     @$theme_ob_stack = (array) $theme_ob_stack;
 }
+// phpcs:enable

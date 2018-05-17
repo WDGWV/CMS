@@ -126,11 +126,11 @@ class Base extends \WDGWV\General\WDGWV
     }
 
     /**
-     * getTheme
+     * themeGet
      * @since Version 1.0
      * @return string theme
      */
-    public function getTheme()
+    public function themeGet()
     {
         return $this->config->theme();
     }
@@ -233,13 +233,13 @@ class Base extends \WDGWV\General\WDGWV
     public function serve()
     {
         global $database;
-        if ($this->emulation['Blogger']->isBlogger($this->getTheme())) {
+        if ($this->emulation['Blogger']->isBlogger($this->themeGet())) {
             $this->emulation['Blogger']->blogger(
-                $this->getTheme()
+                $this->themeGet()
             );
-        } elseif ($this->emulation['WordPress']->isWordpress($this->getTheme())) {
+        } elseif ($this->emulation['WordPress']->isWordpress($this->themeGet())) {
             $this->emulation['WordPress']->wordpress(
-                $this->getTheme()
+                $this->themeGet()
             );
         } else {
             $parser = new \WDGWV\General\TemplateParser(
@@ -260,9 +260,9 @@ class Base extends \WDGWV\General\WDGWV
             );
 
             $parser->setTemplate(
-                $this->getTheme(),
+                $this->themeGet(),
                 'html',
-                '/Data/Themes/' . $this->getTheme() . '/'
+                '/Data/Themes/' . $this->themeGet() . '/'
             );
 
             $parser->bindParameter('year', @date('Y'));
@@ -271,7 +271,7 @@ class Base extends \WDGWV\General\WDGWV
 
             $parser->bindParameter('copyright', $this->getFooter());
 
-            $parser->setMenuContents($database->loadMenu());
+            $parser->setMenuContents($database->menuLoad());
 
             $pageController->displayPage();
 
@@ -287,7 +287,7 @@ class Base extends \WDGWV\General\WDGWV
             }
 
             if ($parser->didDisplay()) {
-                echo "THEME " . $this->getTheme() . " Does not exists!";
+                echo "THEME " . $this->themeGet() . " Does not exists!";
             }
         }
     }
@@ -302,9 +302,9 @@ class Base extends \WDGWV\General\WDGWV
     private function h($s)
     {
         $out = '';
-        for ($i = 0;isset($s[$i]); $i++) {
+        for ($i = 0; isset($s[$i]); $i++) {
             $x = ord($s[$i]);
-            $out .= '&#' . $x . ';';
+            $out .= sprintf('&#%s;', $x);
         }
         return $out;
     }

@@ -61,7 +61,14 @@ namespace WDGWV\CMS\Extension; /* Module namespace */
 
 class Update extends \WDGWV\CMS\ExtensionBase
 {
+    /**
+     * @var string
+     */
     private $updateURL = "https://www.wdgwv.com/upd/cms/?version=%s&module=%s&modver=%s";
+
+    /**
+     * @var array
+     */
     private $extensionList = array();
 
     /**
@@ -70,6 +77,9 @@ class Update extends \WDGWV\CMS\ExtensionBase
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\Extension\update();
@@ -84,12 +94,12 @@ class Update extends \WDGWV\CMS\ExtensionBase
     private function __construct()
     {
         // Read cached Extensions, if they exists, otherwise, skip.
-        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->_displayExtensionList();
+        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->displayExtensionList();
     }
 
-    public function _reload()
+    public function reload()
     {
-        \WDGWV\CMS\Extensions::sharedInstance()->_forceReloadExtensions();
+        \WDGWV\CMS\Extensions::sharedInstance()->forceReloadExtensions();
         if (!headers_sent()) {
             header("location: /");
         }
@@ -97,7 +107,10 @@ class Update extends \WDGWV\CMS\ExtensionBase
         exit;
     }
 
-    public function _display()
+    /**
+     * @return mixed
+     */
+    public function display()
     {
         $page = array();
         $page[] = array(
@@ -143,12 +156,14 @@ class Update extends \WDGWV\CMS\ExtensionBase
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'url',
-    sprintf('/%s/update', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-    array(update::sharedInstance(), '_display')
+    sprintf('/%s/update', (new \WDGWV\CMS\Config)->adminURL()),
+    /* Supports also /calendar/i*cs and then /calendar/ixcs works also */
+    array(update::sharedInstance(), 'display')
 );
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'url',
-    sprintf('/%s/extensions/reindex', (new \WDGWV\CMS\Config)->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-    array(update::sharedInstance(), '_reload')
+    sprintf('/%s/extensions/reindex', (new \WDGWV\CMS\Config)->adminURL()),
+    /* Supports also /calendar/i*cs and then /calendar/ixcs works also */
+    array(update::sharedInstance(), 'reload')
 );

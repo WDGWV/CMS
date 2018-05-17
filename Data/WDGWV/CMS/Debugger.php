@@ -4,6 +4,8 @@
  * it makes the best debug logs for you!
  */
 
+namespace WDGWV\CMS;
+
 /*
 ------------------------------------------------------------
 -                :....................,:,                  -
@@ -53,12 +55,12 @@
 ------------------------------------------------------------
  */
 
-namespace WDGWV\CMS;
-
+// phpcs:disable
 $WDGWV_DEBUG = array();
 $WDGWV_DEBUG['info'] = array('WDGWV Debug (info) started.');
 $WDGWV_DEBUG['error'] = array('WDGWV Debug (errors) started.');
 $WDGWV_DEBUG['warning'] = array('WDGWV Debug (warnings) started.');
+// phpcs:enable
 
 /**
  * WDGWV CMS Debugger
@@ -94,7 +96,7 @@ class Debugger
      */
     private function __construct()
     {
-
+        return;
     }
 
     /**
@@ -126,7 +128,12 @@ class Debugger
         $caller = debug_backtrace()[0];
 
         if ($invokeWarning) {
-            trigger_error($message . ' in <strong>' . $caller['file'] . '</strong> on line <strong>' . $caller['line'] . '</strong>' . "\n<br /> From error handler", E_USER_WARNING);
+            trigger_error(
+                $message . ' in <strong>' . $caller['file'] .
+                '</strong> on line <strong>' . $caller['line'] .
+                '</strong>' . "\n<br /> From error handler",
+                E_USER_WARNING
+            );
         }
 
         $this->log($message, 'warning');
@@ -144,7 +151,12 @@ class Debugger
         $caller = debug_backtrace()[0];
 
         if ($invokeWarning) {
-            trigger_error($message . ' in <strong>' . $caller['file'] . '</strong> on line <strong>' . $caller['line'] . '</strong>' . "\n<br /><!-- From error handler", E_USER_ERROR);
+            trigger_error(
+                $message . ' in <strong>' . $caller['file'] .
+                '</strong> on line <strong>' . $caller['line'] .
+                '</strong>' . "\n<br /><!-- From error handler",
+                E_USER_ERROR
+            );
         }
 
         $this->log($message, 'error');
@@ -164,7 +176,6 @@ class Debugger
         } else {
             echo $this->dump($WDGWV_DEBUG);
         }
-
     }
     /**
      * Dump all namespaces and classes to HTML
@@ -271,14 +282,18 @@ class Debugger
         $c['keyword'] = ini_get('highlight.keyword');
         $c['string'] = ini_get('highlight.string');
 
-        $sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
+        $sp = @implode('', $this->warrayFill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
         if (is_resource($var) || $type == 'resource') {
             if (get_resource_type($var) == 'stream') {
                 $streamData = stream_get_meta_data($var);
-                $ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">Stream</strong> ' . $this->dump($streamData, $depth + 1, false);
+                $ret = '<span style="color: ' . $c['keyword'] . ';">';
+                $ret .= 'Recource: </span><strong style="color: ' . $c['html'];
+                $ret .= ';">Stream</strong> ' . $this->dump($streamData, $depth + 1, false);
             } else {
-                $ret = '<span style="color: ' . $c['keyword'] . ';">Recource: </span><strong style="color: ' . $c['html'] . ';">' . ucfirst(get_resource_type($var)) . '</strong>';
+                $ret = '<span style="color: ' . $c['keyword'] . ';">Recource: ';
+                $ret .= '</span><strong style="color: ' . $c['html'] . ';">';
+                $ret .= ucfirst(get_resource_type($var)) . '</strong>';
             }
         } elseif (is_array($var) || $type == 'array') {
             $depth++;
@@ -287,7 +302,6 @@ class Debugger
             $uniqueId = rand();
 
             if ($i && !$recursed) {
-
                 if (!$firstcall && $i > 2) {
                     $default_state = 'none';
                     $dots = '...';
@@ -296,27 +310,45 @@ class Debugger
                     $dots = '';
                 }
 
-                $ret = '<a href="#" style="color: ' . $c['default'] . '; text-decoration: none;" onclick="arr = document.getElementById(\'arr_' . $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId . '\'); if(arr.style.display == \'none\') {arr.style.display = \'inline\'; dots.innerHTML = \'\'} else {arr.style.display = \'none\'; dots.innerHTML = \'...\'} this.blur(); return false;">array</a> <span style="color: ' . $c['html'] . ';">(</span>';
-                $ret .= '<code style="display: ' . $default_state . ';" id="arr_' . $uniqueId . '"><br>';
+                $ret = '<a href="#" style="color: ' . $c['default'] . '; ';
+                $ret .= 'text-decoration: none;" onclick="arr = document.';
+                $ret .= 'getElementById(\'arr_' . $uniqueId . '\'); dots ';
+                $ret .= '= document.getElementById(\'dots_' . $uniqueId;
+                $ret .= '\'); if(arr.style.display == \'none\') {arr.styl';
+                $ret .= 'e.display = \'inline\'; dots.innerHTML = \'\'} e';
+                $ret .= 'lse {arr.style.display = \'none\'; dots.innerHTM';
+                $ret .= 'L = \'...\'} this.blur(); return false;">array</';
+                $ret .= 'a> <span style="color: ' . $c['html'] . ';">(</span>';
+                $ret .= '<code style="display: ' . $default_state;
+                $ret .= ';" id="arr_' . $uniqueId . '"><br>';
                 $sp = $sp . '&nbsp;&nbsp;&nbsp;&nbsp;';
 
                 foreach ($var as $k => &$v) {
-                    $ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false);
+                    $ret .= $sp . '<span style="color: ' . $c['default'] .
+                    ';">[</span>' . $this->dump($k, false, false) .
+                    '<span style="color: ' . $c['default'] .
+                    ';">] => </span>' . $this->dump($v, $depth, false);
                     $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
                 }
                 $depth--;
-                $sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
+                $sp = @implode('', $this->warrayFill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
-                $ret .= $sp . '</code><span style="color: ' . $c['html'] . ';" id="dots_' . $uniqueId . '" >' . $dots . '</span><span style="color: ' . $c['html'] . ';">)</span>';
+                $ret .= $sp . '</code><span style="color: ' . $c['html'] .
+                    ';" id="dots_' . $uniqueId . '" >' . $dots .
+                    '</span><span style="color: ' . $c['html'] . ';">)</span>';
             } else {
-                $ret = '<span style="color: ' . $c['default'] . ';">array </span> <span style="color: ' . $c['html'] . ';">( ' . ($recursed ? '<strong style="color: red;">' . $recursed . '</strong>' : '') . ' )</span>';
+                $ret = '<span style="color: ' . $c['default'] .
+                    ';">array </span> <span style="color: ' . $c['html'] .
+                    ';">( ' . (
+                    $recursed ?
+                    '<strong style="color: red;">' . $recursed . '</strong>' :
+                    '') . ' )</span>';
             }
         } elseif (is_bool($var) || $type == 'bool') {
             $ret = '<span style="color: ' . $c['keyword'] . ';">' . ($var ? 'true' : 'false') . '</span>';
         } elseif (is_float($var) || is_int($var) || is_numeric($var) || $type == 'double' || $type == 'integer') {
             $ret = '<span style="color: ' . $c['string'] . ';">' . $var . '</span>';
         } elseif (is_object($var) || $type == 'object') {
-
             $vars = get_object_vars($var);
             $methods = get_class_methods($var);
 
@@ -335,7 +367,14 @@ class Debugger
             $uniqueId = rand();
 
             if ($i && !$recursed) {
-                $ret = '<a href="#" style="color: ' . $c['keyword'] . '; text-decoration: none;" onclick="obj = document.getElementById(\'obj_' . $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId . '\'); if(obj.style.display == \'none\') {obj.style.display = \'inline\'; dots.innerHTML = \'\'} else {obj.style.display = \'none\'; dots.innerHTML = \'...\'} this.blur(); return false;">Object: <span style="color: ' . $c['default'] . ';">' . $tree . '</span></a> <span style="color: ' . $c['html'] . ';">{</span>';
+                $ret = '<a href="#" style="color: ' . $c['keyword']
+                    . '; text-decoration: none;" onclick="obj = document.getElementById(\'obj_' .
+                    $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId .
+                    '\'); if(obj.style.display == \'none\') {obj.style.display = \'inline\'; ' .
+                    'dots.innerHTML = \'\'} else {obj.style.display = \'none\'; dots.innerHTM' .
+                    'L = \'...\'} this.blur(); return false;">Object: <span style="color: ' .
+                    $c['default'] . ';">' . $tree . '</span></a> <span style="color: ' .
+                    $c['html'] . ';">{</span>';
 
                 if (!$firstcall && $i > 2) {
                     $default_state = 'none';
@@ -351,32 +390,49 @@ class Debugger
                 $objdepth++;
 
                 foreach ($vars as $k => &$v) {
-                    $ret .= $sp . '<span style="color: ' . $c['default'] . ';">[</span>' . $this->dump($k, false, false) . '<span style="color: ' . $c['default'] . ';">] => </span>' . $this->dump($v, $depth, false, $objdepth);
+                    $ret .= $sp . '<span style="color: ' . $c['default'] .
+                    ';">[</span>' . $this->dump($k, false, false) .
+                    '<span style="color: ' . $c['default'] . ';">] => </span>' .
+                    $this->dump($v, $depth, false, $objdepth);
                     $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
                 }
 
                 foreach ($methods as $k => $v) {
-                    $ret .= $sp . '<span style="color: ' . $c['default'] . ';">function</span> <span style="color: ' . $c['html'] . ';">' . $v . '()</span>';
-                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
+                    $ret .= $sp . '<span style="color: ' . $c['default'] .
+                        ';">function</span> <span style="color: ' . $c['html'] .
+                        ';">' . $v . '()</span>';
+                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] .
+                        ';">,</span>' : '') . '<br>';
                 }
                 $depth--;
-                $sp = @implode('', $this->warray_fill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
+                $sp = @implode('', $this->warrayFill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
-                $ret .= $sp . '</code><span id="dots_' . $uniqueId . '" style="color: ' . $c['html'] . '">' . $dots . '</span><span style="color: ' . $c['html'] . ';">}</span>';
+                $ret .= $sp . '</code><span id="dots_' . $uniqueId .
+                    '" style="color: ' . $c['html'] . '">' . $dots .
+                    '</span><span style="color: ' . $c['html'] .
+                    ';">}</span>';
             } else {
-                $ret = '<span style="color: ' . $c['keyword'] . ';">Object: </span><span style="color: ' . $c['default'] . ';">' . $tree . '</span> <span style="color: ' . $c['html'] . ';">{ ' . ($recursed ? '<strong style="color: red;">' . $recursed . '</strong>' : '') . ' }</span>';
+                $ret = '<span style="color: ' . $c['keyword'] .
+                    ';">Object: </span><span style="color: ' . $c['default'] .
+                    ';">' . $tree . '</span> <span style="color: ' .
+                    $c['html'] . ';">{ ' . (
+                    $recursed ?
+                    '<strong style="color: red;">' . $recursed . '</strong>' :
+                    ''
+                ) . ' }</span>';
             }
-
         } elseif (is_string($var) || $type == 'string') {
             $ret = '<span style="color: ' . $c['string'] . ';">\'' . $var . '\'</span>';
         } elseif (is_null($var) || $type == 'NULL') {
             $ret = '<span style="color: ' . $c['keyword'] . ';">NULL</span>';
         } else {
-            $ret = '<strong style="color: red;">Unknown: </strong><span style="color: ' . $c['html'] . ';">' . gettype($var) . '</span>';
+            $ret = '<strong style="color: red;">Unknown: </strong><span style="color: ';
+            $ret .= $c['html'] . ';">' . gettype($var) . '</span>';
         }
 
         if ($firstcall) {
-            return '<code style="display: block; background-color: ' . $c['bg'] . '; border: 1px solid black; padding: 5px; margin: 5px;">' . $ret . '</code>';
+            return '<code style="display: block; background-color: ' . $c['bg'] .
+                '; border: 1px solid black; padding: 5px; margin: 5px;">' . $ret . '</code>';
         } else {
             return $ret;
         }
@@ -389,7 +445,7 @@ class Debugger
      * @param string $vValue which value?
      * @since Version 1.0
      */
-    private function warray_fill($iStart, $iLen, $vValue)
+    private function warrayFill($iStart, $iLen, $vValue)
     {
         $aResult = array();
         for ($iCount = $iStart; $iCount < $iLen + $iStart; $iCount++) {

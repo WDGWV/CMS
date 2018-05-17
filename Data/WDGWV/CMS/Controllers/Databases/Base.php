@@ -52,15 +52,22 @@ namespace WDGWV\CMS\Controllers\Databases;
 
 class Base
 {
+    /**
+     * @var mixed
+     */
     private $CMSConfig = null;
+
+    /**
+     * @var mixed
+     */
     public static $baseInit = false;
 
     protected function __construct()
     {
-        $this->_init();
+        $this->init();
     }
 
-    protected function _init()
+    protected function init()
     {
         $this->CMSConfig = (new \WDGWV\CMS\Config());
 
@@ -77,6 +84,11 @@ class Base
         }
     }
 
+    /**
+     * No-Operation (noop)
+     *
+     * @return null
+     */
     protected function noop()
     {
         return;
@@ -84,13 +96,23 @@ class Base
 
     protected function generateUserDB()
     {
-        return array(array(
-            'username' => 'System', /* Dummy account. impossible to login to it. */
-            'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
-            'userlevel' => 'system',
-            'is_activated' => false,
-            'email' => 'CMS@wdgwv.com',
-        ));
+        return array(
+            array(
+                'username' => 'System', /* Dummy account. impossible to login to it. */
+                'password' => hash('sha256', 'System@' . time() . '@' . uniqid()),
+                'userlevel' => 'system',
+                'is_activated' => false,
+                'email' => 'CMS@wdgwv.com',
+            ),
+            array(
+                'username' => 'admin',
+                'password' => hash('sha512', 'changeme'),
+                'email' => 'admin@localhost',
+                'userlevel' => 'admin',
+                'is_activated' => true,
+                'extra' => array('userlevel' => 100, 'is_admin' => true),
+            ),
+        );
     }
 
     protected function generateSystemDB()
@@ -99,7 +121,18 @@ class Base
             'installed' => time(),
             'theme' => 'admin',
             'language' => 'en_US',
-            'userlevels' => array('guest', 'member', 'vip', 'moderator', 'writer', 'custom', 'developer', 'admin', 'root', 'system'),
+            'userlevels' => array(
+                'guest',
+                'member',
+                'vip',
+                'moderator',
+                'writer',
+                'custom',
+                'developer',
+                'admin',
+                'root',
+                'system',
+            ),
         );
     }
 
@@ -152,11 +185,11 @@ class Base
 
                     ($this->CMSConfig->debug) ? array(
                         'name' => 'Theme = portal',
-                        'url' => sprintf('/%s/setTheme/portal', $this->CMSConfig->adminURL()),
+                        'url' => sprintf('/%s/themeSet/portal', $this->CMSConfig->adminURL()),
                     ) : $this->noop(),
                     ($this->CMSConfig->debug) ? array(
                         'name' => 'Theme = admin',
-                        'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
+                        'url' => sprintf('/%s/themeSet/admin', $this->CMSConfig->adminURL()),
                     ) : $this->noop(),
                 ), //.. later
             ),

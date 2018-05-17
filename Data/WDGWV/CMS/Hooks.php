@@ -52,6 +52,9 @@ namespace WDGWV\CMS;
 
 class Hooks extends \WDGWV\CMS\BaseProtected
 {
+    /**
+     * @var array
+     */
     private $hookDatabase = array();
 
     /**
@@ -60,6 +63,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\hooks();
@@ -67,16 +73,32 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         return $inst;
     }
 
+    /**
+     * Construct the class
+     *
+     * @return null
+     */
     protected function __construct()
     {
         return;
     }
 
+    /**
+     * getUBBHooks
+     *
+     * @return null
+     */
     public function getUBBHooks()
     {
         return;
     }
 
+    /**
+     * loopHooks
+     *
+     * @param $which
+     * @return mixed
+     */
     public function loopHooks($which)
     {
         if (!is_array($which)) {
@@ -88,6 +110,11 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * haveHooksFor
+     *
+     * @param $which
+     */
     public function haveHooksFor($which)
     {
         if (!is_array($which)) {
@@ -101,16 +128,28 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * loadHooksFor
+     *
+     * @param $which
+     * @return mixed
+     */
     public function loadHooksFor($which)
     {
         if (!is_array($which)) {
             $which = array($which);
         }
 
-        return $this->loadPageFor($which);
+        return $this->pageLoadFor($which);
     }
 
-    public function loadPageFor($which)
+    /**
+     * pageLoadFor
+     *
+     * @param $which
+     * @return mixed
+     */
+    public function pageLoadFor($which)
     {
         if (!is_array($which)) {
             $which = array($which);
@@ -123,6 +162,12 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * loopHook
+     *
+     * @param $at
+     * @return null
+     */
     public function loopHook($at)
     {
         switch ($at) {
@@ -278,6 +323,15 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         }
     }
 
+    /**
+     * createHook
+     *
+     * @param $at
+     * @param $name
+     * @param $action
+     * @param array $params
+     * @return null
+     */
     public function createHook($at, $name, $action, $params = array())
     {
         if (!isset($this->hookDatabase[$at])) {
@@ -302,8 +356,23 @@ class Hooks extends \WDGWV\CMS\BaseProtected
         );
     }
 
+    /**
+     * dump the database
+     *
+     * @return mixed
+     */
     public function dumpDatabase()
     {
         return $this->hookDatabase;
+    }
+
+    /**
+     * Admin URL wrapper
+     *
+     * @return string adminURL
+     */
+    public function adminURL()
+    {
+        return (new \WDGWV\CMS\Config)->adminURL();
     }
 }

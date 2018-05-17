@@ -152,7 +152,6 @@ class TemplateParser extends WDGWV
      */
     public function __destruct()
     {
-
     }
 
     /**
@@ -514,9 +513,7 @@ class TemplateParser extends WDGWV
                         $this->parameters[$i][0] .
                         $this->config['parameter'][1] .
                         '/',
-
                         $this->parameters[$i][1],
-
                         $template
                     );
                 }
@@ -530,9 +527,7 @@ class TemplateParser extends WDGWV
                         $withParameters[$i][0] .
                         $this->config['parameter'][1] .
                         '/',
-
                         $withParameters[$i][1],
-
                         $template
                     );
                 }
@@ -628,14 +623,14 @@ class TemplateParser extends WDGWV
                         $returning .= $this->_parse($_temp);
 
                         if ($_found == 0) {
-                            $this->fatalError(sprintf('%s%s%s%s</b>&nbsp;',
+                            $this->fatalError(sprintf(
+                                '%s%s%s%s</b>&nbsp;',
                                 'Missing a replacement key in a while-loop!<br />',
                                 'While loop: <b>{$d[1]}</b><br />',
                                 'Confirm existence for least one of the following keys: <b>',
                                 implode(', ', $_keys)
                             ));
                         }
-
                     }
                     return $returning;
                 }
@@ -772,28 +767,34 @@ class TemplateParser extends WDGWV
                     }
 
                     $addItem = preg_replace(
-                        "/\{NAME\}/", (
+                        "/\{NAME\}/",
+                        (
                             function_exists('__')
                             ? __($data['name'])
                             : $data['name']
-                        ), $addItem
+                        ),
+                        $addItem
                     );
 
                     $addItem = preg_replace(
-                        "/\{ICON\}/", (
+                        "/\{ICON\}/",
+                        (
                             isset($data['icon'])
                             ? $data['icon']
                             : ''
-                        ), $addItem
+                        ),
+                        $addItem
                     );
 
                     if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
                         $addItem = preg_replace(
-                            "/\{(HREF|LINK|URL)\}/", (
+                            "/\{(HREF|LINK|URL)\}/",
+                            (
                                 isset($data['url'])
                                 ? $data['url']
                                 : '#'
-                            ), $addItem
+                            ),
+                            $addItem
                         );
                     }
 
@@ -806,44 +807,54 @@ class TemplateParser extends WDGWV
                                     if (!isset($subData['submenu']) || !is_array($subData['submenu'])) {
                                         $addItem = $subMenuItem;
                                         $addItem = preg_replace(
-                                            "/\{NAME\}/", (
+                                            "/\{NAME\}/",
+                                            (
                                                 function_exists('__')
                                                 ? __($subData['name'])
                                                 : $subData['name']
-                                            ), $addItem
+                                            ),
+                                            $addItem
                                         );
                                         $addItem = preg_replace(
-                                            "/\{ICON\}/", (
+                                            "/\{ICON\}/",
+                                            (
                                                 isset($subData['icon'])
                                                 ? $subData['icon']
                                                 : ''
-                                            ), $addItem
+                                            ),
+                                            $addItem
                                         );
                                         $addItem = preg_replace(
-                                            "/\{(HREF|LINK|URL)\}/", (
+                                            "/\{(HREF|LINK|URL)\}/",
+                                            (
                                                 isset($subData['url'])
                                                 ? $subData['url']
                                                 : '#'
-                                            ), $addItem
+                                            ),
+                                            $addItem
                                         );
 
                                         $this->config['generatedMenu'] .= $addItem;
                                     } else {
                                         $addItem = $subMenuHeader;
                                         $addItem = preg_replace(
-                                            "/\{NAME\}/", (
+                                            "/\{NAME\}/",
+                                            (
                                                 function_exists('__')
                                                 ? __($subData['name'])
                                                 : $subData['name']
-                                            ), $addItem
+                                            ),
+                                            $addItem
                                         );
 
                                         $addItem = preg_replace(
-                                            "/\{ICON\}/", (
+                                            "/\{ICON\}/",
+                                            (
                                                 isset($subData['icon'])
                                                 ? $subData['icon']
                                                 : ''
-                                            ), $addItem
+                                            ),
+                                            $addItem
                                         );
                                         $this->config['generatedMenu'] .= $addItem;
 
@@ -854,25 +865,31 @@ class TemplateParser extends WDGWV
                                                         if (!isset($subSubData['submenu']) || !is_array($subSubData['submenu'])) {
                                                             $addItem = $subMenuItem;
                                                             $addItem = preg_replace(
-                                                                "/\{NAME\}/", (
+                                                                "/\{NAME\}/",
+                                                                (
                                                                     function_exists('__')
                                                                     ? __($subSubData['name'])
                                                                     : $subSubData['name']
-                                                                ), $addItem
+                                                                ),
+                                                                $addItem
                                                             );
                                                             $addItem = preg_replace(
-                                                                "/\{ICON\}/", (
+                                                                "/\{ICON\}/",
+                                                                (
                                                                     isset($subSubData['icon'])
                                                                     ? $subSubData['icon']
                                                                     : ''
-                                                                ), $addItem
+                                                                ),
+                                                                $addItem
                                                             );
                                                             $addItem = preg_replace(
-                                                                "/\{(HREF|LINK|URL)\}/", (
+                                                                "/\{(HREF|LINK|URL)\}/",
+                                                                (
                                                                     isset($subSubData['url'])
                                                                     ? $subSubData['url']
                                                                     : '#'
-                                                                ), $addItem
+                                                                ),
+                                                                $addItem
                                                             );
 
                                                             $this->config['generatedMenu'] .= $addItem;
@@ -945,6 +962,10 @@ class TemplateParser extends WDGWV
         );
     }
 
+    /**
+     * @param $d
+     * @return mixed
+     */
     public function __validParameter($d)
     {
         if (sizeof($this->_parameters) === 0) {

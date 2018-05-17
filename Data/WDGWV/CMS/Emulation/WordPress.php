@@ -57,10 +57,18 @@ if (!defined('CMS_TEMPLATE_DIR')) {
     exit('Missing \'CMS_TEMPLATE_DIR\'.');
 }
 
+// phpcs:disable
 class WordPress
 {
     /*
     is this a wordpress theme?
+     */
+
+    /**
+     * is it a Wordpress theme?
+     *
+     * @param $WPTHEME
+     * @return bool wordpress theme?
      */
     public function isWordpress($WPTHEME)
     {
@@ -71,23 +79,28 @@ class WordPress
         ) ? true : false);
     }
 
-    /* Load the "post" CONTENT */
+    /**
+     * Load the "post" CONTENT
+     * @return string the contents
+     */
     public function the_content()
     {
         echo \WDGWV\CMS\Base::sharedInstance()->getContent();
     }
 
-    #function the_post ( )
-    # Load the "post" CONTENT
-    ## WdG: 23-DEC-2013
+    /**
+     * Load the "post" CONTENT
+     * @return [type] [description]
+     */
     public function the_post()
     {
         //    echo "CONTENT CONTENT CONTENT CONTENT :D";
     }
 
-#function theme_is_home ( )
-    # yep. it's the homepage
-    ## WdG: 23-DEC-2013
+    /**
+     * yep. it's the homepage
+     * @return bool true
+     */
     public function theme_is_home()
     {
         return true;
@@ -112,6 +125,9 @@ class WordPress
 #function get_option ( )
     # get some options ;)
     ## WdG: 23-DEC-2013
+    /**
+     * @param $option
+     */
     public function get_option($option)
     {
         switch ($option) {
@@ -128,6 +144,9 @@ class WordPress
 #function theme_get_menu ( )
     # load the menu
     ## WdG: 23-DEC-2013
+    /**
+     * @param $nav
+     */
     public function theme_get_menu($nav)
     {
         echo "<div class=\"art-layout-cell art-layout-cell-size1\">
@@ -148,6 +167,9 @@ class WordPress
 #function theme_get_option ( )
     # get some options of a 'theme'
     ## WdG: 23-DEC-2013
+    /**
+     * @param $sidebar
+     */
     public function theme_get_option($sidebar)
     {
         switch ($sidebar) {
@@ -200,6 +222,11 @@ class WordPress
 #function remove_action ( )
     # return null, we remove nothing
     ## WdG: 23-DEC-2013
+    /**
+     * @param $s1
+     * @param null $s2
+     * @param null $s3
+     */
     public function remove_action($s1 = null, $s2 = null, $s3 = null)
     {
         return null;
@@ -216,6 +243,10 @@ class WordPress
 #function get_template_part ( )
     # ignore this.
     ## WdG: 23-DEC-2013
+    /**
+     * @param $s1
+     * @param null $s2
+     */
     public function get_template_part($s1 = null, $s2 = null)
     {
         //get_template_part('content', 'page');
@@ -273,6 +304,9 @@ class WordPress
 #function theme_page_navigation ( )
     # NAVIGATION!!!
     ## WdG: 23-DEC-2013
+    /**
+     * @param $s1
+     */
     public function theme_page_navigation($s1 = null)
     {
         //echo "?? $s1 ?? ";
@@ -282,6 +316,10 @@ class WordPress
 #function do_shortcode ( itm )
     # return ( itm )
     ## WdG: 23-DEC-2013
+    /**
+     * @param $item
+     * @return mixed
+     */
     public function do_shortcode($item = null)
     {
         return $item;
@@ -290,6 +328,9 @@ class WordPress
 #function bloginfo ( info )
     # returns some bloginfo ( info )
     ## WdG: 23-DEC-2013
+    /**
+     * @param $info
+     */
     public function bloginfo($info)
     {
         switch ($info) {
@@ -319,6 +360,9 @@ class WordPress
 #function get_sidebar ( )
     # include some files from the sidebar
     ## WdG: 23-DEC-2013
+    /**
+     * @param $what
+     */
     public function get_sidebar($what = 'sidebar')
     {
         switch ($what) {
@@ -355,6 +399,10 @@ class WordPress
 #function _e ( s1, s2=null )
     # is the same as __( s1, s2=null )
     ## WdG: 30-DEC-2013
+    /**
+     * @param $s1
+     * @param $s2
+     */
     public function _e($s1, $s2 = null)
     {
         return __($s1, $s2);
@@ -387,6 +435,9 @@ class WordPress
 #function wordpress ( )
     # load the wordpress theme
     ## WdG: 23-DEC-2013
+    /**
+     * @param $WPTHEME
+     */
     public function wordpress($WPTHEME)
     {
         define('RWMB_DIR', CMS_TEMPLATE_DIR . $WPTHEME);
@@ -471,6 +522,9 @@ class WordPress
 #function the_ID ( )
     # null returning we don't support it
     ## WdG: 30-DEC-2013
+    /**
+     * @return int
+     */
     public function the_ID()
     {
         return 0;
@@ -479,6 +533,9 @@ class WordPress
 #function comments_number ( )
     # null returning we don't support it
     ## WdG: 30-DEC-2013
+    /**
+     * @return int
+     */
     public function comments_number()
     {
         return 0;
@@ -592,6 +649,9 @@ class WordPress
 #function theme_print_sidebar ( )
     # ignore all things D:
     ## WdG: 23-DEC-2013
+    /**
+     * @param $what
+     */
     public function theme_print_sidebar($what)
     {
         switch ($what) {
@@ -608,6 +668,9 @@ class WordPress
 #function theme_has_layout_part ( part )
     # Does (part) exists?
     ## WdG: 23-DEC-2013
+    /**
+     * @param $part
+     */
     public function theme_has_layout_part($part)
     {
         switch ($part) {
@@ -624,6 +687,9 @@ class WordPress
 #function get_num_queries ( )
     # we don't support that.
     ## WdG: 23-DEC-2013
+    /**
+     * @return int
+     */
     public function get_num_queries()
     {
         return 0;
@@ -632,11 +698,17 @@ class WordPress
 #function timer_stop ( )
     # where is the timer started?
     ## WdG: 23-DEC-2013
+    /**
+     * @return int
+     */
     public function timer_stop()
     {
         return 0;
     }
 
+    /**
+     * @param $s
+     */
     public function theme_wordpress($s)
     {
         return wordpress($s);
@@ -645,6 +717,10 @@ class WordPress
 #function trailingslashit ( str )
     # add a trailing slash if not extsts.
     ## WdG: 13 DEC 2013
+    /**
+     * @param $item
+     * @return mixed
+     */
     public function trailingslashit($item)
     {
         return $item;
@@ -666,6 +742,9 @@ class WordPress
 #function esc_url ( url(str) )
     # escape url
     ## WdG: 5 DEC 2013
+    /**
+     * @param $url
+     */
     public function esc_url($url)
     {
         #TODO: WP:esc_url
@@ -674,6 +753,9 @@ class WordPress
 #function home_url ( url(str) )
     # return the home url
     ## WdG: 5 DEC 2013
+    /**
+     * @param $url
+     */
     public function home_url($url)
     {
         #TODO: WP:home_url
@@ -682,6 +764,9 @@ class WordPress
 #function is_day ( )
     # is it daylight?
     ## WdG: 5 DEC 2013
+    /**
+     * @param $date
+     */
     public function is_day($date)
     {
         #TODO: WP:is_day
@@ -690,6 +775,9 @@ class WordPress
 #function get_the_date ( )
     # get the date
     ## WdG: 5 DEC 2013
+    /**
+     * @param $date
+     */
     public function get_the_date($date)
     {
         return date($date);
@@ -698,6 +786,10 @@ class WordPress
 #function single_cat_title ( )
     # !!! DON'T KNOW WHAT IT IS !!!
     ## WdG: 5 DEC 2013
+    /**
+     * @param $one
+     * @param $par
+     */
     public function single_cat_title($one, $par = false)
     {
         #TODO: WP:single_cat_title
@@ -714,6 +806,9 @@ class WordPress
 #function get_the_author_meta ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     */
     public function get_the_author_meta($what)
     {
         #TODO: WP:get_the_author_meta
@@ -722,6 +817,10 @@ class WordPress
 #function get_avatar ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $from
+     * @param $widheight
+     */
     public function get_avatar($from, $widheight)
     {
         #TODO: WP:get_avatar
@@ -738,6 +837,9 @@ class WordPress
 #function of_get_option ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $option
+     */
     public function of_get_option($option)
     {
         #TODO: WP:of_get_option
@@ -746,6 +848,9 @@ class WordPress
 #function get_query_var ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     */
     public function get_query_var($what)
     {
         #TODO: WP:get_query_var
@@ -770,6 +875,9 @@ class WordPress
 #function is_active_sidebar ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $sidebar
+     */
     public function is_active_sidebar($sidebar) //main-sidebar
 
     {
@@ -814,6 +922,10 @@ class WordPress
 #function comments_template ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     * @param $switch
+     */
     public function comments_template($what, $switch)
     {
         #TODO: WP:comments_template
@@ -822,6 +934,11 @@ class WordPress
 #function comments_popup_link ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $leave
+     * @param $one
+     * @param $more
+     */
     public function comments_popup_link($leave, $one, $more)
     {
         #TODO: WP:comments_popup_link
@@ -856,6 +973,9 @@ class WordPress
 #function wp_list_comments ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $how
+     */
     public function wp_list_comments($how)
     {
         #TODO: WP:wp_list_comments (how)
@@ -864,6 +984,9 @@ class WordPress
 #function get_comment_page_count ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @return int
+     */
     public function get_comment_pages_count()
     {
         #TODO: WP:get_comment_pages_count
@@ -898,6 +1021,10 @@ class WordPress
 #function post_tyoe_supports ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $supports
+     * @param $region
+     */
     public function post_type_supports($supports, $region = 'comments')
     {
         #TODO: WP:post_type_supports
@@ -914,6 +1041,9 @@ class WordPress
 #function comment_form ( array(arr) )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $array
+     */
     public function comment_form($array)
     {
         //ARRAY
@@ -939,6 +1069,11 @@ class WordPress
 #function get_post_meta ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     * @param $where
+     * @param $how
+     */
     public function get_post_meta($what, $where, $how)
     {
         #TODO: WP:get_post_meta
@@ -947,6 +1082,10 @@ class WordPress
 #function delete_post_meta ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $id
+     * @param $count
+     */
     public function delete_post_meta($id, $count)
     {
         #TODO: WP:delete_post_meta
@@ -955,6 +1094,11 @@ class WordPress
 #function add_post_meta ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $id
+     * @param $countkey
+     * @param $count
+     */
     public function add_post_meta($id, $countkey, $count)
     {
         #TODO: WP:add_post_meta
@@ -963,6 +1107,11 @@ class WordPress
 #function update_post_meta ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $id
+     * @param $countkey
+     * @param $count
+     */
     public function update_post_meta($id, $countkey, $count)
     {
         #TODO: WP:update_post_meta
@@ -971,6 +1120,10 @@ class WordPress
 #function locate_template ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $template
+     * @param $options
+     */
     public function locate_template($template, $options)
     {
         #TODO: WP:locate_template
@@ -979,6 +1132,10 @@ class WordPress
 #function apply_filters ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $filter
+     * @param $options
+     */
     public function apply_filters($filter, $options)
     {
         #TODO: WP:apply_filters
@@ -996,6 +1153,9 @@ class WordPress
 #function esc_attr ( string(str) )
     #escape attributes
     ## WdG: 5 DEC 2013
+    /**
+     * @param $escape
+     */
     public function esc_attr($escape)
     {
         #TODO: WP:esc_attr
@@ -1004,6 +1164,9 @@ class WordPress
 #function is_plugin_active ( path(str) )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $path
+     */
     public function is_plugin_active($path)
     {
         #TODO: WP:is_plugin_active
@@ -1021,6 +1184,9 @@ class WordPress
 #function get_pages ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $how
+     */
     public function get_pages($how)
     {
         #TODO: WP:get_pages
@@ -1029,6 +1195,9 @@ class WordPress
 #function get_categories ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $how
+     */
     public function get_categories($how)
     {
         #TODO: WP:get_categories
@@ -1037,6 +1206,9 @@ class WordPress
 #function update_option ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     */
     public function update_option($what)
     {
         #TODO: WP:update_option
@@ -1053,6 +1225,9 @@ class WordPress
 #function the_post_thumbnail ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $kind
+     */
     public function the_post_thumbnail($kind)
     {
         #TODO: WP:the_post_thumbnail
@@ -1069,6 +1244,10 @@ class WordPress
 #function wp_get_object_terms ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $id
+     * @param $theme
+     */
     public function wp_get_object_terms($id, $theme)
     {
         #TODO: WP:wp_get_object_terms
@@ -1110,6 +1289,10 @@ class WordPress
 #function add_theme_support ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     * @param $options
+     */
     public function add_theme_support($what, $options = null)
     {
         #TODO: WP:add_theme_support
@@ -1118,6 +1301,12 @@ class WordPress
 #function add_image_size ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $kind
+     * @param $width
+     * @param $height
+     * @param $load
+     */
     public function add_image_size($kind, $width, $height, $load)
     {
         #TODO: WP:add_image_size
@@ -1126,6 +1315,9 @@ class WordPress
 #function register_nav_menus ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $menu
+     */
     public function register_nav_menus($menu)
     {
         #TODO: WP:register_nav_menus
@@ -1135,6 +1327,10 @@ class WordPress
 #function load_theme_textdomain ( ) [NOT SUPPORTED!!!]
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $theme
+     * @param $dir
+     */
     public function load_theme_textdomain($theme, $dir)
     {
         #TODO: WP:load_theme_textdomain
@@ -1152,6 +1348,10 @@ class WordPress
 #function add_action ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $when
+     * @param $action
+     */
     public function add_action($when, $action)
     {
         #TODO: WP:add_action
@@ -1160,6 +1360,10 @@ class WordPress
 #function _n_noop ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     * @param $other
+     */
     public function _n_noop($what, $other)
     {
         #TODO: WP:_n_noop
@@ -1169,6 +1373,10 @@ class WordPress
 #function tgmpa ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $some
+     * @param $thing
+     */
     public function tgmpa($some, $thing)
     {
         #TODO: WP:tgmpa
@@ -1178,6 +1386,10 @@ class WordPress
 #function add_filter ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $when
+     * @param $what
+     */
     public function add_filter($when, $what)
     {
         #TODO: WP:add_filter
@@ -1203,6 +1415,9 @@ class WordPress
 #function wp_register_script ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $script
+     */
     public function wp_register_script($script)
     {
         #TODO: WP:wp_register_script
@@ -1211,6 +1426,9 @@ class WordPress
 #function wp_enqueue_script ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     */
     public function wp_enqueue_script($what)
     {
         #TODO: WP:wp_enqueue_script
@@ -1220,6 +1438,9 @@ class WordPress
 #function wp_register_style ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $style
+     */
     public function wp_register_style($style)
     {
         #TODO: WP:wp_register_style
@@ -1228,6 +1449,9 @@ class WordPress
 #function wp_enqueue_style ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $what
+     */
     public function wp_enqueue_style($what)
     {
         #TODO: WP:wp_enqueue_style
@@ -1254,6 +1478,9 @@ class WordPress
 #function is_year ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $date
+     */
     public function is_year($date)
     {
         #TODO: WP:is_year
@@ -1262,6 +1489,9 @@ class WordPress
 #function register_sidebar ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $theSidebarItemToAdd
+     */
     public function register_sidebar($theSidebarItemToAdd)
     {
         #TODO: WP:register_sidebar
@@ -1270,6 +1500,9 @@ class WordPress
 #function register_widget ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $widget
+     */
     public function register_widget($widget)
     {
         #TODO: WP:register_widget
@@ -1286,6 +1519,10 @@ class WordPress
 #function get_the_tag_list ( )
     #TODO
     ## WdG: 5 DEC 2013
+    /**
+     * @param $how
+     * @param $string
+     */
     public function get_the_tag_list($how, $string)
     {
         #TODOL WP:get_the_tag_list
@@ -1299,25 +1536,28 @@ class WordPress
         #TODO: WP:get_comment_author_link
     }
 
-#function comment_reply_link ( )
-    #TODO
-    ## WdG: 5 DEC 2013
+    /**
+     * [comment_reply_link description]
+     * @return [type] [description]
+     */
     public function comment_reply_link()
     {
         #TODO: WP:comment_reply_link
     }
 
-#function comment_text ( )
-    #TODO
-    ## WdG: 5 DEC 2013
+    /**
+     * ???
+     * @return void [description]
+     */
     public function comment_text()
     {
         #TODO: WP:comment_text
     }
 
-#function get_sidebar ( )
-    #Check if the user is logged in...
-    ## WdG: 5 DEC 2013
+    /**
+     * Check if the user is logged in...
+     * @return boolean user logged in?
+     */
     public function is_loggedin()
     {
         if (isset($_SESSION['WDGWV_USER_ID'])) {
@@ -1331,9 +1571,11 @@ class WordPress
         }
     }
 
-#function get_bloginfo ( )
-    # Returns the blog info
-    ## WdG: 13 DEC 2013
+    /**
+     * Returns the blog info
+     *
+     * @param $choise
+     */
     public function get_bloginfo($choise)
     {
         switch ($choise) {
@@ -1347,17 +1589,21 @@ class WordPress
         }
     }
 
-#function wp_parse_args ( )
-    # Parse Arguments
-    ## WdG: 13 DEC 2013
+    /**
+     * Parse Arguments
+     *
+     * @param $args
+     * @param null $array
+     * @return mixed
+     */
     public function wp_parse_args($args = null, $array)
     {
         return $array;
     }
 
-#function add_shortcode ( )
-    #Just to remove a error
-    ## WdG: 13 DEC 2013
+    /**
+     * Just to remove a error
+     */
     public function add_shortcode()
     {
 
@@ -1373,6 +1619,9 @@ class WordPress
 class WP_Widget
 {
 
+    /**
+     * @param $argument
+     */
     public function __construct($argument = null)
     {
         #TODO
@@ -1390,6 +1639,9 @@ class WP_Widget
 class WP_Query
 {
 
+    /**
+     * @param $argument
+     */
     public function __construct($argument = null)
     {
         #TODO
@@ -1399,19 +1651,14 @@ class WP_Query
         #                'paged' => $paged )
     }
 
-#function have_posts ( )
-    #TODO
-    ## WdG: 5 DEC 2013
     public function have_posts()
     {
         #TODO
     }
 
-#function found_posts ( )
-    #TODO
-    ## WdG: 5 DEC 2013
     public function found_posts()
     {
         # code...
     }
 }
+// phpcs:enable

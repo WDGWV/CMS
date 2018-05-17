@@ -48,30 +48,74 @@
 ------------------------------------------------------------
  */
 
+/**
+ * Set the namespace to WDGWV\CMS
+ */
+namespace WDGWV\CMS;
+
+/**
+ * Set error reporting to E_ALL
+ */
 error_reporting(E_ALL);
+
+/**
+ * CMS Start time
+ * @var int time in microseconds
+ */
 $CMSStartTime = microtime(true);
+
+/**
+ * Include the class loader.
+ */
 include_once './Data/WDGWV/CMS/Loader.php';
 
-if (\WDGWV\CMS\Installer::sharedInstance()->isInstalled()) {
-    \WDGWV\CMS\Base::sharedInstance()->serve();
+/**
+ * Check if the CMS is installed.
+ */
+if (Installer::sharedInstance()->isInstalled()) {
+    /**
+     * If the CMS is installed, then serve.
+     */
+    Base::sharedInstance()->serve();
 } else {
-    if (\WDGWV\CMS\Installer::sharedInstance()->canOfflineInstall()) {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOfflineInstall();
+    /**
+     * Check for a 'offline' install file.
+     */
+    if (Installer::sharedInstance()->canOfflineInstall()) {
+        /**
+         * Install 'offline'
+         */
+        Installer::sharedInstance()->beginOfflineInstall();
     } else {
-        \WDGWV\CMS\Installer::sharedInstance()->beginOnlineInstall();
+        /**
+         * Install 'online'
+         */
+        Installer::sharedInstance()->beginOnlineInstall();
     }
 }
 
-if ((new \WDGWV\CMS\config())->debug) {
+/**
+ * If debugmode is on, then debug.
+ */
+if ((new config())->debug) {
     if (isset($debugger)) {
         echo "<hr>";
-        $debugger->log(array("Hooks" => \WDGWV\CMS\Hooks::sharedInstance()->dumpDatabase()));
+        $debugger->log(array("Hooks" => Hooks::sharedInstance()->dumpDatabase()));
         $debugger->logdump();
         echo "<hr>";
         $debugger->dumpAllClasses();
     }
 }
+
+/**
+ * CMS End time
+ * @var int time in microseconds
+ */
 $CMSEndTime = microtime(true);
-if ((new \WDGWV\CMS\config())->debug) {
+
+/**
+ * If in debug mode, then say "Generated this page in 000μs."
+ */
+if ((new config())->debug) {
     echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
 }

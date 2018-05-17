@@ -71,14 +71,42 @@ define('PT_FORUM_DB', DB_PATH . 'forumItems.PTdb');
 
 class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 {
+    /**
+     * @var array
+     */
     private $CMSDatabase = array();
+    /**
+     * @var array
+     */
     private $userDatabase = array();
+    /**
+     * @var array
+     */
     private $postDatabase = array();
+    /**
+     * @var array
+     */
     private $pageDatabase = array();
+    /**
+     * @var array
+     */
     private $shopDatabase = array();
+    /**
+     * @var array
+     */
     private $wikiDatabase = array();
+    /**
+     * @var array
+     */
     private $orderDatabase = array();
+    /**
+     * @var array
+     */
     private $forumDatabase = array();
+    /**
+     * @var mixed
+     */
+    private $compressDatabase = false;
 
     /**
      * Call the database
@@ -86,6 +114,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\Controllers\Databases\PlainText();
@@ -93,7 +124,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return $inst;
     }
 
-    private function _loadDatabase($databasePath)
+    /**
+     * @param $databasePath
+     */
+    private function loadDatabase($databasePath)
     {
         if (!file_exists($databasePath)) {
             if (!touch($databasePath)) {
@@ -110,7 +144,11 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             }
         }
 
-        $_database = @gzuncompress(file_get_contents($databasePath));
+        if ($this->compressDatabase) {
+            $_database = @gzuncompress(file_get_contents($databasePath));
+        } else {
+            $_database = file_get_contents($databasePath);
+        }
         if (strlen($_database) > 10) {
             return json_decode($_database);
         }
@@ -118,14 +156,23 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return array();
     }
 
-    private function _saveDatabase($databasePath, $databaseContents)
+    /**
+     * @param $databasePath
+     * @param $databaseContents
+     */
+    private function saveDatabase($databasePath, $databaseContents)
     {
         $error = false;
         if (!is_writeable($databasePath)) {
             $error = true;
         }
 
-        $_compressed = gzcompress(json_encode($databaseContents), 9);
+        if ($this->compressDatabase) {
+            $_compressed = gzcompress(json_encode($databaseContents), 9);
+        } else {
+            $_compressed = json_encode($databaseContents);
+        }
+
         if (!file_put_contents($databasePath, $_compressed)) {
             $error = true;
         }
@@ -138,7 +185,14 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             $databaseName = explode("/", $databasePath);
             $databaseName = explode(".", end($databaseName))[0];
 
-            $error = sprintf("<b>Fatal error: Could not create '%s' database.</b><br />Expected length: %s, got %s.<br />", $databaseName, strlen($_compressed), strlen(file_get_contents($databasePath)));
+            $error = sprintf(
+                "<b>Fatal error: Could not create '%s' database.</b>" .
+                "<br />Expected length: %s, got %s.<br />",
+                $databaseName,
+                strlen($_compressed),
+                strlen(file_get_contents($databasePath))
+            );
+
             if (class_exists('\WDGWV\CMS\Debugger')) {
                 \WDGWV\CMS\Debugger::sharedInstance()->error($error);
 
@@ -149,22 +203,23 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             echo $error;
         }
     }
+
     /**
      * Private so nobody else can instantiate it
-     *
+     * Construct the database
      */
     protected function __construct()
     {
         parent::__construct();
 
-        $this->pageDatabase = $this->_loadDatabase(PT_PAGE_DB);
-        $this->userDatabase = $this->_loadDatabase(PT_USER_DB);
-        $this->postDatabase = $this->_loadDatabase(PT_POST_DB);
-        $this->shopDatabase = $this->_loadDatabase(PT_SHOP_DB);
-        $this->wikiDatabase = $this->_loadDatabase(PT_WIKI_DB);
-        $this->forumDatabase = $this->_loadDatabase(PT_FORUM_DB);
-        $this->orderDatabase = $this->_loadDatabase(PT_ORDER_DB);
-        $this->CMSDatabase = $this->_loadDatabase(PT_CMS_DB);
+        $this->pageDatabase = $this->loadDatabase(PT_PAGE_DB);
+        $this->userDatabase = $this->loadDatabase(PT_USER_DB);
+        $this->postDatabase = $this->loadDatabase(PT_POST_DB);
+        $this->shopDatabase = $this->loadDatabase(PT_SHOP_DB);
+        $this->wikiDatabase = $this->loadDatabase(PT_WIKI_DB);
+        $this->forumDatabase = $this->loadDatabase(PT_FORUM_DB);
+        $this->orderDatabase = $this->loadDatabase(PT_ORDER_DB);
+        $this->CMSDatabase = $this->loadDatabase(PT_CMS_DB);
 
         if (!$this->userExists('admin')) {
             if (is_array($this->generateUserDB())) {
@@ -193,16 +248,20 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 
     public function __destruct()
     {
-        $this->_saveDatabase(PT_CMS_DB, $this->CMSDatabase);
-        $this->_saveDatabase(PT_USER_DB, $this->userDatabase);
-        $this->_saveDatabase(PT_POST_DB, $this->postDatabase);
-        $this->_saveDatabase(PT_PAGE_DB, $this->pageDatabase);
-        $this->_saveDatabase(PT_SHOP_DB, $this->shopDatabase);
-        $this->_saveDatabase(PT_WIKI_DB, $this->wikiDatabase);
-        $this->_saveDatabase(PT_ORDER_DB, $this->orderDatabase);
-        $this->_saveDatabase(PT_FORUM_DB, $this->forumDatabase);
+        $this->saveDatabase(PT_CMS_DB, $this->CMSDatabase);
+        $this->saveDatabase(PT_USER_DB, $this->userDatabase);
+        $this->saveDatabase(PT_POST_DB, $this->postDatabase);
+        $this->saveDatabase(PT_PAGE_DB, $this->pageDatabase);
+        $this->saveDatabase(PT_SHOP_DB, $this->shopDatabase);
+        $this->saveDatabase(PT_WIKI_DB, $this->wikiDatabase);
+        $this->saveDatabase(PT_ORDER_DB, $this->orderDatabase);
+        $this->saveDatabase(PT_FORUM_DB, $this->forumDatabase);
     }
 
+    /**
+     * @param $postTitle
+     * @param $strict
+     */
     public function postExists($postTitle, $strict = false)
     {
         if ($strict) {
@@ -219,11 +278,22 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function postGetLast()
     {
         return $this->postDatabase[sizeof($this->postDatabase) - 1];
     }
 
+    /**
+     * @param $postTitle
+     * @param $postContents
+     * @param $postKeywords
+     * @param $postDate
+     * @param $postOptions
+     * @param $postID
+     */
     public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0)
     {
         if ($postID === 0) {
@@ -250,6 +320,11 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return true;
     }
 
+    /**
+     * @param $postID
+     * @param $strict
+     * @return mixed
+     */
     public function postLoad($postID, $strict = false)
     {
         if ($this->postExists($postID, $strict)) {
@@ -269,6 +344,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
+    /**
+     * @param $postID
+     */
     public function postRemove($postID)
     {
         if ($this->postExists($postID, true)) {
@@ -276,7 +354,15 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
-    public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
+    /**
+     * @param $postID
+     * @param $postTitle
+     * @param $postContents
+     * @param $postKeywords
+     * @param $postDate
+     * @param $postOptions
+     */
+    public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
         if ($this->postRemove($postID)) {
             if ($this->postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID)) {
@@ -286,6 +372,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $userID
+     */
     private function userExists($userID)
     {
         for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
@@ -303,18 +392,23 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $userID
+     */
     public function userLoad($userID)
     {
-
     }
 
+    /**
+     * @param $userID
+     * @param $userPassword
+     */
     public function userLogin($userID, $userPassword)
     {
         for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
             // Loaded
             // stdClass Object
-            if (
-                isset($this->userDatabase[$i]->password) &&
+            if (isset($this->userDatabase[$i]->password) &&
                 $this->userDatabase[$i]->password == hash('sha512', $userPassword) &&
                 (
                     $i === $userID or // userID matches DB ID
@@ -329,6 +423,9 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
+    /**
+     * @param $userID
+     */
     public function userDelete($userID)
     {
         if ($this->userExists($userID)) {
@@ -345,6 +442,12 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
+    /**
+     * @param $userID
+     * @param $userPassword
+     * @param $userEmail
+     * @param array $options
+     */
     public function userRegister($userID, $userPassword, $userEmail, $options = array())
     {
         if (!$this->userExists($userID)) {
@@ -364,7 +467,14 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
-    public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
+    /**
+     * @param $pageTitle
+     * @param $pageContents
+     * @param $pageKeywords
+     * @param array $pageOptions
+     * @param $pageID
+     */
+    public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
         if ($pageID === 0) {
             if (!$this->pageExists($pageTitle)) {
@@ -390,6 +500,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return true;
     }
 
+    /**
+     * @param $pageTitleOrID
+     * @param $strict
+     */
     public function pageExists($pageTitleOrID, $strict = false)
     {
         if ($strict) {
@@ -406,7 +520,12 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
-    public function loadPage($pageTitleOrID, $strict = false)
+    /**
+     * @param $pageTitleOrID
+     * @param $strict
+     * @return mixed
+     */
+    public function pageLoad($pageTitleOrID, $strict = false)
     {
         if ($strict) {
             return ($this->pageDatabase[$pageTitleOrID]);
@@ -422,17 +541,23 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
-    public function setMenuItems($menuItemsArray)
+    /**
+     * @param $menuItemsArray
+     */
+    public function menuSetItems($menuItemsArray)
     {
         $this->CMSDatabase['menu'] = $menuItemsArray;
     }
 
-    public function getTheme()
+    public function themeGet()
     {
         return isset($this->CMSDatabase->theme) ? $this->CMSDatabase->theme : 'admin';
     }
 
-    public function setTheme($themeName)
+    /**
+     * @param $themeName
+     */
+    public function themeSet($themeName)
     {
         if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
             if (isset($this->CMSDatabase->theme)) {
@@ -440,7 +565,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             }
         }
     }
-    public function loadMenu()
+    /**
+     * @return mixed
+     */
+    public function menuLoad()
     {
         if (isset($this->CMSDatabase->menu)) {
             // force downcast stdClass to array.

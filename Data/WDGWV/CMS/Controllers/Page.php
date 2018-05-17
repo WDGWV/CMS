@@ -3,10 +3,26 @@ namespace WDGWV\CMS\Controllers;
 
 class Page extends \WDGWV\CMS\Controllers\Base
 {
+    /**
+     * @var string
+     */
     private $parser = '';
+
+    /**
+     * @var string
+     */
     private $database = '';
+
+    /**
+     * @var string
+     */
     private $CMS = '';
 
+    /**
+     * @param $parser
+     * @param $CMS
+     * @param $databaseConnection
+     */
     public function __construct($parser, $CMS, $databaseConnection = 'std')
     {
         global $database;
@@ -19,11 +35,18 @@ class Page extends \WDGWV\CMS\Controllers\Base
         }
     }
 
+    /**
+     * @param $pageID
+     */
     public function pageExists($pageID)
     {
         return false;
     }
 
+    /**
+     * @param $input
+     * @return mixed
+     */
     private function parseUBBTags($input)
     {
         if (class_exists('\WDGWV\CMS\Hooks')) {
@@ -94,6 +117,10 @@ class Page extends \WDGWV\CMS\Controllers\Base
         }
     }
 
+    /**
+     * @param $pageID
+     * @return null
+     */
     public function displayPage($pageID = 'auto')
     {
         $e = explode("/", $_SERVER['REQUEST_URI']);
@@ -105,7 +132,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                 \WDGWV\CMS\Debugger::sharedInstance()->log('Override page from extension');
             }
 
-            $pageData = \WDGWV\CMS\Hooks::sharedInstance()->loadPageFor(array('post', 'get', 'url'));
+            $pageData = \WDGWV\CMS\Hooks::sharedInstance()->pageLoadFor(array('post', 'get', 'url'));
 
             if (\WDGWV\CMS\Hooks::sharedInstance()->haveHooksFor('before-content')) {
                 if (!is_array($pageData[0])) {
@@ -355,14 +382,14 @@ class Page extends \WDGWV\CMS\Controllers\Base
         if ($this->database->pageExists($activeComponent)) {
             if (class_exists('\WDGWV\CMS\Debugger')) {
                 \WDGWV\CMS\Debugger::sharedInstance()->log('Found page in database');
-                \WDGWV\CMS\Debugger::sharedInstance()->log($this->database->loadPage($activeComponent)[1]);
+                \WDGWV\CMS\Debugger::sharedInstance()->log($this->database->pageLoad($activeComponent)[1]);
             }
 
             $pageData = array();
             $pageData[] = array(
                 $activeComponent,
                 $this->parseUBBTags(
-                    $this->database->loadPage($activeComponent)[1]
+                    $this->database->pageLoad($activeComponent)[1]
                 ),
             );
 

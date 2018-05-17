@@ -52,6 +52,9 @@ namespace WDGWV\CMS\Emulation;
 
 class Blogger
 {
+    /**
+     * @param $theme
+     */
     public function isBlogger($theme)
     {
         return (
@@ -59,6 +62,10 @@ class Blogger
         );
     }
 
+    /**
+     * @param $matches
+     * @return mixed
+     */
     public function bloggerLoop($matches)
     {
         if ($matches[1] == 'links') {
@@ -72,7 +79,8 @@ class Blogger
                 "http://www.wdgwv.com",
                 $matches[3]
             );
-            $matches[3] = preg_replace("#<data:link\.name/>#",
+            $matches[3] = preg_replace(
+                "#<data:link\.name/>#",
                 "WDGWV",
                 $matches[3]
             );
@@ -81,16 +89,29 @@ class Blogger
         }
     }
 
+    /**
+     * @param $matches
+     * @return null
+     */
     public function bloggerInclude($matches)
     {
-
+        return;
     }
 
+    /**
+     * @param $matches
+     * @return null
+     */
     public function bloggerLoad($matches)
     {
-
+        return;
     }
 
+    /**
+     * @param $theme
+     * @param $name
+     * @return mixed
+     */
     public function bloggerParse($theme, $name)
     {
         $theme = preg_replace_callback(
@@ -162,6 +183,9 @@ class Blogger
         return $theme;
     }
 
+    /**
+     * @param $theme
+     */
     public function blogger($theme)
     {
         $file = file_get_contents(

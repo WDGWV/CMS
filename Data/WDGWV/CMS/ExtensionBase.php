@@ -77,8 +77,10 @@ class ExtensionBase
     public static function sharedInstance()
     {
         static $inst = null;
+        static $adminURL = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\ExtensionBase();
+            $adminURL = (new \WDGWV\CMS\Config)->adminURL();
         }
         return $inst;
     }
@@ -89,6 +91,6 @@ class ExtensionBase
      */
     private function __construct()
     {
-
+        return;
     }
 }

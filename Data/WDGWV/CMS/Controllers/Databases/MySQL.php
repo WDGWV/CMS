@@ -50,7 +50,7 @@ namespace WDGWV\CMS\Controllers\Databases;
 ------------------------------------------------------------
  */
 
-class MySQLDriver
+class MySQL extends \WDGWV\CMS\Controllers\Databases\Base
 {
     # @object, The PDO object
     private $pdo;
@@ -111,7 +111,7 @@ class MySQLDriver
             $this->bConnected = true;
         } catch (PDOException $e) {
             # Write into log
-            echo $this->ExceptionLog($e->getMessage());
+            echo $this->exceptionLog($e->getMessage());
             die();
         }
     }
@@ -119,7 +119,7 @@ class MySQLDriver
      *   You can use this little method if you want to close the PDO connection
      *
      */
-    public function CloseConnection()
+    public function closeConnection()
     {
         # Set the PDO object to null to close the connection
         # http://www.php.net/manual/en/pdo.connections.php
@@ -136,7 +136,7 @@ class MySQLDriver
      *    5. On exception : Write Exception into the log + SQL query.
      *    6. Reset the Parameters.
      */
-    private function Init($query, $parameters = "")
+    private function init($query, $parameters = "")
     {
         # Connect to database
         if (!$this->bConnected) {
@@ -154,9 +154,9 @@ class MySQLDriver
                 foreach ($this->parameters as $param => $value) {
                     if (is_int($value[1])) {
                         $type = PDO::PARAM_INT;
-                    } else if (is_bool($value[1])) {
+                    } elseif (is_bool($value[1])) {
                         $type = PDO::PARAM_BOOL;
-                    } else if (is_null($value[1])) {
+                    } elseif (is_null($value[1])) {
                         $type = PDO::PARAM_NULL;
                     } else {
                         $type = PDO::PARAM_STR;
@@ -170,7 +170,7 @@ class MySQLDriver
             $this->sQuery->execute();
         } catch (PDOException $e) {
             # Write into log and display Exception
-            echo $this->ExceptionLog($e->getMessage(), $query);
+            echo $this->exceptionLog($e->getMessage(), $query);
             die();
         }
 
@@ -288,7 +288,6 @@ class MySQLDriver
         }
 
         return $column;
-
     }
     /**
      *    Returns an array which represents a row from the result set
@@ -302,7 +301,7 @@ class MySQLDriver
     {
         $this->Init($query, $params);
         $result = $this->sQuery->fetch($fetchmode);
-        $this->sQuery->closeCursor(); // Frees up the connection to the server so that other SQL statements may be issued,
+        $this->sQuery->closeCursor();
         return $result;
     }
     /**
@@ -316,7 +315,7 @@ class MySQLDriver
     {
         $this->Init($query, $params);
         $result = $this->sQuery->fetchColumn();
-        $this->sQuery->closeCursor(); // Frees up the connection to the server so that other SQL statements may be issued
+        $this->sQuery->closeCursor();
         return $result;
     }
     /**
@@ -326,7 +325,7 @@ class MySQLDriver
      * @param  string $sql
      * @return string
      */
-    private function ExceptionLog($message, $sql = "")
+    private function exceptionLog($message, $sql = "")
     {
         $exception = 'Unhandled Exception. <br />';
         $exception .= $message;
@@ -339,10 +338,7 @@ class MySQLDriver
 
         return $exception;
     }
-}
 
-class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
-{
     private $db = null;
 
     /**
@@ -453,7 +449,7 @@ class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
-    public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
+    public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
         if ($this->postRemove($postID)) {
             if ($this->postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID)) {
@@ -478,14 +474,12 @@ class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
 
     public function userLoad($userID)
     {
-
     }
 
     public function userLogin($userID, $userPassword)
     {
         for ($i = 0; $i < sizeof($this->userDatabase); $i++) {
-            if (
-                $this->userDatabase[$i][1] != $userPassword &&
+            if ($this->userDatabase[$i][1] != $userPassword &&
                 (
                     $i === $userID or // userID matches DB ID
                     $this->userDatabase[$i][0] === $userID or // userID matches userName
@@ -530,7 +524,7 @@ class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
-    public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
+    public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
         if ($pageID === 0) {
             if (!$this->pageExists($pageTitle)) {
@@ -572,7 +566,7 @@ class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
-    public function loadPage($pageTitleOrID, $strict = false)
+    public function pageLoad($pageTitleOrID, $strict = false)
     {
         if ($strict) {
             return ($this->pageDatabase[$pageTitleOrID]);
@@ -588,12 +582,12 @@ class mySQLdatabase extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
-    public function setMenuItems($menuItemsArray)
+    public function menuSetItems($menuItemsArray)
     {
         $this->CMSDatabase['menu'] = $menuItemsArray;
     }
 
-    public function loadMenu()
+    public function menuLoad()
     {
         if (is_array(@$this->CMSDatabase['menu'])) {
             return $this->CMSDatabase['menu'];

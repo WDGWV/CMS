@@ -93,6 +93,9 @@ class Installer
      */
     public static function sharedInstance()
     {
+        /**
+         * @var mixed
+         */
         static $inst = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\Installer();
@@ -100,6 +103,9 @@ class Installer
         return $inst;
     }
 
+    /**
+     * @param $debugger
+     */
     public function setDebugger($debugger)
     {
         $this->debug = true;
@@ -200,7 +206,6 @@ class Installer
         } else {
             return false;
         }
-
     }
 
     /**
