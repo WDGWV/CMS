@@ -103,6 +103,15 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             'Extra footer notice (after-content)' => 100,
         );
 
+        $items['Administration'] = array(
+            'Extensions Administration' => 100,
+            'Extensions: Enable Extension' => 100,
+            'Extensions: Disable Extension' => 100,
+            'Extensions: Install (via webinterface)' => 0,
+            'Extensions: Edit (via web)' => 0,
+            'Extensions: Search' => 0,
+        );
+
         $items['Databases: MySQLite Database support'] = array(
             'Connection' => 100,
             'Setup database' => 100,
@@ -227,6 +236,28 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
         return $page;
     }
 }
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'menu',
+    'administration/Todo/Create',
+    array(
+        'name' => 'administration/Todo/Create',
+        'icon' => 'pencil',
+        'url' => sprintf('/%s/Todo/Create', ADMIN_URL),
+        'userlevel' => '*',
+    )
+);
+
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'menu',
+    'administration/Todo/Remove',
+    array(
+        'name' => 'administration/Todo/Remove',
+        'icon' => 'pencil',
+        'url' => sprintf('/%s/Todo/Remove/*', ADMIN_URL),
+        'userlevel' => '*',
+    )
+);
 
 \WDGWV\CMS\Hooks::sharedInstance()->createHook(
     'menu',

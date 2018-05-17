@@ -74,6 +74,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * Construct the class
+     *
      * @return null
      */
     protected function __construct()
@@ -82,6 +84,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * getUBBHooks
+     *
      * @return null
      */
     public function getUBBHooks()
@@ -90,6 +94,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * loopHooks
+     *
      * @param $which
      * @return mixed
      */
@@ -105,6 +111,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * haveHooksFor
+     *
      * @param $which
      */
     public function haveHooksFor($which)
@@ -121,6 +129,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * loadHooksFor
+     *
      * @param $which
      * @return mixed
      */
@@ -134,6 +144,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * loadPageFor
+     *
      * @param $which
      * @return mixed
      */
@@ -151,6 +163,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * loopHook
+     *
      * @param $at
      * @return null
      */
@@ -310,6 +324,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * createHook
+     *
      * @param $at
      * @param $name
      * @param $action
@@ -341,10 +357,22 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     }
 
     /**
+     * dump the database
+     *
      * @return mixed
      */
     public function dumpDatabase()
     {
         return $this->hookDatabase;
+    }
+
+    /**
+     * Admin URL wrapper
+     *
+     * @return string adminURL
+     */
+    public function adminURL()
+    {
+        return (new \WDGWV\CMS\Config)->adminURL();
     }
 }
