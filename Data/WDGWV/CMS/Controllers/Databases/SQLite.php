@@ -176,6 +176,22 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                                     '%s',
                                     '%s'
                                  );";
+
+        $this->create['post'] = "INSERT INTO `posts` (
+                                    `id`
+                                    `title`
+                                    `contents`
+                                    `keywords`
+                                    `date`
+                                    `options`
+                                 ) VALUES (
+                                    NULL,
+                                    '%s',
+                                    '%s',
+                                    '%s',
+                                    '%s',
+                                    '%s'
+                                 );";
     }
 
     /**
@@ -351,7 +367,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @param $themeName
      */
-    public function setTheme($themeName)
+    public function themeSet($themeName)
     {
         $query = "UPDATE CMSconfiguration SET `value`='%s' WHERE `item`='theme';";
         $query = sprintf($query, $themeName);
@@ -366,7 +382,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @return mixed
      */
-    public function getTheme()
+    public function themeGet()
     {
         $query = "SELECT * FROM CMSconfiguration WHERE `item`='theme';";
         $count = 0;
@@ -389,7 +405,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @return mixed
      */
-    public function loadMenu()
+    public function menuLoad()
     {
         $query = "SELECT * FROM CMSconfiguration WHERE `item`='menu';";
         $count = 0;
@@ -412,7 +428,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @param $menuItemsArray
      */
-    public function setMenuItems($menuItemsArray)
+    public function menuSetItems($menuItemsArray)
     {
         $query = "UPDATE CMSconfiguration SET `value`='%s' WHERE `item`='theme';";
         $query = sprintf($query, json_encode($menuItemsArray));
@@ -421,13 +437,13 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * loadPage
+     * pageLoad
      *
      * @param $pageTitleOrID
      * @param $strict
      * @return mixed
      */
-    public function loadPage($pageTitleOrID, $strict = false)
+    public function pageLoad($pageTitleOrID, $strict = false)
     {
         // load ID at the latest point, since we'll need to handle legacy sysyems.
         $query = "SELECT `title`, `contents`, `keywords`, `date`, `options`, `id` FROM pages WHERE `title` %s '%s';";
@@ -457,7 +473,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     }
 
     /**
-     * createPage
+     * pageCreate
      *
      * @param $pageTitle
      * @param $pageContents
@@ -465,7 +481,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      * @param array $pageOptions
      * @param $pageID
      */
-    public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
+    public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
         if (!$this->pageExists($pageTitle)) {
             $query = sprintf(
@@ -477,12 +493,14 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                 json_encode($pageOptions)
             );
 
-            $this->db->exec($query);
+            return $this->db->exec($query);
         }
+
+        return false;
     }
 
     /**
-     * editPost
+     * postEdit
      *
      * @param $postID
      * @param $postTitle
@@ -491,7 +509,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      * @param $postDate
      * @param $postOptions
      */
-    public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
+    public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
         \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
     }
@@ -567,7 +585,20 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0)
     {
-        \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
+        if (!$this->postExists($postTitle)) {
+            $query = sprintf(
+                $this->create['post'],
+                $postTitle,
+                $postContents,
+                $postKeywords,
+                time(),
+                json_encode($postOptions)
+            );
+
+            return $this->db->exec($query);
+        }
+
+        return false;
     }
 
     /**

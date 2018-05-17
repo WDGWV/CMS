@@ -185,11 +185,11 @@ class Base
 
                     ($this->CMSConfig->debug) ? array(
                         'name' => 'Theme = portal',
-                        'url' => sprintf('/%s/setTheme/portal', $this->CMSConfig->adminURL()),
+                        'url' => sprintf('/%s/themeSet/portal', $this->CMSConfig->adminURL()),
                     ) : $this->noop(),
                     ($this->CMSConfig->debug) ? array(
                         'name' => 'Theme = admin',
-                        'url' => sprintf('/%s/setTheme/admin', $this->CMSConfig->adminURL()),
+                        'url' => sprintf('/%s/themeSet/admin', $this->CMSConfig->adminURL()),
                     ) : $this->noop(),
                 ), //.. later
             ),

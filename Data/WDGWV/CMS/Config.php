@@ -28,7 +28,7 @@ class Config extends \WDGWV\General\WDGWV
      */
     public function theme()
     {
-        return \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance()->getTheme();
+        return \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance()->themeGet();
     }
 
     /**

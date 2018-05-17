@@ -362,7 +362,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
      * @param $postDate
      * @param $postOptions
      */
-    public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
+    public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
         if ($this->postRemove($postID)) {
             if ($this->postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID)) {
@@ -474,7 +474,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
      * @param array $pageOptions
      * @param $pageID
      */
-    public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
+    public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
         if ($pageID === 0) {
             if (!$this->pageExists($pageTitle)) {
@@ -525,7 +525,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
      * @param $strict
      * @return mixed
      */
-    public function loadPage($pageTitleOrID, $strict = false)
+    public function pageLoad($pageTitleOrID, $strict = false)
     {
         if ($strict) {
             return ($this->pageDatabase[$pageTitleOrID]);
@@ -544,12 +544,12 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
     /**
      * @param $menuItemsArray
      */
-    public function setMenuItems($menuItemsArray)
+    public function menuSetItems($menuItemsArray)
     {
         $this->CMSDatabase['menu'] = $menuItemsArray;
     }
 
-    public function getTheme()
+    public function themeGet()
     {
         return isset($this->CMSDatabase->theme) ? $this->CMSDatabase->theme : 'admin';
     }
@@ -557,7 +557,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
     /**
      * @param $themeName
      */
-    public function setTheme($themeName)
+    public function themeSet($themeName)
     {
         if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
             if (isset($this->CMSDatabase->theme)) {
@@ -568,7 +568,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
     /**
      * @return mixed
      */
-    public function loadMenu()
+    public function menuLoad()
     {
         if (isset($this->CMSDatabase->menu)) {
             // force downcast stdClass to array.

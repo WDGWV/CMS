@@ -140,16 +140,16 @@ class Hooks extends \WDGWV\CMS\BaseProtected
             $which = array($which);
         }
 
-        return $this->loadPageFor($which);
+        return $this->pageLoadFor($which);
     }
 
     /**
-     * loadPageFor
+     * pageLoadFor
      *
      * @param $which
      * @return mixed
      */
-    public function loadPageFor($which)
+    public function pageLoadFor($which)
     {
         if (!is_array($which)) {
             $which = array($which);

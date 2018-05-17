@@ -449,7 +449,7 @@ class MySQL extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
-    public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
+    public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
         if ($this->postRemove($postID)) {
             if ($this->postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID)) {
@@ -524,7 +524,7 @@ class MySQL extends \WDGWV\CMS\Controllers\Databases\Base
         }
     }
 
-    public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
+    public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
         if ($pageID === 0) {
             if (!$this->pageExists($pageTitle)) {
@@ -566,7 +566,7 @@ class MySQL extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
-    public function loadPage($pageTitleOrID, $strict = false)
+    public function pageLoad($pageTitleOrID, $strict = false)
     {
         if ($strict) {
             return ($this->pageDatabase[$pageTitleOrID]);
@@ -582,12 +582,12 @@ class MySQL extends \WDGWV\CMS\Controllers\Databases\Base
         return false;
     }
 
-    public function setMenuItems($menuItemsArray)
+    public function menuSetItems($menuItemsArray)
     {
         $this->CMSDatabase['menu'] = $menuItemsArray;
     }
 
-    public function loadMenu()
+    public function menuLoad()
     {
         if (is_array(@$this->CMSDatabase['menu'])) {
             return $this->CMSDatabase['menu'];

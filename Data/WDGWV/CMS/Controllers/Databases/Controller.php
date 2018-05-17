@@ -197,9 +197,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      * @param mixed $postOptions array of options
      * @return bool
      */
-    public function editPost($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
+    public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
-        return $this->db->editPost(
+        return $this->db->postEdit(
             $postID,
             $postTitle,
             $postContents,
@@ -292,9 +292,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      * @param int $pageID Page ID (optional)
      * @return mixed
      */
-    public function createPage($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
+    public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
-        return $this->db->createPage(
+        return $this->db->pageCreate(
             $pageTitle,
             $pageContents,
             $pageKeywords,
@@ -325,9 +325,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      * @param bool $strict strict mode?
      * @return mixed
      */
-    public function loadPage($pageTitleOrID, $strict = false)
+    public function pageLoad($pageTitleOrID, $strict = false)
     {
-        return $this->db->loadPage(
+        return $this->db->pageLoad(
             $pageTitleOrID,
             $strict
         );
@@ -338,9 +338,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @param array $menuItemsArray array of menu items
      */
-    public function setMenuItems($menuItemsArray = array())
+    public function menuSetItems($menuItemsArray = array())
     {
-        return $this->db->setMenuItems(
+        return $this->db->menuSetItems(
             $menuItemsArray
         );
     }
@@ -350,9 +350,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @return string theme
      */
-    public function getTheme()
+    public function themeGet()
     {
-        return $this->db->getTheme();
+        return $this->db->themeGet();
     }
 
     /**
@@ -360,9 +360,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @param string $themeName theme name
      */
-    public function setTheme($themeName)
+    public function themeSet($themeName)
     {
-        return $this->db->setTheme(
+        return $this->db->themeSet(
             $themeName
         );
     }
@@ -372,10 +372,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @return mixed array with menu contents
      */
-    public function loadMenu()
+    public function menuLoad()
     {
         return array_merge(
-            $this->db->loadMenu(),
+            $this->db->menuLoad(),
             \WDGWV\CMS\Hooks::sharedInstance()->loopHook('menu')
         );
     }

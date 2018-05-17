@@ -161,10 +161,10 @@ $database = \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
 //TODO: REMOVE ME
 $hooks->createHook(
     'url',
-    '/setTheme/portal',
+    '/themeSet/portal',
     array(
         \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
-        'setTheme',
+        'themeSet',
     ),
     array(
         'portal',
@@ -174,10 +174,10 @@ $hooks->createHook(
 //TODO: REMOVE ME
 $hooks->createHook(
     'url',
-    '/setTheme/admin',
+    '/themeSet/admin',
     array(
         \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
-        'setTheme',
+        'themeSet',
     ),
     array(
         'admin',
@@ -204,10 +204,10 @@ if ($regi) {
 //$pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0
 
 // TODO: REMOVE ME!!!
-$database->createPage('Home', 'Welcome at the homepage!', 'Welcome,WDGWV,CMS', array('user' => 0));
+$database->pageCreate('Home', 'Welcome at the homepage!', 'Welcome,WDGWV,CMS', array('user' => 0));
 
 // TODO: REMOVE ME!!!
-$database->createPage('About', '<h1>Welcome to WDGWV CMS</h1>
+$database->pageCreate('About', '<h1>Welcome to WDGWV CMS</h1>
 Some stats:<br />
 <script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script>
 <br />
