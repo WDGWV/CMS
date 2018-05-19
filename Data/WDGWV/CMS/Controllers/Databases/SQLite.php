@@ -161,37 +161,11 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                                         '%s'
                                     );";
 
-        $this->create['page'] = "INSERT INTO pages (
-                                    `id`,
-                                    `title`,
-                                    `contents`,
-                                    `keywords`,
-                                    `date`,
-                                    `options`
-                                 ) VALUES (
-                                    NULL,
-                                    '%s',
-                                    '%s',
-                                    '%s',
-                                    '%s',
-                                    '%s'
-                                 );";
+        $this->create['page'] = "INSERT INTO pages (`id`, `title`, `contents`, `keywords`, `date`, `options`)
+                                 VALUES (NULL, :title, :contents, :keywords, :time, :options);";
 
-        $this->create['post'] = "INSERT INTO `posts` (
-                                    `id`
-                                    `title`
-                                    `contents`
-                                    `keywords`
-                                    `date`
-                                    `options`
-                                 ) VALUES (
-                                    NULL,
-                                    '%s',
-                                    '%s',
-                                    '%s',
-                                    '%s',
-                                    '%s'
-                                 );";
+        $this->create['post'] = "INSERT INTO `posts` (`id`, `title`, `contents`, `keywords`, `date`, `options`)
+                                 VALUES (NULL, :title, :contents, :keywords, :time, :options);";
     }
 
     /**
@@ -484,16 +458,39 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
         if (!$this->pageExists($pageTitle)) {
-            $query = sprintf(
-                $this->create['page'],
+            $stmt = $this->db->prepare($this->create['page']);
+
+            $stmt->bindValue(
+                ':title',
                 $pageTitle,
-                $pageContents,
-                $pageKeywords,
-                time(),
-                json_encode($pageOptions)
+                SQLITE3_TEXT
             );
 
-            return $this->db->exec($query);
+            $stmt->bindValue(
+                ':contents',
+                $pageContents,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':keywords',
+                $pageKeywords,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':options',
+                json_encode($pageOptions),
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':time',
+                date('d-m-Y H:i:s'),
+                SQLITE3_TEXT
+            );
+
+            return $stmt->execute();
         }
 
         return false;
@@ -586,16 +583,41 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0)
     {
         if (!$this->postExists($postTitle)) {
-            $query = sprintf(
-                $this->create['post'],
-                $postTitle,
-                $postContents,
-                $postKeywords,
-                time(),
-                json_encode($postOptions)
+            $stmt = $this->db->prepare(
+                $this->create['post']
             );
 
-            return $this->db->exec($query);
+            $stmt->bindValue(
+                ':title',
+                $postTitle,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':contents',
+                $postContents,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':keywords',
+                $postKeywords,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':options',
+                json_encode($postOptions),
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':time',
+                date('d-m-Y H:i:s'),
+                SQLITE3_TEXT
+            );
+
+            return $stmt->execute();
         }
 
         return false;
