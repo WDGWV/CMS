@@ -135,7 +135,8 @@ class Extensions
      *
      * @var int
      */
-    private $cache_life = 3600 * 24; // in Seconds; 3600 = 1h, * 24 = 1d
+    private $cache_life = 3600 * 24 * 365; // in Seconds; 3600 = 1h, * 24 = 1d
+    // Temporary 1y, solution needed for every day reset.
 
     /**
      * Load this extensions
