@@ -135,37 +135,23 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                                                     `translation`   TEXT
                                                 );";
 
-        $this->create['user'] = "INSERT INTO `users` (
-                                    `id`,
-                                    `username`,
-                                    `password`,
-                                    `email`,
-                                    `userlevel`,
-                                    `is_activated`,
-                                    `extra`
-                                ) VALUES (
-                                    NULL,
-                                    '%s',
-                                    '%s',
-                                    '%s',
-                                    '%s',
-                                    '%s',
-                                    '%s'
-                                );";
+        $this->create['user'] = "INSERT INTO `users`
+                                    (`id`, `username`, `password`, `email`, `userlevel`, `is_activated`, `extra`)
+                                VALUES
+                                    (NULL, :username, :password, :email, :userlevel, :activated, :extra);";
 
-        $this->create['setting'] = "INSERT INTO CMSconfiguration (
-                                        `item`,
-                                        `value`
-                                    ) VALUES (
-                                        '%s',
-                                        '%s'
-                                    );";
+        $this->create['setting'] = "INSERT INTO CMSconfiguration (`item`, `value`)
+                                    VALUES (:item, :value);";
 
-        $this->create['page'] = "INSERT INTO pages (`id`, `title`, `contents`, `keywords`, `date`, `options`)
-                                 VALUES (NULL, :title, :contents, :keywords, :time, :options);";
+        $this->create['page'] = "INSERT INTO pages
+                                    (`id`, `title`, `contents`, `keywords`, `date`, `options`)
+                                 VALUES
+                                    (NULL, :title, :contents, :keywords, :time, :options);";
 
-        $this->create['post'] = "INSERT INTO `posts` (`id`, `title`, `contents`, `keywords`, `date`, `options`)
-                                 VALUES (NULL, :title, :contents, :keywords, :time, :options);";
+        $this->create['post'] = "INSERT INTO `posts`
+                                    (`id`, `title`, `contents`, `keywords`, `date`, `options`)
+                                 VALUES
+                                    (NULL, :title, :contents, :keywords, :time, :options);";
     }
 
     /**
@@ -267,17 +253,17 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function userRegister($userID, $userPassword, $userEmail, $options = array())
     {
         if (!$this->userExists($userID)) {
-            $query = sprintf(
+            return $this->queryWithParameters(
                 $this->create['user'],
-                $userID,
-                hash('sha512', $userPassword),
-                $userEmail,
-                'member',
-                'yes',
-                json_encode($options)
+                array(
+                    ':username' => $userID,
+                    ':password' => hash('sha512', $userPassword),
+                    ':email' => $userEmail,
+                    ':userlevel' => 'member',
+                    ':activated' => 'yes',
+                    ':extra' => json_encode($options),
+                )
             );
-
-            return $this->db->exec($query);
         }
 
         return false;
@@ -658,6 +644,27 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function query($query)
     {
         return $this->db->exec($query);
+    }
+
+    /**
+     * SQL Query with parameters
+     * @param  string $query Query text
+     * @param  [string] $parameters Query parameters
+     * @return bool Query executed
+     */
+    public function queryWithParameters($query, $parameters)
+    {
+        $this->db->prepare($query);
+
+        foreach ($parameters as $bindKey => $bindValue) {
+            $stmt->bindValue(
+                $bindKey,
+                $bindValue,
+                SQLITE3_TEXT
+            );
+        }
+
+        return $stmt->execute();
     }
 
     /**
