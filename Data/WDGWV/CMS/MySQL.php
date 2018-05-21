@@ -80,9 +80,9 @@ class SQL
      *
      * @since v1.0a
      * @access private
-     * @return array $_sql
+     * @return array $sql
      */
-    private $_sql;
+    private $sql;
 
     /**
      *
@@ -94,13 +94,13 @@ class SQL
      */
     public function __construct()
     {
-        $this->_sql = array();
-        $this->_sql['config']['trigger_error'] = false;
-        $this->_sql['config']['fetch_type'] = null; //PDO::FETCH_ASSOC (names)
+        $this->sql = array();
+        $this->sql['config']['trigger_error'] = false;
+        $this->sql['config']['fetch_type'] = null; //PDO::FETCH_ASSOC (names)
         //PDO::FETCH_NUM   (array 0,1,2,3,etc)
-        $this->_sql['error'] = null; //WGT: FIX: 29-JAN-2014
-        $this->_sql['lastCMD'] = null;
-        $this->_sql['num_rows'] = null;
+        $this->sql['error'] = null; //WGT: FIX: 29-JAN-2014
+        $this->sql['lastCMD'] = null;
+        $this->sql['num_rows'] = null;
     }
 
     /**
@@ -192,7 +192,7 @@ class SQL
 
     /**
      *
-     * Replaces none, checks if needed to trigger a error otherwise save it in $this->_sql.
+     * Replaces none, checks if needed to trigger a error otherwise save it in $this->sql.
      *
      * @since v1.0a
      * @access public
@@ -207,7 +207,7 @@ class SQL
 
     /**
      *
-     * Replaces none, checks if needed to trigger a error otherwise save it in $this->_sql.
+     * Replaces none, checks if needed to trigger a error otherwise save it in $this->sql.
      *
      * @since v1.0b
      * @access public
@@ -219,17 +219,17 @@ class SQL
         //what to do? reset or make a error?
         if ($error == false) {
             //reset the error.
-            $this->_sql['old_error'] = $this->_sql['error'];
-            $this->_sql['error'] = null;
+            $this->sql['old_error'] = $this->sql['error'];
+            $this->sql['error'] = null;
         } else {
             // need to trigger the error?
-            if ($this->_sql['config']['trigger_error']) {
+            if ($this->sql['config']['trigger_error']) {
                 //yes, trigger the error.
                 trigger_error($error);
             } else {
                 //nope, save the error only...
-                $this->_sql['old_error'] = $this->_sql['error'];
-                $this->_sql['error'] = $error;
+                $this->sql['old_error'] = $this->sql['error'];
+                $this->sql['error'] = $error;
             }
         }
     }
@@ -249,9 +249,9 @@ class SQL
     {
         $this->trigger_my_error(false);
         //Set some parameters
-        $this->_sql['connect']['hostname'] = $hostname;
-        $this->_sql['connect']['username'] = $username;
-        $this->_sql['connect']['password'] = $password;
+        $this->sql['connect']['hostname'] = $hostname;
+        $this->sql['connect']['username'] = $username;
+        $this->sql['connect']['password'] = $password;
 
         //return: true (connection)
         // cause pdo need database for connect.
@@ -289,26 +289,26 @@ class SQL
         $this->trigger_my_error(false);
 
         //Set database name
-        $this->_sql['connect']['database'] = $database;
+        $this->sql['connect']['database'] = $database;
 
         //we do nothing with $link.
 
         //Let's connect...
-        $this->_sql['connection'] = new PDO(
+        $this->sql['connection'] = new PDO(
             'mysql:host=' . //Say use mysql with host..
-            $this->_sql['connect']['hostname'] . // <-- HOST
+            $this->sql['connect']['hostname'] . // <-- HOST
             ';dbname=' . //And database...
-            $this->_sql['connect']['database'] . // <-- DATABASE
+            $this->sql['connect']['database'] . // <-- DATABASE
             ';charset:utf8', //With Charset utf8.
-            $this->_sql['connect']['username'], // <-- USERNAME.
-            $this->_sql['connect']['password']// <-- PASSWORD.
+            $this->sql['connect']['username'], // <-- USERNAME.
+            $this->sql['connect']['password']// <-- PASSWORD.
         );
 
-        if (@$this->_sql['connection']) {
+        if (@$this->sql['connection']) {
 //if connected then..
             // set the PDO modes...
-            $this->_sql['connection']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->_sql['connection']->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->sql['connection']->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->sql['connection']->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
             //and return i'm connected
             return true;
@@ -333,8 +333,8 @@ class SQL
     {
 
         // Is there a error?
-        if (isset($this->_sql['error'])) {
-            return $this->_sql['error']; //Yes, so return it back
+        if (isset($this->sql['error'])) {
+            return $this->sql['error']; //Yes, so return it back
         } else {
             return null; //Nope error is null.
         }
@@ -357,12 +357,12 @@ class SQL
         try {
             // Execute and return command...
             $cmd = (
-                @$this->_sql['connection']->query($query)
+                @$this->sql['connection']->query($query)
                 //                             ^ Query...
             );
 
-            $this->_sql['lastCMD'] = $cmd;
-            $this->_sql['num_rows'] = $cmd->rowCount();
+            $this->sql['lastCMD'] = $cmd;
+            $this->sql['num_rows'] = $cmd->rowCount();
         } catch (PDOException $ex) {
             $this->trigger_my_error('Query: ' . $query . ' Was not executed, ' . $ex);
         }
@@ -398,7 +398,7 @@ class SQL
             //Create a temporary array.
             $tempArray = array();
 
-            while ($row = (@$command->fetch($this->_sql['config']['fetch_type']))) {
+            while ($row = (@$command->fetch($this->sql['config']['fetch_type']))) {
                 // Load the data, but please ignore errors!
                 // Put the data to the temporary array.
                 $tempArray[] = $row;
@@ -483,7 +483,7 @@ class SQL
         //Create a temporary array.
         $tempArray = array();
 
-        while ($row = (@$resource->fetch($this->_sql['config']['fetch_type']))) {
+        while ($row = (@$resource->fetch($this->sql['config']['fetch_type']))) {
             // Load the data, but please ignore errors!
             // Put the data to the temporary array.
             $tempArray[] = $row;
@@ -526,8 +526,8 @@ class SQL
             return $num_rows;
         } else {
             //Try to fix!
-            if (is_numeric($this->_sql['num_rows'])) {
-                return ($this->_sql['num_rows']);
+            if (is_numeric($this->sql['num_rows'])) {
+                return ($this->sql['num_rows']);
             } else {
                 $this->trigger_my_error('Can\'t count rows');
 
@@ -551,7 +551,7 @@ class SQL
         $this->trigger_my_error(false);
 
         //num the rows
-        $lastInsertedId = ($this->_sql['connection']->lastInsertId());
+        $lastInsertedId = ($this->sql['connection']->lastInsertId());
 
         //is there a error?!
         if ($lastInsertedId) {
@@ -580,7 +580,7 @@ class SQL
         $this->trigger_my_error(false);
 
         //num the rows
-        $affected_rows = (@$this->_sql['connection']->lastInsertId());
+        $affected_rows = (@$this->sql['connection']->lastInsertId());
 
         //is there a error?!
         if ($affected_rows) {

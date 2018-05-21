@@ -109,9 +109,9 @@ class TemplateParser extends WDGWV
      * @global
      * @access private
      * @since Version 1.0
-     * @var string[] _parameters[array]
+     * @var string[] tParameters[array]
      */
-    private $_parameters;
+    private $tParameters;
 
     /**
      * The unique identifier
@@ -594,7 +594,7 @@ class TemplateParser extends WDGWV
     public function __parseWhile($d)
     {
         $returning = '';
-        $this->_parameters = array();
+        $this->tParameters = array();
 
         for ($i = 0; $i < sizeof($this->parameters); $i++) {
             if ($this->parameters[$i][0] == $d[1]) {
@@ -650,10 +650,10 @@ class TemplateParser extends WDGWV
     {
         $returning = '';
 
-        for ($i = 0; $i < sizeof($this->_parameters); $i++) {
-            if ($this->_parameters[$i][0] == $d[1]) {
-                $this->_parameters[$i][1] = preg_replace('/;/', ',', $this->_parameters[$i][1]);
-                $explode = explode(",", $this->_parameters[$i][1]);
+        for ($i = 0; $i < sizeof($this->tParameters); $i++) {
+            if ($this->tParameters[$i][0] == $d[1]) {
+                $this->tParameters[$i][1] = preg_replace('/;/', ',', $this->tParameters[$i][1]);
+                $explode = explode(",", $this->tParameters[$i][1]);
                 for ($z = 0; $z < sizeof($explode); $z++) {
                     $_t = $d[2];
                     $_t = preg_replace("/\{{$d[1]}\}/", $explode[$z], $_t);
@@ -944,7 +944,7 @@ class TemplateParser extends WDGWV
     public function __parse($d)
     {
         if (isset($d[2])) {
-            $this->_parameters = array();
+            $this->tParameters = array();
 
             $cfg = explode(';', $d[2]);
             for ($i = 0; $i < sizeof($cfg); $i++) {
@@ -952,13 +952,13 @@ class TemplateParser extends WDGWV
                 if ($_d[0] == 'CONTENT') {
                     $_d[1] = base64_decode($_d[1]);
                 }
-                $this->_parameters[] = array($_d[0], isset($_d[1]) ? $_d[1] : null);
+                $this->tParameters[] = array($_d[0], isset($_d[1]) ? $_d[1] : null);
             }
         }
 
         return $this->_parse(
             file_get_contents($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]),
-            $this->_parameters
+            $this->tParameters
         );
     }
 
@@ -968,8 +968,8 @@ class TemplateParser extends WDGWV
      */
     public function __validParameter($d)
     {
-        if (sizeof($this->_parameters) === 0) {
-            $this->debugger->log('we\'re not in a sub loop so \'_parameters\' is empty, checking other \'parameters\'.');
+        if (sizeof($this->tParameters) === 0) {
+            $this->debugger->log('we\'re not in a sub loop so \'tParameters\' is empty, checking other \'parameters\'.');
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
                 if ($this->parameters[$i][0] == $d[1]) {
                     $this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
@@ -979,11 +979,11 @@ class TemplateParser extends WDGWV
                 }
             }
         }
-        for ($i = 0; $i < sizeof($this->_parameters); $i++) {
-            if ($this->_parameters[$i][0] == $d[1]) {
-                $this->debugger->log("found parameter '{$d[1]}' in \$this->_parameters[$i][0].");
-                if (!empty($this->_parameters[$i][1])) {
-                    return $this->_parse($d[2], $this->_parameters);
+        for ($i = 0; $i < sizeof($this->tParameters); $i++) {
+            if ($this->tParameters[$i][0] == $d[1]) {
+                $this->debugger->log("found parameter '{$d[1]}' in \$this->tParameters[$i][0].");
+                if (!empty($this->tParameters[$i][1])) {
+                    return $this->_parse($d[2], $this->tParameters);
                 }
             }
         }

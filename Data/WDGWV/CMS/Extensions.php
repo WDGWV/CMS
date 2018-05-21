@@ -105,7 +105,7 @@ class Extensions
         'BlogManagement',
         'ThemeManagement',
         'crossdomain',
-        'update',
+        'Update',
         // ''
     );
 
