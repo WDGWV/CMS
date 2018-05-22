@@ -251,3 +251,29 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     sprintf('/%s/Themes/List', (new \WDGWV\CMS\Config)->adminURL()),
     array(ThemeMananagamentSystem::sharedInstance(), 'displayList')
 );
+
+//TODO: REMOVE ME
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    '/themeSet/portal',
+    array(
+        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
+        'themeSet',
+    ),
+    array(
+        'portal',
+    )
+);
+
+//TODO: REMOVE ME
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    '/themeSet/admin',
+    array(
+        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
+        'themeSet',
+    ),
+    array(
+        'admin',
+    )
+);

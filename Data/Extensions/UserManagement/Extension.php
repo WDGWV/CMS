@@ -2,9 +2,9 @@
 /**
  * WDGWV CMS System file.
  * Full access: true
- * Extension: Page Managament System
+ * Extension: User Managament System
  * Version: 1.0
- * Description: This manages all your pages.
+ * Description: This manages all your users.
  * SystemFile: true
  * Hash: * INSERT HASH HERE *
  */
@@ -58,9 +58,9 @@
 ------------------------------------------------------------
  */
 
-namespace WDGWV\CMS\Extension; /* Extension namespace */
+namespace WDGWV\CMS\Extension;
 
-class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
+class UserManagamentSystem extends \WDGWV\CMS\ExtensionBase
 {
     private $pageList = array();
     private $pageCtrl;
@@ -73,7 +73,7 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\Extension\PageMananagamentSystem();
+            $inst = new \WDGWV\CMS\Extension\UserManagamentSystem();
         }
         return $inst;
     }
@@ -84,8 +84,7 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
-        // $this->pageCtrl = \WDGWV\CMS\Pages::sharedInstance();
-        // $this->pageList = \WDGWV\CMS\Pages::sharedInstance()->displayPageList();
+        return;
     }
 
     public function displayList()
@@ -98,50 +97,15 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         return array("Title", "Contents");
     }
 }
+$database = \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
-    'menu',
-    'administration/Pages/List',
-    array(
-        'name' => 'administration/Pages/List',
-        'icon' => 'pencil',
-        'url' => sprintf('/%s/Pages/List', (new \WDGWV\CMS\Config)->adminURL()),
-        'userlevel' => 'admin',
-    )
-);
-
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
-    'menu',
-    'administration/Pages/New',
-    array(
-        'name' => 'administration/Pages/New',
-        'icon' => 'pencil',
-        'url' => sprintf('/%s/Pages/New', (new \WDGWV\CMS\Config)->adminURL()),
-        'userlevel' => 'admin',
-    )
-);
-
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
-    'url',
-    sprintf('/%s/Pages/New', (new \WDGWV\CMS\Config)->adminURL()),
-    array(PageMananagamentSystem::sharedInstance(), 'displayNew')
-);
-
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
-    'url',
-    sprintf('/%s/Pages/List', (new \WDGWV\CMS\Config)->adminURL()),
-    array(PageMananagamentSystem::sharedInstance(), 'displayList')
-);
-
-/*
-
-$database->pageCreate('Home', 'Welcome at the homepage!', 'Welcome,WDGWV,CMS', array('user' => 0));
-
-$database->pageCreate('About', '<h1>Welcome to WDGWV CMS</h1>
-<a href=\'https://travis-ci.org/WDGWV/CMS\' target=\'_blank\'><img src=\'https://travis-ci.org/WDGWV/CMS.svg?branch=master\'></a>&nbsp;<a href=\'https://github.com/WDGWV/CMS\' target=\'_blank\'>Github page (stable)</a>, <a href=\'https://github.com/wdg/CMS\' target=\'_blank\'>Github page (development)</a>, <a href=\'http://openhub.net/p/WDGWV-CMS\' target=\'_blank\'>Openhub page</a>.<br />
-Some stats:<br />
-<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_factoids_stats.js"></script>
-<br />
-<script type="text/javascript" src="http://www.ohloh.net/p/642938/widgets/project_users.js?style=blue"></script>
-<br /><br />', 'WDGWV,CMS', array('user' => 0));
- */
+$regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userlevel' => 'admin', 'is_admin' => true));
+// echo ($regi) ? 'Created user' : 'Failed to create';
+if ($regi) {
+    if ($database->userLogin('wdg', 'test')) {
+        $_SESSION['CMS_USER_LOGIN'] = 'Wes';
+        $_SESSION['SITE_TITLE'] = 'WDGWV';
+    } else {
+        echo "Password Incorrect";
+    }
+}
