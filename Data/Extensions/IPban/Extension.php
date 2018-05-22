@@ -1,5 +1,5 @@
 <?php
-;/**
+/**
  * WDGWV CMS Extension file.
  * Full access: false
  * Extension: IP-Ban
