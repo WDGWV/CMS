@@ -60,6 +60,15 @@ class Config extends \WDGWV\General\WDGWV
         );
     }
 
+    public function debug()
+    {
+        if (class_exists('\WDGWV\General\WDGWV')) {
+            return (new \WDGWV\General\WDGWV())->debug;
+        } else {
+            E_USER_ERROR('CLASS WDGWV IS MISSING. COULD NOT INITIALIZE!');
+            return false; // Error.
+        }
+    }
     /**
      * DO NOT CHANGE BELOW
      */

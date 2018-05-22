@@ -142,7 +142,9 @@ class TemplateParser extends WDGWV
         $this->config['minify'] = !$debug;
         $this->config['debug'] = $debug;
         $this->parameters = array();
-        $this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
+        if (class_exists("WDGWV")) {
+            $this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
+        }
     }
 
     /**
@@ -262,10 +264,12 @@ class TemplateParser extends WDGWV
      */
     public function bindParameter($parameter, $replaceWith)
     {
-        if (!is_array($replaceWith)) {
-            $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, $replaceWith));
-        } else {
-            $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, json_encode($replaceWith)));
+        if (isset($this->debugger)) {
+            if (!is_array($replaceWith)) {
+                $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, $replaceWith));
+            } else {
+                $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, json_encode($replaceWith)));
+            }
         }
 
         $this->parameters[] = array($parameter, $replaceWith);
@@ -969,10 +973,15 @@ class TemplateParser extends WDGWV
     public function validParameter($d)
     {
         if (sizeof($this->tParameters) === 0) {
-            $this->debugger->log('we\'re not in a sub loop so \'tParameters\' is empty, checking other \'parameters\'.');
+            if (isset($this->debugger)) {
+                $this->debugger->log('we\'re not in a sub loop so \'tParameters\' is empty, checking other \'parameters\'.');
+            }
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
                 if ($this->parameters[$i][0] == $d[1]) {
-                    $this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
+                    if (isset($this->debugger)) {
+                        $this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
+                    }
+
                     if (!empty($this->parameters[$i][1])) {
                         return $this->parseTemplate($d[2], $this->parameters);
                     }
@@ -981,7 +990,10 @@ class TemplateParser extends WDGWV
         }
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
             if ($this->tParameters[$i][0] == $d[1]) {
-                $this->debugger->log("found parameter '{$d[1]}' in \$this->tParameters[$i][0].");
+                if (isset($this->debugger)) {
+                    $this->debugger->log("found parameter '{$d[1]}' in \$this->tParameters[$i][0].");
+                }
+
                 if (!empty($this->tParameters[$i][1])) {
                     return $this->parseTemplate($d[2], $this->tParameters);
                 }
