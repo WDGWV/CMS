@@ -43,12 +43,13 @@
 - ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
 - ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
 -                                                          -
--       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-       (c) WDGWV. 2018, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
 
 namespace WDGWV\CMS\Extension; /* Extension namespace*/
+
 class ical_cal extends WDGWV\CMS\ExtensionBase
 {
     public function __construct($DEC)
@@ -92,7 +93,6 @@ class ical_cal extends WDGWV\CMS\ExtensionBase
         "CATEGORIES:WDGSS\n" .
         "UID:" . uniqueid() . "@wdgss.nl\n" .
             "END:VEVENT\n";
-
     }
 
     public function send()

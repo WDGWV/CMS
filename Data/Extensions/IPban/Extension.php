@@ -1,5 +1,5 @@
 <?php
-/**
+;/**
  * WDGWV CMS Extension file.
  * Full access: false
  * Extension: IP-Ban
@@ -52,8 +52,7 @@
 - ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
 - ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
 -                                                          -
--       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-       (c) WDGWV. 2018, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
-?>
