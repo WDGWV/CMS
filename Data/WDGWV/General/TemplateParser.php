@@ -279,7 +279,7 @@ class TemplateParser extends WDGWV
      * @param string $data Optional data to parse, default null
      * @param string[] $withParameters Optional parameters to parse (array), default null
      */
-    private function _parse($data = null, $withParameters = null)
+    private function parseTemplate($data = null, $withParameters = null)
     {
         $this->uniid = $uniid = uniqid();
 
@@ -384,7 +384,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{for (\w+)\}(.*)\{\/for\}/s',
-            array($this, '__parseArray'),
+            array($this, 'parseArray'),
             $template
         );
 
@@ -394,7 +394,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{while (\w+)\}(.*)\{\/(while|wend)\}/s',
-            array($this, '__parseWhile'),
+            array($this, 'parseWhile'),
             $template
         );
 
@@ -403,7 +403,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{TEMPLATE LOAD:\'(.*)\' CONFIG:\'(.*)\'\}/',
-            array($this, '__parse'),
+            array($this, 'parseSubTemplate'),
             $template
         );
 
@@ -412,7 +412,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             "/\{TEMPLATE LOAD:'(.*)'\}/",
-            array($this, '__parse'),
+            array($this, 'parseSubTemplate'),
             $template
         );
 
@@ -421,7 +421,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             "/\{GENERATE menu\}(.*)\{\/(GENERATE)\}/s",
-            array($this, '__parseMenu'),
+            array($this, 'parseMenu'),
             $template
         );
 
@@ -500,7 +500,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{ISSET ITEM:(\w+)\}(.*)\{\/ISSET\}/',
-            array($this, '__validParameter'),
+            array($this, 'validParameter'),
             $template
         );
 
@@ -591,7 +591,7 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parseWhile($d)
+    public function parseWhile($d)
     {
         $returning = '';
         $this->tParameters = array();
@@ -620,7 +620,7 @@ class TemplateParser extends WDGWV
                                 $_keys[] = "{$d[1]}.{$key}";
                             }
                         }
-                        $returning .= $this->_parse($_temp);
+                        $returning .= $this->parseTemplate($_temp);
 
                         if ($_found == 0) {
                             $this->fatalError(sprintf(
@@ -646,7 +646,7 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parseArray($d)
+    public function parseArray($d)
     {
         $returning = '';
 
@@ -674,7 +674,7 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parseMenu($d)
+    public function parseMenu($d)
     {
         $this->config['generatedMenu'] = '';
 
@@ -941,7 +941,7 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parse($d)
+    public function parseSubTemplate($d)
     {
         if (isset($d[2])) {
             $this->tParameters = array();
@@ -956,7 +956,7 @@ class TemplateParser extends WDGWV
             }
         }
 
-        return $this->_parse(
+        return $this->parseTemplate(
             file_get_contents($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]),
             $this->tParameters
         );
@@ -966,7 +966,7 @@ class TemplateParser extends WDGWV
      * @param $d
      * @return mixed
      */
-    public function __validParameter($d)
+    public function validParameter($d)
     {
         if (sizeof($this->tParameters) === 0) {
             $this->debugger->log('we\'re not in a sub loop so \'tParameters\' is empty, checking other \'parameters\'.');
@@ -974,7 +974,7 @@ class TemplateParser extends WDGWV
                 if ($this->parameters[$i][0] == $d[1]) {
                     $this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
                     if (!empty($this->parameters[$i][1])) {
-                        return $this->_parse($d[2], $this->parameters);
+                        return $this->parseTemplate($d[2], $this->parameters);
                     }
                 }
             }
@@ -983,7 +983,7 @@ class TemplateParser extends WDGWV
             if ($this->tParameters[$i][0] == $d[1]) {
                 $this->debugger->log("found parameter '{$d[1]}' in \$this->tParameters[$i][0].");
                 if (!empty($this->tParameters[$i][1])) {
-                    return $this->_parse($d[2], $this->tParameters);
+                    return $this->parseTemplate($d[2], $this->tParameters);
                 }
             }
         }
@@ -1071,7 +1071,7 @@ class TemplateParser extends WDGWV
             $this->setParameter();
         }
 
-        echo $this->_parse();
+        echo $this->parseTemplate();
         $this->config['didDisplay'] = true;
     }
 
