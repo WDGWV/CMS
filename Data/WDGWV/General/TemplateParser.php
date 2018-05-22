@@ -142,7 +142,16 @@ class TemplateParser extends WDGWV
         $this->config['minify'] = !$debug;
         $this->config['debug'] = $debug;
         $this->parameters = array();
+
+        /**
+         * If class \WDGWV\CMS\Debugger exists.
+         * set $this->debugger
+         */
         if (class_exists("\WDGWV\CMS\Debugger")) {
+            /**
+             * Debugger
+             * @var class debugger class
+             */
             $this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
         }
     }
@@ -168,7 +177,8 @@ class TemplateParser extends WDGWV
     {
         if (file_exists(
             $f = $this->config['templateDirectory'] . $templateFile . "/theme." . $TemplateFileExtension
-        )) {
+        )
+        ) {
             $this->config['theme'] = $templateFile;
             $this->config['themeExtension'] = $TemplateFileExtension;
             $this->config['templateFiles'] = $fileURL;
@@ -266,9 +276,21 @@ class TemplateParser extends WDGWV
     {
         if (isset($this->debugger)) {
             if (!is_array($replaceWith)) {
-                $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, $replaceWith));
+                $this->debugger->log(
+                    sprintf(
+                        'Adding parameter \'%s\' => \'%s\'.',
+                        $parameter,
+                        $replaceWith
+                    )
+                );
             } else {
-                $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, json_encode($replaceWith)));
+                $this->debugger->log(
+                    sprintf(
+                        'Adding parameter \'%s\' => \'%s\'.',
+                        $parameter,
+                        json_encode($replaceWith)
+                    )
+                );
             }
         }
 
@@ -285,23 +307,40 @@ class TemplateParser extends WDGWV
      */
     private function parseTemplate($data = null, $withParameters = null)
     {
+        /**
+         * Unique ID
+         * @var string
+         */
         $this->uniid = $uniid = uniqid();
 
+        /**
+         * If not ready, return.
+         */
         if (!$this->ready) {
             return;
         }
 
         if (!isset($this->config['theme'])) {
+            /**
+             * No theme defined, falling back to 'default'
+             */
             $this->config['theme'] = 'default';
         }
 
         if (!in_array('TEMPLATE_DIR', $this->parameters)) {
+            /**
+             * Add TEMPLATE_DIR to parameters
+             */
             $this->parameters[] = array(
                 'TEMPLATE_DIR',
                 sprintf('%s', $this->config['templateFiles']),
             );
         }
 
+        /**
+         * Template file contents
+         * @var string
+         */
         $template = ($data === null) ? file_get_contents(
             sprintf(
                 '%s%s/theme.%s',
@@ -311,6 +350,9 @@ class TemplateParser extends WDGWV
             )
         ) : $data;
 
+        /**
+         * If no data then check for a 'theme.x' file
+         */
         if ($data === null) {
             $this->file['filename'] = sprintf(
                 '%s%s/theme.%s',
@@ -469,12 +511,20 @@ class TemplateParser extends WDGWV
          * script src="./" support
          */
         if ($this->config['CDN'] === null) {
+            /**
+             * script src="./" support without CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<script(.*)src=("|\')\.\//',
                 '<script\\1src=\\2' . $this->config['templateFiles'],
                 $template
             );
         } else {
+            /**
+             * script src="./" support with CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<script(.*)src=("|\')\.\//',
                 '<script\\1src=\\2' . $this->config['CDN'],
@@ -486,12 +536,20 @@ class TemplateParser extends WDGWV
          * link href="./" support
          */
         if ($this->config['CDN'] === null) {
+            /**
+             * link href="./" support without CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<link(.*)href=("|\')\.\//',
                 '<link\\1href=\\2' . $this->config['templateFiles'],
                 $template
             );
         } else {
+            /**
+             * link href="./" support with CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<link(.*)href=("|\')\.\//',
                 '<link\\1href=\\2' . $this->config['CDN'],
@@ -508,7 +566,21 @@ class TemplateParser extends WDGWV
             $template
         );
 
+        /**
+         * checks if got custom parameters in function call.
+         * If custom parameters are not present, then use the parameters
+         * wich are made using the template engine, otherwise,
+         * load the custom parameters
+         */
         if ($withParameters === null) {
+            /**
+             * Parse the template engine parameters
+             */
+
+            /**
+             * Counter
+             * @var integer $i Counter
+             */
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
                 if (!is_array($this->parameters[$i][1])) {
                     $template = preg_replace(
@@ -523,6 +595,15 @@ class TemplateParser extends WDGWV
                 }
             }
         } else {
+            /**
+             * Parse the custom parameters,
+             * ignoring the template engine ones.
+             */
+
+            /**
+             * Counter
+             * @var integer $i Counter
+             */
             for ($i = 0; $i < sizeof($withParameters); $i++) {
                 if (!is_array($withParameters[$i][1])) {
                     $template = preg_replace(
@@ -538,51 +619,170 @@ class TemplateParser extends WDGWV
             }
         }
 
+        /**
+         * Checks if 'Data' folder exists, otherwise try to create one.
+         */
+        if (!file_exists('./Data')) {
+            @mkdir('./Data');
+        }
+
+        /**
+         * Checks if Data is writeable, and if Data/Temp Exists.
+         * Otherwise it try's to create it.
+         */
         if (is_writable('./Data/') && !file_exists('./Data/Temp')) {
             @mkdir('./Data/Temp/');
         }
 
+        /**
+         * If ./Data/Temp is writeable we'll use a 'bin' file for parsing the template
+         * Otherwise we'll parse it in memory and `eval` the code.
+         */
         if (is_writable('./Data/Temp/')) {
             $fh = @fopen('./Data/Temp/tmp_tpl_' . $uniid . '.bin', 'w');
             @fwrite($fh, $template);
             @fclose($fh);
         }
 
+        /**
+         * Checks if we have our binary file.
+         */
         if (!file_exists('./Data/Temp/tmp_tpl_' . $uniid . '.bin')) {
+            /**
+             * Binary file not found.
+             * Parsing template in memory, and eval the code.
+             */
+
+            /**
+             * Start the object
+             */
             @ob_start();
+
+            /**
+             * If not defined LEFT_COLUMN, define it.
+             */
             if (!defined('LEFT_COLUMN')) {
-                define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
+                define(
+                    'LEFT_COLUMN',
+                    isset($this->config['columnContents']['left'])
+                );
             }
+
+            /**
+             * If not defined RIGHT_COLUMN, define it.
+             */
             if (!defined('RIGHT_COLUMN')) {
-                define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
+                define(
+                    'RIGHT_COLUMN',
+                    isset($this->config['columnContents']['right'])
+                );
             }
-            $ob = @eval(sprintf('%s%s%s%s%s', '/* ! */', ' ?>', $template, '<?php ', '/* ! */'));
-            $ob = ob_get_contents();
+
+            /**
+             * We'll use a hack for eval
+             * @var string
+             */
+            $parsedTemplate = @eval(
+                sprintf(
+                    '%s%s%s%s%s',
+                    '/* ! */',
+                    ' ?>',
+                    $template,
+                    '<?php ',
+                    '/* ! */'
+                )
+            );
+
+            /**
+             * Get object contents
+             */
+            $parsedTemplate = ob_get_contents();
+
+            /**
+             * Clean, and end object.
+             */
             @ob_end_clean();
 
+            /**
+             * What ever if is exists, try to remove our temporary file.
+             * Using @ to supress any errors.
+             */
             @unlink('./Data/Temp/tmp_tpl_' . $uniid . '.bin');
-            if (!$ob) {
+
+            /**
+             * Check if the template is parsed correctly
+             */
+            if (!$parsedTemplate) {
+                /**
+                 * Failed to parse the template, fatal error.
+                 */
                 $this->fatalError('Failed to parse the template.');
             } else {
-                return $this->config['minify'] ? $this->minify($ob) : $ob;
+                /**
+                 * Return the template, and if minify is set minify it.
+                 */
+                return $this->config['minify'] ? $this->minify($parsedTemplate) : $parsedTemplate;
             }
         } else {
+            /**
+             * Binary file  found.
+             * Parsing template on the best possible way.
+             */
+
+            /**
+             * Start the object
+             */
             @ob_start();
+
+            /**
+             * If not defined LEFT_COLUMN, define it.
+             */
             if (!defined('LEFT_COLUMN')) {
                 define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
             }
+
+            /**
+             * If not defined RIGHT_COLUMN, define it.
+             */
             if (!defined('RIGHT_COLUMN')) {
                 define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
             }
-            $ob = include './Data/Temp/tmp_tpl_' . $uniid . '.bin';
-            $ob = ob_get_contents();
+
+            /**
+             * Include the template file.
+             * @var string
+             */
+            $parsedTemplate = include './Data/Temp/tmp_tpl_' . $uniid . '.bin';
+
+            /**
+             * Get object contents
+             */
+            $parsedTemplate = ob_get_contents();
+
+            /**
+             * Clean, and end object.
+             */
             @ob_end_clean();
 
+            /**
+             * What ever if is exists, try to remove our temporary file.
+             * Using @ to supress any errors.
+             */
             @unlink('./Data/Temp/tmp_tpl_' . $uniid . '.bin');
-            if (!$ob) {
+
+            /**
+             * Check if the template is parsed correctly
+             */
+            if (!$parsedTemplate) {
+                /**
+                 * Failed to parse the template, fatal error.
+                 */
                 $this->fatalError('Failed to parse the template.');
             } else {
-                return $this->config['minify'] ? $this->minify($ob) : $ob;
+                /**
+                 * Return the template, and if minify is set minify it.
+                 */
+                return $this->config['minify'] ? $this->minify($parsedTemplate) : $parsedTemplate;
             }
         }
     }
@@ -866,7 +1066,8 @@ class TemplateParser extends WDGWV
                                             if (is_array($subData['submenu'])) {
                                                 foreach ($subData['submenu'] as $ii => $subSubData) {
                                                     if (is_array($subSubData)) {
-                                                        if (!isset($subSubData['submenu']) || !is_array($subSubData['submenu'])) {
+                                                        if (!isset($subSubData['submenu']) ||
+                                                            !is_array($subSubData['submenu'])) {
                                                             $addItem = $subMenuItem;
                                                             $addItem = preg_replace(
                                                                 "/\{NAME\}/",
@@ -898,14 +1099,25 @@ class TemplateParser extends WDGWV
 
                                                             $this->config['generatedMenu'] .= $addItem;
                                                         } else {
-                                                            $this->fatalError(sprintf(
-                                                                "<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current: 3+<br />menu item creating this issue: <pre>%s</pre>",
-                                                                preg_replace("/\//", " -> ", $subSubData['name'])
-                                                            ));
+                                                            $this->fatalError(
+                                                                sprintf(
+                                                                    "<b>FATAL ERROR</b><br />" .
+                                                                    "Please not use more than 2 submenu levels," .
+                                                                    " current: 3+<br />" .
+                                                                    "menu item creating this issue: <pre>%s</pre>",
+                                                                    preg_replace(
+                                                                        "/\//",
+                                                                        " -> ",
+                                                                        $subSubData['name']
+                                                                    )
+                                                                )
+                                                            );
                                                         }
                                                     } else {
                                                         echo "<pre>";
-                                                        print_r($this->config['menuContents']);
+                                                        print_r(
+                                                            $this->config['menuContents']
+                                                        );
                                                         echo "</pre>";
 
                                                         $this->fatalError("Invalid submenu data.");
@@ -918,7 +1130,9 @@ class TemplateParser extends WDGWV
                                     }
                                 } else {
                                     echo "<pre>";
-                                    print_r($this->config['menuContents']);
+                                    print_r(
+                                        $this->config['menuContents']
+                                    );
                                     echo "</pre>";
 
                                     $this->fatalError("Invalid submenu data.");
@@ -927,7 +1141,9 @@ class TemplateParser extends WDGWV
                         }
                     }
 
-                    if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+                    if (isset($data['submenu']) &&
+                        is_array($data['submenu']) &&
+                        sizeof($data['submenu']) > 1) {
                         $this->config['generatedMenu'] .= $subMenuFooter;
                     }
                 }
@@ -961,7 +1177,9 @@ class TemplateParser extends WDGWV
         }
 
         return $this->parseTemplate(
-            file_get_contents($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]),
+            file_get_contents(
+                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]
+            ),
             $this->tParameters
         );
     }
@@ -974,16 +1192,24 @@ class TemplateParser extends WDGWV
     {
         if (sizeof($this->tParameters) === 0) {
             if (isset($this->debugger)) {
-                $this->debugger->log('we\'re not in a sub loop so \'tParameters\' is empty, checking other \'parameters\'.');
+                $this->debugger->log(
+                    'we\'re not in a sub loop so \'tParameters\' is empty,' .
+                    ' checking other \'parameters\'.'
+                );
             }
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
                 if ($this->parameters[$i][0] == $d[1]) {
                     if (isset($this->debugger)) {
-                        $this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
+                        $this->debugger->log(
+                            'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
+                        );
                     }
 
                     if (!empty($this->parameters[$i][1])) {
-                        return $this->parseTemplate($d[2], $this->parameters);
+                        return $this->parseTemplate(
+                            $d[2], /* Parse with parameters */
+                            $this->parameters/* Parameters */
+                        );
                     }
                 }
             }
@@ -991,11 +1217,16 @@ class TemplateParser extends WDGWV
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
             if ($this->tParameters[$i][0] == $d[1]) {
                 if (isset($this->debugger)) {
-                    $this->debugger->log("found parameter '{$d[1]}' in \$this->tParameters[$i][0].");
+                    $this->debugger->log(
+                        'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
+                    );
                 }
 
                 if (!empty($this->tParameters[$i][1])) {
-                    return $this->parseTemplate($d[2], $this->tParameters);
+                    return $this->parseTemplate(
+                        $d[2],
+                        $this->tParameters
+                    );
                 }
             }
         }
@@ -1066,7 +1297,11 @@ class TemplateParser extends WDGWV
             $replace[] = '';
         }
 
-        $contents = preg_replace($search, $replace, $contents);
+        $contents = preg_replace(
+            $search,
+            $replace,
+            $contents
+        );
 
         return $contents;
     }
@@ -1079,11 +1314,23 @@ class TemplateParser extends WDGWV
      */
     public function display()
     {
+        /**
+         * If no parameters are present,
+         * set default parameters.
+         */
         if (!isset($this->config['parameter'])) {
             $this->setParameter();
         }
 
+        /**
+         * Parse the template.
+         * and echo it directly.
+         */
         echo $this->parseTemplate();
+
+        /**
+         * didDisplay = true
+         */
         $this->config['didDisplay'] = true;
     }
 
@@ -1095,6 +1342,9 @@ class TemplateParser extends WDGWV
      */
     public function didDisplay()
     {
+        /**
+         * Did the template already display?
+         */
         return !$this->config['didDisplay'];
     }
 
@@ -1111,15 +1361,31 @@ class TemplateParser extends WDGWV
     private function fatalError($errorDescription, $errorFile = __FILE__, $errorLine = __LINE__, $helpURL = null)
     {
         if (file_exists($f = './Data/Template/default/modal.js')) {
-            echo sprintf('<script>%s</script>', file_get_contents($f));
-            echo sprintf('<script>openPopup(\'Fatal Error\', \'%s%s\', \'hidden\', function(){window.location.reload();}, \'hidden\', \'Reload\', \'WDGWV Template Parser\');</script>', $errorDescription, sprintf('<hr />File: %s<br />Line: %s', $errorFile, $errorLine));
+            echo sprintf(
+                '<script>%s</script>',
+                file_get_contents($f)
+            );
+            echo sprintf(
+                '<script>openPopup(\'Fatal Error\',\'%s%s\', \'hidden\',' .
+                'function(){window.location.reload();}, \'hidden\', \'Reload\', \'WDGWV Template Parser\');' .
+                '</script>',
+                $errorDescription,
+                sprintf(
+                    '<hr />File: %s<br />Line: %s',
+                    $errorFile,
+                    $errorLine
+                )
+            );
             exit;
         } else {
-            exit("Fatal Eroor: {$errorDescription}");
+            exit(
+                sprintf(
+                    'Fatal Eroor: %s',
+                    $errorDescription
+                )
+            );
         }
     }
-
-    // debug_backtrace()
 }
 
 /*
