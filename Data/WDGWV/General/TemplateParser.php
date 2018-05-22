@@ -198,10 +198,25 @@ class TemplateParser extends WDGWV
      */
     public function setRightColumn($columnContents)
     {
+        /**
+         * If got some column contents.
+         */
         if (is_array($columnContents)) {
+            /**
+             * If not exists $this->config['columnContents']
+             * then create it
+             */
             if (!isset($this->config['columnContents'])) {
+                /**
+                 * Create $this->config['columnContents']
+                 * @var [string] column contents
+                 */
                 $this->config['columnContents'] = array();
             }
+
+            /**
+             * Set right column contents
+             */
             $this->config['columnContents']['right'] = $columnContents;
         }
     }
@@ -215,10 +230,25 @@ class TemplateParser extends WDGWV
      */
     public function setLeftColumn($columnContents)
     {
+        /**
+         * If got some column contents.
+         */
         if (is_array($columnContents)) {
+            /**
+             * If not exists $this->config['columnContents']
+             * then create it
+             */
             if (!isset($this->config['columnContents'])) {
+                /**
+                 * Create $this->config['columnContents']
+                 * @var [string] column contents
+                 */
                 $this->config['columnContents'] = array();
             }
+
+            /**
+             * Set right column contents
+             */
             $this->config['columnContents']['left'] = $columnContents;
         }
     }
@@ -232,7 +262,14 @@ class TemplateParser extends WDGWV
      */
     public function setMenuContents($menuContents)
     {
+        /**
+         * If $menuContents is an array then set it.
+         */
         if (is_array($menuContents)) {
+            /**
+             * Set $this->config['menuContents']
+             * @var string menu contents
+             */
             $this->config['menuContents'] = $menuContents;
         }
     }
@@ -247,6 +284,10 @@ class TemplateParser extends WDGWV
      */
     public function setParameter($parameterStart = "\{WDGWV:", $parameterEnd = "\}")
     {
+        /**
+         * Set the parsing parameter
+         * @var [string] parsing parameter
+         */
         $this->config['parameter'] = array($parameterStart, $parameterEnd);
     }
 
@@ -261,6 +302,15 @@ class TemplateParser extends WDGWV
      */
     public function setParameterStart($parameterStart = "\{WDGWV:", $parameterEnd = "\}")
     {
+        /**
+         * Deprecated do not use anymore
+         */
+        \E_USER_ERROR('setParameterStart is deprecated. use setParameter');
+
+        /**
+         * Set the parsing parameter
+         * @var [string] parsing parameter
+         */
         $this->config['parameter'] = array($parameterStart, $parameterEnd);
     }
 
@@ -274,8 +324,17 @@ class TemplateParser extends WDGWV
      */
     public function bindParameter($parameter, $replaceWith)
     {
+        /**
+         * If isset $this debugger...
+         */
         if (isset($this->debugger)) {
+            /**
+             * Checks if $replaceWith is an array.
+             */
             if (!is_array($replaceWith)) {
+                /**
+                 * Log default parameter
+                 */
                 $this->debugger->log(
                     sprintf(
                         'Adding parameter \'%s\' => \'%s\'.',
@@ -284,9 +343,12 @@ class TemplateParser extends WDGWV
                     )
                 );
             } else {
+                /**
+                 * Log JSON parameter
+                 */
                 $this->debugger->log(
                     sprintf(
-                        'Adding parameter \'%s\' => \'%s\'.',
+                        'Adding JSON parameter \'%s\' => \'%s\'.',
                         $parameter,
                         json_encode($replaceWith)
                     )
@@ -294,6 +356,9 @@ class TemplateParser extends WDGWV
             }
         }
 
+        /**
+         * Append parameter.
+         */
         $this->parameters[] = array($parameter, $replaceWith);
     }
 
@@ -797,45 +862,112 @@ class TemplateParser extends WDGWV
      */
     public function parseWhile($d)
     {
+        /**
+         * Return string
+         * @var string returning to parent command
+         */
         $returning = '';
+
+        /**
+         * Temporary Parameters initializer
+         * @var array Temporary Parameters
+         */
         $this->tParameters = array();
 
+        /**
+         * Loop trough parameters
+         */
         for ($i = 0; $i < sizeof($this->parameters); $i++) {
+            /**
+             * If parameter[0] matches with $d[1]
+             * Then cool, parse
+             */
             if ($this->parameters[$i][0] == $d[1]) {
+                /**
+                 * If parameter[1] is an array,
+                 * then do something with it.
+                 */
                 if (is_array($this->parameters[$i][1])) {
                     // Ok. here's the fun part.
-                    $_templateData = '';
-                    $_found = 0;
-                    $_keys = array();
+
+                    /**
+                     * Data found counter
+                     * @var integer data found counter
+                     */
+                    $dataFound = 0;
+
+                    /**
+                     * Temporary parameter keys
+                     * @var array
+                     */
+                    $temporaryKeys = array();
 
                     for ($z = 0; $z < sizeof($this->parameters[$i][1]); $z++) {
                         // .. parse with {$this->parameters[$i][1][$z]} as parameters
-                        $_temp = $d[2];
+
+                        /**
+                         * Temporary data
+                         * @var string
+                         */
+                        $temporaryData = $d[2];
                         foreach ($this->parameters[$i][1][$z] as $key => $value) {
-                            $_temp = preg_replace(
-                                $a = "/{$d[1]}\.{$key}/",
-                                $b = $value,
-                                $_temp
+                            /**
+                             * Temporary data (replace keys)
+                             * @var string
+                             */
+                            $temporaryData = preg_replace(
+                                /**
+                                 * Create an temporary Key
+                                 * @var string
+                                 */
+                                $temporaryKey = "/{$d[1]}\.{$key}/",
+                                $value,
+                                $temporaryData
                             );
 
-                            if (preg_match($a, $d[2])) {
-                                $_found++;
+                            /**
+                             * If key ($temporaryKey) matches with $d[2]
+                             * Input: /\{while (\w+)\}(.*)\{\/(while|wend)\}/s
+                             */
+                            if (preg_match($temporaryKey, $d[2])) {
+                                /**
+                                 * Data found.
+                                 */
+                                $dataFound++;
                             } else {
-                                $_keys[] = "{$d[1]}.{$key}";
+                                /**
+                                 * Temporary key added.
+                                 */
+                                $temporaryKeys[] = "{$d[1]}.{$key}";
                             }
                         }
-                        $returning .= $this->parseTemplate($_temp);
 
-                        if ($_found == 0) {
+                        /**
+                         * Parse the temporaryData
+                         */
+                        $returning .= $this->parseTemplate($temporaryData);
+
+                        /**
+                         * No data found
+                         */
+                        if ($dataFound == 0) {
+                            /**
+                             * Fatal error.
+                             * No data found.
+                             */
                             $this->fatalError(sprintf(
                                 '%s%s%s%s</b>&nbsp;',
                                 'Missing a replacement key in a while-loop!<br />',
                                 'While loop: <b>{$d[1]}</b><br />',
                                 'Confirm existence for least one of the following keys: <b>',
-                                implode(', ', $_keys)
+                                implode(', ', $temporaryKeys)
                             ));
                         }
                     }
+
+                    /**
+                     * Return the parsed data.
+                     */
                     return $returning;
                 }
             }
@@ -852,21 +984,53 @@ class TemplateParser extends WDGWV
      */
     public function parseArray($d)
     {
+        /**
+         * Return string
+         * @var string returning to parent command
+         */
         $returning = '';
 
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
             if ($this->tParameters[$i][0] == $d[1]) {
+                /**
+                 * Replace ; with ,
+                 */
                 $this->tParameters[$i][1] = preg_replace('/;/', ',', $this->tParameters[$i][1]);
-                $explode = explode(",", $this->tParameters[$i][1]);
-                for ($z = 0; $z < sizeof($explode); $z++) {
-                    $_t = $d[2];
-                    $_t = preg_replace("/\{{$d[1]}\}/", $explode[$z], $_t);
 
-                    $returning .= $_t;
+                /**
+                 * Explode ,
+                 * @var [string]
+                 */
+                $explode = explode(",", $this->tParameters[$i][1]);
+
+                /**
+                 * loop trough $explode
+                 */
+                for ($z = 0; $z < sizeof($explode); $z++) {
+                    /**
+                     * Temporary data is $d[2]
+                     * Input data: /\{for (\w+)\}(.*)\{\/for\}/s
+                     *
+                     * @var string
+                     */
+                    $temporaryData = $d[2];
+
+                    /**
+                     * Replace {$d[1]} to exploded data.
+                     */
+                    $temporaryData = preg_replace("/\{{$d[1]}\}/", $explode[$z], $temporaryData);
+
+                    /**
+                     * Add data to returning string.
+                     */
+                    $returning .= $temporaryData;
                 }
             }
         }
 
+        /**
+         * Return the parsed data.
+         */
         return $returning;
     }
 
@@ -880,6 +1044,10 @@ class TemplateParser extends WDGWV
      */
     public function parseMenu($d)
     {
+        /**
+         * Create a empty menu
+         * @var string menu
+         */
         $this->config['generatedMenu'] = '';
 
         $generalMenuItem = explode("{/MENUITEM}", $d[1]);
@@ -964,7 +1132,9 @@ class TemplateParser extends WDGWV
                 if (!is_array($data)) {
                     $this->fatalError("Malformed menu data.");
                 } else {
-                    if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+                    if (isset($data['submenu']) &&
+                        is_array($data['submenu']) &&
+                        sizeof($data['submenu']) > 1) {
                         $addItem = $subMenuHeader;
                     } else {
                         $addItem = $generalMenuItem;
@@ -990,7 +1160,12 @@ class TemplateParser extends WDGWV
                         $addItem
                     );
 
-                    if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
+                    if (!isset($data['submenu']) ||
+                        !is_array($data['submenu']) ||
+                        !(
+                            sizeof($data['submenu']) > 1
+                        )
+                    ) {
                         $addItem = preg_replace(
                             "/\{(HREF|LINK|URL)\}/",
                             (
@@ -1008,7 +1183,8 @@ class TemplateParser extends WDGWV
                         if (is_array($data['submenu'])) {
                             foreach ($data['submenu'] as $ii => $subData) {
                                 if (is_array($subData)) {
-                                    if (!isset($subData['submenu']) || !is_array($subData['submenu'])) {
+                                    if (!isset($subData['submenu']) ||
+                                        !is_array($subData['submenu'])) {
                                         $addItem = $subMenuItem;
                                         $addItem = preg_replace(
                                             "/\{NAME\}/",
