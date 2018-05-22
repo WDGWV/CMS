@@ -790,7 +790,7 @@ class TemplateParser extends WDGWV
             }
         } else {
             /**
-             * Binary file  found.
+             * Binary file found.
              * Parsing template on the best possible way.
              */
 
@@ -955,13 +955,15 @@ class TemplateParser extends WDGWV
                              * Fatal error.
                              * No data found.
                              */
-                            $this->fatalError(sprintf(
-                                '%s%s%s%s</b>&nbsp;',
-                                'Missing a replacement key in a while-loop!<br />',
-                                'While loop: <b>{$d[1]}</b><br />',
-                                'Confirm existence for least one of the following keys: <b>',
-                                implode(', ', $temporaryKeys)
-                            ));
+                            $this->fatalError(
+                                sprintf(
+                                    '%s%s%s%s</b>&nbsp;',
+                                    'Missing a replacement key in a while-loop!<br />',
+                                    'While loop: <b>{$d[1]}</b><br />',
+                                    'Confirm existence for least one of the following keys: <b>',
+                                    implode(', ', $temporaryKeys)
+                                )
+                            );
                         }
                     }
 
@@ -1115,11 +1117,17 @@ class TemplateParser extends WDGWV
                             }
                         }
                     } else {
-                        $this->fatalError(sprintf(
-                            "<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current:%d<br />menu item creating this issue: <pre>%s</pre>",
-                            (((int) sizeof($e)) - 1),
-                            preg_replace("/\//", " -> ", $data['name'])
-                        ));
+                        /**
+                         * Error to much submenu's.
+                         */
+                        $this->fatalError(
+                            sprintf(
+                                '<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels,' .
+                                ' current:%d<br />menu item creating this issue: <pre>%s</pre>',
+                                (((int) sizeof($e)) - 1),
+                                preg_replace("/\//", " -> ", $data['name'])
+                            )
+                        );
                     }
                 }
             }
@@ -1421,8 +1429,8 @@ class TemplateParser extends WDGWV
             '/function \(/', // compress function ( ) to function() (saves: 1 byte)
             '/\>[^\S ]+/s', // strip whitespaces after tags, except space (saves: many bytes)
             '/[^\S ]+\</s', // strip whitespaces before tags, except space (saves: many bytes)
-            '#\btrue\b#', // Replace `true` with `!0` and `false` with `!1` [^3] (saves: 3 bytes)
-            '#\bfalse\b#', // Replace `true` with `!0` and `false` with `!1` [^3] (saves: 3 bytes)
+            '#\btrue\b#', // Replace `true` with `!0` [^3] (saves: 3 bytes)
+            '#\bfalse\b#', // Replace `false` with `!1` [^3] (saves: 3 bytes)
             '/[^:]\/\/.*/', // Remove JS comments (saves: many bytes)
             '~//<!\[CDATA\[\s*|\s*//\]\]>~', // Remove JS comments (saves: many bytes)
             '/\s\s+/', // remove whitespaces (saves: 1 byte per whitepace)
@@ -1554,12 +1562,18 @@ class TemplateParser extends WDGWV
             );
             exit;
         } else {
-            exit(
-                sprintf(
-                    'Fatal Eroor: %s',
-                    $errorDescription
-                )
+            /**
+             * Display error.
+             */
+            echo sprintf(
+                'Fatal Error: %s',
+                $errorDescription
             );
+
+            /**
+             * Exit with error
+             */
+            exit(1);
         }
     }
 }
