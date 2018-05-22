@@ -142,7 +142,7 @@ class TemplateParser extends WDGWV
         $this->config['minify'] = !$debug;
         $this->config['debug'] = $debug;
         $this->parameters = array();
-        if (class_exists("WDGWV")) {
+        if (class_exists("\WDGWV\CMS\Debugger")) {
             $this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
         }
     }
