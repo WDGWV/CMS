@@ -45,7 +45,7 @@ namespace WDGWV\CMS\Emulation;
 - ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
 - ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
 -                                                          -
--       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-       (c) WDGWV. 2018, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */

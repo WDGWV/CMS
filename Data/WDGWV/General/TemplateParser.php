@@ -49,7 +49,7 @@ namespace WDGWV\General;
 - ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
 - ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
 -                                                          -
--       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-       (c) WDGWV. 2018, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
@@ -142,7 +142,18 @@ class TemplateParser extends WDGWV
         $this->config['minify'] = !$debug;
         $this->config['debug'] = $debug;
         $this->parameters = array();
-        $this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
+
+        /**
+         * If class \WDGWV\CMS\Debugger exists.
+         * set $this->debugger
+         */
+        if (class_exists("\WDGWV\CMS\Debugger")) {
+            /**
+             * Debugger
+             * @var class debugger class
+             */
+            $this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
+        }
     }
 
     /**
@@ -166,7 +177,8 @@ class TemplateParser extends WDGWV
     {
         if (file_exists(
             $f = $this->config['templateDirectory'] . $templateFile . "/theme." . $TemplateFileExtension
-        )) {
+        )
+        ) {
             $this->config['theme'] = $templateFile;
             $this->config['themeExtension'] = $TemplateFileExtension;
             $this->config['templateFiles'] = $fileURL;
@@ -186,10 +198,25 @@ class TemplateParser extends WDGWV
      */
     public function setRightColumn($columnContents)
     {
+        /**
+         * If got some column contents.
+         */
         if (is_array($columnContents)) {
+            /**
+             * If not exists $this->config['columnContents']
+             * then create it
+             */
             if (!isset($this->config['columnContents'])) {
+                /**
+                 * Create $this->config['columnContents']
+                 * @var [string] column contents
+                 */
                 $this->config['columnContents'] = array();
             }
+
+            /**
+             * Set right column contents
+             */
             $this->config['columnContents']['right'] = $columnContents;
         }
     }
@@ -203,10 +230,25 @@ class TemplateParser extends WDGWV
      */
     public function setLeftColumn($columnContents)
     {
+        /**
+         * If got some column contents.
+         */
         if (is_array($columnContents)) {
+            /**
+             * If not exists $this->config['columnContents']
+             * then create it
+             */
             if (!isset($this->config['columnContents'])) {
+                /**
+                 * Create $this->config['columnContents']
+                 * @var [string] column contents
+                 */
                 $this->config['columnContents'] = array();
             }
+
+            /**
+             * Set right column contents
+             */
             $this->config['columnContents']['left'] = $columnContents;
         }
     }
@@ -220,7 +262,14 @@ class TemplateParser extends WDGWV
      */
     public function setMenuContents($menuContents)
     {
+        /**
+         * If $menuContents is an array then set it.
+         */
         if (is_array($menuContents)) {
+            /**
+             * Set $this->config['menuContents']
+             * @var string menu contents
+             */
             $this->config['menuContents'] = $menuContents;
         }
     }
@@ -235,6 +284,10 @@ class TemplateParser extends WDGWV
      */
     public function setParameter($parameterStart = "\{WDGWV:", $parameterEnd = "\}")
     {
+        /**
+         * Set the parsing parameter
+         * @var [string] parsing parameter
+         */
         $this->config['parameter'] = array($parameterStart, $parameterEnd);
     }
 
@@ -249,6 +302,15 @@ class TemplateParser extends WDGWV
      */
     public function setParameterStart($parameterStart = "\{WDGWV:", $parameterEnd = "\}")
     {
+        /**
+         * Deprecated do not use anymore
+         */
+        \E_USER_ERROR('setParameterStart is deprecated. use setParameter');
+
+        /**
+         * Set the parsing parameter
+         * @var [string] parsing parameter
+         */
         $this->config['parameter'] = array($parameterStart, $parameterEnd);
     }
 
@@ -262,12 +324,41 @@ class TemplateParser extends WDGWV
      */
     public function bindParameter($parameter, $replaceWith)
     {
-        if (!is_array($replaceWith)) {
-            $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, $replaceWith));
-        } else {
-            $this->debugger->log(sprintf('Adding parameter \'%s\' => \'%s\'.', $parameter, json_encode($replaceWith)));
+        /**
+         * If isset $this debugger...
+         */
+        if (isset($this->debugger)) {
+            /**
+             * Checks if $replaceWith is an array.
+             */
+            if (!is_array($replaceWith)) {
+                /**
+                 * Log default parameter
+                 */
+                $this->debugger->log(
+                    sprintf(
+                        'Adding parameter \'%s\' => \'%s\'.',
+                        $parameter,
+                        $replaceWith
+                    )
+                );
+            } else {
+                /**
+                 * Log JSON parameter
+                 */
+                $this->debugger->log(
+                    sprintf(
+                        'Adding JSON parameter \'%s\' => \'%s\'.',
+                        $parameter,
+                        json_encode($replaceWith)
+                    )
+                );
+            }
         }
 
+        /**
+         * Append parameter.
+         */
         $this->parameters[] = array($parameter, $replaceWith);
     }
 
@@ -279,25 +370,42 @@ class TemplateParser extends WDGWV
      * @param string $data Optional data to parse, default null
      * @param string[] $withParameters Optional parameters to parse (array), default null
      */
-    private function _parse($data = null, $withParameters = null)
+    private function parseTemplate($data = null, $withParameters = null)
     {
+        /**
+         * Unique ID
+         * @var string
+         */
         $this->uniid = $uniid = uniqid();
 
+        /**
+         * If not ready, return.
+         */
         if (!$this->ready) {
             return;
         }
 
         if (!isset($this->config['theme'])) {
+            /**
+             * No theme defined, falling back to 'default'
+             */
             $this->config['theme'] = 'default';
         }
 
         if (!in_array('TEMPLATE_DIR', $this->parameters)) {
+            /**
+             * Add TEMPLATE_DIR to parameters
+             */
             $this->parameters[] = array(
                 'TEMPLATE_DIR',
                 sprintf('%s', $this->config['templateFiles']),
             );
         }
 
+        /**
+         * Template file contents
+         * @var string
+         */
         $template = ($data === null) ? file_get_contents(
             sprintf(
                 '%s%s/theme.%s',
@@ -307,6 +415,9 @@ class TemplateParser extends WDGWV
             )
         ) : $data;
 
+        /**
+         * If no data then check for a 'theme.x' file
+         */
         if ($data === null) {
             $this->file['filename'] = sprintf(
                 '%s%s/theme.%s',
@@ -384,7 +495,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{for (\w+)\}(.*)\{\/for\}/s',
-            array($this, '__parseArray'),
+            array($this, 'parseArray'),
             $template
         );
 
@@ -394,7 +505,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{while (\w+)\}(.*)\{\/(while|wend)\}/s',
-            array($this, '__parseWhile'),
+            array($this, 'parseWhile'),
             $template
         );
 
@@ -403,7 +514,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{TEMPLATE LOAD:\'(.*)\' CONFIG:\'(.*)\'\}/',
-            array($this, '__parse'),
+            array($this, 'parseSubTemplate'),
             $template
         );
 
@@ -412,7 +523,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             "/\{TEMPLATE LOAD:'(.*)'\}/",
-            array($this, '__parse'),
+            array($this, 'parseSubTemplate'),
             $template
         );
 
@@ -421,7 +532,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             "/\{GENERATE menu\}(.*)\{\/(GENERATE)\}/s",
-            array($this, '__parseMenu'),
+            array($this, 'parseMenu'),
             $template
         );
 
@@ -465,12 +576,20 @@ class TemplateParser extends WDGWV
          * script src="./" support
          */
         if ($this->config['CDN'] === null) {
+            /**
+             * script src="./" support without CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<script(.*)src=("|\')\.\//',
                 '<script\\1src=\\2' . $this->config['templateFiles'],
                 $template
             );
         } else {
+            /**
+             * script src="./" support with CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<script(.*)src=("|\')\.\//',
                 '<script\\1src=\\2' . $this->config['CDN'],
@@ -482,12 +601,20 @@ class TemplateParser extends WDGWV
          * link href="./" support
          */
         if ($this->config['CDN'] === null) {
+            /**
+             * link href="./" support without CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<link(.*)href=("|\')\.\//',
                 '<link\\1href=\\2' . $this->config['templateFiles'],
                 $template
             );
         } else {
+            /**
+             * link href="./" support with CDN
+             * @var string
+             */
             $template = preg_replace(
                 '/<link(.*)href=("|\')\.\//',
                 '<link\\1href=\\2' . $this->config['CDN'],
@@ -500,11 +627,25 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{ISSET ITEM:(\w+)\}(.*)\{\/ISSET\}/',
-            array($this, '__validParameter'),
+            array($this, 'isSetItem'),
             $template
         );
 
+        /**
+         * checks if got custom parameters in function call.
+         * If custom parameters are not present, then use the parameters
+         * wich are made using the template engine, otherwise,
+         * load the custom parameters
+         */
         if ($withParameters === null) {
+            /**
+             * Parse the template engine parameters
+             */
+
+            /**
+             * Counter
+             * @var integer $i Counter
+             */
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
                 if (!is_array($this->parameters[$i][1])) {
                     $template = preg_replace(
@@ -519,6 +660,15 @@ class TemplateParser extends WDGWV
                 }
             }
         } else {
+            /**
+             * Parse the custom parameters,
+             * ignoring the template engine ones.
+             */
+
+            /**
+             * Counter
+             * @var integer $i Counter
+             */
             for ($i = 0; $i < sizeof($withParameters); $i++) {
                 if (!is_array($withParameters[$i][1])) {
                     $template = preg_replace(
@@ -534,51 +684,170 @@ class TemplateParser extends WDGWV
             }
         }
 
+        /**
+         * Checks if 'Data' folder exists, otherwise try to create one.
+         */
+        if (!file_exists('./Data')) {
+            @mkdir('./Data');
+        }
+
+        /**
+         * Checks if Data is writeable, and if Data/Temp Exists.
+         * Otherwise it try's to create it.
+         */
         if (is_writable('./Data/') && !file_exists('./Data/Temp')) {
             @mkdir('./Data/Temp/');
         }
 
+        /**
+         * If ./Data/Temp is writeable we'll use a 'bin' file for parsing the template
+         * Otherwise we'll parse it in memory and `eval` the code.
+         */
         if (is_writable('./Data/Temp/')) {
             $fh = @fopen('./Data/Temp/tmp_tpl_' . $uniid . '.bin', 'w');
             @fwrite($fh, $template);
             @fclose($fh);
         }
 
+        /**
+         * Checks if we have our binary file.
+         */
         if (!file_exists('./Data/Temp/tmp_tpl_' . $uniid . '.bin')) {
+            /**
+             * Binary file not found.
+             * Parsing template in memory, and eval the code.
+             */
+
+            /**
+             * Start the object
+             */
             @ob_start();
+
+            /**
+             * If not defined LEFT_COLUMN, define it.
+             */
             if (!defined('LEFT_COLUMN')) {
-                define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
+                define(
+                    'LEFT_COLUMN',
+                    isset($this->config['columnContents']['left'])
+                );
             }
+
+            /**
+             * If not defined RIGHT_COLUMN, define it.
+             */
             if (!defined('RIGHT_COLUMN')) {
-                define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
+                define(
+                    'RIGHT_COLUMN',
+                    isset($this->config['columnContents']['right'])
+                );
             }
-            $ob = @eval(sprintf('%s%s%s%s%s', '/* ! */', ' ?>', $template, '<?php ', '/* ! */'));
-            $ob = ob_get_contents();
+
+            /**
+             * We'll use a hack for eval
+             * @var string
+             */
+            $parsedTemplate = @eval(
+                sprintf(
+                    '%s%s%s%s%s',
+                    '/* ! */',
+                    ' ?>',
+                    $template,
+                    '<?php ',
+                    '/* ! */'
+                )
+            );
+
+            /**
+             * Get object contents
+             */
+            $parsedTemplate = ob_get_contents();
+
+            /**
+             * Clean, and end object.
+             */
             @ob_end_clean();
 
+            /**
+             * What ever if is exists, try to remove our temporary file.
+             * Using @ to supress any errors.
+             */
             @unlink('./Data/Temp/tmp_tpl_' . $uniid . '.bin');
-            if (!$ob) {
+
+            /**
+             * Check if the template is parsed correctly
+             */
+            if (!$parsedTemplate) {
+                /**
+                 * Failed to parse the template, fatal error.
+                 */
                 $this->fatalError('Failed to parse the template.');
             } else {
-                return $this->config['minify'] ? $this->minify($ob) : $ob;
+                /**
+                 * Return the template, and if minify is set minify it.
+                 */
+                return $this->config['minify'] ? $this->minify($parsedTemplate) : $parsedTemplate;
             }
         } else {
+            /**
+             * Binary file found.
+             * Parsing template on the best possible way.
+             */
+
+            /**
+             * Start the object
+             */
             @ob_start();
+
+            /**
+             * If not defined LEFT_COLUMN, define it.
+             */
             if (!defined('LEFT_COLUMN')) {
                 define('LEFT_COLUMN', isset($this->config['columnContents']['left']));
             }
+
+            /**
+             * If not defined RIGHT_COLUMN, define it.
+             */
             if (!defined('RIGHT_COLUMN')) {
                 define('RIGHT_COLUMN', isset($this->config['columnContents']['right']));
             }
-            $ob = include './Data/Temp/tmp_tpl_' . $uniid . '.bin';
-            $ob = ob_get_contents();
+
+            /**
+             * Include the template file.
+             * @var string
+             */
+            $parsedTemplate = include './Data/Temp/tmp_tpl_' . $uniid . '.bin';
+
+            /**
+             * Get object contents
+             */
+            $parsedTemplate = ob_get_contents();
+
+            /**
+             * Clean, and end object.
+             */
             @ob_end_clean();
 
+            /**
+             * What ever if is exists, try to remove our temporary file.
+             * Using @ to supress any errors.
+             */
             @unlink('./Data/Temp/tmp_tpl_' . $uniid . '.bin');
-            if (!$ob) {
+
+            /**
+             * Check if the template is parsed correctly
+             */
+            if (!$parsedTemplate) {
+                /**
+                 * Failed to parse the template, fatal error.
+                 */
                 $this->fatalError('Failed to parse the template.');
             } else {
-                return $this->config['minify'] ? $this->minify($ob) : $ob;
+                /**
+                 * Return the template, and if minify is set minify it.
+                 */
+                return $this->config['minify'] ? $this->minify($parsedTemplate) : $parsedTemplate;
             }
         }
     }
@@ -591,47 +860,116 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parseWhile($d)
+    public function parseWhile($d)
     {
+        /**
+         * Return string
+         * @var string returning to parent command
+         */
         $returning = '';
+
+        /**
+         * Temporary Parameters initializer
+         * @var array Temporary Parameters
+         */
         $this->tParameters = array();
 
+        /**
+         * Loop trough parameters
+         */
         for ($i = 0; $i < sizeof($this->parameters); $i++) {
+            /**
+             * If parameter[0] matches with $d[1]
+             * Then cool, parse
+             */
             if ($this->parameters[$i][0] == $d[1]) {
+                /**
+                 * If parameter[1] is an array,
+                 * then do something with it.
+                 */
                 if (is_array($this->parameters[$i][1])) {
                     // Ok. here's the fun part.
-                    $_templateData = '';
-                    $_found = 0;
-                    $_keys = array();
+
+                    /**
+                     * Data found counter
+                     * @var integer data found counter
+                     */
+                    $dataFound = 0;
+
+                    /**
+                     * Temporary parameter keys
+                     * @var array
+                     */
+                    $temporaryKeys = array();
 
                     for ($z = 0; $z < sizeof($this->parameters[$i][1]); $z++) {
                         // .. parse with {$this->parameters[$i][1][$z]} as parameters
-                        $_temp = $d[2];
+
+                        /**
+                         * Temporary data
+                         * @var string
+                         */
+                        $temporaryData = $d[2];
                         foreach ($this->parameters[$i][1][$z] as $key => $value) {
-                            $_temp = preg_replace(
-                                $a = "/{$d[1]}\.{$key}/",
-                                $b = $value,
-                                $_temp
+                            /**
+                             * Temporary data (replace keys)
+                             * @var string
+                             */
+                            $temporaryData = preg_replace(
+                                /**
+                                 * Create an temporary Key
+                                 * @var string
+                                 */
+                                $temporaryKey = "/{$d[1]}\.{$key}/",
+                                $value,
+                                $temporaryData
                             );
 
-                            if (preg_match($a, $d[2])) {
-                                $_found++;
+                            /**
+                             * If key ($temporaryKey) matches with $d[2]
+                             * Input: /\{while (\w+)\}(.*)\{\/(while|wend)\}/s
+                             */
+                            if (preg_match($temporaryKey, $d[2])) {
+                                /**
+                                 * Data found.
+                                 */
+                                $dataFound++;
                             } else {
-                                $_keys[] = "{$d[1]}.{$key}";
+                                /**
+                                 * Temporary key added.
+                                 */
+                                $temporaryKeys[] = "{$d[1]}.{$key}";
                             }
                         }
-                        $returning .= $this->_parse($_temp);
 
-                        if ($_found == 0) {
-                            $this->fatalError(sprintf(
-                                '%s%s%s%s</b>&nbsp;',
-                                'Missing a replacement key in a while-loop!<br />',
-                                'While loop: <b>{$d[1]}</b><br />',
-                                'Confirm existence for least one of the following keys: <b>',
-                                implode(', ', $_keys)
-                            ));
+                        /**
+                         * Parse the temporaryData
+                         */
+                        $returning .= $this->parseTemplate($temporaryData);
+
+                        /**
+                         * No data found
+                         */
+                        if ($dataFound == 0) {
+                            /**
+                             * Fatal error.
+                             * No data found.
+                             */
+                            $this->fatalError(
+                                sprintf(
+                                    '%s%s%s%s</b>&nbsp;',
+                                    'Missing a replacement key in a while-loop!<br />',
+                                    'While loop: <b>{$d[1]}</b><br />',
+                                    'Confirm existence for least one of the following keys: <b>',
+                                    implode(', ', $temporaryKeys)
+                                )
+                            );
                         }
                     }
+
+                    /**
+                     * Return the parsed data.
+                     */
                     return $returning;
                 }
             }
@@ -646,23 +984,55 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parseArray($d)
+    public function parseArray($d)
     {
+        /**
+         * Return string
+         * @var string returning to parent command
+         */
         $returning = '';
 
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
             if ($this->tParameters[$i][0] == $d[1]) {
+                /**
+                 * Replace ; with ,
+                 */
                 $this->tParameters[$i][1] = preg_replace('/;/', ',', $this->tParameters[$i][1]);
-                $explode = explode(",", $this->tParameters[$i][1]);
-                for ($z = 0; $z < sizeof($explode); $z++) {
-                    $_t = $d[2];
-                    $_t = preg_replace("/\{{$d[1]}\}/", $explode[$z], $_t);
 
-                    $returning .= $_t;
+                /**
+                 * Explode ,
+                 * @var [string]
+                 */
+                $explode = explode(",", $this->tParameters[$i][1]);
+
+                /**
+                 * loop trough $explode
+                 */
+                for ($z = 0; $z < sizeof($explode); $z++) {
+                    /**
+                     * Temporary data is $d[2]
+                     * Input data: /\{for (\w+)\}(.*)\{\/for\}/s
+                     *
+                     * @var string
+                     */
+                    $temporaryData = $d[2];
+
+                    /**
+                     * Replace {$d[1]} to exploded data.
+                     */
+                    $temporaryData = preg_replace("/\{{$d[1]}\}/", $explode[$z], $temporaryData);
+
+                    /**
+                     * Add data to returning string.
+                     */
+                    $returning .= $temporaryData;
                 }
             }
         }
 
+        /**
+         * Return the parsed data.
+         */
         return $returning;
     }
 
@@ -674,98 +1044,366 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parseMenu($d)
+    public function parseMenu($d)
     {
+        /**
+         * Create a empty menu
+         * @var string menu
+         */
         $this->config['generatedMenu'] = '';
 
+        /**
+         * Extract ending tag for a General menu item
+         * @var string
+         */
         $generalMenuItem = explode("{/MENUITEM}", $d[1]);
-        $generalMenuItem = isset($generalMenuItem[0]) ? $generalMenuItem[0] : $this->fatalError("Failed to load menu!");
+
+        if (isset($generalMenuItem[0])) {
+            /* Found ending tag */
+            $generalMenuItem = $generalMenuItem[0];
+        } else {
+            /* Didn't found a /menuitem tag */
+            $this->fatalError("Failed to load menu!");
+        }
+
+        /**
+         * Extract starting tag for a General menu item
+         * @var string
+         */
         $generalMenuItem = explode("{MENUITEM}", $generalMenuItem);
-        $generalMenuItem = isset($generalMenuItem[1]) ? $generalMenuItem[1] : $this->fatalError("Failed to load menu!");
+        if (isset($generalMenuItem[1])) {
+            /* Found beginning tag */
+            $generalMenuItem = $generalMenuItem[1];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load menu!");
+        }
 
+        // MARK: Submenu
+        /**
+         * Extract start tag for a submenu
+         * @var string
+         */
         $subMenuHeader = explode("{SUBMENU}", $d[1]);
-        $subMenuHeader = isset($subMenuHeader[1]) ? $subMenuHeader[1] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuHeader[1])) {
+            /* Found beginning tag */
+            $subMenuHeader = $subMenuHeader[1];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
+
+        /**
+         * Extract starting tag for a submenu item
+         * @var string
+         */
         $subMenuHeader = explode("{MENUITEM}", $subMenuHeader);
-        $subMenuHeader = isset($subMenuHeader[0]) ? $subMenuHeader[0] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuHeader[0])) {
+            /* Found beginning tag */
+            $subMenuHeader = $subMenuHeader[0];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
 
+        /**
+         * Extract starting tag for a submenu
+         * @var string
+         */
         $subMenuFooter = explode("{SUBMENU}", $d[1]);
-        $subMenuFooter = isset($subMenuFooter[1]) ? $subMenuFooter[1] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuFooter[1])) {
+            /* Found beginning tag */
+            $subMenuFooter = $subMenuFooter[1];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
+
+        /**
+         * Extract ending tag for a menu item (in submenu)
+         * @var string
+         */
         $subMenuFooter = explode("{/MENUITEM}", $subMenuFooter);
-        $subMenuFooter = isset($subMenuFooter[1]) ? $subMenuFooter[1] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuFooter[1])) {
+            /* Found beginning tag */
+            $subMenuFooter = $subMenuFooter[1];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
+
+        /**
+         * Extract ending tag for a submenu
+         * @var string
+         */
         $subMenuFooter = explode("{/SUBMENU}", $subMenuFooter);
-        $subMenuFooter = isset($subMenuFooter[0]) ? $subMenuFooter[0] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuFooter[0])) {
+            /* Found beginning tag */
+            $subMenuFooter = $subMenuFooter[0];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
 
+        /**
+         * Extract starting tag for a submenu item
+         * @var string
+         */
         $subMenuItem = explode("{SUBMENU}", $d[1]);
-        $subMenuItem = isset($subMenuItem[1]) ? $subMenuItem[1] : $this->fatalError("Failed to load sub menu items!");
-        $subMenuItem = explode("{MENUITEM}", $subMenuItem);
-        $subMenuItem = isset($subMenuItem[1]) ? $subMenuItem[1] : $this->fatalError("Failed to load sub menu items!");
-        $subMenuItem = explode("{/MENUITEM}", $subMenuItem);
-        $subMenuItem = isset($subMenuItem[0]) ? $subMenuItem[0] : $this->fatalError("Failed to load sub menu items!");
+        if (isset($subMenuItem[1])) {
+            /* Found beginning tag */
+            $subMenuItem = $subMenuItem[1];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu items!");
+        }
 
-        /* Extensions support... */
+        /**
+         * Extract starting tag for a menu item (in submenu)
+         * @var string
+         */
+        $subMenuItem = explode("{MENUITEM}", $subMenuItem);
+        if (isset($subMenuItem[1])) {
+            /* Found beginning tag */
+            $subMenuItem = $subMenuItem[1];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu items!");
+        }
+
+        /**
+         * Extract ending tag for a menu item (in submenu)
+         * @var string
+         */
+        $subMenuItem = explode("{/MENUITEM}", $subMenuItem);
+        if (isset($subMenuItem[0])) {
+            /* Found beginning tag */
+            $subMenuItem = $subMenuItem[0];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu items!");
+        }
+        // MARK -
+
+        // MARK: Extensions support
+        /**
+         * Extensions support...
+         */
         if (isset($this->config['menuContents'])) {
+            /**
+             * Walk trough menu content items
+             */
             foreach ($this->config['menuContents'] as $i => $data) {
+                /**
+                 * A / means submenu items!
+                 */
                 if (preg_match("/\//", $data['name'])) {
+                    /**
+                     * Explode submenu from item's name
+                     * @var [string]
+                     */
                     $e = explode("/", $data['name']);
+
+                    /**
+                     * If size is less then 4, then it contains valid menu data.
+                     * Otherwise there are to much submenu's, and that's not built-in
+                     */
                     if (sizeof($e) < 4) {
-                        foreach ($this->config['menuContents'] as $seeki => $seekData) {
+                        /**
+                         * Walk again trouch menu contents,
+                         * but now we'll know where we're searching for.
+                         */
+                        foreach ($this->config['menuContents'] as $seekI => $seekData) {
+                            /**
+                             * If seekdata equals submenu name, then
+                             * parse it.
+                             */
                             if (strtolower($seekData['name']) == strtolower($e[0])) {
+                                /**
+                                 * if !isset $e[2] then it's a one layered submenu.
+                                 * Otherwise there is a sub-in-submenu.
+                                 */
                                 if (!isset($e[2])) {
+                                    /**
+                                     * Is the $seekData has a 'submenu' item.
+                                     * then parse it, otherwise ignore
+                                     */
                                     if (is_array($seekData['submenu'])) {
+                                        /**
+                                         * new Data (removes submenu name, because it's added to the submenu)
+                                         * @var [string]
+                                         */
                                         $newData = $data;
+
+                                        /**
+                                         * Remove submenu name.
+                                         */
                                         $newData['name'] = $e[1];
 
-                                        $this->config['menuContents'][$seeki]['submenu'][] = $newData;
+                                        /**
+                                         * Append to submenu
+                                         */
+                                        $this->config['menuContents'][$seekI]['submenu'][] = $newData;
+
+                                        /**
+                                         * Unset 'old' menu item (submenuname/item)
+                                         */
                                         unset($this->config['menuContents'][$i]);
                                     }
                                 } else {
-                                    // loop, and search, otherwise create sub-in-submenu
+                                    /**
+                                     * loop, and search, otherwise create sub-in-submenu
+                                     */
+
+                                    /**
+                                     * Is found in Sub-in-sub menu
+                                     * @var boolean
+                                     */
                                     $foundSubInSub = false;
+
+                                    /**
+                                     * Walking trough the sub-in-sub menu
+                                     */
                                     foreach ($seekData['submenu'] as $subI => $subData) {
+                                        /**
+                                         * If seekdata equals sub-in-sub menu name, then
+                                         * parse it.
+                                         */
                                         if (strtolower($subData['name']) == strtolower($e[1])) {
+                                            /**
+                                             * Is found in Sub-in-sub menu, found!
+                                             * @var boolean
+                                             */
                                             $foundSubInSub = true;
+
+                                            /**
+                                             * Remove submenu name.
+                                             */
                                             $data['name'] = $e[2];
-                                            $this->config['menuContents'][$seeki]['submenu'][$subI]['submenu'][] = $data;
+
+                                            /**
+                                             * si = SeekI
+                                             * Otherwise the line is too long
+                                             * @var string
+                                             */
+                                            $si = $seekI;
+
+                                            /**
+                                             * ssi = Sub I
+                                             * Otherwise the line is too long
+                                             * @var string
+                                             */
+                                            $ssi = $subI;
+
+                                            /**
+                                             * Append to submenu
+                                             */
+                                            $this->config['menuContents'][$si]['submenu'][$ssi]['submenu'][] = $data;
+
+                                            /**
+                                             * Unset 'old' menu item (submenu/submenuname/item)
+                                             */
                                             unset($this->config['menuContents'][$i]);
                                         }
                                     }
+
+                                    /**
+                                     * Nothing found?
+                                     * cool. it's a new submenu
+                                     */
                                     if (!$foundSubInSub) {
+                                        /**
+                                         * Remove parent's submenu name
+                                         */
                                         $data['name'] = $e[2];
-                                        $this->config['menuContents'][$seeki]['submenu'][] = $newSubmenuItem = array(
+
+                                        /**
+                                         * Append to submenu
+                                         */
+                                        $this->config['menuContents'][$seekI]['submenu'][] = $newSubmenuItem = array(
                                             'name' => $e[1],
                                             'url' => '#',
-                                            'userlevel' => (isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'),
+                                            'userlevel' => (
+                                                isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'
+                                            ),
                                             'submenu' => array($data),
                                         );
+
+                                        /**
+                                         * Unset 'old' menu item (submenu/....)
+                                         */
                                         unset($this->config['menuContents'][$i]);
                                     }
                                 }
                             }
                         }
                     } else {
-                        $this->fatalError(sprintf(
-                            "<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current:%d<br />menu item creating this issue: <pre>%s</pre>",
-                            (((int) sizeof($e)) - 1),
-                            preg_replace("/\//", " -> ", $data['name'])
-                        ));
+                        /**
+                         * Error to much submenu's.
+                         */
+                        $this->fatalError(
+                            sprintf(
+                                '<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels,' .
+                                ' current:%d<br />menu item creating this issue: <pre>%s</pre>',
+                                (((int) sizeof($e)) - 1),
+                                preg_replace("/\//", " -> ", $data['name'])
+                            )
+                        );
                     }
                 }
             }
         }
+        // MARK -
 
+        /**
+         * Checks if menuContents isSet.
+         */
         if (isset($this->config['menuContents'])) {
+            /**
+             * Walk trough the menu, finally.
+             */
             foreach ($this->config['menuContents'] as $i => $data) {
+                /**
+                 * make $lang global
+                 */
                 global $lang;
 
+                /**
+                 * Check if the data is an array
+                 */
                 if (!is_array($data)) {
+                    /**
+                     * $data is not an array.
+                     * Malformed menu data!
+                     */
                     $this->fatalError("Malformed menu data.");
                 } else {
-                    if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+                    /**
+                     * Check if the item is a submenu.
+                     * by checking the following keys match the list below
+                     * - isSet data[submenu]
+                     * - is array data[submenu]
+                     * - sizeof data[submenu] > 1
+                     */
+                    if (isset($data['submenu']) &&
+                        is_array($data['submenu']) &&
+                        sizeof($data['submenu']) > 1) {
+                        /**
+                         * Append submenu header
+                         * @var string
+                         */
                         $addItem = $subMenuHeader;
                     } else {
+                        /**
+                         * Append menu header
+                         * @var string
+                         */
                         $addItem = $generalMenuItem;
                     }
 
+                    /**
+                     * replace {NAME} to the menu item name
+                     */
                     $addItem = preg_replace(
                         "/\{NAME\}/",
                         (
@@ -776,6 +1414,9 @@ class TemplateParser extends WDGWV
                         $addItem
                     );
 
+                    /**
+                     * replace {ICON} to the menu item icon
+                     */
                     $addItem = preg_replace(
                         "/\{ICON\}/",
                         (
@@ -786,7 +1427,20 @@ class TemplateParser extends WDGWV
                         $addItem
                     );
 
-                    if (!isset($data['submenu']) || !is_array($data['submenu']) || !(sizeof($data['submenu']) > 1)) {
+                    /**
+                     * Check if the item is not a submenu.
+                     * by checking the following keys match the list below
+                     * - not isSet data[submenu]
+                     * - not is array data[submenu]
+                     * - not sizeof data[submenu] > 1
+                     */
+                    if (!isset($data['submenu']) ||
+                        !is_array($data['submenu']) ||
+                        !(sizeof($data['submenu']) > 1)
+                    ) {
+                        /**
+                         * replace {HREF}, {LINK} or {URL} to the menu item url
+                         */
                         $addItem = preg_replace(
                             "/\{(HREF|LINK|URL)\}/",
                             (
@@ -798,14 +1452,42 @@ class TemplateParser extends WDGWV
                         );
                     }
 
+                    /**
+                     * Append to 'generatedMenu'
+                     */
                     $this->config['generatedMenu'] .= $addItem;
 
+                    /**
+                     * If isset submenu
+                     */
                     if (isset($data['submenu'])) {
+                        /**
+                         * if is array
+                         */
                         if (is_array($data['submenu'])) {
+                            /**
+                             * Walk trough submenu
+                             */
                             foreach ($data['submenu'] as $ii => $subData) {
+                                /**
+                                 * If subdata is an array...
+                                 */
                                 if (is_array($subData)) {
-                                    if (!isset($subData['submenu']) || !is_array($subData['submenu'])) {
+                                    /**
+                                     * if not isset subdata, and is not an array.
+                                     */
+                                    if (!isset($subData['submenu']) ||
+                                        !is_array($subData['submenu'])) {
+
+                                        /**
+                                         * Temporary item
+                                         * @var string
+                                         */
                                         $addItem = $subMenuItem;
+
+                                        /**
+                                         * replace {NAME} to the menu item name
+                                         */
                                         $addItem = preg_replace(
                                             "/\{NAME\}/",
                                             (
@@ -815,6 +1497,10 @@ class TemplateParser extends WDGWV
                                             ),
                                             $addItem
                                         );
+
+                                        /**
+                                         * replace {ICON} to the menu item icon
+                                         */
                                         $addItem = preg_replace(
                                             "/\{ICON\}/",
                                             (
@@ -824,6 +1510,10 @@ class TemplateParser extends WDGWV
                                             ),
                                             $addItem
                                         );
+
+                                        /**
+                                         * replace {HREF}, {LINK} or {URL} to the menu item url
+                                         */
                                         $addItem = preg_replace(
                                             "/\{(HREF|LINK|URL)\}/",
                                             (
@@ -834,9 +1524,24 @@ class TemplateParser extends WDGWV
                                             $addItem
                                         );
 
+                                        /**
+                                         * Append Temporary item to final menu
+                                         */
                                         $this->config['generatedMenu'] .= $addItem;
                                     } else {
+                                        /**
+                                         * Hey, it's a submenu
+                                         */
+
+                                        /**
+                                         * Temporary menu item
+                                         * @var string
+                                         */
                                         $addItem = $subMenuHeader;
+
+                                        /**
+                                         * replace {NAME} to the menu item name
+                                         */
                                         $addItem = preg_replace(
                                             "/\{NAME\}/",
                                             (
@@ -847,6 +1552,9 @@ class TemplateParser extends WDGWV
                                             $addItem
                                         );
 
+                                        /**
+                                         * replace {ICON} to the menu item icon
+                                         */
                                         $addItem = preg_replace(
                                             "/\{ICON\}/",
                                             (
@@ -856,14 +1564,45 @@ class TemplateParser extends WDGWV
                                             ),
                                             $addItem
                                         );
+
+                                        /**
+                                         * Append to final menu.
+                                         */
                                         $this->config['generatedMenu'] .= $addItem;
 
+                                        /**
+                                         * If isset submenu
+                                         */
                                         if (isset($subData['submenu'])) {
+                                            /**
+                                             * If is an array..
+                                             */
                                             if (is_array($subData['submenu'])) {
+                                                /**
+                                                 * Walk trough the submenu
+                                                 */
                                                 foreach ($subData['submenu'] as $ii => $subSubData) {
+                                                    /**
+                                                     * If subSubData is an array
+                                                     */
                                                     if (is_array($subSubData)) {
-                                                        if (!isset($subSubData['submenu']) || !is_array($subSubData['submenu'])) {
+                                                        /**
+                                                         * Check if item does NOT contain a submenu.
+                                                         * - not isSet subSubData[submenu]
+                                                         * - not is array subSubData[submenu]
+                                                         * - not sizeof subSubData[submenu] > 1
+                                                         */
+                                                        if (!isset($subSubData['submenu']) ||
+                                                            !is_array($subSubData['submenu'])) {
+                                                            /**
+                                                             * Temporary menu item
+                                                             * @var string
+                                                             */
                                                             $addItem = $subMenuItem;
+
+                                                            /**
+                                                             * replace {NAME} to the sub menu item name
+                                                             */
                                                             $addItem = preg_replace(
                                                                 "/\{NAME\}/",
                                                                 (
@@ -873,6 +1612,10 @@ class TemplateParser extends WDGWV
                                                                 ),
                                                                 $addItem
                                                             );
+
+                                                            /**
+                                                             * replace {ICON} to the sub menu item icon
+                                                             */
                                                             $addItem = preg_replace(
                                                                 "/\{ICON\}/",
                                                                 (
@@ -882,6 +1625,10 @@ class TemplateParser extends WDGWV
                                                                 ),
                                                                 $addItem
                                                             );
+
+                                                            /**
+                                                             * replace {HREF}, {LINK} or {URL} to the sub menu item url
+                                                             */
                                                             $addItem = preg_replace(
                                                                 "/\{(HREF|LINK|URL)\}/",
                                                                 (
@@ -892,44 +1639,87 @@ class TemplateParser extends WDGWV
                                                                 $addItem
                                                             );
 
+                                                            /**
+                                                             * Append Temporary menu item to final menu
+                                                             */
                                                             $this->config['generatedMenu'] .= $addItem;
                                                         } else {
-                                                            $this->fatalError(sprintf(
-                                                                "<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels, current: 3+<br />menu item creating this issue: <pre>%s</pre>",
-                                                                preg_replace("/\//", " -> ", $subSubData['name'])
-                                                            ));
+                                                            /**
+                                                             * Error to much submenu's.
+                                                             */
+                                                            $this->fatalError(
+                                                                sprintf(
+                                                                    "<b>FATAL ERROR</b><br />" .
+                                                                    "Please not use more than 2 submenu levels," .
+                                                                    " current: 3+<br />" .
+                                                                    "menu item creating this issue: <pre>%s</pre>",
+                                                                    preg_replace(
+                                                                        "/\//",
+                                                                        " -> ",
+                                                                        $subSubData['name']
+                                                                    )
+                                                                )
+                                                            );
                                                         }
                                                     } else {
+                                                        /**
+                                                         * Malformed submenu data
+                                                         */
                                                         echo "<pre>";
-                                                        print_r($this->config['menuContents']);
+                                                        print_r(
+                                                            $this->config['menuContents']
+                                                        );
                                                         echo "</pre>";
 
-                                                        $this->fatalError("Invalid submenu data.");
+                                                        $this->fatalError("Malformed submenu data.");
                                                     }
                                                 }
                                             }
                                         }
 
+                                        /**
+                                         * Append submenu footer to final menu.
+                                         */
                                         $this->config['generatedMenu'] .= $subMenuFooter;
                                     }
                                 } else {
+                                    /**
+                                     * Malformed submenu data
+                                     */
                                     echo "<pre>";
-                                    print_r($this->config['menuContents']);
+                                    print_r(
+                                        $this->config['menuContents']
+                                    );
                                     echo "</pre>";
 
-                                    $this->fatalError("Invalid submenu data.");
+                                    $this->fatalError("Malformed submenu data.");
                                 }
                             }
                         }
                     }
 
-                    if (isset($data['submenu']) && is_array($data['submenu']) && sizeof($data['submenu']) > 1) {
+                    /**
+                     * Check if the item is a submenu.
+                     * by checking the following keys match the list below
+                     * - isSet data[submenu]
+                     * - is array data[submenu]
+                     * - sizeof data[submenu] > 1
+                     */
+                    if (isset($data['submenu']) &&
+                        is_array($data['submenu']) &&
+                        sizeof($data['submenu']) > 1) {
+                        /**
+                         * Append submenu footer to final menu (if needed)
+                         */
                         $this->config['generatedMenu'] .= $subMenuFooter;
                     }
                 }
             }
         }
 
+        /**
+         * Finally, we've got a menu, now return it.
+         */
         return $this->config['generatedMenu'];
     }
 
@@ -941,49 +1731,184 @@ class TemplateParser extends WDGWV
      * @param string[] $d Data/Template to parse
      * @internal
      */
-    public function __parse($d)
+    public function parseSubTemplate($d)
     {
+        /**
+         * If exists, $d[2] it has custom parameters!
+         */
         if (isset($d[2])) {
+            /**
+             * re-set temporary parameters
+             * @var array
+             */
             $this->tParameters = array();
 
+            /**
+             * Explode custom parameters (name=value;name2=value2...)
+             * @var [string]
+             */
             $cfg = explode(';', $d[2]);
+
+            /**
+             * Walk trough the custom parameters
+             */
             for ($i = 0; $i < sizeof($cfg); $i++) {
+                /**
+                 * Explode = (name=value) from custom parameter
+                 * @var [string]
+                 */
                 $_d = explode("=", $cfg[$i]);
+
+                /**
+                 * if data = CONTENT, then decode it
+                 */
                 if ($_d[0] == 'CONTENT') {
+                    /**
+                     * Decode content
+                     */
                     $_d[1] = base64_decode($_d[1]);
                 }
-                $this->tParameters[] = array($_d[0], isset($_d[1]) ? $_d[1] : null);
+
+                /**
+                 * Append to temporary parameters
+                 */
+                $this->tParameters[] = array(
+                    /**
+                     * Parameter name
+                     */
+                    $_d[0],
+                    /**
+                     * Parameter value
+                     */
+                    isset($_d[1]) ? $_d[1] : null,
+                );
             }
         }
 
-        return $this->_parse(
-            file_get_contents($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]),
-            $this->tParameters
+        /**
+         * Check if sub template item exists!
+         */
+        if (!file_exists($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]) ||
+            !is_readable($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1])) {
+            /**
+             * Does not exists, or is not readable
+             */
+            $this->fatalError(sprintf(
+                'Warning file \'%s\' does not exists, or isn\'t readable.<br />Cannot load sub-template item.',
+                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]
+            ));
+
+            return;
+        }
+
+        /**
+         * Parse sub-template
+         */
+        return $this->parseTemplate(
+            /**
+             * Load sub-template.
+             */
+            file_get_contents(
+                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]
+            ),
+            /**
+             * Append custom parameters
+             */
+            isset($this->tParameters) ? $this->tParameters : array()
         );
     }
 
     /**
-     * @param $d
+     * is the {ISSET ITEM:ITEMNAME}...{/ISSET} valid?
+     * @param $d search/parse parameter in template.
      * @return mixed
      */
-    public function __validParameter($d)
+    public function isSetItem($d)
     {
+        /**
+         * If no custom parameters
+         */
         if (sizeof($this->tParameters) === 0) {
-            $this->debugger->log('we\'re not in a sub loop so \'tParameters\' is empty, checking other \'parameters\'.');
+            /**
+             * If a debugger is set, debug.
+             */
+            if (isset($this->debugger)) {
+                /**
+                 * Append debug message
+                 */
+                $this->debugger->log(
+                    'we\'re not in a sub loop so \'tParameters\' is empty,' .
+                    ' checking other \'parameters\'.'
+                );
+            }
+
+            /**
+             * Walk trough parameters
+             */
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
+                /**
+                 * If parameter equals $d
+                 */
                 if ($this->parameters[$i][0] == $d[1]) {
-                    $this->debugger->log("found parameter '{$d[1]}' in \$this->parameters[$i][0]");
+                    /**
+                     * If a debugger is set, debug.
+                     */
+                    if (isset($this->debugger)) {
+                        /**
+                         * Append debug message
+                         */
+                        $this->debugger->log(
+                            'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
+                        );
+                    }
+
+                    /**
+                     * Checks if parameter value is not empty
+                     */
                     if (!empty($this->parameters[$i][1])) {
-                        return $this->_parse($d[2], $this->parameters);
+                        /**
+                         * Parse template with custom value, and original parameters
+                         */
+                        return $this->parseTemplate(
+                            $d[2],
+                            $this->parameters
+                        );
                     }
                 }
             }
         }
+
+        /**
+         * Walk trough temporary parameters
+         */
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
+            /**
+             * If temporary parameter equals $d
+             */
             if ($this->tParameters[$i][0] == $d[1]) {
-                $this->debugger->log("found parameter '{$d[1]}' in \$this->tParameters[$i][0].");
+                /**
+                 * If a debugger is set, debug.
+                 */
+                if (isset($this->debugger)) {
+                    /**
+                     * Append debug message
+                     */
+                    $this->debugger->log(
+                        'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
+                    );
+                }
+
+                /**
+                 * Checks if parameter value is not empty
+                 */
                 if (!empty($this->tParameters[$i][1])) {
-                    return $this->_parse($d[2], $this->tParameters);
+                    /**
+                     * Parse template with custom value, and temporary parameters
+                     */
+                    return $this->parseTemplate(
+                        $d[2],
+                        $this->tParameters
+                    );
                 }
             }
         }
@@ -1002,8 +1927,8 @@ class TemplateParser extends WDGWV
             '/function \(/', // compress function ( ) to function() (saves: 1 byte)
             '/\>[^\S ]+/s', // strip whitespaces after tags, except space (saves: many bytes)
             '/[^\S ]+\</s', // strip whitespaces before tags, except space (saves: many bytes)
-            '#\btrue\b#', // Replace `true` with `!0` and `false` with `!1` [^3] (saves: 3 bytes)
-            '#\bfalse\b#', // Replace `true` with `!0` and `false` with `!1` [^3] (saves: 3 bytes)
+            '#\btrue\b#', // Replace `true` with `!0` [^3] (saves: 3 bytes)
+            '#\bfalse\b#', // Replace `false` with `!1` [^3] (saves: 3 bytes)
             '/[^:]\/\/.*/', // Remove JS comments (saves: many bytes)
             '~//<!\[CDATA\[\s*|\s*//\]\]>~', // Remove JS comments (saves: many bytes)
             '/\s\s+/', // remove whitespaces (saves: 1 byte per whitepace)
@@ -1022,6 +1947,9 @@ class TemplateParser extends WDGWV
             '/\) \{/', // removes unnecessary whitespace (saves: 1 byte)
         );
 
+        /**
+         * If needed to hide comments, then append them.
+         */
         if ($this->config['hidecomments']) {
             $search[] = '/<!--(.|\s)*?-->/'; // Remove HTML comments (saves: many bytes)
         }
@@ -1050,12 +1978,26 @@ class TemplateParser extends WDGWV
             '){',
         );
 
+        /**
+         * If needed to hide comments, then append them.
+         */
         if ($this->config['hidecomments']) {
             $replace[] = '';
         }
 
-        $contents = preg_replace($search, $replace, $contents);
+        /**
+         * Minify the HTML output!
+         * @var string
+         */
+        $contents = preg_replace(
+            $search,
+            $replace,
+            $contents
+        );
 
+        /**
+         * Minified output for return
+         */
         return $contents;
     }
 
@@ -1067,11 +2009,23 @@ class TemplateParser extends WDGWV
      */
     public function display()
     {
+        /**
+         * If no parameters are present,
+         * set default parameters.
+         */
         if (!isset($this->config['parameter'])) {
             $this->setParameter();
         }
 
-        echo $this->_parse();
+        /**
+         * Parse the template.
+         * and echo it directly.
+         */
+        echo $this->parseTemplate();
+
+        /**
+         * didDisplay = true
+         */
         $this->config['didDisplay'] = true;
     }
 
@@ -1083,6 +2037,9 @@ class TemplateParser extends WDGWV
      */
     public function didDisplay()
     {
+        /**
+         * Did the template already display?
+         */
         return !$this->config['didDisplay'];
     }
 
@@ -1098,20 +2055,26 @@ class TemplateParser extends WDGWV
      */
     private function fatalError($errorDescription, $errorFile = __FILE__, $errorLine = __LINE__, $helpURL = null)
     {
-        if (file_exists($f = './Data/Template/default/modal.js')) {
-            echo sprintf('<script>%s</script>', file_get_contents($f));
-            echo sprintf('<script>openPopup(\'Fatal Error\', \'%s%s\', \'hidden\', function(){window.location.reload();}, \'hidden\', \'Reload\', \'WDGWV Template Parser\');</script>', $errorDescription, sprintf('<hr />File: %s<br />Line: %s', $errorFile, $errorLine));
-            exit;
-        } else {
-            exit("Fatal Eroor: {$errorDescription}");
-        }
-    }
+        /**
+         * Display error.
+         */
+        echo sprintf(
+            'Fatal Error: %s',
+            $errorDescription
+        );
 
-    // debug_backtrace()
+        /**
+         * Exit with error
+         */
+        exit(1);
+    }
 }
 
 /*
-{TEMPLATE LOAD:'post.html' CONFIG:'TITLE=321;CONTENT=Pzerty;RMLink=/rm/1;KEYWORDS=tag,post,Else;DATE=Today;COMMENTS=2;SHARES=8;'}
+Simple template load.
+{TEMPLATE LOAD:'post.html' CONFIG:'TITLE=hi;CONTENT=ola;RMLink=/r/1;KEYWORDS=tag,post;DATE=Today;COMMENTS=2;SHARES=8;'}
+
+Template load in while (better solution)
 {while post}
 {TEMPLATE LOAD:'post.html' CONFIG:'TITLE=post.title;CONTENT=post.content;RMLink=post.rmLink;KEYWORDS=post.keywords;DATE=post.date;COMMENTS=post.comments;SHARES=post.shares;'}
 {/while}

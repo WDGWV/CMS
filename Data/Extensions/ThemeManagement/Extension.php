@@ -53,7 +53,7 @@
 - ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
 - ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
 -                                                          -
--       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-       (c) WDGWV. 2018, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
@@ -250,4 +250,30 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     'url',
     sprintf('/%s/Themes/List', (new \WDGWV\CMS\Config)->adminURL()),
     array(ThemeMananagamentSystem::sharedInstance(), 'displayList')
+);
+
+//TODO: REMOVE ME
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    '/themeSet/portal',
+    array(
+        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
+        'themeSet',
+    ),
+    array(
+        'portal',
+    )
+);
+
+//TODO: REMOVE ME
+\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    'url',
+    '/themeSet/admin',
+    array(
+        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
+        'themeSet',
+    ),
+    array(
+        'admin',
+    )
 );

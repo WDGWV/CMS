@@ -4,6 +4,19 @@ namespace WDGWV\CMS;
 class Config extends \WDGWV\General\WDGWV
 {
     /**
+     * Call the shared instance
+     * @since Version 1.0
+     */
+    public static function sharedInstance()
+    {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new \WDGWV\CMS\Config();
+        }
+        return $inst;
+    }
+
+    /**
      * administration url
      * @return string administration url
      */
@@ -47,6 +60,15 @@ class Config extends \WDGWV\General\WDGWV
         );
     }
 
+    public function debug()
+    {
+        if (class_exists('\WDGWV\General\WDGWV')) {
+            return (new \WDGWV\General\WDGWV())->debug;
+        } else {
+            E_USER_ERROR('CLASS WDGWV IS MISSING. COULD NOT INITIALIZE!');
+            return false; // Error.
+        }
+    }
     /**
      * DO NOT CHANGE BELOW
      */

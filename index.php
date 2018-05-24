@@ -43,7 +43,7 @@
 - ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
 - ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
 -                                                          -
--       (c) WDGWV. 2013, http://www.wdgwv.com              -
+-       (c) WDGWV. 2018, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
@@ -97,14 +97,12 @@ if (Installer::sharedInstance()->isInstalled()) {
 /**
  * If debugmode is on, then debug.
  */
-if ((new config())->debug) {
-    if (isset($debugger)) {
-        echo "<hr>";
-        $debugger->log(array("Hooks" => Hooks::sharedInstance()->dumpDatabase()));
-        $debugger->logdump();
-        echo "<hr>";
-        $debugger->dumpAllClasses();
-    }
+if (Config::sharedInstance()->debug()) {
+    echo "<hr>";
+    $debugger->log(array("Hooks" => Hooks::sharedInstance()->dumpDatabase()));
+    $debugger->logdump();
+    echo "<hr>";
+    $debugger->dumpAllClasses();
 }
 
 /**
@@ -116,6 +114,6 @@ $CMSEndTime = microtime(true);
 /**
  * If in debug mode, then say "Generated this page in 000μs."
  */
-if ((new config())->debug) {
+if (Config::sharedInstance()->debug()) {
     echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
 }
