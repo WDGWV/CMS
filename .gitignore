@@ -20,3 +20,6 @@ Documentation/phpdoc-cache-*
 
 # Private (setup generator)
 xx_PRIVATE
+
+# Removed since #70
+Documentation
