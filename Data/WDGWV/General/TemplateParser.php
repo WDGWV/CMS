@@ -1213,7 +1213,7 @@ class TemplateParser extends WDGWV
                          * Walk again trouch menu contents,
                          * but now we'll know where we're searching for.
                          */
-                        foreach ($this->config['menuContents'] as $seeki => $seekData) {
+                        foreach ($this->config['menuContents'] as $seekI => $seekData) {
                             /**
                              * If seekdata equals submenu name, then
                              * parse it.
@@ -1243,7 +1243,7 @@ class TemplateParser extends WDGWV
                                         /**
                                          * Append to submenu
                                          */
-                                        $this->config['menuContents'][$seeki]['submenu'][] = $newData;
+                                        $this->config['menuContents'][$seekI]['submenu'][] = $newData;
 
                                         /**
                                          * Unset 'old' menu item (submenuname/item)
@@ -1282,9 +1282,23 @@ class TemplateParser extends WDGWV
                                             $data['name'] = $e[2];
 
                                             /**
+                                             * si = SeekI
+                                             * Otherwise the line is too long
+                                             * @var string
+                                             */
+                                            $si = $seekI;
+
+                                            /**
+                                             * ssi = Sub I
+                                             * Otherwise the line is too long
+                                             * @var string
+                                             */
+                                            $ssi = $subI;
+
+                                            /**
                                              * Append to submenu
                                              */
-                                            $this->config['menuContents'][$seeki]['submenu'][$subI]['submenu'][] = $data;
+                                            $this->config['menuContents'][$si]['submenu'][$ssi]['submenu'][] = $data;
 
                                             /**
                                              * Unset 'old' menu item (submenu/submenuname/item)
@@ -1306,7 +1320,7 @@ class TemplateParser extends WDGWV
                                         /**
                                          * Append to submenu
                                          */
-                                        $this->config['menuContents'][$seeki]['submenu'][] = $newSubmenuItem = array(
+                                        $this->config['menuContents'][$seekI]['submenu'][] = $newSubmenuItem = array(
                                             'name' => $e[1],
                                             'url' => '#',
                                             'userlevel' => (isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'),
