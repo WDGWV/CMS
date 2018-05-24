@@ -2055,42 +2055,26 @@ class TemplateParser extends WDGWV
      */
     private function fatalError($errorDescription, $errorFile = __FILE__, $errorLine = __LINE__, $helpURL = null)
     {
-        if (file_exists($f = './Data/Template/default/modal.js')) {
-            echo sprintf(
-                '<script>%s</script>',
-                file_get_contents($f)
-            );
-            echo sprintf(
-                '<script>openPopup(\'Fatal Error\',\'%s%s\', \'hidden\',' .
-                'function(){window.location.reload();}, \'hidden\', \'Reload\', \'WDGWV Template Parser\');' .
-                '</script>',
-                $errorDescription,
-                sprintf(
-                    '<hr />File: %s<br />Line: %s',
-                    $errorFile,
-                    $errorLine
-                )
-            );
-            exit;
-        } else {
-            /**
-             * Display error.
-             */
-            echo sprintf(
-                'Fatal Error: %s',
-                $errorDescription
-            );
+        /**
+         * Display error.
+         */
+        echo sprintf(
+            'Fatal Error: %s',
+            $errorDescription
+        );
 
-            /**
-             * Exit with error
-             */
-            exit(1);
-        }
+        /**
+         * Exit with error
+         */
+        exit(1);
     }
 }
 
 /*
-{TEMPLATE LOAD:'post.html' CONFIG:'TITLE=321;CONTENT=Pzerty;RMLink=/rm/1;KEYWORDS=tag,post,Else;DATE=Today;COMMENTS=2;SHARES=8;'}
+Simple template load.
+{TEMPLATE LOAD:'post.html' CONFIG:'TITLE=hi;CONTENT=ola;RMLink=/r/1;KEYWORDS=tag,post;DATE=Today;COMMENTS=2;SHARES=8;'}
+
+Template load in while (better solution)
 {while post}
 {TEMPLATE LOAD:'post.html' CONFIG:'TITLE=post.title;CONTENT=post.content;RMLink=post.rmLink;KEYWORDS=post.keywords;DATE=post.date;COMMENTS=post.comments;SHARES=post.shares;'}
 {/while}
