@@ -1323,7 +1323,9 @@ class TemplateParser extends WDGWV
                                         $this->config['menuContents'][$seekI]['submenu'][] = $newSubmenuItem = array(
                                             'name' => $e[1],
                                             'url' => '#',
-                                            'userlevel' => (isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'),
+                                            'userlevel' => (
+                                                isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'
+                                            ),
                                             'submenu' => array($data),
                                         );
 
@@ -1353,21 +1355,55 @@ class TemplateParser extends WDGWV
         }
         // MARK -
 
+        /**
+         * Checks if menuContents isSet.
+         */
         if (isset($this->config['menuContents'])) {
+            /**
+             * Walk trough the menu, finally.
+             */
             foreach ($this->config['menuContents'] as $i => $data) {
+                /**
+                 * make $lang global
+                 */
                 global $lang;
 
+                /**
+                 * Check if the data is an array
+                 */
                 if (!is_array($data)) {
+                    /**
+                     * $data is not an array.
+                     * Malformed menu data!
+                     */
                     $this->fatalError("Malformed menu data.");
                 } else {
+                    /**
+                     * Check if the item is a submenu.
+                     * by checking the following keys match the list below
+                     * - isSet data[submenu]
+                     * - is array data[submenu]
+                     * - sizeof data[submenu] > 1
+                     */
                     if (isset($data['submenu']) &&
                         is_array($data['submenu']) &&
                         sizeof($data['submenu']) > 1) {
+                        /**
+                         * Append submenu header
+                         * @var string
+                         */
                         $addItem = $subMenuHeader;
                     } else {
+                        /**
+                         * Append menu header
+                         * @var string
+                         */
                         $addItem = $generalMenuItem;
                     }
 
+                    /**
+                     * replace {NAME} to the menu item name
+                     */
                     $addItem = preg_replace(
                         "/\{NAME\}/",
                         (
@@ -1378,6 +1414,9 @@ class TemplateParser extends WDGWV
                         $addItem
                     );
 
+                    /**
+                     * replace {ICON} to the menu item icon
+                     */
                     $addItem = preg_replace(
                         "/\{ICON\}/",
                         (
@@ -1388,12 +1427,23 @@ class TemplateParser extends WDGWV
                         $addItem
                     );
 
-                    if (!isset($data['submenu']) ||
-                        !is_array($data['submenu']) ||
-                        !(
+                    /**
+                     * Check if the item is not a submenu.
+                     * by checking the following keys match the list below
+                     * - not isSet data[submenu]
+                     * - not is array data[submenu]
+                     * - not sizeof data[submenu] > 1
+                     */
+                    if (!
+                        (
+                            isset($data['submenu']) ||
+                            is_array($data['submenu']) ||
                             sizeof($data['submenu']) > 1
                         )
                     ) {
+                        /**
+                         * replace {HREF}, {LINK} or {URL} to the menu item url
+                         */
                         $addItem = preg_replace(
                             "/\{(HREF|LINK|URL)\}/",
                             (
@@ -1405,15 +1455,42 @@ class TemplateParser extends WDGWV
                         );
                     }
 
+                    /**
+                     * Append to 'generatedMenu'
+                     */
                     $this->config['generatedMenu'] .= $addItem;
 
+                    /**
+                     * If isset submenu
+                     */
                     if (isset($data['submenu'])) {
+                        /**
+                         * if is array
+                         */
                         if (is_array($data['submenu'])) {
+                            /**
+                             * Walk trough submenu
+                             */
                             foreach ($data['submenu'] as $ii => $subData) {
+                                /**
+                                 * If subdata is an array...
+                                 */
                                 if (is_array($subData)) {
+                                    /**
+                                     * if not isset subdata, and is not an array.
+                                     */
                                     if (!isset($subData['submenu']) ||
                                         !is_array($subData['submenu'])) {
+
+                                        /**
+                                         * Temporary item
+                                         * @var string
+                                         */
                                         $addItem = $subMenuItem;
+
+                                        /**
+                                         * replace {NAME} to the menu item name
+                                         */
                                         $addItem = preg_replace(
                                             "/\{NAME\}/",
                                             (
@@ -1423,6 +1500,10 @@ class TemplateParser extends WDGWV
                                             ),
                                             $addItem
                                         );
+
+                                        /**
+                                         * replace {ICON} to the menu item icon
+                                         */
                                         $addItem = preg_replace(
                                             "/\{ICON\}/",
                                             (
@@ -1432,6 +1513,10 @@ class TemplateParser extends WDGWV
                                             ),
                                             $addItem
                                         );
+
+                                        /**
+                                         * replace {HREF}, {LINK} or {URL} to the menu item url
+                                         */
                                         $addItem = preg_replace(
                                             "/\{(HREF|LINK|URL)\}/",
                                             (
@@ -1442,9 +1527,24 @@ class TemplateParser extends WDGWV
                                             $addItem
                                         );
 
+                                        /**
+                                         * Append Temporary item to final menu
+                                         */
                                         $this->config['generatedMenu'] .= $addItem;
                                     } else {
+                                        /**
+                                         * Hey, it's a submenu
+                                         */
+
+                                        /**
+                                         * Temporary menu item
+                                         * @var string
+                                         */
                                         $addItem = $subMenuHeader;
+
+                                        /**
+                                         * replace {NAME} to the menu item name
+                                         */
                                         $addItem = preg_replace(
                                             "/\{NAME\}/",
                                             (
@@ -1455,6 +1555,9 @@ class TemplateParser extends WDGWV
                                             $addItem
                                         );
 
+                                        /**
+                                         * replace {ICON} to the menu item icon
+                                         */
                                         $addItem = preg_replace(
                                             "/\{ICON\}/",
                                             (
@@ -1464,15 +1567,45 @@ class TemplateParser extends WDGWV
                                             ),
                                             $addItem
                                         );
+
+                                        /**
+                                         * Append to final menu.
+                                         */
                                         $this->config['generatedMenu'] .= $addItem;
 
+                                        /**
+                                         * If isset submenu
+                                         */
                                         if (isset($subData['submenu'])) {
+                                            /**
+                                             * If is an array..
+                                             */
                                             if (is_array($subData['submenu'])) {
+                                                /**
+                                                 * Walk trough the submenu
+                                                 */
                                                 foreach ($subData['submenu'] as $ii => $subSubData) {
+                                                    /**
+                                                     * If subSubData is an array
+                                                     */
                                                     if (is_array($subSubData)) {
+                                                        /**
+                                                         * Check if item does NOT contain a submenu.
+                                                         * - not isSet subSubData[submenu]
+                                                         * - not is array subSubData[submenu]
+                                                         * - not sizeof subSubData[submenu] > 1
+                                                         */
                                                         if (!isset($subSubData['submenu']) ||
                                                             !is_array($subSubData['submenu'])) {
+                                                            /**
+                                                             * Temporary menu item
+                                                             * @var string
+                                                             */
                                                             $addItem = $subMenuItem;
+
+                                                            /**
+                                                             * replace {NAME} to the sub menu item name
+                                                             */
                                                             $addItem = preg_replace(
                                                                 "/\{NAME\}/",
                                                                 (
@@ -1482,6 +1615,10 @@ class TemplateParser extends WDGWV
                                                                 ),
                                                                 $addItem
                                                             );
+
+                                                            /**
+                                                             * replace {ICON} to the sub menu item icon
+                                                             */
                                                             $addItem = preg_replace(
                                                                 "/\{ICON\}/",
                                                                 (
@@ -1491,6 +1628,10 @@ class TemplateParser extends WDGWV
                                                                 ),
                                                                 $addItem
                                                             );
+
+                                                            /**
+                                                             * replace {HREF}, {LINK} or {URL} to the sub menu item url
+                                                             */
                                                             $addItem = preg_replace(
                                                                 "/\{(HREF|LINK|URL)\}/",
                                                                 (
@@ -1501,8 +1642,14 @@ class TemplateParser extends WDGWV
                                                                 $addItem
                                                             );
 
+                                                            /**
+                                                             * Append Temporary menu item to final menu
+                                                             */
                                                             $this->config['generatedMenu'] .= $addItem;
                                                         } else {
+                                                            /**
+                                                             * Error to much submenu's.
+                                                             */
                                                             $this->fatalError(
                                                                 sprintf(
                                                                     "<b>FATAL ERROR</b><br />" .
@@ -1518,42 +1665,64 @@ class TemplateParser extends WDGWV
                                                             );
                                                         }
                                                     } else {
+                                                        /**
+                                                         * Malformed submenu data
+                                                         */
                                                         echo "<pre>";
                                                         print_r(
                                                             $this->config['menuContents']
                                                         );
                                                         echo "</pre>";
 
-                                                        $this->fatalError("Invalid submenu data.");
+                                                        $this->fatalError("Malformed submenu data.");
                                                     }
                                                 }
                                             }
                                         }
 
+                                        /**
+                                         * Append submenu footer to final menu.
+                                         */
                                         $this->config['generatedMenu'] .= $subMenuFooter;
                                     }
                                 } else {
+                                    /**
+                                     * Malformed submenu data
+                                     */
                                     echo "<pre>";
                                     print_r(
                                         $this->config['menuContents']
                                     );
                                     echo "</pre>";
 
-                                    $this->fatalError("Invalid submenu data.");
+                                    $this->fatalError("Malformed submenu data.");
                                 }
                             }
                         }
                     }
 
+                    /**
+                     * Check if the item is a submenu.
+                     * by checking the following keys match the list below
+                     * - isSet data[submenu]
+                     * - is array data[submenu]
+                     * - sizeof data[submenu] > 1
+                     */
                     if (isset($data['submenu']) &&
                         is_array($data['submenu']) &&
                         sizeof($data['submenu']) > 1) {
+                        /**
+                         * Append submenu footer to final menu (if needed)
+                         */
                         $this->config['generatedMenu'] .= $subMenuFooter;
                     }
                 }
             }
         }
 
+        /**
+         * Finally, we've got a menu, now return it.
+         */
         return $this->config['generatedMenu'];
     }
 
