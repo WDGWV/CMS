@@ -1434,12 +1434,9 @@ class TemplateParser extends WDGWV
                      * - not is array data[submenu]
                      * - not sizeof data[submenu] > 1
                      */
-                    if (!
-                        (
-                            isset($data['submenu']) ||
-                            is_array($data['submenu']) ||
-                            sizeof($data['submenu']) > 1
-                        )
+                    if (!isset($data['submenu']) ||
+                        !is_array($data['submenu']) ||
+                        !(sizeof($data['submenu']) > 1)
                     ) {
                         /**
                          * replace {HREF}, {LINK} or {URL} to the menu item url
