@@ -1079,60 +1079,243 @@ class TemplateParser extends WDGWV
             $this->fatalError("Failed to load menu!");
         }
 
+        // MARK: Submenu
+        /**
+         * Extract start tag for a submenu
+         * @var string
+         */
         $subMenuHeader = explode("{SUBMENU}", $d[1]);
-        $subMenuHeader = isset($subMenuHeader[1]) ? $subMenuHeader[1] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuHeader[1])) {
+            /* Found beginning tag */
+            $subMenuHeader = $subMenuHeader[1];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
+
+        /**
+         * Extract starting tag for a submenu item
+         * @var string
+         */
         $subMenuHeader = explode("{MENUITEM}", $subMenuHeader);
-        $subMenuHeader = isset($subMenuHeader[0]) ? $subMenuHeader[0] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuHeader[0])) {
+            /* Found beginning tag */
+            $subMenuHeader = $subMenuHeader[0];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
 
+        /**
+         * Extract starting tag for a submenu
+         * @var string
+         */
         $subMenuFooter = explode("{SUBMENU}", $d[1]);
-        $subMenuFooter = isset($subMenuFooter[1]) ? $subMenuFooter[1] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuFooter[1])) {
+            /* Found beginning tag */
+            $subMenuFooter = $subMenuFooter[1];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
+
+        /**
+         * Extract ending tag for a menu item (in submenu)
+         * @var string
+         */
         $subMenuFooter = explode("{/MENUITEM}", $subMenuFooter);
-        $subMenuFooter = isset($subMenuFooter[1]) ? $subMenuFooter[1] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuFooter[1])) {
+            /* Found beginning tag */
+            $subMenuFooter = $subMenuFooter[1];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
+
+        /**
+         * Extract ending tag for a submenu
+         * @var string
+         */
         $subMenuFooter = explode("{/SUBMENU}", $subMenuFooter);
-        $subMenuFooter = isset($subMenuFooter[0]) ? $subMenuFooter[0] : $this->fatalError("Failed to load sub menu!");
+        if (isset($subMenuFooter[0])) {
+            /* Found beginning tag */
+            $subMenuFooter = $subMenuFooter[0];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu!");
+        }
 
+        /**
+         * Extract starting tag for a submenu item
+         * @var string
+         */
         $subMenuItem = explode("{SUBMENU}", $d[1]);
-        $subMenuItem = isset($subMenuItem[1]) ? $subMenuItem[1] : $this->fatalError("Failed to load sub menu items!");
-        $subMenuItem = explode("{MENUITEM}", $subMenuItem);
-        $subMenuItem = isset($subMenuItem[1]) ? $subMenuItem[1] : $this->fatalError("Failed to load sub menu items!");
-        $subMenuItem = explode("{/MENUITEM}", $subMenuItem);
-        $subMenuItem = isset($subMenuItem[0]) ? $subMenuItem[0] : $this->fatalError("Failed to load sub menu items!");
+        if (isset($subMenuItem[1])) {
+            /* Found beginning tag */
+            $subMenuItem = $subMenuItem[1];
+        } else {
+            /* Didn't found a submenu tag */
+            $this->fatalError("Failed to load sub menu items!");
+        }
 
-        /* Extensions support... */
+        /**
+         * Extract starting tag for a menu item (in submenu)
+         * @var string
+         */
+        $subMenuItem = explode("{MENUITEM}", $subMenuItem);
+        if (isset($subMenuItem[1])) {
+            /* Found beginning tag */
+            $subMenuItem = $subMenuItem[1];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu items!");
+        }
+
+        /**
+         * Extract ending tag for a menu item (in submenu)
+         * @var string
+         */
+        $subMenuItem = explode("{/MENUITEM}", $subMenuItem);
+        if (isset($subMenuItem[0])) {
+            /* Found beginning tag */
+            $subMenuItem = $subMenuItem[0];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load sub menu items!");
+        }
+        // MARK -
+
+        // MARK: Extensions support
+        /**
+         * Extensions support...
+         */
         if (isset($this->config['menuContents'])) {
+            /**
+             * Walk trough menu content items
+             */
             foreach ($this->config['menuContents'] as $i => $data) {
+                /**
+                 * A / means submenu items!
+                 */
                 if (preg_match("/\//", $data['name'])) {
+                    /**
+                     * Explode submenu from item's name
+                     * @var [string]
+                     */
                     $e = explode("/", $data['name']);
+
+                    /**
+                     * If size is less then 4, then it contains valid menu data.
+                     * Otherwise there are to much submenu's, and that's not built-in
+                     */
                     if (sizeof($e) < 4) {
+                        /**
+                         * Walk again trouch menu contents,
+                         * but now we'll know where we're searching for.
+                         */
                         foreach ($this->config['menuContents'] as $seeki => $seekData) {
+                            /**
+                             * If seekdata equals submenu name, then
+                             * parse it.
+                             */
                             if (strtolower($seekData['name']) == strtolower($e[0])) {
+                                /**
+                                 * if !isset $e[2] then it's a one layered submenu.
+                                 * Otherwise there is a sub-in-submenu.
+                                 */
                                 if (!isset($e[2])) {
+                                    /**
+                                     * Is the $seekData has a 'submenu' item.
+                                     * then parse it, otherwise ignore
+                                     */
                                     if (is_array($seekData['submenu'])) {
+                                        /**
+                                         * new Data (removes submenu name, because it's added to the submenu)
+                                         * @var [string]
+                                         */
                                         $newData = $data;
+
+                                        /**
+                                         * Remove submenu name.
+                                         */
                                         $newData['name'] = $e[1];
 
+                                        /**
+                                         * Append to submenu
+                                         */
                                         $this->config['menuContents'][$seeki]['submenu'][] = $newData;
+
+                                        /**
+                                         * Unset 'old' menu item (submenuname/item)
+                                         */
                                         unset($this->config['menuContents'][$i]);
                                     }
                                 } else {
-                                    // loop, and search, otherwise create sub-in-submenu
+                                    /**
+                                     * loop, and search, otherwise create sub-in-submenu
+                                     */
+
+                                    /**
+                                     * Is found in Sub-in-sub menu
+                                     * @var boolean
+                                     */
                                     $foundSubInSub = false;
+
+                                    /**
+                                     * Walking trough the sub-in-sub menu
+                                     */
                                     foreach ($seekData['submenu'] as $subI => $subData) {
+                                        /**
+                                         * If seekdata equals sub-in-sub menu name, then
+                                         * parse it.
+                                         */
                                         if (strtolower($subData['name']) == strtolower($e[1])) {
+                                            /**
+                                             * Is found in Sub-in-sub menu, found!
+                                             * @var boolean
+                                             */
                                             $foundSubInSub = true;
+
+                                            /**
+                                             * Remove submenu name.
+                                             */
                                             $data['name'] = $e[2];
+
+                                            /**
+                                             * Append to submenu
+                                             */
                                             $this->config['menuContents'][$seeki]['submenu'][$subI]['submenu'][] = $data;
+
+                                            /**
+                                             * Unset 'old' menu item (submenu/submenuname/item)
+                                             */
                                             unset($this->config['menuContents'][$i]);
                                         }
                                     }
+
+                                    /**
+                                     * Nothing found?
+                                     * cool. it's a new submenu
+                                     */
                                     if (!$foundSubInSub) {
+                                        /**
+                                         * Remove parent's submenu name
+                                         */
                                         $data['name'] = $e[2];
+
+                                        /**
+                                         * Append to submenu
+                                         */
                                         $this->config['menuContents'][$seeki]['submenu'][] = $newSubmenuItem = array(
                                             'name' => $e[1],
                                             'url' => '#',
                                             'userlevel' => (isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'),
                                             'submenu' => array($data),
                                         );
+
+                                        /**
+                                         * Unset 'old' menu item (submenu/....)
+                                         */
                                         unset($this->config['menuContents'][$i]);
                                     }
                                 }
@@ -1154,6 +1337,7 @@ class TemplateParser extends WDGWV
                 }
             }
         }
+        // MARK -
 
         if (isset($this->config['menuContents'])) {
             foreach ($this->config['menuContents'] as $i => $data) {
