@@ -1052,10 +1052,32 @@ class TemplateParser extends WDGWV
          */
         $this->config['generatedMenu'] = '';
 
+        /**
+         * Extract ending tag for a General menu item
+         * @var string
+         */
         $generalMenuItem = explode("{/MENUITEM}", $d[1]);
-        $generalMenuItem = isset($generalMenuItem[0]) ? $generalMenuItem[0] : $this->fatalError("Failed to load menu!");
+
+        if (isset($generalMenuItem[0])) {
+            /* Found ending tag */
+            $generalMenuItem = $generalMenuItem[0];
+        } else {
+            /* Didn't found a /menuitem tag */
+            $this->fatalError("Failed to load menu!");
+        }
+
+        /**
+         * Extract starting tag for a General menu item
+         * @var string
+         */
         $generalMenuItem = explode("{MENUITEM}", $generalMenuItem);
-        $generalMenuItem = isset($generalMenuItem[1]) ? $generalMenuItem[1] : $this->fatalError("Failed to load menu!");
+        if (isset($generalMenuItem[1])) {
+            /* Found beginning tag */
+            $generalMenuItem = $generalMenuItem[1];
+        } else {
+            /* Didn't found a menuitem tag */
+            $this->fatalError("Failed to load menu!");
+        }
 
         $subMenuHeader = explode("{SUBMENU}", $d[1]);
         $subMenuHeader = isset($subMenuHeader[1]) ? $subMenuHeader[1] : $this->fatalError("Failed to load sub menu!");
