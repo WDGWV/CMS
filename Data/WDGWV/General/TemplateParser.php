@@ -1947,6 +1947,9 @@ class TemplateParser extends WDGWV
             '/\) \{/', // removes unnecessary whitespace (saves: 1 byte)
         );
 
+        /**
+         * If needed to hide comments, then append them.
+         */
         if ($this->config['hidecomments']) {
             $search[] = '/<!--(.|\s)*?-->/'; // Remove HTML comments (saves: many bytes)
         }
@@ -1975,16 +1978,26 @@ class TemplateParser extends WDGWV
             '){',
         );
 
+        /**
+         * If needed to hide comments, then append them.
+         */
         if ($this->config['hidecomments']) {
             $replace[] = '';
         }
 
+        /**
+         * Minify the HTML output!
+         * @var string
+         */
         $contents = preg_replace(
             $search,
             $replace,
             $contents
         );
 
+        /**
+         * Minified output for return
+         */
         return $contents;
     }
 
