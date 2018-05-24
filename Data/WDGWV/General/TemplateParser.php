@@ -627,7 +627,7 @@ class TemplateParser extends WDGWV
          */
         $template = preg_replace_callback(
             '/\{ISSET ITEM:(\w+)\}(.*)\{\/ISSET\}/',
-            array($this, 'validParameter'),
+            array($this, 'isSetItem'),
             $template
         );
 
@@ -1733,66 +1733,178 @@ class TemplateParser extends WDGWV
      */
     public function parseSubTemplate($d)
     {
+        /**
+         * If exists, $d[2] it has custom parameters!
+         */
         if (isset($d[2])) {
+            /**
+             * re-set temporary parameters
+             * @var array
+             */
             $this->tParameters = array();
 
+            /**
+             * Explode custom parameters (name=value;name2=value2...)
+             * @var [string]
+             */
             $cfg = explode(';', $d[2]);
+
+            /**
+             * Walk trough the custom parameters
+             */
             for ($i = 0; $i < sizeof($cfg); $i++) {
+                /**
+                 * Explode = (name=value) from custom parameter
+                 * @var [string]
+                 */
                 $_d = explode("=", $cfg[$i]);
+
+                /**
+                 * if data = CONTENT, then decode it
+                 */
                 if ($_d[0] == 'CONTENT') {
+                    /**
+                     * Decode content
+                     */
                     $_d[1] = base64_decode($_d[1]);
                 }
-                $this->tParameters[] = array($_d[0], isset($_d[1]) ? $_d[1] : null);
+
+                /**
+                 * Append to temporary parameters
+                 */
+                $this->tParameters[] = array(
+                    /**
+                     * Parameter name
+                     */
+                    $_d[0],
+                    /**
+                     * Parameter value
+                     */
+                    isset($_d[1]) ? $_d[1] : null,
+                );
             }
         }
 
+        /**
+         * Check if sub template item exists!
+         */
+        if (!file_exists($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]) ||
+            !is_readable($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1])) {
+            /**
+             * Does not exists, or is not readable
+             */
+            $this->fatalError(sprintf(
+                'Warning file \'%s\' does not exists, or isn\'t readable.<br />Cannot load sub-template item.',
+                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]
+            ));
+
+            return;
+        }
+
+        /**
+         * Parse sub-template
+         */
         return $this->parseTemplate(
+            /**
+             * Load sub-template.
+             */
             file_get_contents(
                 $this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]
             ),
-            $this->tParameters
+            /**
+             * Append custom parameters
+             */
+            isset($this->tParameters) ? $this->tParameters : array()
         );
     }
 
     /**
-     * @param $d
+     * is the {ISSET ITEM:ITEMNAME}...{/ISSET} valid?
+     * @param $d search/parse parameter in template.
      * @return mixed
      */
-    public function validParameter($d)
+    public function isSetItem($d)
     {
+        /**
+         * If no custom parameters
+         */
         if (sizeof($this->tParameters) === 0) {
+            /**
+             * If a debugger is set, debug.
+             */
             if (isset($this->debugger)) {
+                /**
+                 * Append debug message
+                 */
                 $this->debugger->log(
                     'we\'re not in a sub loop so \'tParameters\' is empty,' .
                     ' checking other \'parameters\'.'
                 );
             }
+
+            /**
+             * Walk trough parameters
+             */
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
+                /**
+                 * If parameter equals $d
+                 */
                 if ($this->parameters[$i][0] == $d[1]) {
+                    /**
+                     * If a debugger is set, debug.
+                     */
                     if (isset($this->debugger)) {
+                        /**
+                         * Append debug message
+                         */
                         $this->debugger->log(
                             'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
                         );
                     }
 
+                    /**
+                     * Checks if parameter value is not empty
+                     */
                     if (!empty($this->parameters[$i][1])) {
+                        /**
+                         * Parse template with custom value, and original parameters
+                         */
                         return $this->parseTemplate(
-                            $d[2], /* Parse with parameters */
-                            $this->parameters/* Parameters */
+                            $d[2],
+                            $this->parameters
                         );
                     }
                 }
             }
         }
+
+        /**
+         * Walk trough temporary parameters
+         */
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
+            /**
+             * If temporary parameter equals $d
+             */
             if ($this->tParameters[$i][0] == $d[1]) {
+                /**
+                 * If a debugger is set, debug.
+                 */
                 if (isset($this->debugger)) {
+                    /**
+                     * Append debug message
+                     */
                     $this->debugger->log(
                         'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
                     );
                 }
 
+                /**
+                 * Checks if parameter value is not empty
+                 */
                 if (!empty($this->tParameters[$i][1])) {
+                    /**
+                     * Parse template with custom value, and temporary parameters
+                     */
                     return $this->parseTemplate(
                         $d[2],
                         $this->tParameters
