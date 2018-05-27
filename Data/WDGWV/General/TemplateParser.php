@@ -1671,6 +1671,10 @@ class TemplateParser extends WDGWV
                                                         );
                                                         echo "</pre>";
 
+                                                        echo "\nThis needs to be an array!\n<pre>";
+                                                        print_r($subData['submenu']);
+                                                        echo "</pre>";
+
                                                         $this->fatalError("Malformed submenu data.");
                                                     }
                                                 }
@@ -1682,17 +1686,6 @@ class TemplateParser extends WDGWV
                                          */
                                         $this->config['generatedMenu'] .= $subMenuFooter;
                                     }
-                                } else {
-                                    /**
-                                     * Malformed submenu data
-                                     */
-                                    echo "<pre>";
-                                    print_r(
-                                        $this->config['menuContents']
-                                    );
-                                    echo "</pre>";
-
-                                    $this->fatalError("Malformed submenu data.");
                                 }
                             }
                         }

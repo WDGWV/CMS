@@ -103,6 +103,11 @@ class Base
                 'userlevel' => 'system',
                 'is_activated' => false,
                 'email' => 'CMS@wdgwv.com',
+                'extra' => array(
+                    'userlevel' => 100,
+                    'is_admin' => true,
+                    'is_system' => true,
+                ),
             ),
             array(
                 'username' => 'admin',
@@ -110,7 +115,10 @@ class Base
                 'email' => 'admin@localhost',
                 'userlevel' => 'admin',
                 'is_activated' => true,
-                'extra' => array('userlevel' => 100, 'is_admin' => true),
+                'extra' => array(
+                    'userlevel' => 100,
+                    'is_admin' => true,
+                ),
             ),
         );
     }
