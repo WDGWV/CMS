@@ -113,7 +113,27 @@ class Debugger
             $error = 'warning';
         }
 
-        $WDGWV_DEBUG[$error][] = $message;
+        $WDGWV_DEBUG[$error][] = htmlspecialchars(is_array($message) ? json_encode($message) : $message);
+    }
+
+    /**
+     * Log a message (sprintf)
+     * @param string $bool log code
+     * @param string string overload... (sprintf)
+     * @since Version 1.0
+     */
+    public function logf($cat = 'info')
+    {
+        global $WDGWV_DEBUG;
+
+        if ($cat == 'warn') {
+            $cat = 'warning';
+        }
+
+        $customArgs = func_get_args();
+        unset($customArgs[0]);
+
+        $WDGWV_DEBUG[$cat][] = @call_user_func_array('sprintf', $customArgs);
     }
 
     /**

@@ -140,10 +140,10 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                                 VALUES
                                     (NULL, :username, :password, :email, :userlevel, :activated, :extra);";
 
-        $this->create['setting'] = "INSERT INTO CMSconfiguration (`item`, `value`)
+        $this->create['setting'] = "INSERT INTO `CMSconfiguration` (`item`, `value`)
                                     VALUES (:item, :value);";
 
-        $this->create['page'] = "INSERT INTO pages
+        $this->create['page'] = "INSERT INTO `pages`
                                     (`id`, `title`, `contents`, `keywords`, `date`, `options`)
                                  VALUES
                                     (NULL, :title, :contents, :keywords, :time, :options);";
@@ -198,17 +198,28 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
         if (!$this->userExists('admin')) {
             if (is_array($this->generateUserDB())) {
-                $this->userDatabase[] = (object) $this->generateUserDB();
+                foreach ($this->generateUserDB() as $newUser) {
+                    $this->userRegister(
+                        $newUser['username'],
+                        $newUser['password'],
+                        $newUser['email'],
+                        $newUser['extra']
+                    );
+                }
             }
-        }
-        if (!$this->postExists('Welcome to the WDGWV CMS!')) {
-            $this->postDatabase[] = array(
-                'Welcome to the WDGWV CMS!',
-                'Welcome to the WDGWV CMS!<br />',
-                'Welcome,WDGWV,CMS',
-                date('d-m-Y H:i:s'),
-                array('userID' => 0, 'sticky' => true),
-            );
+
+            /**
+             * If no user is created as well, then it's a new installation, so create the post
+             */
+            if (!$this->postExists('Welcome to the WDGWV CMS!')) {
+                $this->postCreate(
+                    'Welcome to the WDGWV CMS!',
+                    'Welcome to the WDGWV CMS!<br />',
+                    'Welcome,WDGWV,CMS',
+                    date('d-m-Y H:i:s'),
+                    json_encode(array('userID' => 0, 'sticky' => true))
+                );
+            }
         }
 
         foreach ($this->create as $key => $value) {
@@ -232,9 +243,13 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function userExists($userID)
     {
         $count = 0;
-        $query = "SELECT * FROM users WHERE `username`='%s';";
-        $query = sprintf($query, $userID);
-        foreach ($this->db->query($query) as $users) {
+
+        $query = $this->queryWithParameters(
+            'SELECT * FROM `users` WHERE `username`=:username',
+            array(':username' => $userID)
+        );
+
+        foreach ($query as $users) {
             $count++;
         }
 
@@ -277,12 +292,10 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function userDelete($userID)
     {
         if ($this->userExists($userID)) {
-            $query = sprintf(
-                'DELETE FROM `users` WHERE `username`=\'%s\';',
-                $userID
+            return $this->queryWithParameters(
+                'SELECT * FROM `users` WHERE `username`=:username',
+                array(':username' => $userID)
             );
-
-            return $this->db->exec($query);
         }
 
         return false;
@@ -297,9 +310,15 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function userLogin($userID, $userPassword)
     {
         $count = 0;
-        $query = "SELECT * FROM users WHERE `username`='%s' AND `password`='%s';";
-        $query = sprintf($query, $userID, hash('sha512', $userPassword));
-        foreach ($this->db->query($query) as $users) {
+        $query = $this->queryWithParameters(
+            'SELECT * FROM `users` WHERE `username`=:username AND `password`=:password',
+            array(
+                ':username' => $userID,
+                ':password' => hash('sha512', $userPassword),
+            )
+        );
+
+        foreach ($query as $users) {
             $count++;
         }
 
@@ -313,9 +332,14 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function userLoad($userID)
     {
-        $query = "SELECT * FROM users WHERE `username`='%s';";
+        $query = $this->queryWithParameters(
+            'SELECT * FROM `users` WHERE `username`=:username',
+            array(
+                ':username' => $userID,
+            )
+        );
         $query = sprintf($query, $userID);
-        foreach ($this->db->query($query) as $users) {
+        foreach ($query as $users) {
             return $users;
         }
 
@@ -325,15 +349,33 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     /**
      * Set theme name.
      *
-     * @param $themeName
+     * @param $themeName theme name
+     * @param $force force (use insert)
      */
-    public function themeSet($themeName)
+    public function themeSet($themeName, $force = false)
     {
-        $query = "UPDATE CMSconfiguration SET `value`='%s' WHERE `item`='theme';";
-        $query = sprintf($query, $themeName);
+        if ($force) {
+            $query = "INSERT INTO `CMSconfiguration` (`value`, `item`) VALUES(:theme, 'theme');";
 
-        if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
-            $this->db->exec($query);
+            if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
+                $this->queryWithParameters(
+                    $query,
+                    array(':theme' => $themeName)
+                );
+            } else {
+                trigger_error(sprintf('Theme %s does not exists', $themeName), E_USER_ERROR);
+            }
+        } else {
+            $query = "UPDATE `CMSconfiguration` SET `value`=:theme WHERE `item`='theme'";
+
+            if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
+                $this->queryWithParameters(
+                    $query,
+                    array(':theme' => $themeName)
+                );
+            } else {
+                trigger_error(sprintf('Theme %s does not exists', $themeName), E_USER_ERROR);
+            }
         }
     }
 
@@ -344,22 +386,44 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function themeGet()
     {
-        $query = "SELECT * FROM CMSconfiguration WHERE `item`='theme';";
         $count = 0;
-        foreach ($this->db->query($query) as $item) {
+        foreach ($this->queryWithParameters(
+            'SELECT * FROM `CMSconfiguration` WHERE item=:theme',
+            array(':theme' => 'theme')
+        ) as $item) {
             return $item[1];
         }
 
-        $query = sprintf(
-            $this->create['setting'],
-            'theme',
-            'admin'
-        );
-        $this->db->exec($query);
+        $this->themeSet('admin', true);
 
         return 'admin'; //Temporary.
     }
 
+    /**
+     * Replaces any parameter placeholders in a query with the value of that
+     * parameter. Useful for debugging. Assumes anonymous parameters from
+     * $params are are in the same order as specified in $query
+     *
+     * @param string $query The sql query with parameter placeholders
+     * @param array $params The array of substitution parameters
+     * @return string The interpolated query
+     */
+    public function debugQuery($query, $params)
+    {
+        $keys = array();
+
+        foreach ($params as $key => $value) {
+            if (is_string($key)) {
+                $keys[] = '/' . $key . '/';
+            } else {
+                $keys[] = '/[?]/';
+            }
+        }
+
+        $query = preg_replace($keys, $params, $query, 1, $count);
+
+        return $query;
+    }
     /**
      * Load menu contents
      *
@@ -367,18 +431,20 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function menuLoad()
     {
-        $query = "SELECT * FROM CMSconfiguration WHERE `item`='menu';";
-        $count = 0;
-        foreach ($this->db->query($query) as $item) {
+        // $query = "SELECT * FROM `CMSconfiguration` WHERE `item`='menu';";
+        // $count = 0;
+        // foreach ($this->db->query($query) as $item) {
+        //     return json_decode($item[1], true);
+        // }
+
+        foreach ($this->queryWithParameters(
+            'SELECT * FROM `CMSconfiguration` WHERE item=:menu',
+            array(':menu' => 'menu')
+        ) as $item) {
             return json_decode($item[1], true);
         }
 
-        $query = sprintf(
-            $this->create['setting'],
-            'menu',
-            json_encode($this->generateMenuDB())
-        );
-        $this->db->exec($query);
+        $this->menuSetItems($this->generateMenuDB(), true);
 
         return $this->generateMenuDB();
     }
@@ -388,12 +454,21 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      *
      * @param $menuItemsArray
      */
-    public function menuSetItems($menuItemsArray)
+    public function menuSetItems($menuItemsArray, $force = false)
     {
-        $query = "UPDATE CMSconfiguration SET `value`='%s' WHERE `item`='theme';";
-        $query = sprintf($query, json_encode($menuItemsArray));
-
-        $this->db->exec($query);
+        if ($force) {
+            $query = "INSERT INTO `CMSconfiguration` (`value`, `item`) VALUES(:menu, 'menu');";
+            return $this->queryWithParameters(
+                $query,
+                array(':menu' => json_encode($menuItemsArray))
+            );
+        } else {
+            $query = "UPDATE `CMSconfiguration` SET `value`=:menu WHERE `item`='menu'";
+            return $this->queryWithParameters(
+                $query,
+                array(':menu' => json_encode($menuItemsArray))
+            );
+        }
     }
 
     /**
@@ -406,10 +481,17 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function pageLoad($pageTitleOrID, $strict = false)
     {
         // load ID at the latest point, since we'll need to handle legacy sysyems.
-        $query = "SELECT `title`, `contents`, `keywords`, `date`, `options`, `id` FROM pages WHERE `title` %s '%s';";
-        $query = sprintf($query, ($strict ? '=' : 'LIKE'), $pageTitleOrID);
+        $query = "SELECT `title`, `contents`, `keywords`, `date`, `options`, `id` FROM pages WHERE `title` %s :pageTitleOrID";
+        $query = sprintf($query, ($strict ? '=' : 'LIKE'));
+        $query = $this->queryWithParameters(
+            $query,
+            array(
+                ':pageTitleOrID' => $pageTitleOrID,
+            )
+        );
+
         $count = 0;
-        foreach ($this->db->query($query) as $page) {
+        foreach ($query as $page) {
             return $page;
         }
     }
@@ -422,10 +504,17 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function pageExists($pageTitleOrID, $strict = false)
     {
-        $query = "SELECT * FROM pages WHERE `title` %s '%s';";
-        $query = sprintf($query, ($strict ? '=' : 'LIKE'), $pageTitleOrID);
+        $query = "SELECT `title`, `contents`, `keywords`, `date`, `options`, `id` FROM pages WHERE `title` %s :pageTitleOrID";
+        $query = sprintf($query, ($strict ? '=' : 'LIKE'));
+        $query = $this->queryWithParameters(
+            $query,
+            array(
+                ':pageTitleOrID' => $pageTitleOrID,
+            )
+        );
+
         $count = 0;
-        foreach ($this->db->query($query) as $page) {
+        foreach ($query as $page) {
             $count++;
         }
 
@@ -505,9 +594,14 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function postRemove($postID, $strict = false)
     {
         if ($this->postExists($postID, $strict)) {
-            $query = "DELETE FROM posts WHERE `title` %s '%s';";
-            $query = sprintf($query, ($strict ? '=' : 'LIKE'), $postTitle);
-            return $this->db->query($query);
+            $query = "DELETE FROM posts WHERE `title` %s :pageTitleOrID";
+            $query = sprintf($query, ($strict ? '=' : 'LIKE'));
+            return $this->queryWithParameters(
+                $query,
+                array(
+                    ':pageTitleOrID' => $pageTitleOrID,
+                )
+            );
         }
 
         return false;
@@ -522,9 +616,16 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function postLoad($postID, $strict = false)
     {
         if ($this->postExists($postID, $strict)) {
-            $query = "SELECT * FROM posts WHERE `title` %s '%s';";
-            $query = sprintf($query, ($strict ? '=' : 'LIKE'), $postTitle);
-            foreach ($this->db->query($query) as $post) {
+            $query = "SELECT * FROM `posts` WHERE `title` %s :postID";
+            $query = sprintf($query, ($strict ? '=' : 'LIKE'));
+            $query = $this->queryWithParameters(
+                $query,
+                array(
+                    ':postID' => $postID,
+                )
+            );
+
+            foreach ($query as $post) {
                 return array(
                     /* title... */$post['title'],
                     /* contents */$post['contents'],
@@ -546,10 +647,17 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postExists($postTitle, $strict = false)
     {
-        $query = "SELECT * FROM posts WHERE `title` %s '%s';";
-        $query = sprintf($query, ($strict ? '=' : 'LIKE'), $postTitle);
+        $query = "SELECT * FROM `posts` WHERE `title` %s :postTitle";
+        $query = sprintf($query, ($strict ? '=' : 'LIKE'));
+        $query = $this->queryWithParameters(
+            $query,
+            array(
+                ':postTitle' => $postTitle,
+            )
+        );
+
         $count = 0;
-        foreach ($this->db->query($query) as $post) {
+        foreach ($query as $post) {
             $count++;
         }
 
@@ -654,9 +762,19 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function queryWithParameters($query, $parameters)
     {
-        $this->db->prepare($query);
+        /**
+         * Prepared statement
+         * @var object
+         */
+        $stmt = $this->db->prepare($query);
 
+        /**
+         * Walk trough parameters
+         */
         foreach ($parameters as $bindKey => $bindValue) {
+            /**
+             * Bind values
+             */
             $stmt->bindValue(
                 $bindKey,
                 $bindValue,
@@ -664,7 +782,95 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
             );
         }
 
-        return $stmt->execute();
+        /**
+         * Executed statement
+         * @var object
+         */
+        $e = $stmt->execute();
+
+        /**
+         * fetched content
+         * @var [string]
+         */
+        $x = $stmt->fetchAll();
+
+        /**
+         * data check, If less then 1
+         * then skip.
+         */
+        if (sizeof($x) > 1) {
+            /**
+             * We've got values
+             */
+            return $x;
+        }
+
+        /**
+         * Didn't got values
+         * Retry in another way
+         */
+
+        /**
+         * Query
+         * @var string
+         */
+        $newQuery = $query;
+
+        /**
+         * Parameter values
+         * @var array
+         */
+        $values = array();
+
+        /**
+         * Walk trough parameters
+         */
+        foreach ($parameters as $bindKey => $bindValue) {
+            /**
+             * Replace parameter bindings :parameter to ?
+             * @var string
+             */
+            $newQuery = preg_replace('/' . $bindKey . '/', '?', $newQuery, 1, $count);
+
+            /**
+             * Append parameter values!
+             */
+            $values[] = $bindValue;
+        }
+
+        /**
+         * Prepare for the second time
+         * @var [type]
+         */
+        $new = $this->db->prepare($newQuery);
+
+        /**
+         * Execute with parameter values
+         */
+        $new->execute($values);
+
+        /**
+         * Fetch contents
+         * @var [string]
+         */
+        $x = $new->fetch(\PDO::FETCH_BOTH);
+
+        /**
+         * data check, If less then 1
+         * then skip.
+         */
+        if (sizeof($x) > 1) {
+            /**
+             * We've got values
+             * hack it togheter.
+             */
+            return array(0 => $x);
+        }
+
+        /**
+         * Failed, or no data found.
+         */
+        return false;
     }
 
     /**
