@@ -160,7 +160,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function __sleep()
     {
-        // FIX TRAVIS
+        /* FIX TRAVIS */
         return array();
     }
 
@@ -169,7 +169,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function __wakeup()
     {
-        // FIX TRAVIS
+        /* FIX TRAVIS */
         try {
             $this->db = new \PDO(sprintf('sqlite:%s', SQLITE_DB));
             $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -396,7 +396,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
         $this->themeSet('admin', true);
 
-        return 'admin'; //Temporary.
+        return 'admin';
     }
 
     /**
@@ -431,12 +431,6 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function menuLoad()
     {
-        // $query = "SELECT * FROM `CMSconfiguration` WHERE `item`='menu';";
-        // $count = 0;
-        // foreach ($this->db->query($query) as $item) {
-        //     return json_decode($item[1], true);
-        // }
-
         foreach ($this->queryWithParameters(
             'SELECT * FROM `CMSconfiguration` WHERE item=:menu',
             array(':menu' => 'menu')
@@ -480,7 +474,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function pageLoad($pageTitleOrID, $strict = false)
     {
-        // load ID at the latest point, since we'll need to handle legacy sysyems.
+        /* load ID at the latest point, since we'll need to handle legacy sysyems. */
         $query = "SELECT `title`, `contents`, `keywords`, `date`, `options`, `id` FROM pages WHERE `title` %s :pageTitleOrID";
         $query = sprintf($query, ($strict ? '=' : 'LIKE'));
         $query = $this->queryWithParameters(
