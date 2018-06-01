@@ -137,12 +137,29 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function haveHooksFor($which)
     {
+        /**
+         * Checks if it is an array.
+         */
         if (!is_array($which)) {
+            /**
+             * Put it into an array
+             * @var [string]
+             */
             $which = array($which);
         }
 
+        /**
+         * Walk trough the hooks
+         * @var integer
+         */
         for ($i = 0; $i < sizeof($which); $i++) {
+            /**
+             * Check if we have hooks
+             */
             if (sizeof($this->loopHook($which[$i])) > 0) {
+                /**
+                 * Yes we have hooks
+                 */
                 return true;
             }
         }
@@ -156,10 +173,20 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function loadHooksFor($which)
     {
+        /**
+         * Checks if it is an array.
+         */
         if (!is_array($which)) {
+            /**
+             * Put it into an array
+             * @var [string]
+             */
             $which = array($which);
         }
 
+        /**
+         * load page and return it.
+         */
         return $this->pageLoadFor($which);
     }
 
@@ -171,12 +198,29 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function pageLoadFor($which)
     {
+        /**
+         * Checks if it is an array.
+         */
         if (!is_array($which)) {
+            /**
+             * Put it into an array
+             * @var [string]
+             */
             $which = array($which);
         }
 
+        /**
+         * Walk trough the hooks
+         * @var integer
+         */
         for ($i = 0; $i < sizeof($which); $i++) {
+            /**
+             * Check if we have hooks
+             */
             if (sizeof(($x = $this->loopHook($which[$i]))) > 0) {
+                /**
+                 * Return the hook
+                 */
                 return $x;
             }
         }
