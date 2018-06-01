@@ -742,24 +742,6 @@ class Extensions
         $this->loadExtensions = array();
         $this->extensionList = array();
 
-        // Check for 'DemoMode' first.
-        $current = 'DemoMode';
-        foreach ($this->scan_directories as $readDirectory) {
-            if (file_exists($readDirectory) && is_readable($readDirectory)) {
-                if (file_exists($readDirectory . $current)) {
-                    foreach ($this->load_files as $tryFile) {
-                        if (file_exists($readDirectory . $current . '/' . $tryFile)) {
-                            $this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
-                            $this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
-                            if (!file_exists($readDirectory . $current . '/' . 'disabled')) {
-                                require_once $readDirectory . $current . '/' . $tryFile;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         foreach ($this->scan_directories as $readDirectory) {
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
                 $_d = opendir($readDirectory);
