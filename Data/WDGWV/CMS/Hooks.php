@@ -426,7 +426,13 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                                      */
                                     return $returnValue;
                                 } else {
+                                    /**
+                                     * Action is not callable.
+                                     */
                                     if (sizeof($this->hookDatabase['url'][$i]['action']) > 1) {
+                                        /**
+                                         * Debug it
+                                         */
                                         Debugger::sharedInstance()->error(sprintf(
                                             'replacer [%s]: "(new \%s)->%s(%s)" is not callable.',
                                             $this->hookDatabase['url'][$i]['name'],
@@ -438,6 +444,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                                             )
                                         ));
                                     } else {
+                                        /**
+                                         * What no action???
+                                         */
                                         Debugger::sharedInstance()->error(
                                             sprintf(
                                                 'replacer [%s]: "%s" is not callable',
@@ -457,22 +466,53 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                  * Walk trough 'get'
                  */
             case 'get':
+                /**
+                 * check if there is a hook for 'get'
+                 */
                 if (isset($this->hookDatabase['get'])) {
+                    /**
+                     * Filter to only unique values
+                     */
                     $this->hookDatabase['get'] = array_unique($this->hookDatabase['get']);
+                    /**
+                     * Walk trough the database
+                     */
                     for ($i = 0; $i < sizeof($this->hookDatabase['get']); $i++) {
+                        /**
+                         * Check if the '$_GET[value]' exists
+                         */
                         if (isset($_GET[$this->hookDatabase['get'][$i]['name']])) {
+                            /**
+                             * Check if it is callable
+                             */
                             if (is_callable($this->hookDatabase['get'][$i]['action'])) {
+                                /**
+                                 * Call, and save string
+                                 * @var string
+                                 */
                                 $returnValue = call_user_func_array(
                                     $this->hookDatabase['get'][$i]['action'],
                                     $this->hookDatabase['get'][$i]['params']
                                 );
 
+                                /**
+                                 * Check if we have something to return
+                                 */
                                 if (!$returnValue) {
+                                    /**
+                                     * Continue with a new value
+                                     */
                                     continue;
                                 }
 
+                                /**
+                                 * Return value
+                                 */
                                 return $returnValue;
                             } else {
+                                /**
+                                 * Not callable, print a error
+                                 */
                                 echo sprintf('"%s" is not a function!', $this->hookDatabase['get'][$i]['action'][1]);
                             }
                         }
@@ -484,22 +524,53 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                  * Walk trough 'post'
                  */
             case 'post':
+                /**
+                 * check if there is a hook for 'post'
+                 */
                 if (isset($this->hookDatabase['post'])) {
+                    /**
+                     * Filter to only unique values
+                     */
                     $this->hookDatabase['post'] = array_unique($this->hookDatabase['post']);
+                    /**
+                     * Walk trough the database
+                     */
                     for ($i = 0; $i < sizeof($this->hookDatabase['post']); $i++) {
+                        /**
+                         * Check if the '$_POST[value]' exists
+                         */
                         if (isset($_POST[$this->hookDatabase['post'][$i]['name']])) {
+                            /**
+                             * Check if it is callable
+                             */
                             if (is_callable($this->hookDatabase['post'][$i]['action'])) {
+                                /**
+                                 * Call, and save string
+                                 * @var string
+                                 */
                                 $returnValue = call_user_func_array(
                                     $this->hookDatabase['post'][$i]['action'],
                                     $this->hookDatabase['post'][$i]['params']
                                 );
 
+                                /**
+                                 * Check if we have something to return
+                                 */
                                 if (!$returnValue) {
+                                    /**
+                                     * Continue with a new value
+                                     */
                                     continue;
                                 }
 
+                                /**
+                                 * Return value
+                                 */
                                 return $returnValue;
                             } else {
+                                /**
+                                 * Not callable, print a error
+                                 */
                                 echo sprintf('"%s" is not a function!', $this->hookDatabase['post'][$i]['action'][1]);
                             }
                         }
