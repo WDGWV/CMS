@@ -556,45 +556,46 @@ class Extensions
      */
     public function disableExtension($extensionPathOrName)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
+            /**
+             * Check if the file exists
+             */
             for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
+                /**
+                 * If not already loaded.
+                 */
                 if (isset($this->loadExtensions[$i])) {
+                    /**
+                     * If extension name is in the array
+                     */
                     if ($this->loadExtensions[$i] == $extensionPathOrName) {
+                        /**
+                         * Remove it from the loaded extensions array
+                         */
                         unset($this->loadExtensions[$i]);
 
+                        /**
+                         * Checks if a lockfile exists
+                         */
                         if (file_exists($this->lockFile)) {
+                            /**
+                             * Unlink (remove) lockfile
+                             */
                             @unlink($this->lockFile);
                         }
 
+                        /**
+                         * Save to the database
+                         */
                         $this->saveDatabase(sprintf('Extension \'%s\' disabled', $extensionPathOrName));
+
+                        /**
+                         * Return.
+                         */
                         return;
-                    }
-                }
-            }
-        }
-
-        // Search it...
-        $extensionPathOrName = 'DemoMode';
-        foreach ($this->scan_directories as $readDirectory) {
-            if (file_exists($readDirectory) && is_readable($readDirectory)) {
-                if (file_exists($readDirectory . $extensionPathOrName)) {
-                    foreach ($this->load_files as $tryFile) {
-                        if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
-                            if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
-                                for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
-                                    $fp = $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                    if ($this->loadExtensions[$i] == $fp) {
-                                        unset($this->loadExtensions[$i]);
-                                        if (file_exists($this->lockFile)) {
-                                            @unlink($this->lockFile);
-                                        }
-
-                                        $this->saveDatabase(sprintf('Extension \'%s\' disabled', $extensionPathOrName));
-                                        return;
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -609,27 +610,58 @@ class Extensions
      */
     public function information($ofExtensionOrFilePath)
     {
+        /**
+         * Checks if the path exists
+         */
         if (!file_exists($ofExtensionOrFilePath)) {
-            // Scanning files.
-            echo "Unown file.";
+            /**
+             * File does not exists.
+             */
+            echo "Unknown file.";
+
+            /**
+             * return, don't run more from this function
+             */
             return;
         }
 
+        /**
+         * Return parseInformation(aboutthisextension)
+         */
         return $this->parseInformation($ofExtensionOrFilePath);
     }
 
     /**
+     * Does expressions match?
+     *
      * @param $exp1
      * @param $exp2
+     * @return bool
      */
     private function match($exp1, $exp2)
     {
+        /**
+         * Fixed expression (1)
+         * @var string
+         */
         $fixedExpression = $exp1;
+
+        /**
+         * If expression (1) starts with a space ' '
+         */
         if (substr($fixedExpression, 0, 1) === ' ') {
+            /**
+             * Ignore the first whitespace
+             */
             $fixedExpression = substr($fixedExpression, 1);
         }
 
-        return (substr($fixedExpression, 0, strlen($exp2)) == $exp2);
+        /**
+         * Return, if they match!
+         */
+        return (
+            substr($fixedExpression, 0, strlen($exp2)) == $exp2
+        );
     }
 
     /**
