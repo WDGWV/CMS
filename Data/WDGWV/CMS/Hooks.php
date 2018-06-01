@@ -239,7 +239,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
          */
         switch ($at) {
             /**
-                 * Walk trought 'before-content'
+                 * Walk trough 'before-content'
                  */
             case 'before-content':
                 /**
@@ -270,11 +270,11 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 break;
 
             /**
-                 * Walk trought 'before-content'
+                 * Walk trough 'after-content'
                  */
             case 'after-content':
                 /**
-                 * Checks if we have 'before-content'
+                 * Checks if we have 'after-content'
                  */
                 if (isset($this->hookDatabase['after-content'])) {
                     /**
@@ -284,7 +284,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                     $temporaryReturn = '';
 
                     /**
-                     * Walk trough the 'before-contents'
+                     * Walk trough the 'after-contents'
                      */
                     for ($i = 0; $i < sizeof($this->hookDatabase['after-content']); $i++) {
                         /**
@@ -300,16 +300,40 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
+            /**
+                 * Walk trough 'script'
+                 */
             case 'script':
+                /**
+                 * check if we have hooks.
+                 */
                 if (isset($this->hookDatabase['script'])) {
+                    /**
+                     * Create a empty array
+                     * @var array
+                     */
                     $arr = array();
+
+                    /**
+                     * Walk trough the 'script' hooks
+                     */
                     for ($i = 0; $i < sizeof($this->hookDatabase['script']); $i++) {
+                        /**
+                         * Append to array
+                         */
                         $arr[] = $this->hookDatabase['script'][$i]['action'];
                     }
+
+                    /**
+                     * return array
+                     */
                     return $arr;
                 }
                 break;
 
+            /**
+                 * Walk trough 'url'
+                 */
             case 'url':
                 if (isset($this->hookDatabase['url'])) {
                     for ($i = 0; $i < sizeof($this->hookDatabase['url']); $i++) {
@@ -372,6 +396,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
+            /**
+                 * Walk trough 'get'
+                 */
             case 'get':
                 if (isset($this->hookDatabase['get'])) {
                     $this->hookDatabase['get'] = array_unique($this->hookDatabase['get']);
@@ -396,6 +423,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
+            /**
+                 * Walk trough 'post'
+                 */
             case 'post':
                 if (isset($this->hookDatabase['post'])) {
                     $this->hookDatabase['post'] = array_unique($this->hookDatabase['post']);
@@ -420,6 +450,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
+            /**
+                 * Walk trough 'menu'
+                 */
             case 'menu':
                 $_temporaryArray = array();
                 if (sizeof($this->hookDatabase['menu']) > 0) {
