@@ -80,6 +80,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     protected function __construct()
     {
+        /**
+         * Return.
+         */
         return;
     }
 
@@ -90,6 +93,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function getUBBHooks()
     {
+        /**
+         * Not implented yet.
+         */
         return;
     }
 
@@ -101,11 +107,25 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function loopHooks($which)
     {
+        /**
+         * Checks if it is an array.
+         */
         if (!is_array($which)) {
+            /**
+             * Put it into an array
+             * @var [string]
+             */
             $which = array($which);
         }
 
+        /**
+         * Walk trough the hooks
+         * @var integer
+         */
         for ($i = 0; $i < sizeof($which); $i++) {
+            /**
+             * run the hook!
+             */
             return $this->loopHook($which[$i]);
         }
     }
