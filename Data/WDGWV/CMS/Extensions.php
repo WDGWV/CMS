@@ -683,31 +683,111 @@ class Extensions
          * Hash: * INSERT HASH HERE *
          */// Needs to be on top of the file.
 
+        /**
+         * Create an array for the extension information
+         * @var array
+         */
         $extensionInfo = array();
+
+        /**
+         * Check if the file exists
+         */
         if (file_exists($ofExtensionFilePath)) {
+            /**
+             * Load the contents
+             * @var string
+             */
             $fc = file_get_contents($ofExtensionFilePath);
-            if ($fc) {
+
+            /**
+             * Check if there is any content
+             */
+            if (!empty($fc)) {
+                /**
+                 * Check for the end of the comment string.
+                 * And pick the contents before the end.
+                 * @var string
+                 */
                 $fe = explode('*/', $fc)[0];
+
+                /**
+                 * Check for the begin of the comment string.
+                 * And pick the contents after the begin.
+                 * @var string
+                 */
                 $fe = explode('/*', $fe)[1];
+
+                /**
+                 * Explode newlines
+                 * @var [string]
+                 */
                 $fe = explode(PHP_EOL, $fe);
+
+                /**
+                 * Loop trough the information dictionary.
+                 */
                 foreach ($fe as $informationDict) {
+                    /**
+                     * Checks if the information matches the information we'll search for.
+                     * And the length is more then 3 characters.
+                     */
                     if ($this->match($informationDict, "* ") && strlen($informationDict) > 3) {
+                        /**
+                         * Explode the information
+                         * @var [string]
+                         */
                         $ex = explode(": ", $informationDict);
+
+                        /**
+                         * Checks if the information exists
+                         */
                         if (!isset($ex[1])) {
+                            /**
+                             * Nope, continue with a new value.
+                             */
                             continue;
                         }
 
+                        /**
+                         * Explode the information to a safe name
+                         * ' * '
+                         * @var [string]
+                         */
                         $safeName = explode(' * ', $ex[0])[1];
+
+                        /**
+                         * replace the information to a safe name ' ' to '_'
+                         * @var string
+                         */
                         $safeName = preg_replace('/ /', '_', $safeName);
+
+                        /**
+                         * replace the information to a safe name ':' to '_'
+                         * @var string
+                         */
                         $safeName = preg_replace('/:/', '_', $safeName);
+
+                        /**
+                         * lowercase the string
+                         * @var string
+                         */
                         $safeName = strtolower($safeName);
 
+                        /**
+                         * Append information to array
+                         */
                         $extensionInfo[$safeName] = $ex[1];
                     }
                 }
 
+                /**
+                 * Return extension information
+                 */
                 return $extensionInfo;
             } else {
+                /**
+                 * There was an error with reading the file
+                 */
                 echo "Error reading file";
             }
         }
@@ -719,17 +799,50 @@ class Extensions
      */
     public function forceReloadExtensions()
     {
+        /**
+         * Unset extension list
+         */
         unset($this->extensionList);
+
+        /**
+         * create empty extension list
+         */
         $this->extensionList = array();
+
+        /**
+         * Unset loaded extension list
+         */
         unset($this->loadExtensions);
+
+        /**
+         * create empty loaded extension list
+         */
         $this->loadExtensions = array();
 
+        /**
+         * Checks if we can remove the cache database
+         */
         if (!unlink($this->cacheDB)) {
+            /**
+             * Failed to remove cache database
+             */
             exit('Failed to remove database');
         }
 
+        /**
+         * Trigger a force reload.
+         */
         $this->reloadExtensions('FORCE SAVE, EXTENSION DATABASE RESET');
+
+        /**
+         * Disable save on exit
+         * @var boolean
+         */
         $this->saveOnExit = false;
+
+        /**
+         * Touch (if not exists) a new lockfile
+         */
         @touch($this->lockFile);
     }
 
