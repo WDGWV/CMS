@@ -91,18 +91,45 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function __construct($customConfiguration = false)
     {
+        /**
+         * Load the emulators in memory.
+         * @var array emulation
+         */
         $this->emulation = array(
+            /* initialize Blogger emulation engine */
             'Blogger' => new \WDGWV\CMS\Emulation\Blogger(),
+            /* initialize WordPress emulation engine */
             'WordPress' => new \WDGWV\CMS\Emulation\WordPress(),
         );
 
+        /**
+         * Do we have a custom configuration
+         */
         if ($customConfiguration != false) {
+            /**
+             * Use custom configuration
+             */
             $this->config = $customConfiguration;
         } else {
+            /**
+             * Use default configuration
+             */
             $this->config = new \WDGWV\CMS\Config();
         }
 
-        \WDGWV\CMS\Hooks::sharedInstance()->loopHooks(array('get', 'post', 'url'));
+        /**
+         * Init hooks, and walk trough the hooks
+         */
+        \WDGWV\CMS\Hooks::sharedInstance()->loopHooks(
+            array(
+                /* Walk trough $_GET */
+                'get',
+                /* Walk trough $_POST */
+                'post',
+                /* Walk trough $_SERVER */
+                'url',
+            )
+        );
     }
 
     /**
@@ -112,6 +139,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function database()
     {
+        /**
+         * Inifialize the database controller
+         */
         return \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
     }
 
@@ -122,6 +152,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function menu()
     {
+        /**
+         * Get menu values
+         */
         return $this->config->menu();
     }
 
@@ -132,6 +165,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function themeGet()
     {
+        /**
+         * get current theme
+         */
         return $this->config->theme();
     }
 
@@ -142,6 +178,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function getPageName()
     {
+        /**
+         * Get page name (not used, only for WordPress emulation)
+         */
         return $this->config->pagename();
     }
 
@@ -152,6 +191,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function getTitle()
     {
+        /**
+         * Get page title (not used, only for WordPress emulation)
+         */
         return 'WDGWV CMS'; // Wordpress....
     }
 
@@ -162,6 +204,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function maintenanceMode()
     {
+        /**
+         * Is Maintenance mode enabled?
+         */
         return false; //TODO: From database
     }
 
@@ -172,6 +217,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function singlePage()
     {
+        /**
+         * Is single page mode enabled?
+         */
         return false; //TODO: From database
     }
 
@@ -182,6 +230,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function getDescription()
     {
+        /**
+         * Get page description (not used, only for WordPress emulation)
+         */
         return 'testing!'; //TODO: From database
     }
 
@@ -192,6 +243,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function getSlogan()
     {
+        /**
+         * Get page slogan (not used, only for WordPress emulation)
+         */
         return 'test'; //TODO: From database
     }
 
@@ -202,7 +256,9 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function getContent()
     {
-        //TODO: From Controllers/page
+        /**
+         * Get page contents (not used, only for WordPress emulation)
+         */
         return 'Sorry, i will come later';
     }
 
@@ -214,11 +270,24 @@ class Base extends \WDGWV\General\WDGWV
     public function getFooter()
     {
         return sprintf(
-            '%s&#32;&#169;&#32;%s&#32;%s&#32;%s&#32;<a href=\'https://www.wdgwv.com/products/cms\' target=\'_blank\'>&#87;&#68;&#71;&#87;&#86;&#32;&#67;&#77;&#83;</a>,&#32;%s&#46;',
+            /* Copyright © YEAR SITENAME */
+            '%s&#32;&#169;&#32;%s&#32;%s&#32;%s&#32;' .
+
+            /* Powered by WDGWV CMS */
+            '<a href=\'https://www.wdgwv.com/products/cms\' target=\'_blank\'>' .
+            '&#87;&#68;&#71;&#87;&#86;&#32;&#67;&#77;&#83;</a>,&#32;' .
+
+            /* All Rights reserved */
+            '%s&#46;',
+            /* Copyright */
             $this->h(function_exists('__') ? \__('Copyright') : ('Copyright')),
+            /* YEAR */
             $this->h(@date('Y')),
+            /* Title */
             $this->h($this->getTitle()),
+            /* Powered by */
             $this->h(function_exists('__') ? \__('Powered by') : ('Powered by')),
+            /* All rights reserved */
             $this->h(function_exists('__') ? \__('All rights reserved') : ('All rights reserved'))
         );
     }
@@ -232,53 +301,133 @@ class Base extends \WDGWV\General\WDGWV
      */
     public function serve()
     {
+        /**
+         * Load global database
+         */
         global $database;
+
+        /**
+         * Check if current theme is an ... theme
+         */
         if ($this->emulation['Blogger']->isBlogger($this->themeGet())) {
+            /**
+             * Check if current theme is an Blogger theme,
+             * then parse the theme with a Blogger emulation engine
+             */
             $this->emulation['Blogger']->blogger(
+                /**
+                 * Current theme
+                 */
                 $this->themeGet()
             );
         } elseif ($this->emulation['WordPress']->isWordpress($this->themeGet())) {
+            /**
+             * Check if theme is a WordPress theme,
+             * then parse it with a WordPress emulation engine.
+             */
             $this->emulation['WordPress']->wordpress(
+                /**
+                 * Current theme
+                 */
                 $this->themeGet()
             );
         } else {
+            /**
+             * Check if the theme is a WDGWV CMS theme,
+             * then parse it with the WDGWV CMS template parser
+             */
+
+            /**
+             * Templateparser
+             * @var class
+             */
             $parser = new \WDGWV\General\TemplateParser(
+                /* debug mode */
                 $this->config->debug,
+                /* CDN */
                 null,
+                /* CMS Template directory */
                 CMS_TEMPLATE_DIR
             );
 
+            /**
+             * Initialize pageController
+             * @var class
+             */
             $pageController = new \WDGWV\CMS\Controllers\Page(
+                /* Template Parser Class */
                 $parser,
+                /* parent class ($this) */
                 $this,
+                /* database class */
                 $database
             );
 
+            /**
+             * Set parameters to '{ITEM:' and '}'
+             * e.g. {ITEM:testItem}
+             */
             $parser->setParameter(
                 '{ITEM:',
                 '}'
             );
 
+            /**
+             * Set the current theme.
+             */
             $parser->setTemplate(
+                /* Get current theme */
                 $this->themeGet(),
+                /* template extension (html) */
                 'html',
+                /* Data container for files */
                 '/Data/Themes/' . $this->themeGet() . '/'
             );
 
+            /**
+             * Bind parameter {ITEM:year} to the current year
+             */
             $parser->bindParameter('year', @date('Y'));
 
+            /**
+             * Bind parameter {ITEM:SITE_TITLE} to the current site title
+             */
             $parser->bindParameter('SITE_TITLE', $this->getTitle());
 
+            /**
+             * Bind parameter {ITEM:copyright} to the copyright string
+             */
             $parser->bindParameter('copyright', $this->getFooter());
 
-            $parser->setMenuContents($database->menuLoad());
+            /**
+             * Set menu contents
+             */
+            $parser->setMenuContents(
+                /* load menu from database */
+                $database->menuLoad()
+            );
 
+            /**
+             * Display the page (to the parser)
+             */
             $pageController->displayPage();
 
+            /**
+             * Parser display to the screen please!
+             */
             $parser->display();
 
+            /**
+             * Walk trough the last hooks (script)
+             */
             if (\WDGWV\CMS\Hooks::sharedInstance()->haveHooksFor('script')) {
+                /**
+                 * Walk trough the script hooks
+                 */
                 foreach (\WDGWV\CMS\Hooks::sharedInstance()->loopHooks('script') as $script) {
+                    /**
+                     * Print them to the page!
+                     */
                     echo sprintf(
                         '<script type=\'text/javascript\'>%s</script>',
                         $script
@@ -286,7 +435,13 @@ class Base extends \WDGWV\General\WDGWV
                 }
             }
 
+            /**
+             * Did the parser display?
+             */
             if ($parser->didDisplay()) {
+                /**
+                 * Nothing displayed, theme does not exists.
+                 */
                 echo "THEME " . $this->themeGet() . " Does not exists!";
             }
         }
@@ -301,11 +456,28 @@ class Base extends \WDGWV\General\WDGWV
      */
     private function h($s)
     {
+        /**
+         * Create a temporary out string
+         * @var string
+         */
         $out = '';
+
+        /**
+         * Walk trough the string
+         */
         for ($i = 0; isset($s[$i]); $i++) {
-            $x = ord($s[$i]);
-            $out .= sprintf('&#%s;', $x);
+            /**
+             * Append to the temporary string
+             */
+            $out .= sprintf(
+                '&#%s;',
+                ord($s[$i])
+            );
         }
+
+        /**
+         * Return encoded string.
+         */
         return $out;
     }
 }
