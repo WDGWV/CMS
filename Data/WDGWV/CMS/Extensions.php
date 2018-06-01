@@ -335,11 +335,23 @@ class Extensions
                 $disabled[sizeof($disabled) - 1] = 'disabled';
 
                 /**
-                 * Checks if there is not a file called 'disabled'
+                 * Checks debugmode status
                  */
-                if (!file_exists(implode('/', $disabled))) {
+                if (!\WDGWV\CMS\Config::sharedInstance()->debug()) {
                     /**
-                     * No disabled parameter, so load it!
+                     * Checks if there is not a file called 'disabled'.
+                     * And we are in debugmode
+                     */
+                    if (!file_exists(implode('/', $disabled))) {
+                        /**
+                         * No disabled parameter, so load it!
+                         */
+                        require_once $loadFile;
+                    }
+                } else {
+                    /**
+                     * In production mode,
+                     * We don't block files due 'disabled' files
                      */
                     require_once $loadFile;
                 }
@@ -367,23 +379,51 @@ class Extensions
      */
     public function isSystem($ext)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $ext)) > 1) {
+            /**
+             * If the name of the extension is in the system array, then return true
+             */
             return in_array(
+                /* ./Data/Extensions/Extensionname/Extension.php */
+                /* 0  1       2          3             4         */
+                /* Fetch extension name */
                 explode('/', $ext)[3],
+                /* System extensions array */
                 $this->systemExtensions
             );
         }
 
+        /**
+         * Walk trough system extensions.
+         */
         foreach ($this->systemExtensions as $checkExtension) {
+            /**
+             * Get information about this extension
+             */
             foreach ($this->information($checkExtension) as $info => $value) {
+                /**
+                 * If type is extension
+                 */
                 if ($info === 'extension') {
+                    /**
+                     * And Extensionname equals $ext
+                     */
                     if ($value === $ext) {
+                        /**
+                         * It is a system extension!
+                         */
                         return true;
                     }
                 }
             }
         }
 
+        /**
+         * It's a normal extension.
+         */
         return false;
     }
 
