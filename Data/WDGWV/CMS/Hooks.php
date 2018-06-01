@@ -335,9 +335,21 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                  * Walk trough 'url'
                  */
             case 'url':
+                /**
+                 * Check if there are any hooks
+                 */
                 if (isset($this->hookDatabase['url'])) {
+                    /**
+                     * walk trough the hooks database
+                     */
                     for ($i = 0; $i < sizeof($this->hookDatabase['url']); $i++) {
+                        /**
+                         * Check if the hook has a name
+                         */
                         if (!isset($this->hookDatabase['url'][$i]['name'])) {
+                            /**
+                             * Continue, we don't have a name.
+                             */
                             continue;
                         }
 
