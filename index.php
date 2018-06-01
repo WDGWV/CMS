@@ -65,9 +65,21 @@ error_reporting(E_ALL);
 $CMSStartTime = microtime(true);
 
 /**
- * Include the class loader.
+ * Check if loader is present, otherwise fail with error(1)
  */
-include_once './Data/WDGWV/CMS/Loader.php';
+if (file_exists('./Data/WDGWV/CMS/Loader.php') &&
+    is_readable('./Data/WDGWV/CMS/Loader.php')) {
+    /**
+     * Include the class loader.
+     */
+    include_once './Data/WDGWV/CMS/Loader.php';
+} else {
+    /**
+     * File not found, exit(1).
+     */
+    trigger_error('Loader class un-loadable.', E_USER_ERROR);
+    exit(1);
+}
 
 /**
  * Check if the CMS is installed.
@@ -99,7 +111,11 @@ if (Installer::sharedInstance()->isInstalled()) {
  */
 if (Config::sharedInstance()->debug()) {
     echo "<hr>";
-    $debugger->log(array("Hooks" => Hooks::sharedInstance()->dumpDatabase()));
+    $debugger->log(
+        array(
+            "Hooks" => Hooks::sharedInstance()->dumpDatabase(),
+        )
+    );
     $debugger->logdump();
     echo "<hr>";
     $debugger->dumpAllClasses();

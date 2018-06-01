@@ -58,7 +58,7 @@ final class Test extends TestCase
         echo sprintf("%sTested '%s'.%s", PHP_EOL, $this->getName(), PHP_EOL);
     }
 
-    public function testWillPass()
+    public function testWillAlwaysPass()
     {
         $this->assertEquals('a', 'a');
     }

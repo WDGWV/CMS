@@ -8,6 +8,9 @@ class BaseProtected
      */
     protected function __construct()
     {
+        /**
+         * Its a empty constructor.
+         */
         return;
     }
 }

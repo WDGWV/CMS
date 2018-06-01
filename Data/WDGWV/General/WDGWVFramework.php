@@ -67,4 +67,13 @@ namespace WDGWV\General;
  */
 class WDGWVFramework extends WDGWV
 {
+    /**
+     * Constructor, and destructor.
+     * @deprecated 1.0 use \WDGWV
+     */
+    protected function __construct()
+    {
+        print_r(debug_backtrace());
+        trigger_error('Plese do not use WDGWVFramework', E_USER_DEPRECATED);
+    }
 }

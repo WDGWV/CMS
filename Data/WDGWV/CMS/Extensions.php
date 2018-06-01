@@ -135,7 +135,7 @@ class Extensions
      *
      * @var int
      */
-    private $cache_life = 3600 * 24 * 365; // in Seconds; 3600 = 1h, * 24 = 1d
+    private $cache_lifetime = (3600 * 24) * 365; // in Seconds; 3600 = 1h, * 24 = 1d
     // Temporary 1y, solution needed for every day reset.
 
     /**
@@ -182,21 +182,66 @@ class Extensions
 
     /**
      * Private so nobody else can instantiate it
-     *
      */
     private function __construct()
     {
-        $cacheTime = file_exists($this->cacheDB) ? filemtime($this->cacheDB) : 0;
-        if ($cacheTime && (time() - $cacheTime <= $this->cache_life)) {
+        /**
+         * What is the current time of the cache.
+         * Default: 0
+         *
+         * @var integer
+         */
+        $cacheTime = 0;
+
+        /**
+         * Check if the file exists
+         */
+        if (file_exists($this->cacheDB)) {
+            /**
+             * What is the current time of the cache.
+             * @var int
+             */
+            $cacheTime = filemtime($this->cacheDB);
+        }
+
+        /**
+         * Check if the time - cachetime is less then the cache lifetime
+         */
+        if ((time() - $cacheTime) <= $this->cache_lifetime) {
+            /**
+             * Cache lifetime is not exeed.
+             * load cache
+             */
             $this->loadExtensions();
+
+            /**
+             * Do not run the rest of the function.
+             */
             return;
         }
 
+        /**
+         * Reload extensions
+         */
         $this->reloadExtensions();
+
+        /**
+         * Remove duplicates in $this->loadExtensions
+         */
         array_unique($this->loadExtensions);
+
+        /**
+         * Remove duplicates in $this->extensionList
+         */
         array_unique($this->extensionList);
 
+        /**
+         * Check if there is a 'lock' file.
+         */
         if (file_exists($this->lockFile)) {
+            /**
+             * Unlink the 'lock' file
+             */
             @unlink($this->lockFile);
         }
     }
@@ -208,6 +253,9 @@ class Extensions
      */
     public function displayExtensionList()
     {
+        /**
+         * Load extension list
+         */
         return $this->extensionList;
     }
 
@@ -218,37 +266,108 @@ class Extensions
      */
     private function loadExtensions()
     {
-        $f = json_decode( // Decode JSON
-            gzuncompress( // Uncompress
-                file_get_contents( // FGC
+        /* JSON Decode */
+        $f = json_decode(
+            /* Uncompress */
+            gzuncompress(
+                /* Read cache file */
+                file_get_contents(
+                    /* Cache filepath */
                     $this->cacheDB
                 )
             ),
-            true// explicit to Array.
+            /* explicit to Array. */
+            true
         );
 
+        /**
+         * Check if there are extensions loaded.
+         */
         if (sizeof($f[1]) == 0) {
+            /**
+             * No extensions loaded.
+             * Reload extensions
+             */
             $this->reloadExtensions();
+
+            /**
+             * Do not run the rest of the code.
+             */
             return;
         }
 
-        // Remove Duplicates, if any.
+        /**
+         * Remove duplicates in loaded extensions
+         */
         $f[0] = array_unique($f[0]);
+
+        /**
+         * Remove duplicates in extensionList
+         */
         $f[1] = array_unique($f[1]);
 
+        /**
+         * Load the files
+         */
         foreach ($f[0] as $loadFile) {
-            Debugger::sharedInstance()->log(sprintf('loading extension: %s', $loadFile));
+            /**
+             * Append loading text to debugger
+             */
+            Debugger::sharedInstance()->log(
+                sprintf(
+                    'loading extension: %s',
+                    $loadFile
+                )
+            );
+
+            /**
+             * Checks if extension exists
+             */
             if (file_exists($loadFile)) {
+                /**
+                 * Check if the extension is disabled?
+                 * @var string
+                 */
                 $disabled = explode('/', $loadFile);
+                /**
+                 * Append disabled to the array
+                 */
                 $disabled[sizeof($disabled) - 1] = 'disabled';
 
-                if (!file_exists(implode('/', $disabled))) {
+                /**
+                 * Checks debugmode status
+                 */
+                if (!\WDGWV\CMS\Config::sharedInstance()->debug()) {
+                    /**
+                     * Checks if there is not a file called 'disabled'.
+                     * And we are in debugmode
+                     */
+                    if (!file_exists(implode('/', $disabled))) {
+                        /**
+                         * No disabled parameter, so load it!
+                         */
+                        require_once $loadFile;
+                    }
+                } else {
+                    /**
+                     * In production mode,
+                     * We don't block files due 'disabled' files
+                     */
                     require_once $loadFile;
                 }
             }
         }
 
+        /**
+         * Save loaded extensions
+         * @var [string]
+         */
         $this->loadExtensions = $f[0];
+
+        /**
+         * Save extensions
+         * @var [string]
+         */
         $this->extensionList = $f[1];
     }
 
@@ -260,23 +379,51 @@ class Extensions
      */
     public function isSystem($ext)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $ext)) > 1) {
+            /**
+             * If the name of the extension is in the system array, then return true
+             */
             return in_array(
+                /* ./Data/Extensions/Extensionname/Extension.php */
+                /* 0  1       2          3             4         */
+                /* Fetch extension name */
                 explode('/', $ext)[3],
+                /* System extensions array */
                 $this->systemExtensions
             );
         }
 
+        /**
+         * Walk trough system extensions.
+         */
         foreach ($this->systemExtensions as $checkExtension) {
+            /**
+             * Get information about this extension
+             */
             foreach ($this->information($checkExtension) as $info => $value) {
+                /**
+                 * If type is extension
+                 */
                 if ($info === 'extension') {
+                    /**
+                     * And Extensionname equals $ext
+                     */
                     if ($value === $ext) {
+                        /**
+                         * It is a system extension!
+                         */
                         return true;
                     }
                 }
             }
         }
 
+        /**
+         * It's a normal extension.
+         */
         return false;
     }
 
@@ -288,20 +435,49 @@ class Extensions
      */
     public function isActive($ext)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $ext)) > 1) {
-            return in_array($ext, $this->loadExtensions);
+            /**
+             * If the name of the extension is in the loaded array, then return true
+             */
+            return in_array(
+                /* Extension name */
+                $ext,
+                /* loaded extensions */
+                $this->loadExtensions
+            );
         }
 
+        /**
+         * Walk trough loaded extensions.
+         */
         foreach ($this->loadExtensions as $checkExtension) {
+            /**
+             * Get information about this extension
+             */
             foreach ($this->information($checkExtension) as $info => $value) {
+                /**
+                 * If type is extension
+                 */
                 if ($info === 'extension') {
+                    /**
+                     * And Extensionname equals $ext
+                     */
                     if ($value === $ext) {
+                        /**
+                         * It is a loaded extension!
+                         */
                         return true;
                     }
                 }
             }
         }
 
+        /**
+         * It's a unloaded extension.
+         */
         return false;
     }
 
@@ -311,48 +487,64 @@ class Extensions
      */
     public function enableExtension($extensionPathOrName)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
+            /**
+             * Check if the file exists
+             */
             if (file_exists($extensionPathOrName)) {
+                /**
+                 * If not already loaded, then load it.
+                 */
                 if (!in_array($extensionPathOrName, $this->loadExtensions)) {
+                    /**
+                     * Load the extension
+                     */
                     require_once $extensionPathOrName;
+
+                    /**
+                     * Append them to the loaded extensions array
+                     */
                     $this->loadExtensions[] = $extensionPathOrName;
                 }
 
+                /**
+                 * Checks if a lockfile exists
+                 */
                 if (file_exists($this->lockFile)) {
+                    /**
+                     * Unlink (remove) lockfile
+                     */
                     @unlink($this->lockFile);
                 }
 
+                /**
+                 * Save the database
+                 */
                 $this->saveDatabase(sprintf('Extension \'%s\' enabled', $extensionPathOrName));
+
+                /**
+                 * Return, so don't run more from this function
+                 */
                 return;
             }
         }
 
-        // Search it...
-        $extensionPathOrName = 'DemoMode';
-        foreach ($this->scan_directories as $readDirectory) {
-            if (file_exists($readDirectory) && is_readable($readDirectory)) {
-                if (file_exists($readDirectory . $extensionPathOrName)) {
-                    foreach ($this->load_files as $tryFile) {
-                        if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
-                            if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
-                                require_once $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                if (!in_array(
-                                    $readDirectory . $extensionPathOrName . '/' . $tryFile,
-                                    $this->loadExtensions
-                                )) {
-                                    $this->loadExtensions[] = $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
+        /**
+         * Checks if a lockfile exists
+         */
         if (file_exists($this->lockFile)) {
+            /**
+             * Unlink (remove) lockfile
+             */
             @unlink($this->lockFile);
         }
 
+        /**
+         * Save the database
+         */
         $this->saveDatabase(sprintf('Extension \'%s\' enabled', $extensionPathOrName));
     }
 
@@ -364,45 +556,46 @@ class Extensions
      */
     public function disableExtension($extensionPathOrName)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
+            /**
+             * Check if the file exists
+             */
             for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
+                /**
+                 * If not already loaded.
+                 */
                 if (isset($this->loadExtensions[$i])) {
+                    /**
+                     * If extension name is in the array
+                     */
                     if ($this->loadExtensions[$i] == $extensionPathOrName) {
+                        /**
+                         * Remove it from the loaded extensions array
+                         */
                         unset($this->loadExtensions[$i]);
 
+                        /**
+                         * Checks if a lockfile exists
+                         */
                         if (file_exists($this->lockFile)) {
+                            /**
+                             * Unlink (remove) lockfile
+                             */
                             @unlink($this->lockFile);
                         }
 
+                        /**
+                         * Save to the database
+                         */
                         $this->saveDatabase(sprintf('Extension \'%s\' disabled', $extensionPathOrName));
+
+                        /**
+                         * Return.
+                         */
                         return;
-                    }
-                }
-            }
-        }
-
-        // Search it...
-        $extensionPathOrName = 'DemoMode';
-        foreach ($this->scan_directories as $readDirectory) {
-            if (file_exists($readDirectory) && is_readable($readDirectory)) {
-                if (file_exists($readDirectory . $extensionPathOrName)) {
-                    foreach ($this->load_files as $tryFile) {
-                        if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
-                            if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
-                                for ($i = 0; $i < sizeof($this->loadExtensions); $i++) {
-                                    $fp = $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                    if ($this->loadExtensions[$i] == $fp) {
-                                        unset($this->loadExtensions[$i]);
-                                        if (file_exists($this->lockFile)) {
-                                            @unlink($this->lockFile);
-                                        }
-
-                                        $this->saveDatabase(sprintf('Extension \'%s\' disabled', $extensionPathOrName));
-                                        return;
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -417,27 +610,58 @@ class Extensions
      */
     public function information($ofExtensionOrFilePath)
     {
+        /**
+         * Checks if the path exists
+         */
         if (!file_exists($ofExtensionOrFilePath)) {
-            // Scanning files.
-            echo "Unown file.";
+            /**
+             * File does not exists.
+             */
+            echo "Unknown file.";
+
+            /**
+             * return, don't run more from this function
+             */
             return;
         }
 
+        /**
+         * Return parseInformation(aboutthisextension)
+         */
         return $this->parseInformation($ofExtensionOrFilePath);
     }
 
     /**
+     * Does expressions match?
+     *
      * @param $exp1
      * @param $exp2
+     * @return bool
      */
     private function match($exp1, $exp2)
     {
+        /**
+         * Fixed expression (1)
+         * @var string
+         */
         $fixedExpression = $exp1;
+
+        /**
+         * If expression (1) starts with a space ' '
+         */
         if (substr($fixedExpression, 0, 1) === ' ') {
+            /**
+             * Ignore the first whitespace
+             */
             $fixedExpression = substr($fixedExpression, 1);
         }
 
-        return (substr($fixedExpression, 0, strlen($exp2)) == $exp2);
+        /**
+         * Return, if they match!
+         */
+        return (
+            substr($fixedExpression, 0, strlen($exp2)) == $exp2
+        );
     }
 
     /**
@@ -459,31 +683,111 @@ class Extensions
          * Hash: * INSERT HASH HERE *
          */// Needs to be on top of the file.
 
+        /**
+         * Create an array for the extension information
+         * @var array
+         */
         $extensionInfo = array();
+
+        /**
+         * Check if the file exists
+         */
         if (file_exists($ofExtensionFilePath)) {
+            /**
+             * Load the contents
+             * @var string
+             */
             $fc = file_get_contents($ofExtensionFilePath);
-            if ($fc) {
+
+            /**
+             * Check if there is any content
+             */
+            if (!empty($fc)) {
+                /**
+                 * Check for the end of the comment string.
+                 * And pick the contents before the end.
+                 * @var string
+                 */
                 $fe = explode('*/', $fc)[0];
+
+                /**
+                 * Check for the begin of the comment string.
+                 * And pick the contents after the begin.
+                 * @var string
+                 */
                 $fe = explode('/*', $fe)[1];
+
+                /**
+                 * Explode newlines
+                 * @var [string]
+                 */
                 $fe = explode(PHP_EOL, $fe);
+
+                /**
+                 * Loop trough the information dictionary.
+                 */
                 foreach ($fe as $informationDict) {
+                    /**
+                     * Checks if the information matches the information we'll search for.
+                     * And the length is more then 3 characters.
+                     */
                     if ($this->match($informationDict, "* ") && strlen($informationDict) > 3) {
+                        /**
+                         * Explode the information
+                         * @var [string]
+                         */
                         $ex = explode(": ", $informationDict);
+
+                        /**
+                         * Checks if the information exists
+                         */
                         if (!isset($ex[1])) {
+                            /**
+                             * Nope, continue with a new value.
+                             */
                             continue;
                         }
 
+                        /**
+                         * Explode the information to a safe name
+                         * ' * '
+                         * @var [string]
+                         */
                         $safeName = explode(' * ', $ex[0])[1];
+
+                        /**
+                         * replace the information to a safe name ' ' to '_'
+                         * @var string
+                         */
                         $safeName = preg_replace('/ /', '_', $safeName);
+
+                        /**
+                         * replace the information to a safe name ':' to '_'
+                         * @var string
+                         */
                         $safeName = preg_replace('/:/', '_', $safeName);
+
+                        /**
+                         * lowercase the string
+                         * @var string
+                         */
                         $safeName = strtolower($safeName);
 
+                        /**
+                         * Append information to array
+                         */
                         $extensionInfo[$safeName] = $ex[1];
                     }
                 }
 
+                /**
+                 * Return extension information
+                 */
                 return $extensionInfo;
             } else {
+                /**
+                 * There was an error with reading the file
+                 */
                 echo "Error reading file";
             }
         }
@@ -495,63 +799,129 @@ class Extensions
      */
     public function forceReloadExtensions()
     {
+        /**
+         * Unset extension list
+         */
         unset($this->extensionList);
+
+        /**
+         * create empty extension list
+         */
         $this->extensionList = array();
+
+        /**
+         * Unset loaded extension list
+         */
         unset($this->loadExtensions);
+
+        /**
+         * create empty loaded extension list
+         */
         $this->loadExtensions = array();
 
+        /**
+         * Checks if we can remove the cache database
+         */
         if (!unlink($this->cacheDB)) {
+            /**
+             * Failed to remove cache database
+             */
             exit('Failed to remove database');
         }
 
+        /**
+         * Trigger a force reload.
+         */
         $this->reloadExtensions('FORCE SAVE, EXTENSION DATABASE RESET');
+
+        /**
+         * Disable save on exit
+         * @var boolean
+         */
         $this->saveOnExit = false;
+
+        /**
+         * Touch (if not exists) a new lockfile
+         */
         @touch($this->lockFile);
     }
 
     /**
      * reload extensions
-     * @param $m message
+     *
+     * @param $m message 'Default rescan.'
      */
     private function reloadExtensions($m = 'Default rescan.')
     {
+        /**
+         * Create an empty loaded extension array
+         * @var [string]
+         */
         $this->loadExtensions = array();
+
+        /**
+         * Create an empty extension array
+         * @var [string]
+         */
         $this->extensionList = array();
 
-        // Check for 'DemoMode' first.
-        $current = 'DemoMode';
+        /**
+         * Walk trough the directories
+         */
         foreach ($this->scan_directories as $readDirectory) {
+            /**
+             * Checks if the file exists, and is readable.
+             */
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
-                if (file_exists($readDirectory . $current)) {
-                    foreach ($this->load_files as $tryFile) {
-                        if (file_exists($readDirectory . $current . '/' . $tryFile)) {
-                            $this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
-                            $this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
-                            if (!file_exists($readDirectory . $current . '/' . 'disabled')) {
-                                require_once $readDirectory . $current . '/' . $tryFile;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        foreach ($this->scan_directories as $readDirectory) {
-            if (file_exists($readDirectory) && is_readable($readDirectory)) {
+                /**
+                 * Open the directory
+                 * @var [string]
+                 */
                 $_d = opendir($readDirectory);
+
+                /**
+                 * Read the directory contents
+                 * @var string
+                 */
                 while (($current = readdir($_d)) !== false) {
-                    if ($current != '.' && $current != '..' && is_dir($readDirectory . $current)) {
+                    /**
+                     * Checks if the file is a directory, and not this directory, and not the parent directory.
+                     */
+                    if ($current != '.' && /* File is not '.' this directory */
+                        $current != '..' && /* File is not '..' this directory */
+                        is_dir($readDirectory . $current) /* File an directory */
+                    ) {
+                        /**
+                         * Walk trough the possible file extensions.
+                         */
                         foreach ($this->load_files as $tryFile) {
+                            /**
+                             * Check if the file exists
+                             */
                             if (file_exists($readDirectory . $current . '/' . $tryFile)) {
+                                /**
+                                 * Checks if the file is not already loaded.
+                                 */
                                 if (!in_array($readDirectory . $current . '/' . $tryFile, $this->loadExtensions)) {
+                                    /**
+                                     * Checks if the file is a system extension
+                                     */
                                     if (in_array($current, $this->systemExtensions)) {
+                                        /**
+                                         * Force load it, it is a system extension
+                                         */
                                         $this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
                                     }
 
+                                    /**
+                                     * It's a extension, append it to the extensionlist
+                                     */
                                     $this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
-                                    if (!file_exists($readDirectory . $current . '/' . 'disabled')) {
-                                        require_once $readDirectory . $current . '/' . $tryFile;
-                                    }
+
+                                    /**
+                                     * Load the extension
+                                     */
+                                    require_once $readDirectory . $current . '/' . $tryFile;
                                 }
                             }
                         }
@@ -560,6 +930,9 @@ class Extensions
             }
         }
 
+        /**
+         * Save the database!
+         */
         $this->saveDatabase($m);
     }
 
@@ -571,15 +944,33 @@ class Extensions
      */
     private function saveDatabase($m = 'Default save action on exit')
     {
+        /**
+         * Check if the 'lockfile' exists.
+         */
         if (file_exists($this->lockFile)) {
+            /**
+             * Lockfile exists, don't save
+             */
             return;
         }
 
+        /**
+         * Check if the 'cacheDB' exists
+         */
         if (!file_exists($this->cacheDB)) {
+            /**
+             * Create it.
+             */
             touch($this->cacheDB);
         }
 
+        /**
+         * Check if 'cacheDB' is writeable
+         */
         if (is_writable($this->cacheDB)) {
+            /**
+             * Save to 'cacheDB'
+             */
             file_put_contents(
                 $this->cacheDB,
                 gzcompress(
@@ -587,12 +978,16 @@ class Extensions
                         array(
                             $this->loadExtensions,
                             $this->extensionList,
-                        )
-                    ),
-                    9
+                        ) // Create the array
+                    ), // JSON Encode
+                    9// Maximum compression
                 )
             );
         } else {
+            /**
+             * Warning ExtensionCache not writeable.
+             * continue running.
+             */
             echo "Warning 'ExtensionCache' database not writeable";
         }
     }
@@ -602,7 +997,13 @@ class Extensions
      */
     public function __destruct()
     {
+        /**
+         * Save on exit
+         */
         if ($this->saveOnExit) {
+            /**
+             * Save database
+             */
             $this->saveDatabase();
         }
     }
