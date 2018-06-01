@@ -435,20 +435,49 @@ class Extensions
      */
     public function isActive($ext)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $ext)) > 1) {
-            return in_array($ext, $this->loadExtensions);
+            /**
+             * If the name of the extension is in the loaded array, then return true
+             */
+            return in_array(
+                /* Extension name */
+                $ext,
+                /* loaded extensions */
+                $this->loadExtensions
+            );
         }
 
+        /**
+         * Walk trough loaded extensions.
+         */
         foreach ($this->loadExtensions as $checkExtension) {
+            /**
+             * Get information about this extension
+             */
             foreach ($this->information($checkExtension) as $info => $value) {
+                /**
+                 * If type is extension
+                 */
                 if ($info === 'extension') {
+                    /**
+                     * And Extensionname equals $ext
+                     */
                     if ($value === $ext) {
+                        /**
+                         * It is a loaded extension!
+                         */
                         return true;
                     }
                 }
             }
         }
 
+        /**
+         * It's a unloaded extension.
+         */
         return false;
     }
 
