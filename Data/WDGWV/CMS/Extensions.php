@@ -266,25 +266,53 @@ class Extensions
      */
     private function loadExtensions()
     {
-        $f = json_decode( // Decode JSON
-            gzuncompress( // Uncompress
-                file_get_contents( // FGC
+        /* JSON Decode */
+        $f = json_decode(
+            /* Uncompress */
+            gzuncompress(
+                /* Read cache file */
+                file_get_contents(
+                    /* Cache filepath */
                     $this->cacheDB
                 )
             ),
-            true// explicit to Array.
+            /* explicit to Array. */
+            true
         );
 
+        /**
+         * Check if there are extensions loaded.
+         */
         if (sizeof($f[1]) == 0) {
+            /**
+             * No extensions loaded.
+             * Reload extensions
+             */
             $this->reloadExtensions();
+
+            /**
+             * Do not run the rest of the code.
+             */
             return;
         }
 
-        // Remove Duplicates, if any.
+        /**
+         * Remove duplicates in loaded extensions
+         */
         $f[0] = array_unique($f[0]);
+
+        /**
+         * Remove duplicates in extensionList
+         */
         $f[1] = array_unique($f[1]);
 
+        /**
+         * Load the files
+         */
         foreach ($f[0] as $loadFile) {
+            /**
+             * Append loading text to debugger
+             */
             Debugger::sharedInstance()->log(
                 sprintf(
                     'loading extension: %s',
@@ -292,17 +320,42 @@ class Extensions
                 )
             );
 
+            /**
+             * Checks if extension exists
+             */
             if (file_exists($loadFile)) {
+                /**
+                 * Check if the extension is disabled?
+                 * @var string
+                 */
                 $disabled = explode('/', $loadFile);
+                /**
+                 * Append disabled to the array
+                 */
                 $disabled[sizeof($disabled) - 1] = 'disabled';
 
+                /**
+                 * Checks if there is not a file called 'disabled'
+                 */
                 if (!file_exists(implode('/', $disabled))) {
+                    /**
+                     * No disabled parameter, so load it!
+                     */
                     require_once $loadFile;
                 }
             }
         }
 
+        /**
+         * Save loaded extensions
+         * @var [string]
+         */
         $this->loadExtensions = $f[0];
+
+        /**
+         * Save extensions
+         * @var [string]
+         */
         $this->extensionList = $f[1];
     }
 
