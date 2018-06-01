@@ -353,32 +353,77 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                             continue;
                         }
 
+                        /**
+                         * Create a safe match
+                         * @var string
+                         */
                         $safeMatch = $this->hookDatabase['url'][$i]['name'];
+
+                        /**
+                         * Replace / to \\\\ (\)
+                         */
                         $safeMatch = preg_replace("/\//", "\\\\/", $safeMatch);
+
+                        /**
+                         * Replace * to (.*)
+                         */
                         $safeMatch = preg_replace("/\*/", "(.*)", $safeMatch);
+
+                        /**
+                         * Check if we have a REQUEST_URI
+                         */
                         if (isset($_SERVER['REQUEST_URI'])) {
+                            /**
+                             * Make the url some nicer
+                             * @var string
+                             */
                             $niceURL = $_SERVER['REQUEST_URI'];
 
-                            // if the URL have a "?" then get only before the "?"
+                            /**
+                             * if the URL have a "?" then get only before the "?"
+                             */
                             if (sizeof(explode('?', $niceURL)) > 0) {
+                                /**
+                                 * remove everything after the ?
+                                 */
                                 $niceURL = explode('?', $niceURL)[0];
                             }
 
+                            /**
+                             * Checks if we have a safe match
+                             */
                             if (preg_match("/" . $safeMatch . "$/", $niceURL)) {
+                                /**
+                                 * If the action is callable...
+                                 */
                                 if (is_callable($this->hookDatabase['url'][$i]['action'])) {
+                                    /**
+                                     * Call the action, and save it to a Temporary String
+                                     * @var string
+                                     */
                                     $returnValue = call_user_func_array(
                                         $this->hookDatabase['url'][$i]['action'],
                                         $this->hookDatabase['url'][$i]['params']
                                     );
 
+                                    /**
+                                     * Checks if we have a Temporary String
+                                     */
                                     if (!$returnValue) {
-                                        // Temporary unset this hook, it's already loaded.
+                                        /**
+                                         * Temporary unset this hook, it's already loaded.
+                                         */
                                         unset($this->hookDatabase['url'][$i]);
 
-                                        // Continue testing
+                                        /**
+                                         * Continue testing
+                                         */
                                         continue;
                                     }
 
+                                    /**
+                                     * Return the temporary string
+                                     */
                                     return $returnValue;
                                 } else {
                                     if (sizeof($this->hookDatabase['url'][$i]['action']) > 1) {
