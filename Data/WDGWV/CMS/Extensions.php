@@ -189,7 +189,7 @@ class Extensions
         $cacheTime = 0;
 
         if (file_exists($this->cacheDB)) {
-            $cacheTime = filemtime($this->cacheDB)
+            $cacheTime = filemtime($this->cacheDB);
         }
 
         if ((time() - $cacheTime) <= $this->cache_life) {
@@ -229,7 +229,7 @@ class Extensions
                     $this->cacheDB
                 )
             ),
-            true // explicit to Array.
+            true// explicit to Array.
         );
 
         if (sizeof($f[1]) == 0) {
@@ -621,7 +621,7 @@ class Extensions
                             $this->extensionList,
                         ) // Create the array
                     ), // JSON Encode
-                    9 // Maximum compression
+                    9// Maximum compression
                 )
             );
         } else {
