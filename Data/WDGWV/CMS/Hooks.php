@@ -234,20 +234,69 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function loopHook($at)
     {
+        /**
+         * Switch statement
+         */
         switch ($at) {
+            /**
+                 * Walk trought 'before-content'
+                 */
             case 'before-content':
+                /**
+                 * Checks if we have 'before-content'
+                 */
                 if (isset($this->hookDatabase['before-content'])) {
+                    /**
+                     * Temporary Return string
+                     * @var string
+                     */
+                    $temporaryReturn = '';
+
+                    /**
+                     * Walk trough the 'before-contents'
+                     */
                     for ($i = 0; $i < sizeof($this->hookDatabase['before-content']); $i++) {
-                        return $this->hookDatabase['before-content'][$i]['action'];
+                        /**
+                         * Append the hook to the temporaryReturn string
+                         */
+                        $temporaryReturn .= $this->hookDatabase['before-content'][$i]['action'];
                     }
+
+                    /**
+                     * return the temporary return string
+                     */
+                    return $temporaryReturn;
                 }
                 break;
 
+            /**
+                 * Walk trought 'before-content'
+                 */
             case 'after-content':
+                /**
+                 * Checks if we have 'before-content'
+                 */
                 if (isset($this->hookDatabase['after-content'])) {
+                    /**
+                     * Temporary Return string
+                     * @var string
+                     */
+                    $temporaryReturn = '';
+
+                    /**
+                     * Walk trough the 'before-contents'
+                     */
                     for ($i = 0; $i < sizeof($this->hookDatabase['after-content']); $i++) {
-                        return $this->hookDatabase['after-content'][$i]['action'];
+                        /**
+                         * Append the hook to the temporaryReturn string
+                         */
+                        $temporaryReturn .= $this->hookDatabase['after-content'][$i]['action'];
                     }
+
+                    /**
+                     * return the temporary return string
+                     */
+                    return $temporaryReturn;
                 }
                 break;
 
