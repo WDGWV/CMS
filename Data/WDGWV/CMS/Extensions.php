@@ -848,29 +848,80 @@ class Extensions
 
     /**
      * reload extensions
-     * @param $m message
+     *
+     * @param $m message 'Default rescan.'
      */
     private function reloadExtensions($m = 'Default rescan.')
     {
+        /**
+         * Create an empty loaded extension array
+         * @var [string]
+         */
         $this->loadExtensions = array();
+
+        /**
+         * Create an empty extension array
+         * @var [string]
+         */
         $this->extensionList = array();
 
+        /**
+         * Walk trough the directories
+         */
         foreach ($this->scan_directories as $readDirectory) {
+            /**
+             * Checks if the file exists, and is readable.
+             */
             if (file_exists($readDirectory) && is_readable($readDirectory)) {
+                /**
+                 * Open the directory
+                 * @var [string]
+                 */
                 $_d = opendir($readDirectory);
+
+                /**
+                 * Read the directory contents
+                 * @var string
+                 */
                 while (($current = readdir($_d)) !== false) {
-                    if ($current != '.' && $current != '..' && is_dir($readDirectory . $current)) {
+                    /**
+                     * Checks if the file is a directory, and not this directory, and not the parent directory.
+                     */
+                    if ($current != '.' && /* File is not '.' this directory */
+                        $current != '..' && /* File is not '..' this directory */
+                        is_dir($readDirectory . $current) /* File an directory */
+                    ) {
+                        /**
+                         * Walk trough the possible file extensions.
+                         */
                         foreach ($this->load_files as $tryFile) {
+                            /**
+                             * Check if the file exists
+                             */
                             if (file_exists($readDirectory . $current . '/' . $tryFile)) {
+                                /**
+                                 * Checks if the file is not already loaded.
+                                 */
                                 if (!in_array($readDirectory . $current . '/' . $tryFile, $this->loadExtensions)) {
+                                    /**
+                                     * Checks if the file is a system extension
+                                     */
                                     if (in_array($current, $this->systemExtensions)) {
+                                        /**
+                                         * Force load it, it is a system extension
+                                         */
                                         $this->loadExtensions[] = $readDirectory . $current . '/' . $tryFile;
                                     }
 
+                                    /**
+                                     * It's a extension, append it to the extensionlist
+                                     */
                                     $this->extensionList[] = $readDirectory . $current . '/' . $tryFile;
-                                    if (!file_exists($readDirectory . $current . '/' . 'disabled')) {
-                                        require_once $readDirectory . $current . '/' . $tryFile;
-                                    }
+
+                                    /**
+                                     * Load the extension
+                                     */
+                                    require_once $readDirectory . $current . '/' . $tryFile;
                                 }
                             }
                         }
