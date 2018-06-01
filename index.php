@@ -111,7 +111,11 @@ if (Installer::sharedInstance()->isInstalled()) {
  */
 if (Config::sharedInstance()->debug()) {
     echo "<hr>";
-    $debugger->log(array("Hooks" => Hooks::sharedInstance()->dumpDatabase()));
+    $debugger->log(
+        array(
+            "Hooks" => Hooks::sharedInstance()->dumpDatabase(),
+        )
+    );
     $debugger->logdump();
     echo "<hr>";
     $debugger->dumpAllClasses();

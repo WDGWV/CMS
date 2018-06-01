@@ -135,7 +135,7 @@ class Extensions
      *
      * @var int
      */
-    private $cache_life = 3600 * 24 * 365; // in Seconds; 3600 = 1h, * 24 = 1d
+    private $cache_life = (3600 * 24) * 365; // in Seconds; 3600 = 1h, * 24 = 1d
     // Temporary 1y, solution needed for every day reset.
 
     /**
@@ -186,8 +186,13 @@ class Extensions
      */
     private function __construct()
     {
-        $cacheTime = file_exists($this->cacheDB) ? filemtime($this->cacheDB) : 0;
-        if ($cacheTime && (time() - $cacheTime <= $this->cache_life)) {
+        $cacheTime = 0;
+
+        if (file_exists($this->cacheDB)) {
+            $cacheTime = filemtime($this->cacheDB)
+        }
+
+        if ((time() - $cacheTime) <= $this->cache_life) {
             $this->loadExtensions();
             return;
         }
@@ -224,7 +229,7 @@ class Extensions
                     $this->cacheDB
                 )
             ),
-            true// explicit to Array.
+            true // explicit to Array.
         );
 
         if (sizeof($f[1]) == 0) {
@@ -237,7 +242,13 @@ class Extensions
         $f[1] = array_unique($f[1]);
 
         foreach ($f[0] as $loadFile) {
-            Debugger::sharedInstance()->log(sprintf('loading extension: %s', $loadFile));
+            Debugger::sharedInstance()->log(
+                sprintf(
+                    'loading extension: %s',
+                    $loadFile
+                )
+            );
+
             if (file_exists($loadFile)) {
                 $disabled = explode('/', $loadFile);
                 $disabled[sizeof($disabled) - 1] = 'disabled';
@@ -560,6 +571,9 @@ class Extensions
             }
         }
 
+        /**
+         * Save the database!
+         */
         $this->saveDatabase($m);
     }
 
@@ -571,15 +585,33 @@ class Extensions
      */
     private function saveDatabase($m = 'Default save action on exit')
     {
+        /**
+         * Check if the 'lockfile' exists.
+         */
         if (file_exists($this->lockFile)) {
+            /**
+             * Lockfile exists, don't save
+             */
             return;
         }
 
+        /**
+         * Check if the 'cacheDB' exists
+         */
         if (!file_exists($this->cacheDB)) {
+            /**
+             * Create it.
+             */
             touch($this->cacheDB);
         }
 
+        /**
+         * Check if 'cacheDB' is writeable
+         */
         if (is_writable($this->cacheDB)) {
+            /**
+             * Save to 'cacheDB'
+             */
             file_put_contents(
                 $this->cacheDB,
                 gzcompress(
@@ -587,12 +619,16 @@ class Extensions
                         array(
                             $this->loadExtensions,
                             $this->extensionList,
-                        )
-                    ),
-                    9
+                        ) // Create the array
+                    ), // JSON Encode
+                    9 // Maximum compression
                 )
             );
         } else {
+            /**
+             * Warning ExtensionCache not writeable.
+             * continue running.
+             */
             echo "Warning 'ExtensionCache' database not writeable";
         }
     }
@@ -602,7 +638,13 @@ class Extensions
      */
     public function __destruct()
     {
+        /**
+         * Save on exit
+         */
         if ($this->saveOnExit) {
+            /**
+             * Save database
+             */
             $this->saveDatabase();
         }
     }
