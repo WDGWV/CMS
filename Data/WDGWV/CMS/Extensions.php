@@ -487,48 +487,64 @@ class Extensions
      */
     public function enableExtension($extensionPathOrName)
     {
+        /**
+         * Explode the name.
+         */
         if (sizeof(explode('/', $extensionPathOrName)) > 1) {
+            /**
+             * Check if the file exists
+             */
             if (file_exists($extensionPathOrName)) {
+                /**
+                 * If not already loaded, then load it.
+                 */
                 if (!in_array($extensionPathOrName, $this->loadExtensions)) {
+                    /**
+                     * Load the extension
+                     */
                     require_once $extensionPathOrName;
+
+                    /**
+                     * Append them to the loaded extensions array
+                     */
                     $this->loadExtensions[] = $extensionPathOrName;
                 }
 
+                /**
+                 * Checks if a lockfile exists
+                 */
                 if (file_exists($this->lockFile)) {
+                    /**
+                     * Unlink (remove) lockfile
+                     */
                     @unlink($this->lockFile);
                 }
 
+                /**
+                 * Save the database
+                 */
                 $this->saveDatabase(sprintf('Extension \'%s\' enabled', $extensionPathOrName));
+
+                /**
+                 * Return, so don't run more from this function
+                 */
                 return;
             }
         }
 
-        // Search it...
-        $extensionPathOrName = 'DemoMode';
-        foreach ($this->scan_directories as $readDirectory) {
-            if (file_exists($readDirectory) && is_readable($readDirectory)) {
-                if (file_exists($readDirectory . $extensionPathOrName)) {
-                    foreach ($this->load_files as $tryFile) {
-                        if (file_exists($readDirectory . $extensionPathOrName . '/' . $tryFile)) {
-                            if (!file_exists($readDirectory . $extensionPathOrName . '/' . 'disabled')) {
-                                require_once $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                if (!in_array(
-                                    $readDirectory . $extensionPathOrName . '/' . $tryFile,
-                                    $this->loadExtensions
-                                )) {
-                                    $this->loadExtensions[] = $readDirectory . $extensionPathOrName . '/' . $tryFile;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
+        /**
+         * Checks if a lockfile exists
+         */
         if (file_exists($this->lockFile)) {
+            /**
+             * Unlink (remove) lockfile
+             */
             @unlink($this->lockFile);
         }
 
+        /**
+         * Save the database
+         */
         $this->saveDatabase(sprintf('Extension \'%s\' enabled', $extensionPathOrName));
     }
 
