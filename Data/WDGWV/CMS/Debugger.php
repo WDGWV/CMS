@@ -206,7 +206,7 @@ class Debugger
     {
         $namespaces = array();
         foreach (get_declared_classes() as $name) {
-            if (preg_match("/\\\/", $name)) {
+            if (preg_match("/\\\\/", $name)) {
                 $x = explode("\\", $name);
 
                 if (isset($x[0]) && !isset($namespaces[$x[0]])) {

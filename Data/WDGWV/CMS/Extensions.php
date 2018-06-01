@@ -135,7 +135,7 @@ class Extensions
      *
      * @var int
      */
-    private $cache_life = (3600 * 24) * 365; // in Seconds; 3600 = 1h, * 24 = 1d
+    private $cache_lifetime = (3600 * 24) * 365; // in Seconds; 3600 = 1h, * 24 = 1d
     // Temporary 1y, solution needed for every day reset.
 
     /**
@@ -182,26 +182,66 @@ class Extensions
 
     /**
      * Private so nobody else can instantiate it
-     *
      */
     private function __construct()
     {
+        /**
+         * What is the current time of the cache.
+         * Default: 0
+         *
+         * @var integer
+         */
         $cacheTime = 0;
 
+        /**
+         * Check if the file exists
+         */
         if (file_exists($this->cacheDB)) {
+            /**
+             * What is the current time of the cache.
+             * @var int
+             */
             $cacheTime = filemtime($this->cacheDB);
         }
 
-        if ((time() - $cacheTime) <= $this->cache_life) {
+        /**
+         * Check if the time - cachetime is less then the cache lifetime
+         */
+        if ((time() - $cacheTime) <= $this->cache_lifetime) {
+            /**
+             * Cache lifetime is not exeed.
+             * load cache
+             */
             $this->loadExtensions();
+
+            /**
+             * Do not run the rest of the function.
+             */
             return;
         }
 
+        /**
+         * Reload extensions
+         */
         $this->reloadExtensions();
+
+        /**
+         * Remove duplicates in $this->loadExtensions
+         */
         array_unique($this->loadExtensions);
+
+        /**
+         * Remove duplicates in $this->extensionList
+         */
         array_unique($this->extensionList);
 
+        /**
+         * Check if there is a 'lock' file.
+         */
         if (file_exists($this->lockFile)) {
+            /**
+             * Unlink the 'lock' file
+             */
             @unlink($this->lockFile);
         }
     }
@@ -213,6 +253,9 @@ class Extensions
      */
     public function displayExtensionList()
     {
+        /**
+         * Load extension list
+         */
         return $this->extensionList;
     }
 
