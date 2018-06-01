@@ -582,16 +582,40 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                  * Walk trough 'menu'
                  */
             case 'menu':
+                /**
+                 * Create a temporary array
+                 * @var [string]
+                 */
                 $_temporaryArray = array();
+
+                /**
+                 * Check if we have menu database
+                 */
                 if (sizeof($this->hookDatabase['menu']) > 0) {
+                    /**
+                     * Walk trough the menu database
+                     */
                     for ($i = 0; $i < sizeof($this->hookDatabase['menu']); $i++) {
+                        /**
+                         * Append to the temporary array.
+                         */
                         $_temporaryArray[] = $this->hookDatabase['menu'][$i]['action'];
                     }
                 }
+
+                /**
+                 * return temporary array
+                 */
                 return $_temporaryArray;
                 break;
 
+            /**
+                 * Nothing found
+                 */
             default:
+                /**
+                 * Return nothing
+                 */
                 return;
                 break;
         }
@@ -608,21 +632,44 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function createHook($at, $name, $action, $params = array())
     {
+        /**
+         * Check if there is a 'x' database
+         */
         if (!isset($this->hookDatabase[$at])) {
+            /**
+             * create a 'x' database
+             */
             $this->hookDatabase[$at] = array();
         }
 
-        // Disable double hooks...
+        /**
+         * Disable double hooks...
+         */
         foreach ($this->hookDatabase[$at] as $key => $value) {
+            /**
+             * if already exists
+             */
             if (isset($value['name']) && $value['name'] === $name) {
+                /**
+                 * Exists, break function call.
+                 */
                 return;
             }
 
+            /**
+             * if already exists
+             */
             if (isset($value['action']) && $value['action'] === $action) {
+                /**
+                 * Exists, break function call.
+                 */
                 return;
             }
         }
 
+        /**
+         * Append to hook database
+         */
         $this->hookDatabase[$at][] = array(
             'name' => $name,
             'action' => $action,
@@ -637,6 +684,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function dumpDatabase()
     {
+        /**
+         * Return the hook database
+         */
         return $this->hookDatabase;
     }
 
@@ -647,6 +697,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      */
     public function adminURL()
     {
+        /**
+         * Return the admin URL
+         */
         return (new \WDGWV\CMS\Config)->adminURL();
     }
 }
