@@ -651,9 +651,11 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         );
 
         $count = 0;
-        foreach ($query as $post) {
-            $count++;
-        }
+        if (is_array($query)) {
+        	foreach ($query as $post) {
+            	$count++;
+        	}
+    	}
 
         return ($count !== 0);
     }
