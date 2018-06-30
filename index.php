@@ -131,5 +131,8 @@ $CMSEndTime = microtime(true);
  * If in debug mode, then say "Generated this page in 000μs."
  */
 if (Config::sharedInstance()->debug()) {
-    echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
+	/**
+	Output "Generated this page in ...μs."
+	*/
+	echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
 }
