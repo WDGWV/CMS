@@ -1917,57 +1917,226 @@ class TemplateParser extends WDGWV
     private function minify($contents)
     {
         $search = array(
-            '/function \(/', // compress function ( ) to function() (saves: 1 byte)
-            '/\>[^\S ]+/s', // strip whitespaces after tags, except space (saves: many bytes)
-            '/[^\S ]+\</s', // strip whitespaces before tags, except space (saves: many bytes)
-            '#\btrue\b#', // Replace `true` with `!0` [^3] (saves: 3 bytes)
-            '#\bfalse\b#', // Replace `false` with `!1` [^3] (saves: 3 bytes)
-            '/[^:]\/\/.*/', // Remove JS comments (saves: many bytes)
-            '~//<!\[CDATA\[\s*|\s*//\]\]>~', // Remove JS comments (saves: many bytes)
-            '/\s\s+/', // remove whitespaces (saves: 1 byte per whitepace)
-            '/\)if/', // fix javascript error (saves: -1 byte)
-            '/\n}<\/script>/s', // removes unnecessary newline
-            '/; /', // removes unnecessary whitespace (saves: 1 byte)
-            '/if \(/', // removes unnecessary whitespace (saves: 1 byte)
-            '/ \/ /', // removes unnecessary whitespace (saves: 1 byte)
-            '/, /', // removes unnecessary whitespace (saves: 1 byte)
-            '/ = /', // removes unnecessary whitespace (saves: 1 byte)
-            '/ > /', // removes unnecessary whitespace (saves: 1 byte)
-            '/ < /', // removes unnecessary whitespace (saves: 1 byte)
-            '/ \* /', // removes unnecessary whitespace (saves: 1 byte)
-            '/ \+ /', // removes unnecessary whitespace (saves: 1 byte)
-            '/for \(/', // removes unnecessary whitespace (saves: 1 byte)
-            '/\) \{/', // removes unnecessary whitespace (saves: 1 byte)
+            /**
+             * compress function ( ) to function() (saves: 1 byte)
+             */
+            '/function \(/',
+
+            /**
+             * strip whitespaces after tags, except space (saves: many bytes)
+             */
+            '/\>[^\S ]+/s',
+
+            /**
+             * strip whitespaces before tags, except space (saves: many bytes)
+             */
+            '/[^\S ]+\</s',
+
+            /**
+             * Replace `true` with `!0` [^3] (saves: 3 bytes)
+             */
+            '#\btrue\b#',
+
+            /**
+             * Replace `false` with `!1` [^3] (saves: 3 bytes)
+             */
+            '#\bfalse\b#',
+
+            /**
+             * Remove JS comments (saves: many bytes)
+             */
+            '/[^:]\/\/.*/',
+
+            /**
+             * Remove JS comments (saves: many bytes)
+             */
+            '~//<!\[CDATA\[\s*|\s*//\]\]>~',
+
+            /**
+             * remove whitespaces (saves: 1 byte per whitepace)
+             */
+            '/\s\s+/',
+
+            /**
+             * fix javascript error (saves: -1 byte)
+             */
+            '/\)if/',
+
+            /**
+             * removes unnecessary newline
+             */
+            '/\n}<\/script>/s',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/; /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/if \(/',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/ \/ /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/, /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/ = /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/ > /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/ < /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/ \* /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/ \+ /',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/for \(/',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
+            '/\) \{/',
         );
 
         /**
          * If needed to hide comments, then append them.
          */
         if ($this->config['hidecomments']) {
-            $search[] = '/<!--(.|\s)*?-->/'; // Remove HTML comments (saves: many bytes)
+            /**
+             * Remove HTML comments (saves: many bytes)
+             */
+            $search[] = '/<!--(.|\s)*?-->/';
         }
 
         $replace = array(
+            /**
+             * compress function ( ) to function() (saves: 1 byte)
+             */
             'function(',
+
+            /**
+             * strip whitespaces after tags, except space (saves: many bytes)
+             */
             '>',
+
+            /**
+             * strip whitespaces before tags, except space (saves: many bytes)
+             */
             '<',
+
+            /**
+             * Replace `true` with `!0` [^3] (saves: 3 bytes)
+             */
             '!0',
+
+            /**
+             * Replace `false` with `!1` [^3] (saves: 3 bytes)
+             */
             '!1',
+
+            /**
+             * Remove JS comments (saves: many bytes)
+             */
             '',
+
+            /**
+             * Remove JS comments (saves: many bytes)
+             */
             '',
+
+            /**
+             * remove whitespaces (saves: 1 byte per whitepace)
+             */
             '',
+
+            /**
+             * fix javascript error (saves: -1 byte)
+             */
             ');if',
+
+            /**
+             * removes unnecessary newline
+             */
             '}</script>',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             ';',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             'if(',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             '/',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             ',',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             '=',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             '>',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             '<',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             '*',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             '+',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             'for(',
+
+            /**
+             * removes unnecessary whitespace (saves: 1 byte)
+             */
             '){',
         );
 
@@ -1975,6 +2144,9 @@ class TemplateParser extends WDGWV
          * If needed to hide comments, then append them.
          */
         if ($this->config['hidecomments']) {
+            /**
+             * Remove HTML comments (saves: many bytes)
+             */
             $replace[] = '';
         }
 
@@ -2003,10 +2175,13 @@ class TemplateParser extends WDGWV
     public function display()
     {
         /**
-         * If no parameters are present,
-         * set default parameters.
+         * Checks if parameters are present,
          */
         if (!isset($this->config['parameter'])) {
+            /**
+             * no parameters are present,
+             * so set default parameters.
+             */
             $this->setParameter();
         }
 
@@ -2046,8 +2221,12 @@ class TemplateParser extends WDGWV
      * @param string $helpURL If available the URL
      * @since Version 2.0
      */
-    private function fatalError($errorDescription, $errorFile = __FILE__, $errorLine = __LINE__, $helpURL = null)
-    {
+    private function fatalError(
+        $errorDescription,
+        $errorFile = __FILE__,
+        $errorLine = __LINE__,
+        $helpURL = null
+    ) {
         /**
          * Display error.
          */

@@ -389,17 +389,26 @@ class Base extends \WDGWV\General\WDGWV
             /**
              * Bind parameter {ITEM:year} to the current year
              */
-            $parser->bindParameter('year', @date('Y'));
+            $parser->bindParameter(
+                'year',
+                @date('Y')
+            );
 
             /**
              * Bind parameter {ITEM:SITE_TITLE} to the current site title
              */
-            $parser->bindParameter('SITE_TITLE', $this->getTitle());
+            $parser->bindParameter(
+                'SITE_TITLE',
+                $this->getTitle()
+            );
 
             /**
              * Bind parameter {ITEM:copyright} to the copyright string
              */
-            $parser->bindParameter('copyright', $this->getFooter());
+            $parser->bindParameter(
+                'copyright',
+                $this->getFooter()
+            );
 
             /**
              * Set menu contents

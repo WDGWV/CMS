@@ -55,12 +55,11 @@ namespace WDGWV\CMS;
 ------------------------------------------------------------
  */
 
-// phpcs:disable
-$WDGWV_DEBUG = array();
-$WDGWV_DEBUG['info'] = array('WDGWV Debug (info) started.');
-$WDGWV_DEBUG['error'] = array('WDGWV Debug (errors) started.');
-$WDGWV_DEBUG['warning'] = array('WDGWV Debug (warnings) started.');
-// phpcs:enable
+$WDGWV_DEBUG = array(
+    'info' => array('WDGWV Debug (info) started.'),
+    'error' => array('WDGWV Debug (errors) started.'),
+    'warning' => array('WDGWV Debug (warnings) started.'),
+);
 
 /**
  * WDGWV CMS Debugger
