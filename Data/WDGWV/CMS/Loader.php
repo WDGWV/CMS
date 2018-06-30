@@ -76,38 +76,39 @@ function autloadWDGWVCMS($class)
     /**
      * Check if the file exists, otherwise fail.
      */
-if (file_exists($fileName)) {
-    /**
-     * Check if $fileName is readable.
-     */
-    if (is_readable($fileName)) {
+    if (file_exists($fileName)) {
         /**
-         * Load $fileName.
+         * Check if $fileName is readable.
          */
-        require_once $fileName;
-    } else {
-        /**
-         * Check if the $class is using a namespace, otherwise, ignore
-         */
-        if (sizeof(explode('\\', $class)) > 1) {
+        if (is_readable($fileName)) {
             /**
-             * Show the error
+             * Load $fileName.
              */
-            echo "<b>WARNING</b><br />";
-            echo "Couldn't load class <b>{$class}</b> the required file is missing!<br />";
-            echo "Attempted to load: {$fileName}<hr />";
+            require_once $fileName;
+        } else {
+            /**
+             * Check if the $class is using a namespace, otherwise, ignore
+             */
+            if (sizeof(explode('\\', $class)) > 1) {
+                /**
+                 * Show the error
+                 */
+                echo "<b>WARNING</b><br />";
+                echo "Couldn't load class <b>{$class}</b> the required file is missing!<br />";
+                echo "Attempted to load: {$fileName}<hr />";
 
-            /**
-             * debug_print_backtrace, show debug logs
-             */
-            echo "<pre>";
-            debug_print_backtrace();
-            echo "</pre>";
+                /**
+                 * debug_print_backtrace, show debug logs
+                 */
+                echo "<pre>";
+                debug_print_backtrace();
+                echo "</pre>";
 
-            /**
-             * Exit with error (1)
-             */
-            exit(1);
+                /**
+                 * Exit with error (1)
+                 */
+                exit(1);
+            }
         }
     } else {
         /**
