@@ -4,7 +4,7 @@
  * Extension: Update
  * Version: 1.0
  * Description: Updates WDGWV CMS
- * Hash: 98c00665c30528005b70ec09c955ccda
+ * Hash: 11c42e0dc55087544c3c68eca7b4d679
  * Integrity check: Required
  */
 

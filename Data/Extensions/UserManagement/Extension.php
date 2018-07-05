@@ -4,7 +4,7 @@
  * Extension: User Management
  * Version: 1.0
  * Description: This manages all your users.
- * Hash: a3127f6868607e840a2b75c12beb70b7
+ * Hash: 6ddbada64a3d406ed96de0d8fdaf4a7c
  * Integrity check: Required
  */
 

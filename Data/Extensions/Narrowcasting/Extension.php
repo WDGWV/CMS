@@ -4,7 +4,7 @@
  * Extension: Narrow casting
  * Version: 1.0
  * Description: Disable all calls, and shows the NarrowCasting window.
- * Hash: b1fbd95c04106fca15e4253d33b92b65
+ * Hash: 08b3d7b6822a42e7d7f8745d47818be2
  * Integrity check: Required
  */
 
