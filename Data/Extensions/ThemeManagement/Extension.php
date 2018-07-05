@@ -1,7 +1,7 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Extension: Theme Managament System
+ * Extension: Theme Management
  * Version: 1.0
  * Description: This manages all your Themes.
  * Hash: a509791e7ac25d047a3fc43b063615d3

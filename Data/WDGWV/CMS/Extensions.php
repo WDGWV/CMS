@@ -481,6 +481,18 @@ class Extensions
         return false;
     }
 
+    public function checkHash($extension, $hash)
+    {
+        foreach ($this->information($extension) as $info => $value) {
+            //WTH.
+            if ($info === 'hash') {
+                return (md5($this->getExtensionPath($extension)) == $value);
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param $extensionPathOrName
      * @return null
@@ -603,21 +615,93 @@ class Extensions
     }
 
     /**
+     * extension path information
+     *
+     * @param $extensionName
+     * @return bool|string
+     */
+    public function getExtensionPath($extensionName)
+    {
+        if (substr($extensionName, 0, 6) == './Data') {
+            return file_exists($extensionName) ? $extensionName : false;
+        }
+
+        /**
+         * Loop trough known directories
+         */
+        foreach ($this->scan_directories as $checkDirectory) {
+            /**
+             * Loop trough known extensions
+             */
+            foreach ($this->load_files as $fileName) {
+                /**
+                 * Remove spaces from the extension name
+                 */
+                $extensionName = preg_replace("/ /", null, $extensionName);
+
+                /**
+                 * Merge the directories and extensions to a file path
+                 */
+                $filePath = sprintf(
+                    /**
+                     * filePath
+                     */
+                    '%s%s/%s',
+                    /**
+                     * Current scanning directory
+                     */
+                    $checkDirectory,
+                    /**
+                     * Extension name
+                     */
+                    $extensionName,
+                    /**
+                     * Check for the filename
+                     */
+                    $fileName
+                );
+
+                /**
+                 * Check if there is a file at the file path
+                 */
+                if (file_exists($filePath)) {
+                    /**
+                     * Load information about the module
+                     */
+                    return $filePath;
+                }
+            }
+        }
+
+        /**
+         * Nothing found, return false.
+         */
+        return false;
+    }
+
+    /**
      * extension information
      *
      * @param $ofExtensionOrFilePath
      * @return mixed
      */
-    public function information($ofExtensionOrFilePath)
+    public function information($ofExtensionOrFilePath, $deep = false)
     {
         /**
          * Checks if the path exists
          */
         if (!file_exists($ofExtensionOrFilePath)) {
+            if ($this->getExtensionPath($ofExtensionOrFilePath) !== false) {
+                if ($deep) {
+                    return;
+                }
+                return $this->information($this->getExtensionPath($ofExtensionOrFilePath), true);
+            }
+
             /**
              * File does not exists.
              */
-            echo "Unknown file.";
+            echo "Unknown file ($ofExtensionOrFilePath).";
 
             /**
              * return, don't run more from this function

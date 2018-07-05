@@ -1,7 +1,7 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Extension: Extension Managament System
+ * Extension: Extension Management
  * Version: 1.0
  * Description: This manages all your extensions.
  * Hash: 315157b3e590bb069aba2e62eb71773a
@@ -59,7 +59,7 @@
 
 namespace WDGWV\CMS\Extension; /* Extension namespace */
 
-class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
+class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
 {
     private $extensionList = array();
     private $extensionCtrl;
@@ -72,7 +72,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\Extension\ExtensionMananagamentSystem();
+            $inst = new \WDGWV\CMS\Extension\ExtensionMananagament();
         }
         return $inst;
     }
@@ -148,7 +148,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
                 $extra_end = '';
 
                 if ($info === 'hash') {
-                    if ($this->checkHash($this->extensionList[$i], $value)) {
+                    if ($this->extensionCtrl->checkHash($this->extensionList[$i], $value)) {
                         $info = 'Hash<sup>✅</sup>';
                         $value = 'Correct hash';
                     } else {
@@ -161,7 +161,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 
                 if ($info === 'integrity_check') {
                     $value = '';
-                    if ($this->checkHash($name, $value)) {
+                    if ($this->extensionCtrl->checkHash($name, $value)) {
                         $info = 'Integrity check<sup>✅</sup>';
                         $extra_begin .= '✅';
                     } else {
@@ -251,11 +251,11 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 \WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Extensions/List', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ExtensionMananagamentSystem::shared(), 'displayList')
+    array(ExtensionMananagament::shared(), 'displayList')
 );
 
 \WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Extensions/Search', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ExtensionMananagamentSystem::shared(), 'displaySearch')
+    array(ExtensionMananagament::shared(), 'displaySearch')
 );

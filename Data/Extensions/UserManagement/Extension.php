@@ -1,7 +1,7 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Extension: User Managament System
+ * Extension: User Management
  * Version: 1.0
  * Description: This manages all your users.
  * Hash: a3127f6868607e840a2b75c12beb70b7
