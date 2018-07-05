@@ -87,11 +87,6 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
         $this->extensionList = \WDGWV\CMS\Extensions::shared()->displayExtensionList();
     }
 
-    private function checkHash($fileName, $hash)
-    {
-        return (md5($fileName) == $hash);
-    }
-
     public function displayList()
     {
         if (isset($_GET['reIndex'])) {
