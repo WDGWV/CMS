@@ -75,7 +75,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      * Call the database controller
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -99,7 +99,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     {
         parent::__construct();
         $d = (new \WDGWV\CMS\Config())->database();
-        $this->db = call_user_func("\\WDGWV\\CMS\\Controllers\\Databases\\{$d}::sharedInstance");
+        $this->db = call_user_func("\\WDGWV\\CMS\\Controllers\\Databases\\{$d}::shared");
         if ($this->db) {
             if (!is_object($this->db)) {
                 echo "Failed to load database";
@@ -318,7 +318,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function pageExists($pageTitleOrID, $strict = false)
     {
-        \WDGWV\CMS\Debugger::sharedInstance()->logf(
+        \WDGWV\CMS\Debugger::shared()->logf(
             'db',
             'pageExists(%s%s) %s',
             $pageTitleOrID,
@@ -344,7 +344,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function pageLoad($pageTitleOrID, $strict = false)
     {
-        \WDGWV\CMS\Debugger::sharedInstance()->logf(
+        \WDGWV\CMS\Debugger::shared()->logf(
             'db',
             'pageLoad(%s%s) = %s',
             $pageTitleOrID,
@@ -372,7 +372,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function menuSetItems($menuItemsArray = array())
     {
-        \WDGWV\CMS\Debugger::sharedInstance()->logf('db', 'menuSetItems = %s', json_encode($menuItemsArray));
+        \WDGWV\CMS\Debugger::shared()->logf('db', 'menuSetItems = %s', json_encode($menuItemsArray));
 
         return $this->db->menuSetItems(
             $menuItemsArray
@@ -386,7 +386,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function themeGet()
     {
-        \WDGWV\CMS\Debugger::sharedInstance()->logf('db', 'theme = %s', $this->db->themeGet());
+        \WDGWV\CMS\Debugger::shared()->logf('db', 'theme = %s', $this->db->themeGet());
 
         return $this->db->themeGet();
     }
@@ -398,7 +398,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function themeSet($themeName)
     {
-        \WDGWV\CMS\Debugger::sharedInstance()->logf('db', 'themeSet = %s', $themeName);
+        \WDGWV\CMS\Debugger::shared()->logf('db', 'themeSet = %s', $themeName);
 
         return $this->db->themeSet(
             $themeName
@@ -412,20 +412,20 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function menuLoad()
     {
-        \WDGWV\CMS\Debugger::sharedInstance()->logf(
+        \WDGWV\CMS\Debugger::shared()->logf(
             'db',
             'menuLoad = %s',
             json_encode(
                 array_merge(
                     $this->db->menuLoad(),
-                    \WDGWV\CMS\Hooks::sharedInstance()->loopHook('menu')
+                    \WDGWV\CMS\Hooks::shared()->loopHook('menu')
                 )
             )
         );
 
         return array_merge(
             $this->db->menuLoad(),
-            \WDGWV\CMS\Hooks::sharedInstance()->loopHook('menu')
+            \WDGWV\CMS\Hooks::shared()->loopHook('menu')
         );
     }
 }

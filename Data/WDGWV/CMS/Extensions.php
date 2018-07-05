@@ -164,11 +164,11 @@ class Extensions
     private $compressDatabase = true;
 
     /**
-     * Call the sharedInstance
+     * Call the shared
      *
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -313,7 +313,7 @@ class Extensions
             /**
              * Append loading text to debugger
              */
-            Debugger::sharedInstance()->log(
+            Debugger::shared()->log(
                 sprintf(
                     'loading extension: %s',
                     $loadFile
@@ -337,7 +337,7 @@ class Extensions
                 /**
                  * Checks debugmode status
                  */
-                if (!\WDGWV\CMS\Config::sharedInstance()->debug()) {
+                if (!\WDGWV\CMS\Config::shared()->debug()) {
                     /**
                      * Checks if there is not a file called 'disabled'.
                      * And we are in debugmode

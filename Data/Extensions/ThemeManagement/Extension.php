@@ -72,10 +72,10 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     private $ThemeCtrl;
 
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -93,8 +93,8 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
-        // $this->ThemeCtrl = \WDGWV\CMS\Themes::sharedInstance();
-        // $this->ThemeList = \WDGWV\CMS\Themes::sharedInstance()->displayThemeList();
+        // $this->ThemeCtrl = \WDGWV\CMS\Themes::shared();
+        // $this->ThemeList = \WDGWV\CMS\Themes::shared()->displayThemeList();
     }
 
     /**
@@ -193,7 +193,7 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
             }
         }
 
-        \WDGWV\CMS\Hooks::sharedInstance()->createHook(
+        \WDGWV\CMS\Hooks::shared()->createHook(
             'script',
             'Resize classes',
             "$('.col-lg-12').attr('class', 'col-lg-5');"
@@ -212,7 +212,7 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Themes/List',
     array(
@@ -223,7 +223,7 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Themes/Search',
     array(
@@ -234,30 +234,30 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Themes/Activate/*', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ThemeMananagamentSystem::sharedInstance(), 'activateTheme')
+    array(ThemeMananagamentSystem::shared(), 'activateTheme')
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Themes/Search', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ThemeMananagamentSystem::sharedInstance(), 'displaySearch')
+    array(ThemeMananagamentSystem::shared(), 'displaySearch')
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Themes/List', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ThemeMananagamentSystem::sharedInstance(), 'displayList')
+    array(ThemeMananagamentSystem::shared(), 'displayList')
 );
 
 //TODO: REMOVE ME
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     '/themeSet/portal',
     array(
-        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
+        \WDGWV\CMS\Controllers\Databases\Controller::shared(),
         'themeSet',
     ),
     array(
@@ -266,11 +266,11 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 );
 
 //TODO: REMOVE ME
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     '/themeSet/admin',
     array(
-        \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance(),
+        \WDGWV\CMS\Controllers\Databases\Controller::shared(),
         'themeSet',
     ),
     array(

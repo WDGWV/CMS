@@ -66,10 +66,10 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     private $pageCtrl;
 
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -84,8 +84,8 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
-        // $this->pageCtrl = \WDGWV\CMS\Pages::sharedInstance();
-        // $this->pageList = \WDGWV\CMS\Pages::sharedInstance()->displayPageList();
+        // $this->pageCtrl = \WDGWV\CMS\Pages::shared();
+        // $this->pageList = \WDGWV\CMS\Pages::shared()->displayPageList();
     }
 
     public function displayList()
@@ -99,7 +99,7 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Pages/List',
     array(
@@ -110,7 +110,7 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Pages/New',
     array(
@@ -121,16 +121,16 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Pages/New', (new \WDGWV\CMS\Config)->adminURL()),
-    array(PageMananagamentSystem::sharedInstance(), 'displayNew')
+    array(PageMananagamentSystem::shared(), 'displayNew')
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Pages/List', (new \WDGWV\CMS\Config)->adminURL()),
-    array(PageMananagamentSystem::sharedInstance(), 'displayList')
+    array(PageMananagamentSystem::shared(), 'displayList')
 );
 
 /*

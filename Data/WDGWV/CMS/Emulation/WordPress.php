@@ -85,7 +85,7 @@ class WordPress
      */
     public function the_content()
     {
-        echo \WDGWV\CMS\Base::sharedInstance()->getContent();
+        echo \WDGWV\CMS\Base::shared()->getContent();
     }
 
     /**
@@ -290,7 +290,7 @@ class WordPress
     ## WdG: 23-DEC-2013
     public function wp_title()
     {
-        echo \WDGWV\CMS\Base::sharedInstance()->getPageName();
+        echo \WDGWV\CMS\Base::shared()->getPageName();
     }
 
 #function language_attrubutes ( )
@@ -339,11 +339,11 @@ class WordPress
                 break;
 
             case 'name':
-                echo \WDGWV\CMS\Base::sharedInstance()->getTitle();
+                echo \WDGWV\CMS\Base::shared()->getTitle();
                 break;
 
             case 'description':
-                echo \WDGWV\CMS\Base::sharedInstance()->getDescription();
+                echo \WDGWV\CMS\Base::shared()->getDescription();
                 break;
 
             case 'template_directory':
@@ -421,7 +421,7 @@ class WordPress
     ## WdG: 23-DEC-2013
     public function wp_footer()
     {
-        echo \WDGWV\CMS\Base::sharedInstance()->getFooter();
+        echo \WDGWV\CMS\Base::shared()->getFooter();
     }
 
 #function get_footer ( )
@@ -578,7 +578,7 @@ class WordPress
     ## WdG: 30-DEC-2013
     public function the_title()
     {
-        return \WDGWV\CMS\Base::sharedInstance()->getPageName();
+        return \WDGWV\CMS\Base::shared()->getPageName();
     }
 
 #function comments_link ( )
@@ -595,7 +595,7 @@ class WordPress
     public function readintro()
     {
         //SLOGAN..
-        echo \WDGWV\CMS\Base::sharedInstance()->getSlogan();
+        echo \WDGWV\CMS\Base::shared()->getSlogan();
     }
 
 #function is_tag ( )

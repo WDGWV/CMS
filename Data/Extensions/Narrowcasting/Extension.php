@@ -63,10 +63,10 @@ if (!file_exists("./Data/Extensions/NarrowCasting/disabled")) {
     class NarrowCasting extends \WDGWV\CMS\ExtensionBase
     {
         /**
-         * Call the sharedInstance
+         * Call the shared
          * @since Version 1.0
          */
-        public static function sharedInstance()
+        public static function shared()
         {
             static $inst = null;
             if ($inst === null) {
@@ -101,9 +101,9 @@ if (!file_exists("./Data/Extensions/NarrowCasting/disabled")) {
         }
     }
     // Remove all values.
-    \WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    \WDGWV\CMS\Hooks::shared()->createHook(
         'url',
         sprintf('/*'), // /*
-        array(NarrowCasting::sharedInstance(), '_display')
+        array(NarrowCasting::shared(), '_display')
     );
 }

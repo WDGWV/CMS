@@ -74,7 +74,7 @@ class Base extends \WDGWV\General\WDGWV
      * Call the database
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -120,7 +120,7 @@ class Base extends \WDGWV\General\WDGWV
         /**
          * Init hooks, and walk trough the hooks
          */
-        \WDGWV\CMS\Hooks::sharedInstance()->loopHooks(
+        \WDGWV\CMS\Hooks::shared()->loopHooks(
             array(
                 /* Walk trough $_GET */
                 'get',
@@ -142,7 +142,7 @@ class Base extends \WDGWV\General\WDGWV
         /**
          * Inifialize the database controller
          */
-        return \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
+        return \WDGWV\CMS\Controllers\Databases\Controller::shared();
     }
 
     /**
@@ -431,11 +431,11 @@ class Base extends \WDGWV\General\WDGWV
             /**
              * Walk trough the last hooks (script)
              */
-            if (\WDGWV\CMS\Hooks::sharedInstance()->haveHooksFor('script')) {
+            if (\WDGWV\CMS\Hooks::shared()->haveHooksFor('script')) {
                 /**
                  * Walk trough the script hooks
                  */
-                foreach (\WDGWV\CMS\Hooks::sharedInstance()->loopHooks('script') as $script) {
+                foreach (\WDGWV\CMS\Hooks::shared()->loopHooks('script') as $script) {
                     /**
                      * Print them to the page!
                      */

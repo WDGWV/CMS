@@ -61,7 +61,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
      * Call the hooks class
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -433,7 +433,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                                         /**
                                          * Debug it
                                          */
-                                        Debugger::sharedInstance()->error(sprintf(
+                                        Debugger::shared()->error(sprintf(
                                             'replacer [%s]: "(new \%s)->%s(%s)" is not callable.',
                                             $this->hookDatabase['url'][$i]['name'],
                                             get_class($this->hookDatabase['url'][$i]['action'][0]),
@@ -447,7 +447,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                                         /**
                                          * What no action???
                                          */
-                                        Debugger::sharedInstance()->error(
+                                        Debugger::shared()->error(
                                             sprintf(
                                                 'replacer [%s]: "%s" is not callable',
                                                 $this->hookDatabase['url'][$i]['name'],

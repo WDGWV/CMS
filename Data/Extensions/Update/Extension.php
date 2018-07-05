@@ -72,10 +72,10 @@ class Update extends \WDGWV\CMS\ExtensionBase
     private $extensionList = array();
 
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -94,12 +94,12 @@ class Update extends \WDGWV\CMS\ExtensionBase
     private function __construct()
     {
         // Read cached Extensions, if they exists, otherwise, skip.
-        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->displayExtensionList();
+        $this->extensionList = \WDGWV\CMS\Extensions::shared()->displayExtensionList();
     }
 
     public function reload()
     {
-        \WDGWV\CMS\Extensions::sharedInstance()->forceReloadExtensions();
+        \WDGWV\CMS\Extensions::shared()->forceReloadExtensions();
         if (!headers_sent()) {
             header("location: /");
         }
@@ -121,7 +121,7 @@ class Update extends \WDGWV\CMS\ExtensionBase
         for ($i = 0; $i < sizeof($this->extensionList); $i++) {
             $page1 = $this->extensionList[$i];
             $page1 .= '<table>';
-            foreach (\WDGWV\CMS\Extensions::sharedInstance()->information($this->extensionList[$i]) as $info => $value) {
+            foreach (\WDGWV\CMS\Extensions::shared()->information($this->extensionList[$i]) as $info => $value) {
                 $page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
             };
             $page1 .= '</table>';
@@ -135,7 +135,7 @@ class Update extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/ ',
     array(
@@ -143,7 +143,7 @@ class Update extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/update',
     array(
@@ -154,16 +154,16 @@ class Update extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/update', (new \WDGWV\CMS\Config)->adminURL()),
     /* Supports also /calendar/i*cs and then /calendar/ixcs works also */
-    array(update::sharedInstance(), 'display')
+    array(update::shared(), 'display')
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/extensions/reindex', (new \WDGWV\CMS\Config)->adminURL()),
     /* Supports also /calendar/i*cs and then /calendar/ixcs works also */
-    array(update::sharedInstance(), 'reload')
+    array(update::shared(), 'reload')
 );

@@ -62,10 +62,10 @@ namespace WDGWV\CMS\Extension; /* Extension namespace */
 class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
 {
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -87,7 +87,7 @@ class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'script',
     '_.js',
     "var e=document.createElement('script');" .

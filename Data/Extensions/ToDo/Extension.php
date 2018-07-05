@@ -61,10 +61,10 @@ namespace WDGWV\CMS\Extension; /* Module namespace */
 class TodoExtension extends \WDGWV\CMS\ExtensionBase
 {
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -115,72 +115,72 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
         $items['Databases: MySQLite Database support'] = array(
             'Connection' => 100,
             'Setup database' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->userExists(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->userRegister(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->userDelete(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->userLogin(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->userLoad(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->themeSet(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->themeGet(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->menuLoad(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->menuSetItems(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->pageLoad(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->pageExists(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->pageCreate(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->postEdit(...)`' => 0,
-            'function: `\Databases\SQLite::sharedInstance()->postRemove(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->postLoad(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->postExists(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->postCreate(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->postGetLast(...)`' => 100,
-            'function: `\Databases\SQLite::sharedInstance()->query(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->userExists(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->userRegister(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->userDelete(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->userLogin(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->userLoad(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->themeSet(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->themeGet(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->menuLoad(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->menuSetItems(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->pageLoad(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->pageExists(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->pageCreate(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->postEdit(...)`' => 0,
+            'function: `\Databases\SQLite::shared()->postRemove(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->postLoad(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->postExists(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->postCreate(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->postGetLast(...)`' => 100,
+            'function: `\Databases\SQLite::shared()->query(...)`' => 100,
         );
 
         $items['Databases: MySQL Database support'] = array(
             'Connection' => 0,
             'Setup database' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->userExists(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->userRegister(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->userDelete(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->userLogin(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->userLoad(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->themeSet(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->themeGet(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->menuLoad(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->menuSetItems(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->pageLoad(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->pageExists(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->pageCreate(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->postEdit(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->postRemove(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->postLoad(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->postExists(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->postCreate(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->postGetLast(...)`' => 0,
-            'function: `\Databases\MySQL::sharedInstance()->query(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->userExists(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->userRegister(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->userDelete(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->userLogin(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->userLoad(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->themeSet(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->themeGet(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->menuLoad(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->menuSetItems(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->pageLoad(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->pageExists(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->pageCreate(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->postEdit(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->postRemove(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->postLoad(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->postExists(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->postCreate(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->postGetLast(...)`' => 0,
+            'function: `\Databases\MySQL::shared()->query(...)`' => 0,
         );
 
         $items['Databases: Plain text database support'] = array(
             'Connection' => 100,
             'Setup database' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->userExists(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->userRegister(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->userDelete(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->userLogin(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->userLoad(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->themeSet(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->themeGet(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->menuLoad(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->menuSetItems(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->pageLoad(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->pageExists(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->pageCreate(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->postEdit(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->postRemove(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->postLoad(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->postExists(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->postCreate(...)`' => 100,
-            'function: `\Databases\PlainText::sharedInstance()->postGetLast(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->userExists(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->userRegister(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->userDelete(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->userLogin(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->userLoad(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->themeSet(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->themeGet(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->menuLoad(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->menuSetItems(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->pageLoad(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->pageExists(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->pageCreate(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->postEdit(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->postRemove(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->postLoad(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->postExists(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->postCreate(...)`' => 100,
+            'function: `\Databases\PlainText::shared()->postGetLast(...)`' => 100,
         );
 
         /**
@@ -237,7 +237,7 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Todo/Create',
     array(
@@ -248,7 +248,7 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Todo/Remove',
     array(
@@ -259,7 +259,7 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'TODO',
     array(
@@ -270,8 +270,8 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     '/dev/TODO', // Supports also /calendar/i*cs and then /calendar/ixcs works also
-    array(todoExtension::sharedInstance(), '_display')
+    array(todoExtension::shared(), '_display')
 );

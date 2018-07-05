@@ -66,10 +66,10 @@ class UserManagamentSystem extends \WDGWV\CMS\ExtensionBase
     private $pageCtrl;
 
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -97,7 +97,7 @@ class UserManagamentSystem extends \WDGWV\CMS\ExtensionBase
         return array("Title", "Contents");
     }
 }
-$database = \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance();
+$database = \WDGWV\CMS\Controllers\Databases\Controller::shared();
 
 $regi = $database->userRegister('wdg', 'test', 'wes@vista.aero', array('userlevel' => 'admin', 'is_admin' => true));
 // echo ($regi) ? 'Created user' : 'Failed to create';
