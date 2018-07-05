@@ -345,7 +345,7 @@ class MySQL extends \WDGWV\CMS\Controllers\Databases\Base
      * Call the database
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {

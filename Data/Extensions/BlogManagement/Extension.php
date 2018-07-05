@@ -66,10 +66,10 @@ class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     private $BlogCtrl;
 
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -84,8 +84,8 @@ class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
-        // $this->BlogCtrl = \WDGWV\CMS\Blogs::sharedInstance();
-        // $this->BlogList = \WDGWV\CMS\Blogs::sharedInstance()->displayBlogList();
+        // $this->BlogCtrl = \WDGWV\CMS\Blogs::shared();
+        // $this->BlogList = \WDGWV\CMS\Blogs::shared()->displayBlogList();
     }
 
     public function displayList()
@@ -99,7 +99,7 @@ class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Blogs/List',
     array(
@@ -110,7 +110,7 @@ class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Blogs/New',
     array(
@@ -121,14 +121,14 @@ class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Blogs/New', (new \WDGWV\CMS\Config)->adminURL()),
-    array(BlogMananagamentSystem::sharedInstance(), 'displayNew')
+    array(BlogMananagamentSystem::shared(), 'displayNew')
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Blogs/List', (new \WDGWV\CMS\Config)->adminURL()),
-    array(BlogMananagamentSystem::sharedInstance(), 'displayList')
+    array(BlogMananagamentSystem::shared(), 'displayList')
 );

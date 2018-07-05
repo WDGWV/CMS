@@ -156,43 +156,43 @@ define('CMS_TEMPLATE_DIR', './Data/Themes/');
  * Initialize the configuration
  * @param $_config class The configuration class
  */
-$_config = Config::sharedInstance();
+$_config = Config::shared();
 
 /**
  * Initialize the debugger
  * @param $debugger class The debugger class
  */
-$debugger = Debugger::sharedInstance();
+$debugger = Debugger::shared();
 
 /**
  * Initialize the hooks system
  * @param $hooks the hooks system
  */
-$hooks = Hooks::sharedInstance();
+$hooks = Hooks::shared();
 
 /**
  * Initialize the extensions system
  * @param $extensions the extensions system
  */
-$extensions = Extensions::sharedInstance();
+$extensions = Extensions::shared();
 
 /**
  * Initialize the installer
  * @param $installer class The installer class
  */
-$installer = Installer::sharedInstance();
+$installer = Installer::shared();
 
 /**
  * Initialize the database
  * @param $database class The database class
  */
-$database = Controllers\Databases\Controller::sharedInstance();
+$database = Controllers\Databases\Controller::shared();
 
 /**
  * Initialize the CMS
  * @param $CMS class The CMS class
  */
-$CMS = Base::sharedInstance();
+$CMS = Base::shared();
 
 /**
  * If in debug mode, hook debugger to the installer.

@@ -71,10 +71,10 @@ namespace WDGWV\CMS;
 class ExtensionBase
 {
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         static $adminURL = null;

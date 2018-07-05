@@ -80,7 +80,7 @@ class Debugger
      * Call the debugger
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {

@@ -61,10 +61,10 @@ namespace WDGWV\CMS\Extension; /* Module namespace */
 class TestExtension extends \WDGWV\CMS\ExtensionBase
 {
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -93,7 +93,7 @@ class TestExtension extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'test extension',
     array(
@@ -104,8 +104,8 @@ class TestExtension extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     '/testExtension', // Supports also /calendar/i*cs and then /calendar/ixcs works also
-    array(testExtension::sharedInstance(), '_display')
+    array(testExtension::shared(), '_display')
 );

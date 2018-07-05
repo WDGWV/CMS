@@ -66,10 +66,10 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     private $extensionCtrl;
 
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -84,14 +84,14 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
-        $this->extensionCtrl = \WDGWV\CMS\Extensions::sharedInstance();
-        $this->extensionList = \WDGWV\CMS\Extensions::sharedInstance()->displayExtensionList();
+        $this->extensionCtrl = \WDGWV\CMS\Extensions::shared();
+        $this->extensionList = \WDGWV\CMS\Extensions::shared()->displayExtensionList();
     }
 
     public function displayList()
     {
         if (isset($_GET['reIndex'])) {
-            \WDGWV\CMS\Extensions::sharedInstance()->forceReloadExtensions();
+            \WDGWV\CMS\Extensions::shared()->forceReloadExtensions();
 
             if (!headers_sent()) {
                 header(
@@ -116,7 +116,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
             $this->extensionCtrl->disableExtension($_GET['disableExtension']);
         }
 
-        \WDGWV\CMS\Hooks::sharedInstance()->createHook(
+        \WDGWV\CMS\Hooks::shared()->createHook(
             'script',
             'Resize classes',
             "$('.col-lg-12').attr('class', 'col-lg-5');"
@@ -192,7 +192,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Extensions/List',
     array(
@@ -203,7 +203,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'menu',
     'administration/Extensions/Search',
     array(
@@ -214,14 +214,14 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     )
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Extensions/List', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ExtensionMananagamentSystem::sharedInstance(), 'displayList')
+    array(ExtensionMananagamentSystem::shared(), 'displayList')
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Extensions/Search', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ExtensionMananagamentSystem::sharedInstance(), 'displaySearch')
+    array(ExtensionMananagamentSystem::shared(), 'displaySearch')
 );

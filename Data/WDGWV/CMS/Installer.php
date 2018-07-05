@@ -91,7 +91,7 @@ class Installer
      * Call the shared instance
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed

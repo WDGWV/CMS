@@ -112,7 +112,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
      * Call the database
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -136,7 +136,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 
                 $error = sprintf("<b>Fatal error: Could not create '%s' database.</b>", $databaseName);
                 if (class_exists('\WDGWV\CMS\Debugger')) {
-                    \WDGWV\CMS\Debugger::sharedInstance()->error($error);
+                    \WDGWV\CMS\Debugger::shared()->error($error);
                 }
                 echo $error;
 
@@ -194,10 +194,10 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
             );
 
             if (class_exists('\WDGWV\CMS\Debugger')) {
-                \WDGWV\CMS\Debugger::sharedInstance()->error($error);
+                \WDGWV\CMS\Debugger::shared()->error($error);
 
-                \WDGWV\CMS\Debugger::sharedInstance()->error("Expected: {$_compressed}");
-                \WDGWV\CMS\Debugger::sharedInstance()->error("Got: " . file_get_contents($databasePath));
+                \WDGWV\CMS\Debugger::shared()->error("Expected: {$_compressed}");
+                \WDGWV\CMS\Debugger::shared()->error("Got: " . file_get_contents($databasePath));
             }
 
             echo $error;

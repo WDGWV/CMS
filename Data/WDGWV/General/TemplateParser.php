@@ -152,7 +152,7 @@ class TemplateParser extends WDGWV
              * Debugger
              * @var class debugger class
              */
-            $this->debugger = \WDGWV\CMS\Debugger::sharedInstance();
+            $this->debugger = \WDGWV\CMS\Debugger::shared();
         }
     }
 

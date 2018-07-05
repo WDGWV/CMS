@@ -72,7 +72,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      * Call the database
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         /**
          * @var mixed
@@ -224,7 +224,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
         foreach ($this->create as $key => $value) {
             if (preg_match("/Database/", $key)) {
-                \WDGWV\CMS\Debugger::sharedInstance()->log(sprintf('Creating %s table (if not exists)', $key));
+                \WDGWV\CMS\Debugger::shared()->log(sprintf('Creating %s table (if not exists)', $key));
                 $this->db->exec($value);
             }
         }
@@ -652,10 +652,10 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
         $count = 0;
         if (is_array($query)) {
-        	foreach ($query as $post) {
-            	$count++;
-        	}
-    	}
+            foreach ($query as $post) {
+                $count++;
+            }
+        }
 
         return ($count !== 0);
     }

@@ -61,10 +61,10 @@ namespace WDGWV\CMS\Extension; /* Extension namespace*/
 class Calendar extends \WDGWV\CMS\ExtensionBase
 {
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -88,8 +88,8 @@ class Calendar extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     '/calendar/ics', // Supports also /calendar/i*cs and then /calendar/ixcs works also
-    array(Calendar::sharedInstance(), '_generateICAL')
+    array(Calendar::shared(), '_generateICAL')
 );

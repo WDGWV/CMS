@@ -61,10 +61,10 @@ namespace WDGWV\CMS\Extension; /* Extension namespace */
 class CrossDomain extends \WDGWV\CMS\ExtensionBase
 {
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -108,8 +108,8 @@ class CrossDomain extends \WDGWV\CMS\ExtensionBase
  * Apply hook
  * @since Version 1.0
  */
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     '/crossdomain*',
-    array(CrossDomain::sharedInstance(), 'generate')
+    array(CrossDomain::shared(), 'generate')
 );

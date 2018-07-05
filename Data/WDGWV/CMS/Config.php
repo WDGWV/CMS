@@ -7,7 +7,7 @@ class Config extends \WDGWV\General\WDGWV
      * Call the shared instance
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -41,7 +41,7 @@ class Config extends \WDGWV\General\WDGWV
      */
     public function theme()
     {
-        return \WDGWV\CMS\Controllers\Databases\Controller::sharedInstance()->themeGet();
+        return \WDGWV\CMS\Controllers\Databases\Controller::shared()->themeGet();
     }
 
     /**

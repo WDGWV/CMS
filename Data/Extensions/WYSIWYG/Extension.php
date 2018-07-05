@@ -62,10 +62,10 @@ namespace WDGWV\CMS\Extension; /* Module namespace */
 class WYSIWYG extends \WDGWV\CMS\ExtensionBase
 {
     /**
-     * Call the sharedInstance
+     * Call the shared
      * @since Version 1.0
      */
-    public static function sharedInstance()
+    public static function shared()
     {
         static $inst = null;
         if ($inst === null) {
@@ -96,20 +96,20 @@ class WYSIWYG extends \WDGWV\CMS\ExtensionBase
     }
 }
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'content-edit',
     'WYSIWYG',
-    array(WYSIWYG::sharedInstance(), 'displayWYSIWYG')
+    array(WYSIWYG::shared(), 'displayWYSIWYG')
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'head-script',
     '/WYSIWYG.js',
     ''
 );
 
-\WDGWV\CMS\Hooks::sharedInstance()->createHook(
+\WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     '/WYSIWYG*js',
-    array(WYSIWYG::sharedInstance(), 'displayWYSIWYGjs')
+    array(WYSIWYG::shared(), 'displayWYSIWYGjs')
 );

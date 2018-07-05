@@ -84,36 +84,36 @@ if (file_exists('./Data/WDGWV/CMS/Loader.php') &&
 /**
  * Check if the CMS is installed.
  */
-if (Installer::sharedInstance()->isInstalled()) {
+if (Installer::shared()->isInstalled()) {
     /**
      * If the CMS is installed, then serve.
      */
-    Base::sharedInstance()->serve();
+    Base::shared()->serve();
 } else {
     /**
      * Check for a 'offline' install file.
      */
-    if (Installer::sharedInstance()->canOfflineInstall()) {
+    if (Installer::shared()->canOfflineInstall()) {
         /**
          * Install 'offline'
          */
-        Installer::sharedInstance()->beginOfflineInstall();
+        Installer::shared()->beginOfflineInstall();
     } else {
         /**
          * Install 'online'
          */
-        Installer::sharedInstance()->beginOnlineInstall();
+        Installer::shared()->beginOnlineInstall();
     }
 }
 
 /**
  * If debugmode is on, then debug.
  */
-if (Config::sharedInstance()->debug()) {
+if (Config::shared()->debug()) {
     echo "<hr>";
     $debugger->log(
         array(
-            "Hooks" => Hooks::sharedInstance()->dumpDatabase(),
+            "Hooks" => Hooks::shared()->dumpDatabase(),
         )
     );
     $debugger->logdump();
@@ -130,9 +130,9 @@ $CMSEndTime = microtime(true);
 /**
  * If in debug mode, then say "Generated this page in 000μs."
  */
-if (Config::sharedInstance()->debug()) {
+if (Config::shared()->debug()) {
     /**
-    * Output "Generated this page in ...μs."
-    */
+     * Output "Generated this page in ...μs."
+     */
     echo sprintf("Generated this page in %.2fμs.", ($CMSEndTime - $CMSStartTime));
 }

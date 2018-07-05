@@ -63,10 +63,10 @@ if (!file_exists("./Data/Extensions/DemoMode/disabled")) {
     class DemoMode extends \WDGWV\CMS\ExtensionBase
     {
         /**
-         * Call the sharedInstance
+         * Call the shared
          * @since Version 1.0
          */
-        public static function sharedInstance()
+        public static function shared()
         {
             static $inst = null;
             if ($inst === null) {
@@ -104,7 +104,7 @@ if (!file_exists("./Data/Extensions/DemoMode/disabled")) {
         }
     }
 
-    \WDGWV\CMS\Hooks::sharedInstance()->createHook(
+    \WDGWV\CMS\Hooks::shared()->createHook(
         'after-content',
         'demo mode',
         array(
@@ -116,7 +116,7 @@ if (!file_exists("./Data/Extensions/DemoMode/disabled")) {
     if (sizeof($_GET) > 0 ||
         sizeof($_POST) > 0) {
         // Display Warning.
-        \WDGWV\CMS\Hooks::sharedInstance()->createHook(
+        \WDGWV\CMS\Hooks::shared()->createHook(
             'before-content',
             'warning',
             array(
@@ -126,10 +126,10 @@ if (!file_exists("./Data/Extensions/DemoMode/disabled")) {
         );
 
         // Remove all values.
-        \WDGWV\CMS\Hooks::sharedInstance()->createHook(
+        \WDGWV\CMS\Hooks::shared()->createHook(
             'url',
             sprintf('/%s*', (new \WDGWV\CMS\Config())->adminURL()), // Supports also /calendar/i*cs and then /calendar/ixcs works also
-            array(DemoMode::sharedInstance(), '_display')
+            array(DemoMode::shared(), '_display')
         );
     }
 }
