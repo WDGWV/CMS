@@ -1,11 +1,11 @@
 <?php
 /**
  * WDGWV CMS Extension file.
- * Full access: true
  * Extension: WYSIWYG
  * Version: 1.0
  * Description: What You See Is What You Get support.
- * Hash: * INSERT HASH HERE *
+ * Hash: 382978bd94568eeffe6a6fbd0cd794e5
+ * Integrity check: Required
  */
 
 /*

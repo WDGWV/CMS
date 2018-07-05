@@ -1,11 +1,11 @@
 <?php
 /**
  * WDGWV CMS Extension file.
- * Full access: true
- * Extension: Demo mode
+ * Extension: Demo Mode
  * Version: 1.0
  * Description: Disable all admin calls.
- * Hash: * INSERT HASH HERE *
+ * Hash: ee12bcf71c819379706aae2d749b03f3
+ * Integrity check: Required
  */
 
 /*

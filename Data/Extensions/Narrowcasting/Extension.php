@@ -1,11 +1,11 @@
 <?php
 /**
  * WDGWV CMS Extension file.
- * Full access: true
  * Extension: Narrow casting
  * Version: 1.0
  * Description: Disable all calls, and shows the NarrowCasting window.
- * Hash: * INSERT HASH HERE *
+ * Hash: 08b3d7b6822a42e7d7f8745d47818be2
+ * Integrity check: Required
  */
 
 /*

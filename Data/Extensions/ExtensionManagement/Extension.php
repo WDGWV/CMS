@@ -1,12 +1,11 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Full access: true
- * Extension: Extension Managament System
+ * Extension: Extension Management
  * Version: 1.0
  * Description: This manages all your extensions.
- * SystemFile: true
- * Hash: * INSERT HASH HERE *
+ * Hash: 315157b3e590bb069aba2e62eb71773a
+ * Integrity check: Required
  */
 
 /*
@@ -60,7 +59,7 @@
 
 namespace WDGWV\CMS\Extension; /* Extension namespace */
 
-class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
+class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
 {
     private $extensionList = array();
     private $extensionCtrl;
@@ -73,7 +72,7 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     {
         static $inst = null;
         if ($inst === null) {
-            $inst = new \WDGWV\CMS\Extension\ExtensionMananagamentSystem();
+            $inst = new \WDGWV\CMS\Extension\ExtensionMananagament();
         }
         return $inst;
     }
@@ -140,11 +139,41 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
                 if ($info === 'extension') {
                     $name = $value;
                 }
+                $extra_begin = '';
+                $extra_end = '';
+
+                if ($info === 'hash') {
+                    if ($this->extensionCtrl->checkHash($this->extensionList[$i], $value)) {
+                        $info = 'Hash<sup>✅</sup>';
+                        $value = 'Correct hash';
+                    } else {
+                        $info = 'Hash<sup>⚠️</sup>';
+                        $value = 'Incorrect hash';
+
+                        $extra_end .= '<hr />⚠️ Warning this module is potential unsafe,<br />Please click \'reinstall\' to reinstall the module from the gallery';
+                    }
+                }
+
+                if ($info === 'integrity_check') {
+                    $value = '';
+                    if ($this->extensionCtrl->checkHash($name, $value)) {
+                        $info = 'Integrity check<sup>✅</sup>';
+                        $extra_begin .= '✅';
+                    } else {
+                        $info = 'Integrity check<sup>🚫</sup>';
+                        $extra_begin .= '<hr />⚠️ Warning this module is unsafe,<br /><b>for security reasons it\'s disabled now</b><br />Please click \'reinstall\' to reinstall the module from the gallery';
+                        $extra_end .= '';
+                    }
+
+                    $extra_begin .= '&nbsp;';
+                }
 
                 $page1 .= sprintf(
-                    "<tr><td>%s:</td><td>%s</td></tr>",
+                    "<tr><td>%s:</td><td>%s%s%s</td></tr>",
                     $info,
-                    htmlspecialchars($value)
+                    $extra_begin,
+                    htmlspecialchars($value),
+                    $extra_end
                 );
             };
             $page1 .= '</table>';
@@ -217,11 +246,11 @@ class ExtensionMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 \WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Extensions/List', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ExtensionMananagamentSystem::shared(), 'displayList')
+    array(ExtensionMananagament::shared(), 'displayList')
 );
 
 \WDGWV\CMS\Hooks::shared()->createHook(
     'url',
     sprintf('/%s/Extensions/Search', (new \WDGWV\CMS\Config)->adminURL()),
-    array(ExtensionMananagamentSystem::shared(), 'displaySearch')
+    array(ExtensionMananagament::shared(), 'displaySearch')
 );

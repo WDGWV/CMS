@@ -1,12 +1,11 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Full access: true
- * Extension: Page Managament System
+ * Extension: Page Management
  * Version: 1.0
  * Description: This manages all your pages.
- * SystemFile: true
- * Hash: * INSERT HASH HERE *
+ * Hash: 2740c29ca2eb0aac8a335a2432f4b175
+ * Integrity check: Required
  */
 
 /*
