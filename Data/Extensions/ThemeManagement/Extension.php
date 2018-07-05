@@ -1,12 +1,11 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Full access: true
  * Extension: Theme Managament System
  * Version: 1.0
  * Description: This manages all your Themes.
- * SystemFile: true
- * Hash: * INSERT HASH HERE *
+ * Hash: a509791e7ac25d047a3fc43b063615d3
+ * Integrity check: Required
  */
 
 /*

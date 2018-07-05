@@ -1,12 +1,11 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Full access: true
  * Extension: User Managament System
  * Version: 1.0
  * Description: This manages all your users.
- * SystemFile: true
- * Hash: * INSERT HASH HERE *
+ * Hash: a3127f6868607e840a2b75c12beb70b7
+ * Integrity check: Required
  */
 
 /*

@@ -1,7 +1,6 @@
 <?php
 /**
  * WDGWV CMS Extension file.
- * Full access: false
  * Extension: Test Extension
  * Version: 1.0
  * Description: This is a simple test for a Extension file.

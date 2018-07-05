@@ -1,11 +1,11 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Full access: true
  * Extension: _.js
  * Version: 1.0
  * Description: Loads _.js
- * Hash: * INSERT HASH HERE *
+ * Hash: 0cd4f15658e6cc2e70580191d52344ef
+ * Integrity check: Required
  */
 
 /*

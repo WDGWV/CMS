@@ -1,11 +1,11 @@
 <?php
 /**
  * WDGWV CMS Required file.
- * Full access: true
  * Extension: Update
  * Version: 1.0
  * Description: Updates WDGWV CMS
- * Hash: * INSERT HASH HERE *
+ * Hash: 98c00665c30528005b70ec09c955ccda
+ * Integrity check: Required
  */
 
 /*
