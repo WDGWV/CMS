@@ -481,24 +481,99 @@ class Extensions
         return false;
     }
 
-    public function checkHash($extension, $hash)
+    /**
+     * integrityCheck
+     *
+     * @param $extension
+     * @return bool
+     */
+    public function integrityCheck($extension)
     {
+        $extensionPath = $this->getExtensionPath($extension);
+
+        /**
+         * Load information about the extension, and loop trough it
+         */
         foreach ($this->information($extension) as $info => $value) {
-            //WTH.
-            if ($info === 'hash') {
-                return (md5($this->getExtensionPath($extension)) == $value);
+            /**
+             * Check if we've found the version
+             */
+            if ($info === 'version') {
+                /**
+                 * Check validatity of the file.
+                 * WILL FAIL ALWAYS.
+                 * NEED TO BUILD IT.
+                 */
+                return (
+                    md5(
+                        file_get_contents(
+                            $this->getExtensionPath($extension)
+                        )
+                    ) == $value);
+                //TODO: Finish test
             }
         }
 
+        /**
+         * Integrity check could not continue, failing
+         */
         return false;
     }
 
     /**
+     * Hash Check
+     *
+     * @param $extension
+     * @return bool
+     */
+    public function checkHash($extension, $hash)
+    {
+        /**
+         * Load information about the extension, and loop trough it
+         */
+        foreach ($this->information($extension) as $info => $value) {
+            /**
+             * Check if we've found the hash
+             */
+            if ($info === 'hash') {
+                /**
+                 * Check validatity of the hash.
+                 */
+                return (
+                    /**
+                     * Actual logic is simple
+                     * md5(path) == value
+                     * value needs to be equal to md5(path)
+                     */
+                    md5($this->getExtensionPath($extension)) == $value
+                );
+            }
+        }
+
+        /**
+         * Hash not found. Failed.
+         */
+        return false;
+    }
+
+    /**
+     * Enable a extension
+     *
      * @param $extensionPathOrName
      * @return null
      */
     public function enableExtension($extensionPathOrName)
     {
+        /**
+         * Check if a path is defined
+         */
+        if (sizeof(explode('/', $extensionPathOrName)) == 0) {
+            /**
+             * Search the path.
+             */
+            $extensionPathOrName = $this->getExtensionPath($extensionPathOrName);
+        }
+
         /**
          * Explode the name.
          */
@@ -557,7 +632,12 @@ class Extensions
         /**
          * Save the database
          */
-        $this->saveDatabase(sprintf('Extension \'%s\' enabled', $extensionPathOrName));
+        $this->saveDatabase(
+            sprintf(
+                'Extension \'%s\' enabled',
+                $extensionPathOrName
+            )
+        );
     }
 
     /**
@@ -568,6 +648,16 @@ class Extensions
      */
     public function disableExtension($extensionPathOrName)
     {
+        /**
+         * Check if a path is defined
+         */
+        if (sizeof(explode('/', $extensionPathOrName)) == 0) {
+            /**
+             * Search the path.
+             */
+            $extensionPathOrName = $this->getExtensionPath($extensionPathOrName);
+        }
+
         /**
          * Explode the name.
          */
@@ -602,7 +692,12 @@ class Extensions
                         /**
                          * Save to the database
                          */
-                        $this->saveDatabase(sprintf('Extension \'%s\' disabled', $extensionPathOrName));
+                        $this->saveDatabase(
+                            sprintf(
+                                'Extension \'%s\' disabled',
+                                $extensionPathOrName
+                            )
+                        );
 
                         /**
                          * Return.
@@ -691,11 +786,33 @@ class Extensions
          * Checks if the path exists
          */
         if (!file_exists($ofExtensionOrFilePath)) {
+            /**
+             * Check if we have found the path.
+             */
             if ($this->getExtensionPath($ofExtensionOrFilePath) !== false) {
+                /**
+                 * Checks if we had already searched
+                 */
                 if ($deep) {
+                    /**
+                     * Yes, we did, and now we're not searching again.
+                     */
                     return;
                 }
-                return $this->information($this->getExtensionPath($ofExtensionOrFilePath), true);
+
+                /**
+                 * Load the information about a Extension
+                 */
+                return $this->information(
+                    /**
+                     * Get the extension path
+                     */
+                    $this->getExtensionPath($ofExtensionOrFilePath),
+                    /**
+                     * Say that we already searched
+                     */
+                    true
+                );
             }
 
             /**

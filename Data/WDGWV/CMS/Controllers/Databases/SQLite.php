@@ -508,7 +508,8 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         );
 
         $count = 0;
-        if (sizeof($query) < 2) {
+
+        if ($query === 1 || $query === '1') {
             return false;
         }
 
