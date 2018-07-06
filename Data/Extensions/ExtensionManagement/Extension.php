@@ -156,12 +156,17 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
 
                 if ($info === 'integrity_check') {
                     $value = '';
-                    if ($this->extensionCtrl->checkHash($name, $value)) {
+                    if ($this->extensionCtrl->integrityCheck($name)) {
                         $info = 'Integrity check<sup>✅</sup>';
                         $extra_begin .= '✅';
                     } else {
                         $info = 'Integrity check<sup>🚫</sup>';
-                        $extra_begin .= '<hr />⚠️ Warning this module is unsafe,<br /><b>for security reasons it\'s disabled now</b><br />Please click \'reinstall\' to reinstall the module from the gallery';
+                        if (\WDGWV\CMS\Config::shared()->debug()) {
+                            $extra_begin .= '<b>Debugmode activated</b>,&nbsp;if you know what you\'re doing,&nbsp;ignore this message';
+                        } else {
+                            $extra_begin .= '⚠️ Warning this module is unsafe,<br /><b>for security reasons it\'s disabled now</b><br />Please click \'reinstall\' to reinstall the module from the gallery';
+                            $this->extensionCtrl->disableExtension($this->extensionList[$i]);
+                        }
                         $extra_end .= '';
                     }
 
