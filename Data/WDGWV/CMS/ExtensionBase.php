@@ -78,9 +78,11 @@ class ExtensionBase
     {
         static $inst = null;
         static $adminURL = null;
+        static $database = null;
         if ($inst === null) {
             $inst = new \WDGWV\CMS\ExtensionBase();
             $adminURL = (new \WDGWV\CMS\Config)->adminURL();
+            $database = \WDGWV\CMS\Controllers\Databases\Controller::shared();
         }
         return $inst;
     }

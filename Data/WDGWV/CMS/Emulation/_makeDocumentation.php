@@ -48,6 +48,12 @@
 ------------------------------------------------------------
  */
 
+if (isset($_SERVER['REQUEST_URI'])) {
+    header("location: /");
+    echo 'Please run only from commandline';
+    exit(1);
+}
+
 $docStr = "/**
  * Shortcut for WordPress from '%s(...)' to \\WDGWV\\CMS\\emulation\\WordPress()->%s(...)
  * @since Version 1.0
