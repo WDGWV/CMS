@@ -76,23 +76,61 @@ class ExtensionBase
      */
     public static function shared()
     {
+        /**
+         * Shared Instance
+         * @var class
+         */
         static $inst = null;
+
+        /**
+         * Admin URL
+         * @var class
+         */
         static $adminURL = null;
+
+        /**
+         * Database Shared Instance
+         * @var class
+         */
         static $database = null;
+
+        /**
+         * If not have a instance, create one.
+         */
         if ($inst === null) {
+            /**
+             * Initialisize Shared Instance
+             * @var class
+             */
             $inst = new \WDGWV\CMS\ExtensionBase();
+
+            /**
+             * Initialisize Admin URL
+             * @var class
+             */
             $adminURL = (new \WDGWV\CMS\Config)->adminURL();
+
+            /**
+             * Initialisize Databse Shared Instance
+             * @var class
+             */
             $database = \WDGWV\CMS\Controllers\Databases\Controller::shared();
         }
+
+        /**
+         * Return Shared Instance
+         */
         return $inst;
     }
 
     /**
      * Private so nobody else can instantiate it
-     *
      */
     private function __construct()
     {
+        /**
+         * Return nothing.
+         */
         return;
     }
 }

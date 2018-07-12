@@ -171,12 +171,25 @@ class Extensions
     public static function shared()
     {
         /**
-         * @var mixed
+         * Shared Instance
+         * @var class
          */
         static $inst = null;
+
+        /**
+         * If not have a instance, create one.
+         */
         if ($inst === null) {
+            /**
+             * Initialisize Shared Instance
+             * @var class
+             */
             $inst = new \WDGWV\CMS\Extensions();
         }
+
+        /**
+         * Return Shared Instance
+         */
         return $inst;
     }
 
@@ -329,6 +342,7 @@ class Extensions
                  * @var string
                  */
                 $disabled = explode('/', $loadFile);
+
                 /**
                  * Append disabled to the array
                  */
@@ -489,6 +503,10 @@ class Extensions
      */
     public function integrityCheck($extension)
     {
+        /**
+         * Get the extension path
+         * @var string
+         */
         $extensionPath = $this->getExtensionPath($extension);
 
         /**
