@@ -288,53 +288,157 @@ class Page extends \WDGWV\CMS\Controllers\Base
      */
     public function displayPage($pageID = 'auto')
     {
+        /**
+         * Explode URL data
+         * @var [string]
+         */
         $e = explode("/", $_SERVER['REQUEST_URI']);
+
+        /**
+         * Check for the active component
+         * @var string
+         */
         $activeComponent = isset($e[1]) ? strtolower($e[1]) : 'Home';
+
+        /**
+         * Check subcomponent
+         * @var string
+         */
         $subComponent = isset($e[2]) ? strtolower($e[2]) : '';
 
+        /**
+         * Check if there are hooks for post, get, url
+         */
         if (\WDGWV\CMS\Hooks::shared()->haveHooksFor(array('post', 'get', 'url'))) {
+            /**
+             * Is the debugger loaded?
+             */
             if (class_exists('\WDGWV\CMS\Debugger')) {
+                /**
+                 * Debug output: Override page from extension
+                 */
                 \WDGWV\CMS\Debugger::shared()->log('Override page from extension');
             }
 
+            /**
+             * Get page data
+             * @var array
+             */
             $pageData = \WDGWV\CMS\Hooks::shared()->pageLoadFor(array('post', 'get', 'url'));
 
+            /**
+             * Check for the 'before-content' flag
+             */
             if (\WDGWV\CMS\Hooks::shared()->haveHooksFor('before-content')) {
+                /**
+                 * Check if there is already a filled $pageData
+                 */
                 if (!is_array($pageData[0])) {
+                    /**
+                     * No $pageData found, so create one
+                     * @var array
+                     */
                     $pageData = array(
+                        /**
+                         * Hook data
+                         */
                         \WDGWV\CMS\Hooks::shared()->loopHook('before-content'),
+
+                        /**
+                         * Page data
+                         */
                         $pageData,
                     );
                 } else {
+                    /**
+                     * Merge arrays
+                     * @var array
+                     */
                     $pageData = array_merge(
+                        /**
+                         * Empry array with data
+                         */
                         array(\WDGWV\CMS\Hooks::shared()->loopHook('before-content')),
+
+                        /**
+                         * original $pageData
+                         */
                         $pageData
                     );
                 }
             }
 
+            /**
+             * Check for the 'after-content' flag
+             */
             if (\WDGWV\CMS\Hooks::shared()->haveHooksFor('after-content')) {
+                /**
+                 * Check if we'll aready got $pageData
+                 */
                 if (!is_array($pageData[0])) {
+                    /**
+                     * Create $pageData
+                     * @var array
+                     */
                     $pageData = array(
+                        /**
+                         * $pageData
+                         */
                         $pageData,
+
+                        /**
+                         * Hook data
+                         */
                         \WDGWV\CMS\Hooks::shared()->loopHook('after-content'),
                     );
                 } else {
+                    /**
+                     * Append to $pageData.
+                     * @var array
+                     */
                     $pageData = array_merge(
+                        /**
+                         * $pageData
+                         */
                         $pageData,
+
+                        /**
+                         * Hook data
+                         */
                         array(\WDGWV\CMS\Hooks::shared()->loopHook('after-content'))
                     );
                 }
             }
 
+            /**
+             * Checks if $pageData[0] is still not a array
+             */
             if (!is_array($pageData[0])) {
+                /**
+                 * Bind 'title' to $pageData[0]
+                 */
                 $this->parser->bindParameter('title', $pageData[0]);
+
+                /**
+                 * Bind 'page' to $pageData[1]
+                 */
                 $this->parser->bindParameter('page', $pageData[1]);
             } else {
-                // Blog style.
+                /**
+                 * Multiple entries found.
+                 * Creating a empty array to parse them
+                 *
+                 * @var array
+                 */
                 $tempArray = array();
 
+                /**
+                 * Walk trough $pageData
+                 */
                 for ($i = 0; $i < sizeof($pageData); $i++) {
+                    /**
+                     * Append them to $tempArray
+                     */
                     $tempArray[] = array(
                         "title" => $pageData[$i][0],
                         "content" => base64_encode($pageData[$i][1]),
