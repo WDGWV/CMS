@@ -1,5 +1,4 @@
-<?php
-/** Rederiction page
+<?php /** Rederiction page
  *
  * Redericts you to the Civilization
  */
@@ -53,5 +52,12 @@
 ------------------------------------------------------------
  */
 
+/**
+ * Back to the CMS
+ */
 header("location:../");
+
+/**
+ * Byebye
+ */
 exit;
