@@ -1,5 +1,4 @@
-<?php
-/**
+<?php /**
  * WDGWV Framework
  */
 
@@ -101,6 +100,9 @@ class WDGWV
      */
     public function __construct()
     {
+        /**
+         * Check if it is a release version
+         */
         $this->debug = ('debug' == \WDGWV\General\WDGWV::$release) ? true : false;
     }
 
@@ -112,6 +114,9 @@ class WDGWV
      */
     private function debug()
     {
+        /**
+         * Check if it is a release version
+         */
         return ('debug' == static::$release) ? true : false;
     }
 }
