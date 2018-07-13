@@ -94,12 +94,25 @@ class Installer
     public static function shared()
     {
         /**
-         * @var mixed
+         * Shared Instance
+         * @var class
          */
         static $inst = null;
+
+        /**
+         * If not have a instance, create one.
+         */
         if ($inst === null) {
+            /**
+             * Initialisize Shared Instance
+             * @var class
+             */
             $inst = new \WDGWV\CMS\Installer();
         }
+
+        /**
+         * Return Shared Instance
+         */
         return $inst;
     }
 

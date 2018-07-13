@@ -25,12 +25,37 @@ class Page extends \WDGWV\CMS\Controllers\Base
      */
     public function __construct($parser, $CMS, $databaseConnection = 'std')
     {
+        /**
+         * Global database
+         */
         global $database;
+
+        /**
+         * Set the parser
+         * @var class
+         */
         $this->parser = $parser;
+
+        /**
+         * CMS base class
+         * @var class
+         */
         $this->CMS = $CMS;
+
+        /**
+         * Check database connection
+         */
         if ($databaseConnection === 'std') {
+            /**
+             * Set database connection
+             * @var resource
+             */
             $this->database = $database;
         } else {
+            /**
+             * Set database connection
+             * @var resource
+             */
             $this->database = $databaseConnection;
         }
     }
@@ -49,69 +74,209 @@ class Page extends \WDGWV\CMS\Controllers\Base
      */
     private function parseUBBTags($input)
     {
+        /**
+         * Check if the 'hooks' system is present
+         */
         if (class_exists('\WDGWV\CMS\Hooks')) {
+            /**
+             * Get custom hooks for UBB
+             * @var array
+             */
             $customHooks = \WDGWV\CMS\Hooks::shared()->getUBBHooks();
         }
+
+        /**
+         * Create a unique id
+         * @var int
+         */
         $uniid = uniqid();
+
+        /**
+         * Set replacer, if customhooks are present.
+         * @var [type]
+         */
         $replacer = (isset($customHooks) ? $customHooks : array());
+
+        /**
+         * Parse {php} and {/php} tags
+         */
         $replacer[] = array('/\{php\}(.*)\{\/php\}/s', '<?php \\1 ?>');
 
+        /**
+         * Checks if the debugger is present
+         */
         if (class_exists('\WDGWV\CMS\Debugger')) {
+            /**
+             * Debug the data
+             */
             \WDGWV\CMS\Debugger::shared()->log(
                 sprintf('Parsing UBB tags with %s replacers', sizeof($replacer))
             );
         }
 
+        /**
+         * Set the data to parse
+         * @var string
+         */
         $parse = $input;
+
+        /**
+         * Walk trough the replacers
+         */
         foreach ($replacer as $replaceWith) {
+            /**
+             * If the size isn't 2 then continue, i miss something
+             */
             if (sizeof($replaceWith) !== 2) {
+                /**
+                 * Continue, missing things
+                 */
                 continue;
             }
 
+            /**
+             * Replace the data
+             */
             $parse = preg_replace($replaceWith[0], $replaceWith[1], $parse);
         }
 
+        /**
+         * Check if filesystem is writeable, and the directory exists.
+         */
         if (is_writable('./Data/') && !file_exists('./Data/Temp')) {
-            @mkdir('./data/Temp/');
+            /**
+             * Create ./Data/Temp
+             */
+            @mkdir('./Data/Temp/');
         }
 
+        /**
+         * Check if './Data/Temp/' is writeable
+         */
         if (is_writable('./Data/Temp/')) {
+            /**
+             * Writable, create a filehandle resource
+             * @var resource
+             */
             $fh = @fopen('./Data/Temp/Page_' . $uniid . '.bin', 'w');
+
+            /**
+             * write the parsed data
+             */
             @fwrite($fh, $parse);
+
+            /**
+             * Close filehandle
+             */
             @fclose($fh);
         }
 
+        /**
+         * Check if the file exists
+         */
         if (!file_exists('./Data/Temp/Page_' . $uniid . '.bin')) {
+            /**
+             * File does not exists.
+             * Start a object.
+             */
             @ob_start();
+
+            /**
+             * Assign eval to the object
+             * @var string
+             */
             $ob = @eval(
                 sprintf(
+                    /* String to end with */
                     '%s%s%s%s%s',
+
+                    /* Dirty eval hack */
                     '/* ! */',
+
+                    /* Close php tag */
                     ' ?>',
+
+                    /* UniqueID? */
                     $uniid,
+
+                    /* Open php tag */
                     '<?php ',
+
+                    /* Dirty eval hack */
                     '/* ! */'
                 )
             );
+
+            /**
+             * Get object contents
+             * @var string
+             */
             $ob = ob_get_contents();
+
+            /**
+             * Close object
+             */
             @ob_end_clean();
 
+            /**
+             * Force try to delete the 'unexisting' file
+             */
             @unlink('./Data/Temp/Page_' . $uniid . '.bin');
+
+            /**
+             * Checks if we got page output
+             */
             if (!$ob) {
+                /**
+                 * Failed to get output
+                 */
                 return 'Failed to parse the page.';
             } else {
+                /**
+                 * Got output, returing it.
+                 */
                 return $ob;
             }
         } else {
+            /**
+             * Start a object
+             */
             @ob_start();
+
+            /**
+             * Include the file
+             * @var string
+             */
             $ob = include './Data/Temp/Page_' . $uniid . '.bin';
+
+            /**
+             * Get object contents
+             * @var string
+             */
             $ob = ob_get_contents();
+
+            /**
+             * Close object
+             */
             @ob_end_clean();
 
+            /**
+             * Unlink (delete) the file
+             */
             @unlink('./Data/Temp/Page_' . $uniid . '.bin');
+
+            /**
+             * Check for data
+             */
             if (!$ob) {
+                /**
+                 * Not data found, so returning error message
+                 */
                 return 'Failed to parse the page.';
             } else {
+                /**
+                 * Returning the found data
+                 */
                 return $ob;
             }
         }
