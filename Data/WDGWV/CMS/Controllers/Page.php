@@ -435,44 +435,127 @@ class Page extends \WDGWV\CMS\Controllers\Base
                 /**
                  * Walk trough $pageData
                  */
-                for ($i = 0; $i < sizeof($pageData); $i++) {
+                for ($item = 0; $item < sizeof($pageData); $item++) {
                     /**
                      * Append them to $tempArray
                      */
                     $tempArray[] = array(
-                        "title" => $pageData[$i][0],
-                        "content" => base64_encode($pageData[$i][1]),
-                        "date" => date("d-m-Y"),
-                        "comments" => null,
-                        "shares" => null,
-                        "readmore" => null,
-                        "keywords" => null,
+                        /**
+                         * Extract the title from $pageData[$item][0]
+                         */
+                        'title' => $pageData[$item][0],
+
+                        /**
+                         * Extract the contents from $pageData[$item][1]
+                         */
+                        'content' => base64_encode($pageData[$item][1]),
+
+                        /**
+                         * Set a date
+                         */
+                        'date' => date('d-m-Y'),
+
+                        /**
+                         * Comments: for future use
+                         */
+                        'comments' => null,
+
+                        /**
+                         * Shares: for future use
+                         */
+                        'shares' => null,
+
+                        /**
+                         * Read more: for future use
+                         */
+                        'readmore' => null,
+
+                        /**
+                         * Keywords: for future use
+                         */
+                        'keywords' => null,
                     );
                 }
 
+                /**
+                 * Bind $tempArray to 'post's
+                 */
                 $this->parser->bindParameter('post', $tempArray);
+
+                /**
+                 * Set 'page' to ''
+                 */
                 $this->parser->bindParameter('page', '');
             }
+
+            /**
+             * Return, finished running.
+             */
             return;
         }
 
+        /**
+         * Checks if the CMS is in the maintenance mode?
+         */
         if ($this->CMS->maintenanceMode()) {
+            /**
+             * Checks the availability of the debugger
+             */
             if (class_exists('\WDGWV\CMS\Debugger')) {
+                /**
+                 * Debugs: Maintenacne mode!
+                 */
                 \WDGWV\CMS\Debugger::shared()->log('Maintenance mode!');
             }
 
-            $this->parser->bindParameter('post', array(
+            /**
+             * Create a 'fake' post.
+             */
+            $this->parser->bindParameter(
+                'post',
                 array(
-                    "title" => "Maintenance Mode",
-                    "content" => base64_encode("Please wait..."),
-                    "date" => date("d-m-Y"),
-                    "comments" => null,
-                    "shares" => null,
-                    "readmore" => null,
-                    "keywords" => "Updating, Update, WDGWV CMS",
-                ),
-            ));
+                    array(
+                        /**
+                         * Set 'title' to 'Maintenance Mode'
+                         */
+                        'title' => 'Maintenance Mode',
 
+                        /**
+                         * Set 'content' to 'Please wait...'
+                         */
+                        'content' => base64_encode('Please wait...'),
+
+                        /**
+                         * Set 'date' to today
+                         */
+                        'date' => date('d-m-Y'),
+
+                        /**
+                         * Set 'comments' to null (hide)
+                         */
+                        'comments' => null,
+
+                        /**
+                         * Set 'shares' to null (hide)
+                         */
+                        'shares' => null,
+
+                        /**
+                         * Set 'readmore' to null (hide)
+                         */
+                        'readmore' => null,
+
+                        /**
+                         * Set 'keywords' to null (hide)
+                         */
+                        'keywords' => 'Updating, Update, WDGWV CMS',
+                    ),
+                )
+            );
+
+            /**
+             * Finished launching return.
+             */
             return;
         }
 
