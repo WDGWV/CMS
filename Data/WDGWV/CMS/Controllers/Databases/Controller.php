@@ -56,7 +56,13 @@ namespace WDGWV\CMS\Controllers\Databases;
  */
 
 /**
- * ...
+ * Class 'Controller'
+ *
+ * @version 1.0
+ * @copyright Wesley de Groot
+ * @depends \WDGWV\CMS\Controllers\Databases\Base
+ * @package WDGWV
+ * @subpackage CMS
  */
 class Controller extends \WDGWV\CMS\Controllers\Databases\Base
 {
