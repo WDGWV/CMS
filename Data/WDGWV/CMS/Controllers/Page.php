@@ -816,6 +816,11 @@ class Page extends \WDGWV\CMS\Controllers\Base
                      * @var [string]
                      */
                     $blogData = $this->database->postGetLast();
+
+                    /**
+                     * Create the temporary 'post' array
+                     * @var array
+                     */
                     $post = array(
                         array(
                             /**
@@ -994,48 +999,181 @@ class Page extends \WDGWV\CMS\Controllers\Base
                     \WDGWV\CMS\Debugger::shared()->log('last post');
                 }
 
+                /**
+                 * Bind 'page' to ''
+                 */
                 $this->parser->bindParameter('page', '');
+
+                /**
+                 * Get last post
+                 * @var [string]
+                 */
                 $blogData = $this->database->postGetLast();
-                $post = array(array(
-                    'title' => $blogData[0],
-                    'content' => base64_encode($blogData[1]),
-                    'date' => $blogData[3],
-                    'comments' => null,
-                    'shares' => null,
-                    'readmore' => null,
-                    'keywords' => $blogData[2],
-                ));
 
+                /**
+                 * Create the 'post' array
+                 * @var array
+                 */
+                $post = array(
+                    array(
+                        /**
+                         * Set 'title' to $blogData[0]
+                         */
+                        'title' => $blogData[0],
+
+                        /**
+                         * Set 'content' to $blogData[1] (base64 encoded)
+                         */
+                        'content' => base64_encode($blogData[1]),
+                        /**
+                         * Set 'date' to $blogData[3]
+                         */
+
+                        'date' => $blogData[3],
+                        /**
+                         * Set 'comments' to null (hidden)
+                         */
+
+                        'comments' => null,
+                        /**
+                         * Set 'shares' to null (hidden)
+                         */
+
+                        'shares' => null,
+                        /**
+                         * Set 'readmore' to null (hidden)
+                         */
+
+                        'readmore' => null,
+
+                        /**
+                         * Set 'keywords' to $blogData[2]
+                         */
+                        'keywords' => $blogData[2],
+                    ),
+                );
+
+                /**
+                 * Check if we have hooks for 'before-content'
+                 */
                 if (\WDGWV\CMS\Hooks::shared()->haveHooksFor('before-content')) {
+                    /**
+                     * Get hooks for 'before-content'
+                     * @var [string]
+                     */
                     $myData = \WDGWV\CMS\Hooks::shared()->loopHook('before-content');
-                    $myPost = array(array(
-                        "title" => $myData[0],
-                        "content" => base64_encode($myData[1]),
-                        "date" => date("d-m-Y"),
-                        "comments" => null,
-                        "shares" => null,
-                        "readmore" => null,
-                        "keywords" => null,
-                    ));
 
+                    /**
+                     * Create a temporary post array
+                     * @var array
+                     */
+                    $myPost = array(
+                        array(
+                            /**
+                             * Set 'title' to $myData[0]
+                             */
+                            'title' => $myData[0],
+
+                            /**
+                             * Set 'content' to $myData[1] (base64 encoded)
+                             */
+                            'content' => base64_encode($myData[1]),
+
+                            /**
+                             * Set 'date' to today
+                             */
+                            'date' => date('d-m-Y'),
+                            /**
+                             * Set 'comments' to null (hidden)
+                             */
+                            'comments' => null,
+
+                            /**
+                             * Set 'shares' to null (hidden)
+                             */
+                            'shares' => null,
+
+                            /**
+                             * Set 'readmore' to null (hidden)
+                             */
+                            'readmore' => null,
+
+                            /**
+                             * Set 'keywords' to null (hidden)
+                             */
+                            'keywords' => null,
+                        ),
+                    );
+
+                    /**
+                     * Merge $myPost with $post
+                     * @var array
+                     */
                     $post = array_merge($myPost, $post);
                 }
 
+                /**
+                 * Check if we have hooks for 'after-content'
+                 */
                 if (\WDGWV\CMS\Hooks::shared()->haveHooksFor('after-content')) {
+                    /**
+                     * Get hooks for 'after-content'
+                     * @var [string]
+                     */
                     $myData = \WDGWV\CMS\Hooks::shared()->loopHook('after-content');
-                    $myPost = array(array(
-                        "title" => $myData[0],
-                        "content" => base64_encode($myData[1]),
-                        "date" => date("d-m-Y"),
-                        "comments" => null,
-                        "shares" => null,
-                        "readmore" => null,
-                        "keywords" => null,
-                    ));
 
+                    /**
+                     * Create a temporary post array
+                     * @var array
+                     */
+                    $myPost = array(
+                        array(
+                            /**
+                             * Set 'title' to $myData[0]
+                             */
+                            'title' => $myData[0],
+
+                            /**
+                             * Set 'content' to $myData[1] (base64 encoded)
+                             */
+                            'content' => base64_encode($myData[1]),
+
+                            /**
+                             * Set 'date' to today
+                             */
+                            'date' => date('d-m-Y'),
+                            /**
+                             * Set 'comments' to null (hidden)
+                             */
+                            'comments' => null,
+
+                            /**
+                             * Set 'shares' to null (hidden)
+                             */
+                            'shares' => null,
+
+                            /**
+                             * Set 'readmore' to null (hidden)
+                             */
+                            'readmore' => null,
+
+                            /**
+                             * Set 'keywords' to null (hidden)
+                             */
+                            'keywords' => null,
+                        ),
+                    );
+
+                    /**
+                     * Merge $post with $myPost
+                     * @var array
+                     */
                     $post = array_merge($post, $myPost);
                 }
 
+                /**
+                 * Bind parameter 'post' to $post
+                 */
                 $this->parser->bindParameter('post', $post);
 
                 /**
@@ -1057,10 +1195,19 @@ class Page extends \WDGWV\CMS\Controllers\Base
                  * Debug output
                  */
                 \WDGWV\CMS\Debugger::shared()->log('Found page in database');
+
+                /**
+                 * Debug page contents.
+                 */
                 \WDGWV\CMS\Debugger::shared()->log($this->database->pageLoad($activeComponent)[1]);
             }
 
+            /**
+             * Create pageData array
+             * @var array
+             */
             $pageData = array();
+
             $pageData[] = array(
                 $activeComponent,
                 $this->parseUBBTags(
