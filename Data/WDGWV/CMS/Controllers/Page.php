@@ -703,6 +703,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                                  * Set 'date' to today
                                  */
                                 'date' => date('d-m-Y'),
+
                                 /**
                                  * Set 'comments' to null (hidden)
                                  */
@@ -762,6 +763,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                                  * Set 'date' to today
                                  */
                                 'date' => date('d-m-Y'),
+
                                 /**
                                  * Set 'comments' to null (hidden)
                                  */
@@ -889,6 +891,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                                 /**
                                  * Set 'date' to today
                                  */
+
                                 'date' => date('d-m-Y'),
                                 /**
                                  * Set 'comments' to null (hidden)
@@ -949,6 +952,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                                  * Set 'date' to today
                                  */
                                 'date' => date('d-m-Y'),
+
                                 /**
                                  * Set 'comments' to null (hidden)
                                  */
@@ -1083,6 +1087,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                              * Set 'date' to today
                              */
                             'date' => date('d-m-Y'),
+
                             /**
                              * Set 'comments' to null (hidden)
                              */
@@ -1142,6 +1147,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                              * Set 'date' to today
                              */
                             'date' => date('d-m-Y'),
+
                             /**
                              * Set 'comments' to null (hidden)
                              */
@@ -1208,55 +1214,164 @@ class Page extends \WDGWV\CMS\Controllers\Base
              */
             $pageData = array();
 
+            /**
+             * Append 'activeComponent'
+             */
             $pageData[] = array(
+                /**
+                 * $activeComponent
+                 */
                 $activeComponent,
+
+                /**
+                 * Parse UBB tags from page
+                 */
                 $this->parseUBBTags(
+                    /**
+                     * Load pag
+                     */
                     $this->database->pageLoad($activeComponent)[1]
                 ),
             );
 
+            /**
+             * Check for 'before-content' hooks
+             */
             if (\WDGWV\CMS\Hooks::shared()->haveHooksFor('before-content')) {
+                /**
+                 * Checks if we've got $pageData[0]
+                 */
                 if (!is_array($pageData[0])) {
+                    /**
+                     * Create $pageData
+                     * @var array
+                     */
                     $pageData = array(
+                        /**
+                         * Loop trough the hook 'before-content'
+                         */
                         \WDGWV\CMS\Hooks::shared()->loopHook('before-content'),
+
+                        /**
+                         * Append $pageData
+                         */
                         $pageData,
                     );
                 } else {
+                    /**
+                     * Merge data from $pageData
+                     * @var array
+                     */
                     $pageData = array_merge(
+                        /**
+                         * Loop trough the hook 'before-content'
+                         */
                         array(\WDGWV\CMS\Hooks::shared()->loopHook('before-content')),
+
+                        /**
+                         * Append $pageData
+                         */
                         $pageData
                     );
                 }
             }
 
+            /**
+             * Check for 'after-content' hooks
+             */
             if (\WDGWV\CMS\Hooks::shared()->haveHooksFor('after-content')) {
+                /**
+                 * Checks if we've got $pageData[0]
+                 */
                 if (!is_array($pageData[0])) {
+                    /**
+                     * Create $pageData
+                     * @var array
+                     */
                     $pageData = array(
+                        /**
+                         * Append $pageData
+                         */
                         $pageData,
+
+                        /**
+                         * Loop trough the hook 'after-content'
+                         */
                         \WDGWV\CMS\Hooks::shared()->loopHook('after-content'),
                     );
                 } else {
+                    /**
+                     * Merge data from $pageData
+                     * @var array
+                     */
                     $pageData = array_merge(
+                        /**
+                         * Append $pageData
+                         */
                         $pageData,
+
+                        /**
+                         * Loop trough the hook 'after-content'
+                         */
                         array(\WDGWV\CMS\Hooks::shared()->loopHook('after-content'))
                     );
                 }
             }
 
+            /**
+             * Create a temporary array
+             * @var array
+             */
             $tempArray = array();
 
-            for ($i = 0; $i < sizeof($pageData); $i++) {
+            /**
+             * Walk trough $pageData
+             */
+            for ($item = 0; $item < sizeof($pageData); $item++) {
+                /**
+                 * Append item to $tempArray
+                 */
                 $tempArray[] = array(
-                    "title" => $pageData[$i][0],
-                    "content" => base64_encode($pageData[$i][1]),
-                    "date" => date("d-m-Y"),
-                    "comments" => null,
-                    "shares" => null,
-                    "readmore" => null,
-                    "keywords" => null,
+                    /**
+                     * Set 'title' to $pageData[$item][0]
+                     */
+                    'title' => $pageData[$item][0],
+
+                    /**
+                     * Set 'content' to $pageData[$item][1] (base64 encoded)
+                     */
+                    'content' => base64_encode($pageData[$item][1]),
+
+                    /**
+                     * Set 'date' to today
+                     */
+                    'date' => date('d-m-Y'),
+
+                    /**
+                     * Set 'comments' to null (hidden)
+                     */
+                    'comments' => null,
+
+                    /**
+                     * Set 'shares' to null (hidden)
+                     */
+                    'shares' => null,
+
+                    /**
+                     * Set 'readmore' to null (hidden)
+                     */
+                    'readmore' => null,
+
+                    /**
+                     * Set 'keywords' to null (hidden)
+                     */
+                    'keywords' => null,
                 );
             }
 
+            /**
+             * Bind parameter 'post' to $tempArray
+             */
             $this->parser->bindParameter('post', $tempArray);
 
             /**
