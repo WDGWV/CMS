@@ -55,54 +55,157 @@ namespace WDGWV\CMS\Controllers\Databases;
 ------------------------------------------------------------
  */
 
-if (!defined('DB_PATH')) {
-    define('DB_PATH', './Data/Database/');
+/**
+ * Check if 'PT_DB_PATH' is already defined.
+ */
+if (!defined('PT_DB_PATH')) {
+    /**
+     * Define 'PT_DB_PATH' to './Data/Database/'
+     */
+    define('PT_DB_PATH', './Data/Database/');
 }
 
-define('PT_CMS_DB', DB_PATH . 'CMS.PTdb');
-define('PT_MENU_DB', DB_PATH . 'menuItems.PTdb');
-define('PT_USER_DB', DB_PATH . 'userInfo.PTdb');
-define('PT_POST_DB', DB_PATH . 'posts.PTdb'); // Tip, Purge every year.
-define('PT_PAGE_DB', DB_PATH . 'pages.PTdb');
-define('PT_SHOP_DB', DB_PATH . 'shopItems.PTdb');
-define('PT_WIKI_DB', DB_PATH . 'wikiItems.PTdb');
-define('PT_ORDER_DB', DB_PATH . 'orders.PTdb');
-define('PT_FORUM_DB', DB_PATH . 'forumItems.PTdb');
+/**
+ * Check if 'PT_CMS_DB' is already defined.
+ */
+if (!defined('PT_CMS_DB')) {
+    /**
+     * Define 'PT_CMS_DB' to './Data/Database/CMS.PTdb'
+     */
+    define('PT_CMS_DB', PT_DB_PATH . 'CMS.PTdb');
+}
 
+/**
+ * Check if 'PT_MENU_DB' is already defined.
+ */
+if (!defined('PT_MENU_DB')) {
+    /**
+     * Define 'PT_MENU_DB' to './Data/Database/menuItems.PTdb'
+     */
+    define('PT_MENU_DB', PT_DB_PATH . 'menuItems.PTdb');
+}
+
+/**
+ * Check if 'PT_USER_DB' is already defined.
+ */
+if (!defined('PT_USER_DB')) {
+    /**
+     * Define 'PT_USER_DB' to './Data/Database/userInfo.PTdb'
+     */
+    define('PT_USER_DB', PT_DB_PATH . 'userInfo.PTdb');
+}
+
+/**
+ * Check if 'PT_POST_DB' is already defined. (Tip, Purge every year.)
+ */
+if (!defined('PT_POST_DB')) {
+    /**
+     * Define 'PT_POST_DB' to './Data/Database/posts.PTdb'
+     */
+    define('PT_POST_DB', PT_DB_PATH . 'posts.PTdb');
+}
+
+/**
+ * Check if 'PT_PAGE_DB' is already defined. (Tip, Purge every year.)
+ */
+if (!defined('PT_PAGE_DB')) {
+    /**
+     * Define 'PT_PAGE_DB' to './Data/Database/pages.PTdb'
+     */
+    define('PT_PAGE_DB', PT_DB_PATH . 'pages.PTdb');
+}
+
+/**
+ * Check if 'PT_SHOP_DB' is already defined.
+ */
+if (!defined('PT_SHOP_DB')) {
+    /**
+     * Define 'PT_SHOP_DB' to './Data/Database/shopItems.PTdb'
+     */
+    define('PT_SHOP_DB', PT_DB_PATH . 'shopItems.PTdb');
+}
+
+/**
+ * Check if 'PT_WIKI_DB' is already defined.
+ */
+if (!defined('PT_WIKI_DB')) {
+    /**
+     * Define 'PT_WIKI_DB' to './Data/Database/wikiItems.PTdb'
+     */
+    define('PT_WIKI_DB', PT_DB_PATH . 'wikiItems.PTdb');
+}
+
+/**
+ * Check if 'PT_ORDER_DB' is already defined.
+ */
+if (!defined('PT_ORDER_DB')) {
+    /**
+     * Define 'PT_ORDER_DB' to './Data/Database/orders.PTdb'
+     */
+    define('PT_ORDER_DB', PT_DB_PATH . 'orders.PTdb');
+}
+
+/**
+ * Check if 'PT_FORUM_DB' is already defined.
+ */
+if (!defined('PT_FORUM_DB')) {
+    /**
+     * Define 'PT_FORUM_DB' to './Data/Database/forumItems.PTdb'
+     */
+    define('PT_FORUM_DB', PT_DB_PATH . 'forumItems.PTdb');
+}
+
+/**
+ * Class 'PlainText'
+ *
+ * @extends \WDGWV\CMS\Controllers\Databases\Base
+ * @version 1.0
+ * @copyright Wesley de Groot
+ * @package \WDGWV\CMS
+ * @depends \WDGWV\CMS\Controllers\Databases\Base
+ */
 class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
 {
     /**
      * @var array
      */
     private $CMSDatabase = array();
+
     /**
      * @var array
      */
     private $userDatabase = array();
+
     /**
      * @var array
      */
     private $postDatabase = array();
+
     /**
      * @var array
      */
     private $pageDatabase = array();
+
     /**
      * @var array
      */
     private $shopDatabase = array();
+
     /**
      * @var array
      */
     private $wikiDatabase = array();
+
     /**
      * @var array
      */
     private $orderDatabase = array();
+
     /**
      * @var array
      */
     private $forumDatabase = array();
+
     /**
      * @var mixed
      */

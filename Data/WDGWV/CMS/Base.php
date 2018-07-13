@@ -76,10 +76,26 @@ class Base extends \WDGWV\General\WDGWV
      */
     public static function shared()
     {
+        /**
+         * Shared Instance
+         * @var class
+         */
         static $inst = null;
+
+        /**
+         * If not have a instance, create one.
+         */
         if ($inst === null) {
+            /**
+             * Initialisize Shared Instance
+             * @var class
+             */
             $inst = new \WDGWV\CMS\Base();
         }
+
+        /**
+         * Return Shared Instance
+         */
         return $inst;
     }
 
@@ -476,7 +492,7 @@ class Base extends \WDGWV\General\WDGWV
         /**
          * Walk trough the string
          */
-        for ($i = 0; isset($s[$i]); $i++) {
+        for ($i = 0;isset($s[$i]); $i++) {
             /**
              * Append to the temporary string
              */

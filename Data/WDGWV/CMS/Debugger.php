@@ -82,10 +82,26 @@ class Debugger
      */
     public static function shared()
     {
+        /**
+         * Shared Instance
+         * @var class
+         */
         static $inst = null;
+
+        /**
+         * If not have a instance, create one.
+         */
         if ($inst === null) {
+            /**
+             * Initialisize Shared Instance
+             * @var class
+             */
             $inst = new \WDGWV\CMS\Debugger();
         }
+
+        /**
+         * Return Shared Instance
+         */
         return $inst;
     }
 
