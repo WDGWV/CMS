@@ -1,10 +1,7 @@
 <?php
-/**
- * WDGWV CMS Extension file.
- * Full access: false
- * Extension: Calendar
- * Version: 1.0
- * Description: Have a nice calendar.
+/** Rederiction page
+ *
+ * Redericts you to the Civilization
  */
 
 /*
@@ -56,5 +53,5 @@
 ------------------------------------------------------------
  */
 
-header("location: ../../");
+header("location: ../");
 exit;
