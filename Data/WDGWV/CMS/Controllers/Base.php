@@ -1,6 +1,12 @@
-<?php
+<?php /* Base Controller */
+/**
+ * Set namespace
+ */
 namespace WDGWV\CMS\Controllers;
 
+/**
+ * Base controller for database
+ */
 class Base
 {
     /**
