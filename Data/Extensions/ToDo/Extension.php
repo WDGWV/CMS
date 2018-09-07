@@ -154,7 +154,7 @@ class TodoExtension extends \WDGWV\CMS\ExtensionBase
             'function: `\Databases\SQLite::shared()->pageLoad(...)`' => 100,
             'function: `\Databases\SQLite::shared()->pageExists(...)`' => 100,
             'function: `\Databases\SQLite::shared()->pageCreate(...)`' => 100,
-            'function: `\Databases\SQLite::shared()->postEdit(...)`' => 0,
+            'function: `\Databases\SQLite::shared()->postEdit(...)`' => 100,
             'function: `\Databases\SQLite::shared()->postRemove(...)`' => 100,
             'function: `\Databases\SQLite::shared()->postLoad(...)`' => 100,
             'function: `\Databases\SQLite::shared()->postExists(...)`' => 100,

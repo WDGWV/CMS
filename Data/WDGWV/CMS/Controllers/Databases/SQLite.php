@@ -582,7 +582,51 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
-        \trigger_error("Function \"" . __FUNCTION__ . "\" is not yet done", E_USER_WARNING);
+        if ($this->postExists($postID)) {
+            $stmt = $this->db->prepare(
+                "UPDATE posts SET `title`=:title, `contents`=:contents, `keywords`=:keywords, `date`=:date, `options`:options WHERE `id`=:id"
+            );
+
+            $stmt->bindValue(
+                ':title',
+                $postTitle,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':contents',
+                $postContents,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':keywords',
+                $postKeywords,
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':options',
+                json_encode($postOptions),
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':time',
+                date('d-m-Y H:i:s'),
+                SQLITE3_TEXT
+            );
+
+            $stmt->bindValue(
+                ':id',
+                $postID,
+                SQLITE3_TEXT
+            );
+
+            return $stmt->execute();
+        }
+
+        return false;
     }
 
     /**
