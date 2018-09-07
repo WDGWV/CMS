@@ -168,7 +168,7 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 
         $tableHeader = '%s';
         $tableHeader .= '<span class=\'right\'>';
-        $tableHeader .= '<button onClick="window.location=\'/%s/%s/List?activateTheme=%s\'">%s \'%s\' Theme</button>';
+        $tableHeader .= '<button onClick="window.location=\'/%s/%s/%s/%s\'">%s \'%s\' Theme</button>';
         $tableHeader .= '</span>';
 
         // return array("Title", "Contents");
@@ -183,6 +183,7 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
                         $file,
                         (new \WDGWV\CMS\Config)->adminURL(),
                         'Themes',
+                        'Activate',
                         $file,
                         'Activate',
                         $file
@@ -208,6 +209,16 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     public function displaySearch()
     {
         return array("Title", "Contents");
+    }
+
+    public function activateTheme($theme)
+    {
+        \WDGWV\CMS\Controllers\Databases\Controller::shared()->themeSet($theme);
+
+        return array(
+            "Activated {$theme}",
+            "Please wait...<br /><script>window.location='/';</script>",
+        );
     }
 }
 
@@ -249,30 +260,4 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     'url',
     sprintf('/%s/Themes/List', (new \WDGWV\CMS\Config)->adminURL()),
     array(ThemeMananagamentSystem::shared(), 'displayList')
-);
-
-//TODO: REMOVE ME
-\WDGWV\CMS\Hooks::shared()->createHook(
-    'url',
-    '/themeSet/portal',
-    array(
-        \WDGWV\CMS\Controllers\Databases\Controller::shared(),
-        'themeSet',
-    ),
-    array(
-        'portal',
-    )
-);
-
-//TODO: REMOVE ME
-\WDGWV\CMS\Hooks::shared()->createHook(
-    'url',
-    '/themeSet/admin',
-    array(
-        \WDGWV\CMS\Controllers\Databases\Controller::shared(),
-        'themeSet',
-    ),
-    array(
-        'admin',
-    )
 );
