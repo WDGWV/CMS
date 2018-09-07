@@ -474,6 +474,23 @@ class Base extends \WDGWV\General\WDGWV
         }
     }
 
+    public static function parseURL($match)
+    {
+        /**
+         * Replace / to \\\/ (\/)
+         */
+        $match = preg_replace("/\//", "\\\\/", $match);
+
+        /**
+         * Replace * to (.*)
+         */
+        $match = preg_replace("/\*/", "(.*)", $match);
+
+        preg_match_all('/' . $match . '/', $_SERVER['REQUEST_URI'], $matches);
+
+        return (sizeof($matches[0]) == 1 ? $matches[1][0] : $matches[1]);
+    }
+
     /**
      * h
      * CHR to ORD. (&#ORD;) for HTML-encoded messages.

@@ -410,34 +410,54 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                                  * If the action is callable...
                                  */
                                 if (is_callable($this->hookDatabase['url'][$i]['action'])) {
-                                    /**
-                                     * Call the action, and save it to a Temporary String
-                                     * @var string
-                                     */
-                                    $returnValue = call_user_func_array(
-                                        $this->hookDatabase['url'][$i]['action'],
-                                        $this->hookDatabase['url'][$i]['params']
-                                    );
-
-                                    /**
-                                     * Checks if we have a Temporary String
-                                     */
-                                    if (!$returnValue) {
-                                        /**
-                                         * Temporary unset this hook, it's already loaded.
-                                         */
-                                        unset($this->hookDatabase['url'][$i]);
+                                    if (debug_backtrace()[1]['function'] != 'haveHooksFor') {
+                                        preg_match_all("/" . $safeMatch . "$/", $niceURL, $matches);
 
                                         /**
-                                         * Continue testing
+                                         * Call the action, and save it to a Temporary String
+                                         * @var string
                                          */
-                                        continue;
+                                        $returnValue = call_user_func_array(
+                                            $this->hookDatabase['url'][$i]['action'],
+                                            (
+                                                !empty($this->hookDatabase['url'][$i]['params'])
+                                                ? $this->hookDatabase['url'][$i]['params']
+                                                : (
+                                                    isset($matches[1])
+                                                    ? $matches[1]
+                                                    : array()
+                                                )
+                                            )
+                                        );
+
+                                        /**
+                                         * Checks if we have a Temporary String
+                                         */
+                                        if (!$returnValue) {
+                                            /**
+                                             * Temporary unset this hook, it's already loaded.
+                                             */
+                                            unset($this->hookDatabase['url'][$i]);
+
+                                            /**
+                                             * Continue testing
+                                             */
+                                            continue;
+                                        }
+
+                                        /**
+                                         * Return the temporary string
+                                         */
+                                        return $returnValue;
+                                    } else {
+                                        /**
+                                         * value for first execution
+                                         */
+                                        return array(
+                                            "This",
+                                            "should never be seen...",
+                                        );
                                     }
-
-                                    /**
-                                     * Return the temporary string
-                                     */
-                                    return $returnValue;
                                 } else {
                                     /**
                                      * Action is not callable.
