@@ -58,16 +58,6 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     private $hookDatabase = array();
 
     /**
-     * @bool call make calls
-     */
-    private $makeCalls = true;
-
-    /**
-     * @bool firstCall
-     */
-    private $firstCall = true;
-
-    /**
      * Call the hooks class
      * @since Version 1.0
      */
@@ -161,13 +151,6 @@ class Hooks extends \WDGWV\CMS\BaseProtected
     public function haveHooksFor($which)
     {
         /**
-         * Disable 'real' calls
-         */
-        if ($this->firstCall) {
-            $this->makeCalls = false;
-        }
-
-        /**
          * Checks if it is an array.
          */
         if (!is_array($which)) {
@@ -192,14 +175,6 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                  */
                 return true;
             }
-        }
-
-        /**
-         * Re-enable 'real' calls
-         */
-        if ($this->firstCall) {
-            $this->makeCalls = true;
-            $this->firstCall = false;
         }
     }
 
@@ -475,7 +450,13 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                                          */
                                         return $returnValue;
                                     } else {
-                                        return array("This", "should never be seen...");
+                                        /**
+                                         * value for first execution
+                                         */
+                                        return array(
+                                            "This",
+                                            "should never be seen...",
+                                        );
                                     }
                                 } else {
                                     /**
