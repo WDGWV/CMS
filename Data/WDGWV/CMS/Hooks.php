@@ -624,15 +624,17 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 /**
                  * Check if we have menu database
                  */
-                if (sizeof($this->hookDatabase['menu']) > 0) {
-                    /**
-                     * Walk trough the menu database
-                     */
-                    for ($i = 0; $i < sizeof($this->hookDatabase['menu']); $i++) {
+                if (isset($this->hookDatabase['menu'])) {
+                    if (sizeof($this->hookDatabase['menu']) > 0) {
                         /**
-                         * Append to the temporary array.
+                         * Walk trough the menu database
                          */
-                        $_temporaryArray[] = $this->hookDatabase['menu'][$i]['action'];
+                        for ($i = 0; $i < sizeof($this->hookDatabase['menu']); $i++) {
+                            /**
+                             * Append to the temporary array.
+                             */
+                            $_temporaryArray[] = $this->hookDatabase['menu'][$i]['action'];
+                        }
                     }
                 }
 

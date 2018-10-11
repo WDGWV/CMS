@@ -312,62 +312,68 @@ class Extensions
         /**
          * Remove duplicates in loaded extensions
          */
-        $loadFile[0] = array_unique($loadFile[0]);
+        if (is_array($loadFile[0])) {
+            $loadFile[0] = array_unique($loadFile[0]);
+        }
 
         /**
          * Remove duplicates in extensionList
          */
-        $loadFile[1] = array_unique($loadFile[1]);
+        if (is_array($loadFile[1])) {
+            $loadFile[1] = array_unique($loadFile[1]);
+        }
 
         /**
          * Load the files
          */
-        foreach ($loadFile[0] as $loadFile) {
-            /**
-             * Append loading text to debugger
-             */
-            Debugger::shared()->log(
-                sprintf(
-                    'loading extension: %s',
-                    $loadFile
-                )
-            );
-
-            /**
-             * Checks if extension exists
-             */
-            if (file_exists($loadFile)) {
+        if (is_array($loadFile[0])) {
+            foreach ($loadFile[0] as $loadFile) {
                 /**
-                 * Check if the extension is disabled?
-                 * @var string
+                 * Append loading text to debugger
                  */
-                $disabled = explode('/', $loadFile);
+                Debugger::shared()->log(
+                    sprintf(
+                        'loading extension: %s',
+                        $loadFile
+                    )
+                );
 
                 /**
-                 * Append disabled to the array
+                 * Checks if extension exists
                  */
-                $disabled[sizeof($disabled) - 1] = 'disabled';
-
-                /**
-                 * Checks debugmode status
-                 */
-                if (!\WDGWV\CMS\Config::shared()->debug()) {
+                if (file_exists($loadFile)) {
                     /**
-                     * Checks if there is not a file called 'disabled'.
-                     * And we are in debugmode
+                     * Check if the extension is disabled?
+                     * @var string
                      */
-                    if (!file_exists(implode('/', $disabled))) {
+                    $disabled = explode('/', $loadFile);
+
+                    /**
+                     * Append disabled to the array
+                     */
+                    $disabled[sizeof($disabled) - 1] = 'disabled';
+
+                    /**
+                     * Checks debugmode status
+                     */
+                    if (!\WDGWV\CMS\Config::shared()->debug()) {
                         /**
-                         * No disabled parameter, so load it!
+                         * Checks if there is not a file called 'disabled'.
+                         * And we are in debugmode
+                         */
+                        if (!file_exists(implode('/', $disabled))) {
+                            /**
+                             * No disabled parameter, so load it!
+                             */
+                            require_once $loadFile;
+                        }
+                    } else {
+                        /**
+                         * In production mode,
+                         * We don't block files due 'disabled' files
                          */
                         require_once $loadFile;
                     }
-                } else {
-                    /**
-                     * In production mode,
-                     * We don't block files due 'disabled' files
-                     */
-                    require_once $loadFile;
                 }
             }
         }
