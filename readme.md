@@ -1,4 +1,7 @@
 # WDGWV CMS
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e45b99f5613e4d74a3ee0ea9b6300756)](https://app.codacy.com/app/wdg/CMS?utm_source=github.com&utm_medium=referral&utm_content=WDGWV/CMS&utm_campaign=Badge_Grade_Dashboard)
+
 ![](https://travis-ci.org/WDGWV/CMS.svg?branch=master) | [Stable version](https://github.com/wdgwv/CMS) | [Development version](https://github.com/wdg/CMS) | [openhub page](http://openhub.net/p/WDGWV-CMS) | Made with 💙 in 🇳🇱
 
 This is an <s>old</s> experiment, i try to make this a complete functional **cms**.
