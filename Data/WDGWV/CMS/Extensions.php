@@ -916,36 +916,36 @@ class Extensions
              * Load the contents
              * @var string
              */
-            $fc = file_get_contents($ofExtensionFilePath);
+            $fileContents = file_get_contents($ofExtensionFilePath);
 
             /**
              * Check if there is any content
              */
-            if (!empty($fc)) {
+            if (!empty($fileContents)) {
                 /**
                  * Check for the end of the comment string.
                  * And pick the contents before the end.
                  * @var string
                  */
-                $fe = explode('*/', $fc)[0];
+                $fileExploded = explode('*/', $fileContents)[0];
 
                 /**
                  * Check for the begin of the comment string.
                  * And pick the contents after the begin.
                  * @var string
                  */
-                $fe = explode('/*', $fe)[1];
+                $fileExploded = explode('/*', $fileExploded)[1];
 
                 /**
                  * Explode newlines
                  * @var [string]
                  */
-                $fe = explode(PHP_EOL, $fe);
+                $fileExploded = explode(PHP_EOL, $fileExploded);
 
                 /**
                  * Loop trough the information dictionary.
                  */
-                foreach ($fe as $informationDict) {
+                foreach ($fileExploded as $informationDict) {
                     /**
                      * Checks if the information matches the information we'll search for.
                      * And the length is more then 3 characters.
@@ -955,12 +955,12 @@ class Extensions
                          * Explode the information
                          * @var [string]
                          */
-                        $ex = explode(": ", $informationDict);
+                        $exploded = explode(": ", $informationDict);
 
                         /**
                          * Checks if the information exists
                          */
-                        if (!isset($ex[1])) {
+                        if (!isset($exploded[1])) {
                             /**
                              * Nope, continue with a new value.
                              */
@@ -972,7 +972,7 @@ class Extensions
                          * ' * '
                          * @var [string]
                          */
-                        $safeName = explode(' * ', $ex[0])[1];
+                        $safeName = explode(' * ', $exploded[0])[1];
 
                         /**
                          * replace the information to a safe name ' ' to '_'
@@ -995,7 +995,7 @@ class Extensions
                         /**
                          * Append information to array
                          */
-                        $extensionInfo[$safeName] = $ex[1];
+                        $extensionInfo[$safeName] = $exploded[1];
                     }
                 }
 
