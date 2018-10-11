@@ -188,7 +188,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
              * Assign eval to the object
              * @var string
              */
-            $ob = @eval(
+            $object = @eval(
                 sprintf(
                     /* String to end with */
                     '%s%s%s%s%s',
@@ -214,7 +214,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
              * Get object contents
              * @var string
              */
-            $ob = ob_get_contents();
+            $object = ob_get_contents();
 
             /**
              * Close object
@@ -229,7 +229,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
             /**
              * Checks if we got page output
              */
-            if (!$ob) {
+            if (!$object) {
                 /**
                  * Failed to get output
                  */
@@ -238,7 +238,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                 /**
                  * Got output, returing it.
                  */
-                return $ob;
+                return $object;
             }
         } else {
             /**
@@ -250,13 +250,13 @@ class Page extends \WDGWV\CMS\Controllers\Base
              * Include the file
              * @var string
              */
-            $ob = include './Data/Temp/Page_' . $uniid . '.bin';
+            $object = include './Data/Temp/Page_' . $uniid . '.bin';
 
             /**
              * Get object contents
              * @var string
              */
-            $ob = ob_get_contents();
+            $object = ob_get_contents();
 
             /**
              * Close object
@@ -271,7 +271,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
             /**
              * Check for data
              */
-            if (!$ob) {
+            if (!$object) {
                 /**
                  * Not data found, so returning error message
                  */
@@ -280,7 +280,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
                 /**
                  * Returning the found data
                  */
-                return $ob;
+                return $object;
             }
         }
     }
@@ -295,19 +295,19 @@ class Page extends \WDGWV\CMS\Controllers\Base
          * Explode URL data
          * @var [string]
          */
-        $e = explode("/", $_SERVER['REQUEST_URI']);
+        $explodedUrl = explode("/", $_SERVER['REQUEST_URI']);
 
         /**
          * Check for the active component
          * @var string
          */
-        $activeComponent = isset($e[1]) ? strtolower($e[1]) : 'Home';
+        $activeComponent = isset($explodedUrl[1]) ? strtolower($explodedUrl[1]) : 'Home';
 
         /**
          * Check subcomponent
          * @var string
          */
-        $subComponent = isset($e[2]) ? strtolower($e[2]) : '';
+        $subComponent = isset($explodedUrl[2]) ? strtolower($explodedUrl[2]) : '';
 
         /**
          * Check if there are hooks for post, get, url
