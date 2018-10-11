@@ -280,7 +280,7 @@ class Extensions
     private function loadExtensions()
     {
         /* JSON Decode */
-        $f = json_decode(
+        $loadFile = json_decode(
             /* Uncompress */
             gzuncompress(
                 /* Read cache file */
@@ -296,7 +296,7 @@ class Extensions
         /**
          * Check if there are extensions loaded.
          */
-        if (sizeof($f[1]) == 0) {
+        if (sizeof($loadFile[1]) == 0) {
             /**
              * No extensions loaded.
              * Reload extensions
@@ -312,17 +312,17 @@ class Extensions
         /**
          * Remove duplicates in loaded extensions
          */
-        $f[0] = array_unique($f[0]);
+        $loadFile[0] = array_unique($loadFile[0]);
 
         /**
          * Remove duplicates in extensionList
          */
-        $f[1] = array_unique($f[1]);
+        $loadFile[1] = array_unique($loadFile[1]);
 
         /**
          * Load the files
          */
-        foreach ($f[0] as $loadFile) {
+        foreach ($loadFile[0] as $loadFile) {
             /**
              * Append loading text to debugger
              */
@@ -376,13 +376,13 @@ class Extensions
          * Save loaded extensions
          * @var [string]
          */
-        $this->loadExtensions = $f[0];
+        $this->loadExtensions = $loadFile[0];
 
         /**
          * Save extensions
          * @var [string]
          */
-        $this->extensionList = $f[1];
+        $this->extensionList = $loadFile[1];
     }
 
     /**
