@@ -280,7 +280,7 @@ class Extensions
     private function loadExtensions()
     {
         /* JSON Decode */
-        $f = json_decode(
+        $loadFile = json_decode(
             /* Uncompress */
             gzuncompress(
                 /* Read cache file */
@@ -296,7 +296,7 @@ class Extensions
         /**
          * Check if there are extensions loaded.
          */
-        if (sizeof($f[1]) == 0) {
+        if (sizeof($loadFile[1]) == 0) {
             /**
              * No extensions loaded.
              * Reload extensions
@@ -312,62 +312,68 @@ class Extensions
         /**
          * Remove duplicates in loaded extensions
          */
-        $f[0] = array_unique($f[0]);
+        if (is_array($loadFile[0])) {
+            $loadFile[0] = array_unique($loadFile[0]);
+        }
 
         /**
          * Remove duplicates in extensionList
          */
-        $f[1] = array_unique($f[1]);
+        if (is_array($loadFile[1])) {
+            $loadFile[1] = array_unique($loadFile[1]);
+        }
 
         /**
          * Load the files
          */
-        foreach ($f[0] as $loadFile) {
-            /**
-             * Append loading text to debugger
-             */
-            Debugger::shared()->log(
-                sprintf(
-                    'loading extension: %s',
-                    $loadFile
-                )
-            );
-
-            /**
-             * Checks if extension exists
-             */
-            if (file_exists($loadFile)) {
+        if (is_array($loadFile[0])) {
+            foreach ($loadFile[0] as $loadFile) {
                 /**
-                 * Check if the extension is disabled?
-                 * @var string
+                 * Append loading text to debugger
                  */
-                $disabled = explode('/', $loadFile);
+                Debugger::shared()->log(
+                    sprintf(
+                        'loading extension: %s',
+                        $loadFile
+                    )
+                );
 
                 /**
-                 * Append disabled to the array
+                 * Checks if extension exists
                  */
-                $disabled[sizeof($disabled) - 1] = 'disabled';
-
-                /**
-                 * Checks debugmode status
-                 */
-                if (!\WDGWV\CMS\Config::shared()->debug()) {
+                if (file_exists($loadFile)) {
                     /**
-                     * Checks if there is not a file called 'disabled'.
-                     * And we are in debugmode
+                     * Check if the extension is disabled?
+                     * @var string
                      */
-                    if (!file_exists(implode('/', $disabled))) {
+                    $disabled = explode('/', $loadFile);
+
+                    /**
+                     * Append disabled to the array
+                     */
+                    $disabled[sizeof($disabled) - 1] = 'disabled';
+
+                    /**
+                     * Checks debugmode status
+                     */
+                    if (!\WDGWV\CMS\Config::shared()->debug()) {
                         /**
-                         * No disabled parameter, so load it!
+                         * Checks if there is not a file called 'disabled'.
+                         * And we are in debugmode
+                         */
+                        if (!file_exists(implode('/', $disabled))) {
+                            /**
+                             * No disabled parameter, so load it!
+                             */
+                            require_once $loadFile;
+                        }
+                    } else {
+                        /**
+                         * In production mode,
+                         * We don't block files due 'disabled' files
                          */
                         require_once $loadFile;
                     }
-                } else {
-                    /**
-                     * In production mode,
-                     * We don't block files due 'disabled' files
-                     */
-                    require_once $loadFile;
                 }
             }
         }
@@ -376,13 +382,13 @@ class Extensions
          * Save loaded extensions
          * @var [string]
          */
-        $this->loadExtensions = $f[0];
+        $this->loadExtensions = $loadFile[0];
 
         /**
          * Save extensions
          * @var [string]
          */
-        $this->extensionList = $f[1];
+        $this->extensionList = $loadFile[1];
     }
 
     /**
@@ -916,36 +922,36 @@ class Extensions
              * Load the contents
              * @var string
              */
-            $fc = file_get_contents($ofExtensionFilePath);
+            $fileContents = file_get_contents($ofExtensionFilePath);
 
             /**
              * Check if there is any content
              */
-            if (!empty($fc)) {
+            if (!empty($fileContents)) {
                 /**
                  * Check for the end of the comment string.
                  * And pick the contents before the end.
                  * @var string
                  */
-                $fe = explode('*/', $fc)[0];
+                $fileExploded = explode('*/', $fileContents)[0];
 
                 /**
                  * Check for the begin of the comment string.
                  * And pick the contents after the begin.
                  * @var string
                  */
-                $fe = explode('/*', $fe)[1];
+                $fileExploded = explode('/*', $fileExploded)[1];
 
                 /**
                  * Explode newlines
                  * @var [string]
                  */
-                $fe = explode(PHP_EOL, $fe);
+                $fileExploded = explode(PHP_EOL, $fileExploded);
 
                 /**
                  * Loop trough the information dictionary.
                  */
-                foreach ($fe as $informationDict) {
+                foreach ($fileExploded as $informationDict) {
                     /**
                      * Checks if the information matches the information we'll search for.
                      * And the length is more then 3 characters.
@@ -955,12 +961,12 @@ class Extensions
                          * Explode the information
                          * @var [string]
                          */
-                        $ex = explode(": ", $informationDict);
+                        $exploded = explode(": ", $informationDict);
 
                         /**
                          * Checks if the information exists
                          */
-                        if (!isset($ex[1])) {
+                        if (!isset($exploded[1])) {
                             /**
                              * Nope, continue with a new value.
                              */
@@ -972,7 +978,7 @@ class Extensions
                          * ' * '
                          * @var [string]
                          */
-                        $safeName = explode(' * ', $ex[0])[1];
+                        $safeName = explode(' * ', $exploded[0])[1];
 
                         /**
                          * replace the information to a safe name ' ' to '_'
@@ -995,7 +1001,7 @@ class Extensions
                         /**
                          * Append information to array
                          */
-                        $extensionInfo[$safeName] = $ex[1];
+                        $extensionInfo[$safeName] = $exploded[1];
                     }
                 }
 

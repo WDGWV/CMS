@@ -2231,8 +2231,10 @@ class TemplateParser extends WDGWV
          * Display error.
          */
         echo sprintf(
-            'Fatal Error: %s',
-            $errorDescription
+            'Fatal Error: %s (%s@%s)',
+            $errorDescription,
+            $errorLine,
+            $errorFile
         );
 
         /**

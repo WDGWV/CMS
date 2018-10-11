@@ -172,8 +172,8 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         $tableHeader .= '</span>';
 
         // return array("Title", "Contents");
-        $d = opendir('./Data/Themes/');
-        while (false !== ($file = readdir($d))) {
+        $directory = opendir('./Data/Themes/');
+        while (false !== ($file = readdir($directory))) {
             if (($file != '.' && $file != '..') &&
                 is_dir('./Data/Themes/' . $file)
             ) {

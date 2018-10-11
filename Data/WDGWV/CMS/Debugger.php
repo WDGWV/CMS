@@ -310,24 +310,25 @@ class Debugger
 
         $type = gettype($var);
 
-        $c['bg'] = ini_get('highlight.bg');
-        $c['comment'] = ini_get('highlight.comment');
-        $c['default'] = ini_get('highlight.default');
-        $c['html'] = ini_get('highlight.html');
-        $c['keyword'] = ini_get('highlight.keyword');
-        $c['string'] = ini_get('highlight.string');
+        $color = array();
+        $color['bg'] = ini_get('highlight.bg');
+        $color['comment'] = ini_get('highlight.comment');
+        $color['default'] = ini_get('highlight.default');
+        $color['html'] = ini_get('highlight.html');
+        $color['keyword'] = ini_get('highlight.keyword');
+        $color['string'] = ini_get('highlight.string');
 
         $sp = @implode('', $this->warrayFill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
         if (is_resource($var) || $type == 'resource') {
             if (get_resource_type($var) == 'stream') {
                 $streamData = stream_get_meta_data($var);
-                $ret = '<span style="color: ' . $c['keyword'] . ';">';
-                $ret .= 'Recource: </span><strong style="color: ' . $c['html'];
+                $ret = '<span style="color: ' . $color['keyword'] . ';">';
+                $ret .= 'Recource: </span><strong style="color: ' . $color['html'];
                 $ret .= ';">Stream</strong> ' . $this->dump($streamData, $depth + 1, false);
             } else {
-                $ret = '<span style="color: ' . $c['keyword'] . ';">Recource: ';
-                $ret .= '</span><strong style="color: ' . $c['html'] . ';">';
+                $ret = '<span style="color: ' . $color['keyword'] . ';">Recource: ';
+                $ret .= '</span><strong style="color: ' . $color['html'] . ';">';
                 $ret .= ucfirst(get_resource_type($var)) . '</strong>';
             }
         } elseif (is_array($var) || $type == 'array') {
@@ -345,7 +346,7 @@ class Debugger
                     $dots = '';
                 }
 
-                $ret = '<a href="#" style="color: ' . $c['default'] . '; ';
+                $ret = '<a href="#" style="color: ' . $color['default'] . '; ';
                 $ret .= 'text-decoration: none;" onclick="arr = document.';
                 $ret .= 'getElementById(\'arr_' . $uniqueId . '\'); dots ';
                 $ret .= '= document.getElementById(\'dots_' . $uniqueId;
@@ -353,36 +354,36 @@ class Debugger
                 $ret .= 'e.display = \'inline\'; dots.innerHTML = \'\'} e';
                 $ret .= 'lse {arr.style.display = \'none\'; dots.innerHTM';
                 $ret .= 'L = \'...\'} this.blur(); return false;">array</';
-                $ret .= 'a> <span style="color: ' . $c['html'] . ';">(</span>';
+                $ret .= 'a> <span style="color: ' . $color['html'] . ';">(</span>';
                 $ret .= '<code style="display: ' . $default_state;
                 $ret .= ';" id="arr_' . $uniqueId . '"><br>';
                 $sp = $sp . '&nbsp;&nbsp;&nbsp;&nbsp;';
 
                 foreach ($var as $k => &$v) {
-                    $ret .= $sp . '<span style="color: ' . $c['default'] .
+                    $ret .= $sp . '<span style="color: ' . $color['default'] .
                     ';">[</span>' . $this->dump($k, false, false) .
-                    '<span style="color: ' . $c['default'] .
+                    '<span style="color: ' . $color['default'] .
                     ';">] => </span>' . $this->dump($v, $depth, false);
-                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
+                    $ret .= ($i-- > 1 ? '<span style="color: ' . $color['html'] . ';">,</span>' : '') . '<br>';
                 }
                 $depth--;
                 $sp = @implode('', $this->warrayFill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
-                $ret .= $sp . '</code><span style="color: ' . $c['html'] .
+                $ret .= $sp . '</code><span style="color: ' . $color['html'] .
                     ';" id="dots_' . $uniqueId . '" >' . $dots .
-                    '</span><span style="color: ' . $c['html'] . ';">)</span>';
+                    '</span><span style="color: ' . $color['html'] . ';">)</span>';
             } else {
-                $ret = '<span style="color: ' . $c['default'] .
-                    ';">array </span> <span style="color: ' . $c['html'] .
+                $ret = '<span style="color: ' . $color['default'] .
+                    ';">array </span> <span style="color: ' . $color['html'] .
                     ';">( ' . (
                     $recursed ?
                     '<strong style="color: red;">' . $recursed . '</strong>' :
                     '') . ' )</span>';
             }
         } elseif (is_bool($var) || $type == 'bool') {
-            $ret = '<span style="color: ' . $c['keyword'] . ';">' . ($var ? 'true' : 'false') . '</span>';
+            $ret = '<span style="color: ' . $color['keyword'] . ';">' . ($var ? 'true' : 'false') . '</span>';
         } elseif (is_float($var) || is_int($var) || is_numeric($var) || $type == 'double' || $type == 'integer') {
-            $ret = '<span style="color: ' . $c['string'] . ';">' . $var . '</span>';
+            $ret = '<span style="color: ' . $color['string'] . ';">' . $var . '</span>';
         } elseif (is_object($var) || $type == 'object') {
             $vars = get_object_vars($var);
             $methods = get_class_methods($var);
@@ -402,14 +403,14 @@ class Debugger
             $uniqueId = rand();
 
             if ($i && !$recursed) {
-                $ret = '<a href="#" style="color: ' . $c['keyword']
+                $ret = '<a href="#" style="color: ' . $color['keyword']
                     . '; text-decoration: none;" onclick="obj = document.getElementById(\'obj_' .
                     $uniqueId . '\'); dots = document.getElementById(\'dots_' . $uniqueId .
                     '\'); if(obj.style.display == \'none\') {obj.style.display = \'inline\'; ' .
                     'dots.innerHTML = \'\'} else {obj.style.display = \'none\'; dots.innerHTM' .
                     'L = \'...\'} this.blur(); return false;">Object: <span style="color: ' .
-                    $c['default'] . ';">' . $tree . '</span></a> <span style="color: ' .
-                    $c['html'] . ';">{</span>';
+                    $color['default'] . ';">' . $tree . '</span></a> <span style="color: ' .
+                    $color['html'] . ';">{</span>';
 
                 if (!$firstcall && $i > 2) {
                     $default_state = 'none';
@@ -425,48 +426,48 @@ class Debugger
                 $objdepth++;
 
                 foreach ($vars as $k => &$v) {
-                    $ret .= $sp . '<span style="color: ' . $c['default'] .
+                    $ret .= $sp . '<span style="color: ' . $color['default'] .
                     ';">[</span>' . $this->dump($k, false, false) .
-                    '<span style="color: ' . $c['default'] . ';">] => </span>' .
+                    '<span style="color: ' . $color['default'] . ';">] => </span>' .
                     $this->dump($v, $depth, false, $objdepth);
-                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] . ';">,</span>' : '') . '<br>';
+                    $ret .= ($i-- > 1 ? '<span style="color: ' . $color['html'] . ';">,</span>' : '') . '<br>';
                 }
 
                 foreach ($methods as $k => $v) {
-                    $ret .= $sp . '<span style="color: ' . $c['default'] .
-                        ';">function</span> <span style="color: ' . $c['html'] .
+                    $ret .= $sp . '<span style="color: ' . $color['default'] .
+                        ';">function</span> <span style="color: ' . $color['html'] .
                         ';">' . $v . '()</span>';
-                    $ret .= ($i-- > 1 ? '<span style="color: ' . $c['html'] .
+                    $ret .= ($i-- > 1 ? '<span style="color: ' . $color['html'] .
                         ';">,</span>' : '') . '<br>';
                 }
                 $depth--;
                 $sp = @implode('', $this->warrayFill(0, $depth, '&nbsp;&nbsp;&nbsp;&nbsp;'));
 
                 $ret .= $sp . '</code><span id="dots_' . $uniqueId .
-                    '" style="color: ' . $c['html'] . '">' . $dots .
-                    '</span><span style="color: ' . $c['html'] .
+                    '" style="color: ' . $color['html'] . '">' . $dots .
+                    '</span><span style="color: ' . $color['html'] .
                     ';">}</span>';
             } else {
-                $ret = '<span style="color: ' . $c['keyword'] .
-                    ';">Object: </span><span style="color: ' . $c['default'] .
+                $ret = '<span style="color: ' . $color['keyword'] .
+                    ';">Object: </span><span style="color: ' . $color['default'] .
                     ';">' . $tree . '</span> <span style="color: ' .
-                    $c['html'] . ';">{ ' . (
+                    $color['html'] . ';">{ ' . (
                     $recursed ?
                     '<strong style="color: red;">' . $recursed . '</strong>' :
                     ''
                 ) . ' }</span>';
             }
         } elseif (is_string($var) || $type == 'string') {
-            $ret = '<span style="color: ' . $c['string'] . ';">\'' . $var . '\'</span>';
+            $ret = '<span style="color: ' . $color['string'] . ';">\'' . $var . '\'</span>';
         } elseif (is_null($var) || $type == 'NULL') {
-            $ret = '<span style="color: ' . $c['keyword'] . ';">NULL</span>';
+            $ret = '<span style="color: ' . $color['keyword'] . ';">NULL</span>';
         } else {
             $ret = '<strong style="color: red;">Unknown: </strong><span style="color: ';
-            $ret .= $c['html'] . ';">' . gettype($var) . '</span>';
+            $ret .= $color['html'] . ';">' . gettype($var) . '</span>';
         }
 
         if ($firstcall) {
-            return '<code style="display: block; background-color: ' . $c['bg'] .
+            return '<code style="display: block; background-color: ' . $color['bg'] .
                 '; border: 1px solid black; padding: 5px; margin: 5px;">' . $ret . '</code>';
         } else {
             return $ret;

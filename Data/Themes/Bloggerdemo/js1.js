@@ -131,7 +131,7 @@ jQuery(function ($) {
                         var stopOpacity = 1;
                         var colorRgba = splitByTokens(stopColor, 'rgba(', ')', true);
                         var stopOffset = $.trim(stopValues[1]);
-                        if (colorRgba !== "") {
+                        if (colorRgba !=== "") {
                             var rgba = colorRgba.split(',');
                             if (rgba.length < 4) {
                                 continue;
@@ -242,7 +242,7 @@ jQuery(function ($) {
     $("iframe[src]").each(function () {
         var iframe = $(this);
         var src = iframe.attr("src");
-        if (src == "") {
+        if (src === "") {
             return;
         }
         if (src.lastIndexOf("?") !== -1) {
@@ -381,7 +381,7 @@ jQuery(window).bind("resize", (function ($) {
     /*global responsiveDesign */
     "use strict";
     return function () {
-        if (typeof responsiveDesign !== "undefined" && responsiveDesign.isResponsive)
+        if (typeof responsiveDesign !=== "undefined" && responsiveDesign.isResponsive)
             return;
         var sheetLeft = $(".art-sheet").offset().left;
         $("header.art-header #art-flash-area").each(function () {
@@ -516,7 +516,7 @@ jQuery(function ($) {
         fixRssIconLineHeight("art-rss-tag-icon");
         if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
             rssIcons.each(function () {
-                if ($.trim($(this).html()) === "") {
+                if ($.trim($(this).html()) ==== "") {
                     $(this).css("vertical-align", "middle");
                 }
             });
@@ -792,7 +792,7 @@ jQuery(function () {
             prefix: (function() {
                 var result;
                 $.each($.browser, function(key, value) {
-                    if (key === "version") {
+                    if (key ==== "version") {
                         return true;
                     }
                     return (result = {
@@ -857,7 +857,7 @@ jQuery(function () {
             height = element.outerHeight();
             if (initialSize && parseInt(initialSize.width, 10) !== 0) {
                 multiplier = width / initialSize.width;
-                if (motion === "fade") {
+                if (motion ==== "fade") {
                     $.each(element.children(), function (i) {
                         $(this).css("background-position", getCssPositions(slides[i].positions, { x: 0, y: 0 }));
                     });
@@ -895,7 +895,7 @@ jQuery(function () {
 
         this.next = function(index) {
             var next;
-            if (direction === "next") {
+            if (direction ==== "next") {
                 next = (index + 1) % slides.length;
             } else {
                 next = index - 1;
@@ -909,15 +909,15 @@ jQuery(function () {
         this.items = function(prev, next, move) {
             var prevItem = { x: 0, y: 0 };
             var nextItem = { x: 0, y: 0 };
-            var isDirectionNext = direction === "next";
-            if (motion === "horizontal") {
+            var isDirectionNext = direction ==== "next";
+            if (motion ==== "horizontal") {
                 nextItem.x = isDirectionNext ? width : -width;
                 nextItem.y = 0;
                 if (move) {
                     prevItem.x += isDirectionNext ? -width : width;
                     nextItem.x += isDirectionNext ? -width : width;
                 }
-            } else if (motion === "vertical") {
+            } else if (motion ==== "vertical") {
                 nextItem.x = 0;
                 nextItem.y = isDirectionNext ? height : -height;
                 if (move) {
@@ -933,7 +933,7 @@ jQuery(function () {
                 result.push({ images: next.images, positions: getCssPositions(next.positions, nextItem), sizes: next.sizes });
             }
             
-            if (direction === "next") {
+            if (direction ==== "next") {
                 result.reverse();
             }
 
@@ -983,8 +983,8 @@ jQuery(function () {
         this.move = function (direction, next) {
             var activeItem = element.find(".active"),
                 nextItem = next || activeItem[direction](),
-                innerDirection = this.settings.direction === "next" ? "forward" : "back",
-                reset = direction === "next" ? "first" : "last",
+                innerDirection = this.settings.direction ==== "next" ? "forward" : "back",
+                reset = direction ==== "next" ? "first" : "last",
                 moving = interval,
                 slider = this, tmp;
 
@@ -1125,14 +1125,14 @@ jQuery(function () {
         return this.each(function () {
             var element = $(this),
                 data = element.data("slider"),
-                options = typeof arg === "object" && arg;
+                options = typeof arg ==== "object" && arg;
 
             if (!data) {
                 data = new Slider(element, options);
                 element.data("slider", data);
             }
             
-            if (typeof arg === "string" && data[arg]) {
+            if (typeof arg ==== "string" && data[arg]) {
                 data[arg]();
             } else if (data.settings.auto && element.is(":visible")) {
                 data.start();
@@ -1149,7 +1149,7 @@ jQuery(window).bind("resize", (function ($) {
     /*global responsiveDesign */
     "use strict";
     return function () {
-        if (typeof responsiveDesign !== "undefined" && responsiveDesign.isResponsive) {
+        if (typeof responsiveDesign !=== "undefined" && responsiveDesign.isResponsive) {
             $("header.art-header .art-shapes").children().css("left", "");
             return;
         }
@@ -1188,9 +1188,9 @@ var processHeaderMultipleBg = (function ($) {
         var bgpositions = "".split(",");
         for (var i = bgimages.length - 1; i >= 0; i--) {
             var bgimage = $.trim(bgimages[i]);
-            if (bgimage === "")
+            if (bgimage ==== "")
                 continue;
-            if (path !== "") {
+            if (path !=== "") {
                 bgimage = bgimage.replace(/(url\(['"]?)/i, "$1" + path);
             }
             header.append("<div style=\"position:absolute;top:0;left:0;width:100%;height:100%;background:" + bgimage + " " + bgpositions[i] + " no-repeat\">");
@@ -1290,7 +1290,7 @@ var artFixFooterMenu = (function ($) {
 var artFixPostHeaders = (function ($) {
     return function () {
         $("div.art-postmetadataheader").each(function (i) {
-            if ($("div, h2", this).length == 0) $(this).css("display", "none");
+            if ($("div, h2", this).length === 0) $(this).css("display", "none");
         });
     };
 })(jQuery);
@@ -1301,7 +1301,7 @@ jQuery(function () {
 
 var artHeaderWidget = (function ($) {
     return function () {
-        if (showHeader == null || showHeader == false) {
+        if (showHeader === null || showHeader === false) {
             $("#Header1").css("display", "none");
         }
     };
@@ -1313,7 +1313,7 @@ jQuery(function () {
 
 var artVMenuWidget = (function ($) {
     return function () {
-        if (showVMenu == null || showVMenu == false) {
+        if (showVMenu === null || showVMenu === false) {
             $("#LinkList97").css("display", "none");
             $("#BlogArchive99").css("display", "none");
             $("#PageList99").css("display", "none");
@@ -1328,7 +1328,7 @@ jQuery(function () {
 var artFixPostFooters = (function ($) {
     return function () {
         $("div.art-postmetadatafooter > div.art-postfootericons").each(function (i) {
-            if ($("img, a", this).length == 0) $(this).parent("div.art-postmetadatafooter").css("display", "none");
+            if ($("img, a", this).length === 0) $(this).parent("div.art-postmetadatafooter").css("display", "none");
         });
     };
 })(jQuery);
@@ -1340,7 +1340,7 @@ jQuery(function () {
 var showHomePage = false;
 var artFixTopCustomMenu = (function ($) {
     return function () {
-        if ($("#LinkList99").length == 0) {
+        if ($("#LinkList99").length === 0) {
             var navSection = $("#crosscol");
             if (navSection.length > 0) {
                 if (showHomePage) {
@@ -1374,18 +1374,18 @@ var artDisplayTopMenu = (function ($) {
         for (var i = 0; i < menuitems.length; i++) {
             var itemname = menuitems[i][0];
             var itemlink = menuitems[i][1];
-            if (itemlink == "http://./") itemlink = "#";
+            if (itemlink === "http://./") itemlink = "#";
 
             if (itemname.charAt(0) != "-") {
-                if (subList3.length != 0) {
+                if (subList3.length !== 0) {
                     $("li:last", subList2).append(subList3);
                     subList3 = $("");
                 }
-                if (subList2.length != 0) {
+                if (subList2.length !== 0) {
                     $("li:last", subList1).append(subList2);
                     subList2 = $("");
                 }
-                if (subList1.length != 0) {
+                if (subList1.length !== 0) {
                     $("ul.art-hmenu li:last").append(subList1);
                     subList1 = $("");
                 }
@@ -1394,39 +1394,39 @@ var artDisplayTopMenu = (function ($) {
                 else
                     $("ul.art-hmenu").append('<li><a href="' + itemlink + '">' + itemname + '</a></li>');
             } else {
-                if (itemname.charAt(2) == "-") {
+                if (itemname.charAt(2) === "-") {
                     if (subList3.length == 0) subList3 = $("<ul></ul>");
                     subList3.append('<li><a href="' + itemlink + '">' + itemname.substr(3, itemname.length) + '</a></li>');
-                } else if (itemname.charAt(1) == "-") {
-                    if (subList3.length != 0) {
+                } else if (itemname.charAt(1) === "-") {
+                    if (subList3.length !== 0) {
                         $("li:last", subList2).append(subList3);
                         subList3 = $("");
                     }
                     if (subList2.length == 0) subList2 = $("<ul></ul>");
                     subList2.append('<li><a href="' + itemlink + '">' + itemname.substr(2, itemname.length) + '</a></li>');
-                } else if (itemname.charAt(0) == "-") {
-                    if (subList3.length != 0) {
+                } else if (itemname.charAt(0) === "-") {
+                    if (subList3.length !== 0) {
                         $("li:last", subList2).append(subList3);
                         subList3 = $("");
                     }
-                    if (subList2.length != 0) {
+                    if (subList2.length !== 0) {
                         $("li:last", subList1).append(subList2);
                         subList2 = $("");
                     }
-                    if (subList1.length == 0) subList1 = $("<ul></ul>");
+                    if (subList1.length === 0) subList1 = $("<ul></ul>");
                     subList1.append('<li><a href="' + itemlink + '">' + itemname.substr(1, itemname.length) + '</a></li>');
                 }
             }
         }
-        if (subList3.length != 0) {
+        if (subList3.length !== 0) {
             $("li:last", subList2).append(subList3);
             subList3 = $("");
         }
-        if (subList2.length != 0) {
+        if (subList2.length !== 0) {
             $("li:last", subList1).append(subList2);
             subList2 = $("");
         }
-        if (subList1.length != 0) {
+        if (subList1.length !== 0) {
             $("ul.art-hmenu li:last").append(subList1);
             subList1 = $("");
         }
@@ -1445,18 +1445,18 @@ var artDisplayVMenu = (function ($) {
         for (var i = 0; i < vmenuitems.length; i++) {
             var itemname = vmenuitems[i][0];
             var itemlink = vmenuitems[i][1];
-            if (itemlink == "http://./") itemlink = "#";
+            if (itemlink === "http://./") itemlink = "#";
 
-            if (itemname.charAt(0) != "-") {
-                if (subList3.length != 0) {
+            if (itemname.charAt(0) !== "-") {
+                if (subList3.length !== 0) {
                     $("li:last", subList2).append(subList3);
                     subList3 = $("");
                 }
-                if (subList2.length != 0) {
+                if (subList2.length !== 0) {
                     $("li:last", subList1).append(subList2);
                     subList2 = $("");
                 }
-                if (subList1.length != 0) {
+                if (subList1.length !== 0) {
                     $("ul.art-vmenu li:last").append(subList1);
                     subList1 = $("");
                 }
@@ -1465,48 +1465,48 @@ var artDisplayVMenu = (function ($) {
                 else
                     $("ul.art-vmenu").append('<li><a href="' + itemlink + '">' + itemname + '</a></li>');
             } else {
-                if (itemname.charAt(2) == "-") {
-                    if (subList3.length == 0) subList3 = $("<ul></ul>");
-                    if (window.location == itemlink)
+                if (itemname.charAt(2) === "-") {
+                    if (subList3.length === 0) subList3 = $("<ul></ul>");
+                    if (window.location === itemlink)
                         subList3.append('<li><a href="' + itemlink + '" class="active">' + itemname.substr(3, itemname.length) + '</a></li>');
                     else
                         subList3.append('<li><a href="' + itemlink + '">' + itemname.substr(3, itemname.length) + '</a></li>');
-                } else if (itemname.charAt(1) == "-") {
-                    if (subList3.length != 0) {
+                } else if (itemname.charAt(1) === "-") {
+                    if (subList3.length !== 0) {
                         $("li:last", subList2).append(subList3);
                         subList3 = $("");
                     }
-                    if (subList2.length == 0) subList2 = $("<ul></ul>");
-                    if (window.location == itemlink)
+                    if (subList2.length === 0) subList2 = $("<ul></ul>");
+                    if (window.location === itemlink)
                         subList2.append('<li><a href="' + itemlink + '" class="active">' + itemname.substr(2, itemname.length) + '</a></li>');
                     else
                         subList2.append('<li><a href="' + itemlink + '">' + itemname.substr(2, itemname.length) + '</a></li>');
-                } else if (itemname.charAt(0) == "-") {
-                    if (subList3.length != 0) {
+                } else if (itemname.charAt(0) === "-") {
+                    if (subList3.length !== 0) {
                         $("li:last", subList2).append(subList3);
                         subList3 = $("");
                     }
-                    if (subList2.length != 0) {
+                    if (subList2.length !== 0) {
                         $("li:last", subList1).append(subList2);
                         subList2 = $("");
                     }
-                    if (subList1.length == 0) subList1 = $("<ul></ul>");
-                    if (window.location == itemlink)
+                    if (subList1.length === 0) subList1 = $("<ul></ul>");
+                    if (window.location === itemlink)
                         subList1.append('<li><a href="' + itemlink + '" class="active">' + itemname.substr(1, itemname.length) + '</a></li>');
                     else
                         subList1.append('<li><a href="' + itemlink + '">' + itemname.substr(1, itemname.length) + '</a></li>');
                 }
             }
         }
-        if (subList3.length != 0) {
+        if (subList3.length !== 0) {
             $("li:last", subList2).append(subList3);
             subList3 = $("");
         }
-        if (subList2.length != 0) {
+        if (subList2.length !== 0) {
             $("li:last", subList1).append(subList2);
             subList2 = $("");
         }
-        if (subList1.length != 0) {
+        if (subList1.length !== 0) {
             $("ul.art-vmenu li:last").append(subList1);
             subList1 = $("");
         }
@@ -1549,7 +1549,7 @@ jQuery(function ($) {
         var bl_name = $(this).attr("id");
         $("#" + bl_name + "_show-all").click(function () {
             $("#" + bl_name + "_blogs li").each(function (i) {
-                if ($(this).css("display") == "none") {
+                if ($(this).css("display") === "none") {
                     $(this).css("display", "block");
                     $(this).attr("class", bl_name + "_blogs_hidden");
                     $("#" + bl_name + "_show-all").css("display", "none");
@@ -1584,7 +1584,7 @@ var artTransformSearchWidget = (function ($) {
             google.setOnLoadCallback(function () {
                 $("form.gsc-search-box").addClass("art-search");
                 $("input.gsc-search-button").addClass("art-search-button").prependTo("form.gsc-search-box");
-                if ($("input.gsc-search-button").css("background-image") != "none") {
+                if ($("input.gsc-search-button").css("background-image") !== "none") {
                     $("input.gsc-search-button").attr("value", "");
                 }
                 $("input.gsc-input").prependTo("form.gsc-search-box");
