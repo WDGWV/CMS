@@ -113,8 +113,6 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
                 $themePath . '/screenshot.png',
                 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
             );
-        } else {
-            // $table .= '<td>';
         }
 
         if (file_exists($themePath)) {

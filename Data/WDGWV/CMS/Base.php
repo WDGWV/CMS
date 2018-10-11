@@ -298,15 +298,15 @@ class Base extends \WDGWV\General\WDGWV
             /* All Rights reserved */
             '%s&#46;',
             /* Copyright */
-            $this->h(function_exists('__') ? \__('Copyright') : ('Copyright')),
+            $this->chrToOrd(function_exists('__') ? \__('Copyright') : ('Copyright')),
             /* YEAR */
-            $this->h(@date('Y')),
+            $this->chrToOrd(@date('Y')),
             /* Title */
-            $this->h($this->getTitle()),
+            $this->chrToOrd($this->getTitle()),
             /* Powered by */
-            $this->h(function_exists('__') ? \__('Powered by') : ('Powered by')),
+            $this->chrToOrd(function_exists('__') ? \__('Powered by') : ('Powered by')),
             /* All rights reserved */
-            $this->h(function_exists('__') ? \__('All rights reserved') : ('All rights reserved'))
+            $this->chrToOrd(function_exists('__') ? \__('All rights reserved') : ('All rights reserved'))
         );
     }
 
@@ -494,34 +494,34 @@ class Base extends \WDGWV\General\WDGWV
     /**
      * h
      * CHR to ORD. (&#ORD;) for HTML-encoded messages.
-     * @param string $s String to encode
+     * @param string $inputString String to encode
      * @since Version 1.0
      * @return string encoded string
      */
-    private function h($s)
+    private function chrToOrd($inputString)
     {
         /**
          * Create a temporary out string
          * @var string
          */
-        $out = '';
+        $outputString = '';
 
         /**
          * Walk trough the string
          */
-        for ($i = 0;isset($s[$i]); $i++) {
+        for ($i = 0;isset($inputString[$i]); $i++) {
             /**
              * Append to the temporary string
              */
-            $out .= sprintf(
+            $outputString .= sprintf(
                 '&#%s;',
-                ord($s[$i])
+                ord($inputString[$i])
             );
         }
 
         /**
          * Return encoded string.
          */
-        return $out;
+        return $outputString;
     }
 }

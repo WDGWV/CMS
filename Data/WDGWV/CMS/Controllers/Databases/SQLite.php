@@ -250,6 +250,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         );
 
         foreach ($query as $users) {
+            if (isset($users)) {}
             $count++;
         }
 
@@ -319,6 +320,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         );
 
         foreach ($query as $users) {
+            if (isset($users)) {}
             $count++;
         }
 
@@ -413,6 +415,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         $keys = array();
 
         foreach ($params as $key => $value) {
+            if (isset($value)) {}
             if (is_string($key)) {
                 $keys[] = '/' . $key . '/';
             } else {
@@ -832,23 +835,23 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
          * Executed statement
          * @var object
          */
-        $e = $stmt->execute();
+        $execution = $stmt->execute();
 
         /**
          * fetched content
          * @var [string]
          */
-        $x = $stmt->fetchAll();
+        $fechedData = $stmt->fetchAll();
 
         /**
          * data check, If less then 1
          * then skip.
          */
-        if (sizeof($x) > 1) {
+        if (sizeof($fechedData) > 1) {
             /**
              * We've got values
              */
-            return $x;
+            return $fechedData;
         }
 
         /**
@@ -899,18 +902,18 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
          * Fetch contents
          * @var [string]
          */
-        $x = $new->fetch(\PDO::FETCH_BOTH);
+        $fechedData = $new->fetch(\PDO::FETCH_BOTH);
 
         /**
          * data check, If less then 1
          * then skip.
          */
-        if (sizeof($x) > 1) {
+        if (sizeof($fechedData) > 1) {
             /**
              * We've got values
              * hack it togheter.
              */
-            return array(0 => $x);
+            return array(0 => $fechedData);
         }
 
         /**
