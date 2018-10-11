@@ -835,7 +835,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
          * Executed statement
          * @var object
          */
-        $execution = $stmt->execute();
+        $stmt->execute();
 
         /**
          * fetched content
