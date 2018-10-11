@@ -1,6 +1,4 @@
-<?php /**
- * This is the /index.php file for WDGWV CMS.
- */
+<?php /** This is the /index.php file for WDGWV CMS. */
 
 /*
 ------------------------------------------------------------
