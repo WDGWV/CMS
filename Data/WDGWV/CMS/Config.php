@@ -64,10 +64,10 @@ class Config extends \WDGWV\General\WDGWV
     {
         if (class_exists('\WDGWV\General\WDGWV')) {
             return (new \WDGWV\General\WDGWV())->debug;
-        } else {
-            E_USER_ERROR('CLASS WDGWV IS MISSING. COULD NOT INITIALIZE!');
-            return false; // Error.
         }
+
+        E_USER_ERROR('CLASS WDGWV IS MISSING. COULD NOT INITIALIZE!');
+        return false;
     }
     /**
      * DO NOT CHANGE BELOW

@@ -67,9 +67,9 @@ namespace WDGWV\CMS\Controllers\Databases;
 class Controller extends \WDGWV\CMS\Controllers\Databases\Base
 {
     /**
-     * @var mixed $db Database class.
+     * @var mixed $database Database class.
      */
-    private $db = false;
+    private $database = false;
 
     /**
      * $dbCache
@@ -104,10 +104,10 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     protected function __construct()
     {
         parent::__construct();
-        $d = (new \WDGWV\CMS\Config())->database();
-        $this->db = call_user_func("\\WDGWV\\CMS\\Controllers\\Databases\\{$d}::shared");
-        if ($this->db) {
-            if (!is_object($this->db)) {
+        $databaseController = (new \WDGWV\CMS\Config())->database();
+        $this->database = call_user_func("\\WDGWV\\CMS\\Controllers\\Databases\\{$databaseController}::shared");
+        if ($this->database) {
+            if (!is_object($this->database)) {
                 echo "Failed to load database";
                 exit;
             }
@@ -131,7 +131,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postExists($postTitle, $strict = false)
     {
-        return $this->db->postExists(
+        return $this->database->postExists(
             $postTitle,
             $strict
         );
@@ -144,7 +144,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postGetLast()
     {
-        return $this->db->postGetLast();
+        return $this->database->postGetLast();
     }
 
     /**
@@ -160,7 +160,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postCreate($postTitle, $postContents, $postKeywords, $postDate, $postOptions, $postID = 0)
     {
-        return $this->db->postCreate(
+        return $this->database->postCreate(
             $postTitle,
             $postContents,
             $postKeywords,
@@ -179,7 +179,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postLoad($postID, $strict = false)
     {
-        return $this->db->postLoad(
+        return $this->database->postLoad(
             $postID,
             $strict
         );
@@ -193,7 +193,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postRemove($postID)
     {
-        return $this->db->postRemove(
+        return $this->database->postRemove(
             $postID
         );
     }
@@ -211,7 +211,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function postEdit($postID, $postTitle, $postContents, $postKeywords, $postDate, $postOptions)
     {
-        return $this->db->postEdit(
+        return $this->database->postEdit(
             $postID,
             $postTitle,
             $postContents,
@@ -229,7 +229,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     private function userExists($userID)
     {
-        return $this->db->userExists(
+        return $this->database->userExists(
             $userID
         );
     }
@@ -242,7 +242,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function userLoad($userID)
     {
-        return $this->db->userLoad(
+        return $this->database->userLoad(
             $userID
         );
     }
@@ -256,7 +256,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function userLogin($userID, $userPassword)
     {
-        return $this->db->userLogin(
+        return $this->database->userLogin(
             $userID,
             $userPassword
         );
@@ -270,7 +270,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function userDelete($userID)
     {
-        return $this->db->userDelete(
+        return $this->database->userDelete(
             $userID
         );
     }
@@ -286,7 +286,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function userRegister($userID, $userPassword, $userEmail, $options = array())
     {
-        return $this->db->userRegister(
+        return $this->database->userRegister(
             $userID,
             $userPassword,
             $userEmail,
@@ -306,7 +306,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function pageCreate($pageTitle, $pageContents, $pageKeywords, $pageOptions = array(), $pageID = 0)
     {
-        return $this->db->pageCreate(
+        return $this->database->pageCreate(
             $pageTitle,
             $pageContents,
             $pageKeywords,
@@ -329,13 +329,13 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
             'pageExists(%s%s) %s',
             $pageTitleOrID,
             ($strict ? ' (strict)' : ''),
-            ($this->db->pageExists(
+            ($this->database->pageExists(
                 $pageTitleOrID,
                 $strict
             ) ? 'Exists' : 'Not found')
         );
 
-        return $this->db->pageExists(
+        return $this->database->pageExists(
             $pageTitleOrID,
             $strict
         );
@@ -357,7 +357,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
             ($strict ? ' (strict)' : ''),
             htmlspecialchars(
                 json_encode(
-                    $this->db->pageLoad(
+                    $this->database->pageLoad(
                         $pageTitleOrID,
                         $strict
                     )
@@ -365,7 +365,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
             )
         );
 
-        return $this->db->pageLoad(
+        return $this->database->pageLoad(
             $pageTitleOrID,
             $strict
         );
@@ -380,7 +380,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     {
         \WDGWV\CMS\Debugger::shared()->logf('db', 'menuSetItems = %s', json_encode($menuItemsArray));
 
-        return $this->db->menuSetItems(
+        return $this->database->menuSetItems(
             $menuItemsArray
         );
     }
@@ -392,9 +392,9 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function themeGet()
     {
-        \WDGWV\CMS\Debugger::shared()->logf('db', 'theme = %s', $this->db->themeGet());
+        \WDGWV\CMS\Debugger::shared()->logf('db', 'theme = %s', $this->database->themeGet());
 
-        return $this->db->themeGet();
+        return $this->database->themeGet();
     }
 
     /**
@@ -406,7 +406,7 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
     {
         \WDGWV\CMS\Debugger::shared()->logf('db', 'themeSet = %s', $themeName);
 
-        return $this->db->themeSet(
+        return $this->database->themeSet(
             $themeName
         );
     }
@@ -423,14 +423,14 @@ class Controller extends \WDGWV\CMS\Controllers\Databases\Base
             'menuLoad = %s',
             json_encode(
                 array_merge(
-                    $this->db->menuLoad(),
+                    $this->database->menuLoad(),
                     \WDGWV\CMS\Hooks::shared()->loopHook('menu')
                 )
             )
         );
 
         return array_merge(
-            $this->db->menuLoad(),
+            $this->database->menuLoad(),
             \WDGWV\CMS\Hooks::shared()->loopHook('menu')
         );
     }

@@ -514,6 +514,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         }
 
         foreach ($query as $page) {
+            if (isset($page)) {}
             $count++;
         }
 
