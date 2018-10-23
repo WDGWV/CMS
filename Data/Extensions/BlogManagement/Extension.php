@@ -6,7 +6,8 @@
  * Version: 1.0
  * Description: This manages all your pages.
  * SystemFile: true
- * Hash: * INSERT HASH HERE *
+ * Hash: 32e7fd385f3eb9d3b04e0d1f4ce80eac
+ * Integrity check: Required
  */
 
 /*
