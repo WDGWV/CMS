@@ -61,7 +61,7 @@ namespace WDGWV\CMS;
  */
 function autloadWDGWVCMS($class)
 {
-    if (!isset(CMS_INTEGIRITY_CHECK['./index.php']) || !is_array(CMS_INTEGIRITY_CHECK)) {
+    if (null !== CMS_INTEGIRITY_CHECK || !is_array(CMS_INTEGIRITY_CHECK)) {
         exit("Integrity CHECK FAILED, REFUSING TO LOAD");
     }
 
