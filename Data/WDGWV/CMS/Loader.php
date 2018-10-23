@@ -61,6 +61,10 @@ namespace WDGWV\CMS;
  */
 function autloadWDGWVCMS($class)
 {
+    if (!is_array(@CMS_INTEGIRITY_CHECK)) {
+        exit("Integrity CHECK FAILED, REFUSING TO LOAD");
+    }
+
     /**
      * Replace \ to /
      * @var string
@@ -82,9 +86,27 @@ function autloadWDGWVCMS($class)
          */
         if (is_readable($fileName)) {
             /**
+             * did the file passed the integirity check?
+             */
+            $filePassedIntegrityCheck = false;
+
+            /**
              * Load $fileName.
              */
-            require_once $fileName;
+            if (@CMS_INTEGIRITY_CHECK[$fileName] === md5(file_get_contents($fileName))) {
+                $filePassedIntegrityCheck = true;
+                require_once $fileName;
+            }
+
+            /**
+             * Failed integrity check...
+             */
+            if (!$filePassedIntegrityCheck) {
+                echo "<b>WARNING</b><br />";
+                echo "Couldn't load class <b>{$class}</b><br />";
+                \trigger_error("Refusing to load \"{$fileName}\" the integrity failed.", E_USER_ERROR);
+                exit(1);
+            }
         } else {
             /**
              * Check if the $class is using a namespace, otherwise, ignore
@@ -141,6 +163,11 @@ function autloadWDGWVCMS($class)
      */
     return;
 }
+
+/**
+ * Define Integrity
+ */
+define('CMS_INTEGIRITY_CHECK', @is_readable('./Data/integrityHashes.db') ? json_decode(gzuncompress(file_get_contents("./Data/integrityHashes.db")), true) : false);
 
 /**
  * Add class to spl autload register

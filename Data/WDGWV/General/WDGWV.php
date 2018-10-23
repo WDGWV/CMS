@@ -90,7 +90,7 @@ class WDGWV
      * @internal
      * @var bool debug debugmode
      */
-    public $debug = false;
+    public $debug = true;
 
     /**
      * Construction class

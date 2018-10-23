@@ -297,14 +297,19 @@ class Base extends \WDGWV\General\WDGWV
 
             /* All Rights reserved */
             '%s&#46;',
+
             /* Copyright */
             $this->chrToOrd(function_exists('__') ? \__('Copyright') : ('Copyright')),
+
             /* YEAR */
             $this->chrToOrd(@date('Y')),
+
             /* Title */
             $this->chrToOrd($this->getTitle()),
+
             /* Powered by */
             $this->chrToOrd(function_exists('__') ? \__('Powered by') : ('Powered by')),
+
             /* All rights reserved */
             $this->chrToOrd(function_exists('__') ? \__('All rights reserved') : ('All rights reserved'))
         );

@@ -196,6 +196,19 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
             print 'Exception : ' . $e->getMessage();
         }
 
+        /**
+         * Set-Up Databases...
+         */
+        foreach ($this->create as $key => $value) {
+            if (preg_match("/Database/", $key)) {
+                \WDGWV\CMS\Debugger::shared()->log(sprintf('Creating %s table (if not exists)', $key));
+                $this->db->exec($value);
+            }
+        }
+
+        /**
+         * Check for pre-defined contents.
+         */
         if (!$this->userExists('admin')) {
             if (is_array($this->generateUserDB())) {
                 foreach ($this->generateUserDB() as $newUser) {
@@ -221,13 +234,6 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
                 );
             }
         }
-
-        foreach ($this->create as $key => $value) {
-            if (preg_match("/Database/", $key)) {
-                \WDGWV\CMS\Debugger::shared()->log(sprintf('Creating %s table (if not exists)', $key));
-                $this->db->exec($value);
-            }
-        }
     }
 
     public function __destruct()
@@ -248,6 +254,10 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
             'SELECT * FROM `users` WHERE `username`=:username',
             array(':username' => $userID)
         );
+
+        if (!is_array($query)) {
+            return false;
+        }
 
         foreach ($query as $users) {
             if (isset($users)) {}
@@ -389,11 +399,15 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function themeGet()
     {
         $count = 0;
-        foreach ($this->queryWithParameters(
+        $items = $this->queryWithParameters(
             'SELECT * FROM `CMSconfiguration` WHERE item=:theme',
             array(':theme' => 'theme')
-        ) as $item) {
-            return $item[1];
+        );
+
+        if (is_array($items)) {
+            foreach ($items as $item) {
+                return $item[1];
+            }
         }
 
         $this->themeSet('admin', true);
@@ -512,7 +526,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
         $count = 0;
 
-        if ($query === 1 || $query === '1') {
+        if ($query === 1 || $query === '1' || !is_array($query)) {
             return false;
         }
 

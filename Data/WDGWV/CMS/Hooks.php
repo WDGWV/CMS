@@ -272,6 +272,10 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                         /**
                          * Append the hook to the temporaryReturn string
                          */
+                        if (is_array($this->hookDatabase['before-content'][$i]['action'])) {
+                            return $this->hookDatabase['before-content'][$i]['action'];
+                        }
+
                         $temporaryReturn .= $this->hookDatabase['before-content'][$i]['action'];
                     }
 
@@ -302,8 +306,13 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                     for ($i = 0; $i < sizeof($this->hookDatabase['after-content']); $i++) {
                         /**
                          * Append the hook to the temporaryReturn string
+                         * p.s. should never be an array...
                          */
-                        $temporaryReturn .= $this->hookDatabase['after-content'][$i]['action'];
+                        if (is_array($this->hookDatabase['after-content'][$i]['action'])) {
+                            return $this->hookDatabase['after-content'][$i]['action']; /* What?! */
+                        } else {
+                            $temporaryReturn .= $this->hookDatabase['after-content'][$i]['action'];
+                        }
                     }
 
                     /**
