@@ -2,11 +2,11 @@
 /**
  * WDGWV CMS System file.
  * Full access: true
- * Extension: Blog Managament System
+ * Extension: Blog Management
  * Version: 1.0
  * Description: This manages all your pages.
  * SystemFile: true
- * Hash: 32e7fd385f3eb9d3b04e0d1f4ce80eac
+ * Hash: 9a4a809418d9a05b8e941f190d4baeaf
  * Integrity check: Required
  */
 
