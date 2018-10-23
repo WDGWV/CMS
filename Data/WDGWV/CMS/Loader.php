@@ -61,7 +61,7 @@ namespace WDGWV\CMS;
  */
 function autloadWDGWVCMS($class)
 {
-    if (null !== CMS_INTEGIRITY_CHECK || !is_array(CMS_INTEGIRITY_CHECK)) {
+    if (!is_array(@CMS_INTEGIRITY_CHECK)) {
         exit("Integrity CHECK FAILED, REFUSING TO LOAD");
     }
 
@@ -104,7 +104,10 @@ function autloadWDGWVCMS($class)
              * Failed integrity check...
              */
             if (!$filePassedIntegrityCheck) {
+                echo "<b>WARNING</b><br />";
+                echo "Couldn't load class <b>{$class}</b><br />";
                 \trigger_error("Refusing to load \"{$fileName}\" the integrity failed.", E_USER_ERROR);
+                exit(1);
             }
         } else {
             /**
