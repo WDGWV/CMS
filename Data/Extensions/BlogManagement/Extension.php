@@ -1,11 +1,12 @@
 <?php
 /**
  * WDGWV CMS System file.
- * Extension: Blog Managament
+ * Full access: true
+ * Extension: Blog Managament System
  * Version: 1.0
  * Description: This manages all your pages.
- * Hash: 32e7fd385f3eb9d3b04e0d1f4ce80eac
- * Integrity check: Required
+ * SystemFile: true
+ * Hash: * INSERT HASH HERE *
  */
 
 /*
@@ -52,7 +53,7 @@
 - ,,,:,,:,,:::,,,:;:::::::::::::::;;;:::;:;::::::::::::::: -
 - ,,,,,,,,,,,,,,,,,,,,,,,,:,::::::;;;;:::::;;;;::::;;;;::: -
 -                                                          -
--       (c) WDGWV. 2018, http://www.wdgwv.com              -
+-       (c) WDGWV. 2013, http://www.wdgwv.com              -
 -    Websites, Apps, Hosting, Services, Development.       -
 ------------------------------------------------------------
  */
@@ -65,7 +66,7 @@ class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
     private $BlogCtrl;
 
     /**
-     * Call the shared
+     * Call the sharedInstance
      * @since Version 1.0
      */
     public static function shared()

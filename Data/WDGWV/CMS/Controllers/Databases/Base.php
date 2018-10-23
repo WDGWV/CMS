@@ -75,6 +75,7 @@ class Base
             echo "Resetting database";
             $adminURL = $this->CMSConfig->adminURL();
             array_map('unlink', glob('./Data/Database/*.PTdb'));
+            array_map('unlink', glob('./Data/Database/*.db'));
 
             if (!headers_sent()) {
                 header(sprintf('location: /%s/?db=clean&debug=true', $adminURL));

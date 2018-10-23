@@ -296,7 +296,7 @@ class Extensions
         /**
          * Check if there are extensions loaded.
          */
-        if (sizeof($loadFile[1]) == 0) {
+        if (sizeof($loadFile[1]) < 5) {
             /**
              * No extensions loaded.
              * Reload extensions
