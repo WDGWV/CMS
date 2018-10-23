@@ -128,6 +128,9 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
             'it also offers a force-reload option in the bottom of the page',
         );
 
+        // print_r($this->extensionList);
+        // echo "<hr />";
+
         for ($i = 0; $i < sizeof($this->extensionList); $i++) {
             $name = explode('/', $this->extensionList[$i]);
             $name = $name[sizeof(explode('/', $this->extensionList[$i])) - 2];

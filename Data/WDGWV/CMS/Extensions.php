@@ -296,12 +296,12 @@ class Extensions
         /**
          * Check if there are extensions loaded.
          */
-        if (sizeof($loadFile[1]) < 5) {
+        if (sizeof($loadFile) < 5) {
             /**
              * No extensions loaded.
              * Reload extensions
              */
-            $this->reloadExtensions();
+            $this->forceReloadExtensions('FORCE SAVE, EXTENSION DATABASE MISSING!!!');
 
             /**
              * Do not run the rest of the code.
@@ -1153,6 +1153,10 @@ class Extensions
                     }
                 }
             }
+        }
+
+        if (sizeof($this->loadExtensions) < 5) {
+            exit("WARNING: Extensions system corrupted.");
         }
 
         /**
