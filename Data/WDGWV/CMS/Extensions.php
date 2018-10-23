@@ -515,26 +515,9 @@ class Extensions
          */
         $extensionPath = $this->getExtensionPath($extension);
 
-        /**
-         * Load information about the extension, and loop trough it
-         */
-        foreach ($this->information($extension) as $info => $value) {
-            /**
-             * Check if we've found the version
-             */
-            if ($info === 'version') {
-                /**
-                 * Check validatity of the file.
-                 * WILL FAIL ALWAYS.
-                 * NEED TO BUILD IT.
-                 */
-                return (
-                    md5(
-                        file_get_contents(
-                            $this->getExtensionPath($extension)
-                        )
-                    ) == $value);
-                //TODO: Finish test
+        if (isset(CMS_INTEGIRITY_CHECK[$extensionPath])) {
+            if (CMS_INTEGIRITY_CHECK[$extensionPath] === md5(file_get_contents($extensionPath))) {
+                return true;
             }
         }
 
