@@ -93,11 +93,9 @@ function autloadWDGWVCMS($class)
             /**
              * Load $fileName.
              */
-            if (isset(CMS_INTEGIRITY_CHECK[$fileName])) {
-                if (CMS_INTEGIRITY_CHECK[$fileName] === md5(file_get_contents($fileName))) {
-                    $filePassedIntegrityCheck = true;
-                    require_once $fileName;
-                }
+            if (@CMS_INTEGIRITY_CHECK[$fileName] === md5(file_get_contents($fileName))) {
+                $filePassedIntegrityCheck = true;
+                require_once $fileName;
             }
 
             /**
