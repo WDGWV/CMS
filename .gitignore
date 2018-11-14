@@ -23,3 +23,6 @@ xx_PRIVATE
 
 # Removed since #70
 Documentation
+
+#Disable cgi-bin
+cgi-bin

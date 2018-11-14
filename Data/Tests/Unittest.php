@@ -55,11 +55,24 @@ final class Test extends TestCase
 {
     public function setUp()
     {
-        echo sprintf("%sTested '%s'.%s", PHP_EOL, $this->getName(), PHP_EOL);
+        echo sprintf("%s^ Tested '%s'.%s", PHP_EOL, $this->getName(), PHP_EOL);
     }
 
     public function testWillAlwaysPass()
     {
-        $this->assertEquals('a', 'a');
+        $this->assertEquals(
+            'a',
+            'a'
+        );
+    }
+
+    public function testIntegerity()
+    {
+        $a = @is_readable($file = './Data/integrityHashes.db') ? json_decode(gzuncompress(file_get_contents($file)), true) : false;
+        $this->assertEquals(
+            is_array($a),
+            true
+        );
+        return "Pass";
     }
 }

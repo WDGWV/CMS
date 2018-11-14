@@ -220,6 +220,11 @@ $installer = Installer::shared();
 $database = Controllers\Databases\Controller::shared();
 
 /**
+ * Initialize the userClass
+ */
+$user = Controllers\User::shared();
+
+/**
  * Initialize the CMS
  * @param $CMS class The CMS class
  */
