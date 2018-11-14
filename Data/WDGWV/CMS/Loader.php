@@ -167,7 +167,11 @@ function autloadWDGWVCMS($class)
 /**
  * Define Integrity
  */
-define('CMS_INTEGIRITY_CHECK', @is_readable('./Data/integrityHashes.db') ? json_decode(gzuncompress(file_get_contents("./Data/integrityHashes.db")), true) : false);
+define('CMS_INTEGIRITY_CHECK',
+    @is_readable('./Data/integrityHashes.db')
+    ? json_decode(gzuncompress(file_get_contents("./Data/integrityHashes.db")), true)
+    : false
+);
 
 /**
  * Add class to spl autload register
@@ -214,6 +218,11 @@ $installer = Installer::shared();
  * @param $database class The database class
  */
 $database = Controllers\Databases\Controller::shared();
+
+/**
+ * Initialize the userClass
+ */
+$user = Controllers\User::shared();
 
 /**
  * Initialize the CMS
