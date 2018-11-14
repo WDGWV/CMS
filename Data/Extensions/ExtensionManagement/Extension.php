@@ -224,6 +224,11 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
     {
         return array("TITLE", 'CONTENTS');
     }
+
+    public function install($url)
+    {
+        return array("TITLE", 'CONTENTS ' . var_dump($url));
+    }
 }
 
 \WDGWV\CMS\Hooks::shared()->createHook(
@@ -258,4 +263,10 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
     'url',
     sprintf('/%s/Extensions/Search', (new \WDGWV\CMS\Config)->adminURL()),
     array(ExtensionMananagament::shared(), 'displaySearch')
+);
+
+\WDGWV\CMS\Hooks::shared()->createHook(
+    'url',
+    sprintf('/%s/Extensions/Install/*', (new \WDGWV\CMS\Config)->adminURL()),
+    array(ExtensionMananagament::shared(), 'install')
 );

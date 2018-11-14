@@ -653,6 +653,37 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 return $_temporaryArray;
                 break;
 
+            case 'ubb':
+/**
+ * Create a temporary array
+ * @var [string]
+ */
+                $_temporaryArray = array();
+
+                /**
+                 * Check if we have ubb database
+                 */
+                if (isset($this->hookDatabase['ubb'])) {
+                    if (sizeof($this->hookDatabase['ubb']) > 0) {
+                        /**
+                         * Walk trough the ubb database
+                         */
+                        for ($i = 0; $i < sizeof($this->hookDatabase['ubb']); $i++) {
+                            /**
+                             * Append to the temporary array.
+                             */
+                            $_temporaryArray[] = $this->hookDatabase['ubb'][$i]['action'];
+                        }
+                    }
+                }
+
+                /**
+                 * return temporary array
+                 */
+                return $_temporaryArray;
+                return;
+                break;
+
             /**
                  * Nothing found
                  */

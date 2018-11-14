@@ -167,7 +167,11 @@ function autloadWDGWVCMS($class)
 /**
  * Define Integrity
  */
-define('CMS_INTEGIRITY_CHECK', @is_readable('./Data/integrityHashes.db') ? json_decode(gzuncompress(file_get_contents("./Data/integrityHashes.db")), true) : false);
+define('CMS_INTEGIRITY_CHECK',
+    @is_readable('./Data/integrityHashes.db')
+    ? json_decode(gzuncompress(file_get_contents("./Data/integrityHashes.db")), true)
+    : false
+);
 
 /**
  * Add class to spl autload register
