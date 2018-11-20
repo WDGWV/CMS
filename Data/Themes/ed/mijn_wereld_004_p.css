@@ -1,0 +1,76 @@
+/*--- Avanquest WebEasy Page Style ---*/
+
+
+span#e9             { /* p08side.gif */
+	background      : transparent url(p08side.gif) no-repeat top left;
+	position        : absolute;
+	left            :   0.00pt;
+	top             :  75.00pt;
+	width           : 112.50pt;
+	height          : 300.00pt;
+	}
+span#e8             { /* p08lintop.gif */
+	background      : transparent url(p08lintop.gif) no-repeat top left;
+	position        : absolute;
+	left            :   0.00pt;
+	top             :   0.00pt;
+	width           : 373.50pt;
+	height          :  75.00pt;
+	}
+img#e7              { /* mijn_wereld004005.gif */
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 141.75pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+img#e6              { /* mijn_wereld004003.gif */
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 171.75pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+span#e5             { /* p08butlin.gif */
+	background      : transparent url(p08butlin.gif) no-repeat top left;
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 233.25pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+img#e4              { /* mijn_wereld004001.gif */
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 202.50pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+h4#e3               { /* website 1 */
+	text-align      : left;
+	position        : absolute;
+	left            : 127.50pt;
+	top             :  97.50pt;
+	width           : 237.75pt;
+	height          :  20.25pt;
+	}
+h4#e2               { /* {website 2} */
+	text-align      : left;
+	position        : absolute;
+	left            : 127.50pt;
+	top             : 150.00pt;
+	width           : 237.75pt;
+	height          :  20.25pt;
+	}
+h4#e1               { /* {website 3} */
+	text-align      : left;
+	position        : absolute;
+	left            : 128.25pt;
+	top             : 202.50pt;
+	width           : 237.75pt;
+	height          :  20.25pt;
+	}
+
+
+
+/*--- EndOfFile ---*/

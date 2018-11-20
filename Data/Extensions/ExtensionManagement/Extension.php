@@ -124,7 +124,7 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
         $page = array();
         $page[] = array(
             'Extensions list',
-            'This is an extension what list all loaded extensions, ' .
+            'This is an extension what list all loaded extensions,<br />' .
             'it also offers a force-reload option in the bottom of the page',
         );
 
@@ -132,7 +132,8 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
             $name = explode('/', $this->extensionList[$i]);
             $name = $name[sizeof(explode('/', $this->extensionList[$i])) - 2];
 
-            $page1 = $this->extensionList[$i];
+            $page1 = '';
+            //$this->extensionList[$i];
 
             $page1 .= '<table>';
             foreach ($this->extensionCtrl->information($this->extensionList[$i]) as $info => $value) {
@@ -187,7 +188,10 @@ class ExtensionMananagament extends \WDGWV\CMS\ExtensionBase
                 sprintf(
                     '%s<span class=\'right\'>' .
                     '<button onClick="window.location=\'/%s/%s/List?%sExtension=%s\'"%s>%s \'%s\'</button></span>',
-                    $name,
+                    ($this->extensionCtrl->isActive($this->extensionList[$i])
+                        ? '✅'
+                        : '🚫'
+                    ) . '&nbsp;' . $name,
                     (new \WDGWV\CMS\Config)->adminURL(),
                     'Extensions',
                     ($this->extensionCtrl->isActive($this->extensionList[$i])

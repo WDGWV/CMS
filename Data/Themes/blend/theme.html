@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+  Design by Free CSS Templates
+  http://www.freecsstemplates.org
+  Released for free under a Creative Commons Attribution 2.5 License
+
+  Name       : Blend
+  Description: A three-column, fixed-width blog design.
+  Version    : 1.0
+  Released   : 20090303
+   EDIT:WDG: REMOVED 3th COLUMN
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>{wdg:title}</title>
+{wdg:meta}
+<link href="{wdg:load}default.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+<body>
+<!-- start header -->
+<div id="header">
+	<div id="logo">
+		<h1>{wdg:title}</h1>
+		<p>{wdg:page}</p>
+	</div>
+	<div id="menu">
+		<ul id="main">
+				{wdg:hide1=begin}<li><a href="{wdg:url=1}"><span>{wdg:link=1}</span></a></li>{wdg:hide1=end}
+				{wdg:hide2=begin}<li><a href="{wdg:url=2}"><span>{wdg:link=2}</span></a></li>{wdg:hide2=end}
+				{wdg:hide3=begin}<li><a href="{wdg:url=3}"><span>{wdg:link=3}</span></a></li>{wdg:hide3=end}
+				{wdg:hide4=begin}<li><a href="{wdg:url=4}"><span>{wdg:link=4}</span></a></li>{wdg:hide4=end}
+				{wdg:hide5=begin}<li><a href="{wdg:url=5}"><span>{wdg:link=5}</span></a></li>{wdg:hide5=end}
+				{wdg:hide6=begin}<li><a href="{wdg:url=6}"><span>{wdg:link=6}</span></a></li>{wdg:hide6=end}
+				{wdg:hide7=begin}<li><a href="{wdg:url=7}"><span>{wdg:link=7}</span></a></li>{wdg:hide7=end}
+				{wdg:hide8=begin}<li><a href="{wdg:url=8}"><span>{wdg:link=8}</span></a></li>{wdg:hide8=end}
+				{wdg:hide9=begin}<li><a href="{wdg:url=9}"><span>{wdg:link=9}</span></a></li>{wdg:hide9=end}
+				{wdg:hide10=begin}<li><a href="{wdg:url=10}"><span>{wdg:link=10}</span></a></li>{wdg:hide10=end}
+		</ul>
+	</div>
+	
+</div>
+<!-- end header -->
+<div id="wrapper">
+	<!-- start page -->
+	<div id="page">
+		<div id="sidebar1" class="sidebar">
+      <table>
+        <tr>
+          <td>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            {wdg:menu}
+          </td>
+        </tr>
+      </table>
+		</div>
+		
+		<!-- start content -->
+		<div id="contente">
+			{wdg:content}
+			<br><br>
+			<div id="share">
+			  {wdg:share}
+		  </div>
+		</div>
+		<!-- end content -->
+		<div style="clear: both;">&nbsp;</div>
+	</div>
+	<!-- end page -->
+</div>
+<div id="footer">
+	<p>{wdg:copyright=1}<br>{wdg:copyright=2}</p>
+</div>
+</body>
+</html>

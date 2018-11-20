@@ -1,0 +1,144 @@
+<!-- HTML -->
+<html>
+<!-- setmeta(); -->
+{wdg:meta}
+{wdg:adblock}
+<!-- !sertmeta(); -->
+<!-- title -->
+<title>
+    {wdg:title}
+</title>
+<!-- /title -->
+<!-- head -->
+
+<head>
+    <!-- style -->
+    <style type="text/css">
+    html,
+    body {
+        font-family: arial;
+        font-size: 12px;
+        color: #000;
+        margin: 0px auto;
+        background: #3b3b3b url('./Data/Themes/bluev1/img1.jpg') repeat-x;
+    }
+
+    img {
+        border: 1px solid #088ac7;
+    }
+
+    #container {
+        border: 5px;
+        border-style: solid;
+        border-color: #c2d9e3;
+        width: 822px;
+        margin: -5px auto;
+    }
+
+    ul#direct {
+        background: #088ac7 url('./Data/Themes/bluev1/balk_bg.gif') repeat-x;
+        width: 772px;
+        height: 25px;
+        text-align: right;
+        list-style-type: none;
+        margin: 0px auto;
+        padding-right: 10px;
+        float: right;
+        color: white;
+    }
+
+    #direct li {
+        display: inline;
+
+    }
+
+    #direct img {
+        border: none;
+    }
+
+    #con_tent {
+        background: #fff url('./Data/Themes/bluev1/content_bg.gif') repeat-y;
+        width: 802px;
+        height: auto;
+        clear: both;
+        padding: 10px;
+    }
+
+    p:first-letter {
+        font-size: 14px;
+        font-weight: bold;
+        color: #078ac8;
+    }
+
+    p {
+        width: 450px;
+    }
+
+
+    #spacer {
+        clear: both;
+    }
+
+    </style>
+    <!-- /style -->
+</head>
+<!-- /head -->
+<!-- body -->
+
+<body>
+    <!-- Begin a few newlines. it look pretty :) -->
+    <br>
+    <br>
+    <br>
+    <!-- Begin #Container -->
+    <div id="container">
+        <!-- Begin Title (#Direct) -->
+        <ul id="direct">
+            {ITEM:sitename}
+        </ul>
+        <!-- End Title (#Direct)-->
+        <!-- Begin menu (#Direct) -->
+        <ul id="direct">
+            {wdg:hide1=begin}<a href="{wdg:url=1}"><span>{wdg:link=1}</span></a>{wdg:hide1=end}
+        </ul>
+        <!-- End menu (#Direct) -->
+        <!-- Begin #Content -->
+        <div id="con_tent">
+            <!-- Begin #Content P -->
+            <table width='100%'>
+                <tr>
+                    <td>
+                        {ITEM:menu}
+                    </td>
+                    <td>
+                        <p>
+                            {ITEM:page}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <!-- End #Content P -->
+        </div>
+        <!-- End #Content -->
+        <!-- Begin Footer (#Direct) -->
+        <ul id="direct">
+            <table width='100%'>
+                <tr>
+                    <td id="direct" algin='left'>{ITEM:copyright}</td>
+                    <td id="direct" algin='right'><small>/_/</small></td>
+                </tr>
+            </table>
+        </ul>
+        <!-- End Footer (#Direct) -->
+        <!-- Begin #spacer -->
+        <div id="spacer">
+            <!-- $Spacer In Action -->
+        </div>
+        <!-- End #spacer -->
+    </div>
+    <!-- End #Container -->
+</body>
+<!-- /body -->
+
+</html>
+<!-- /HTML -->

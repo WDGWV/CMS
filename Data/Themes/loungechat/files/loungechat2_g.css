@@ -1,0 +1,136 @@
+/*--- Avanquest WebEasy Document Style ---*/
+
+*                   { /* All Elements */
+	margin          : 0px;
+	padding         : 0px;
+	}
+a:link              { /* Document Links */
+	color           : #ff0000;
+	}
+a:visited           { /* Visited Links */
+	color           : #ff0000;
+	}
+a:hover             { /* Hover Links */
+	color           : yellow;
+	}
+a:active            { /* Active Links */
+	color           : #ff0000;
+	}
+ol,ul               { /* All Lists */
+	margin          : 1em;
+	padding-left    : 2em;
+	}
+p                   { /* All Paragraphs */
+	margin-bottom   : 1em;
+	}
+.address            {
+	color           : #000000;
+	font            : italic 10pt 'Verdana', 'Lucida Grande', Arial, sans-serif;
+	}
+.citation           {
+	color           : #000000;
+	font            : italic 12pt 'Verdana', 'Lucida Grande', Arial, sans-serif;
+	}
+.code               {
+	color           : #000080;
+	font            : 12pt 'Courier New', monospace;
+	}
+.emphasis           {
+	color           : #000000;
+	font            : italic 12pt 'Verdana', 'Lucida Grande', Arial, sans-serif;
+	}
+.heading1           {
+	color           : #000000;
+	font            : bold 24pt 'Arial', Helvetica, sans-serif;
+	}
+.heading2           {
+	color           : #000000;
+	font            : bold 20pt 'Arial', Helvetica, sans-serif;
+	}
+.heading3           {
+	color           : #000000;
+	font            : 18pt 'Arial', Helvetica, sans-serif;
+	}
+.heading4           {
+	color           : #000000;
+	font            : italic 16pt 'Arial', Helvetica, sans-serif;
+	}
+.heading5           {
+	color           : #000000;
+	font            : 14pt 'Arial', Helvetica, sans-serif;
+	}
+.heading6           {
+	color           : #000000;
+	font            : 12pt 'Arial', Helvetica, sans-serif;
+	}
+.small              {
+	color           : #000080;
+	font            : 8pt 'Verdana', 'Lucida Grande', Arial, sans-serif;
+	}
+
+.Guestbook_title    {
+	background		: blue;
+	}
+
+.news_title    {
+	background		: blue;
+	}
+
+/*--- EndOfFile ---*/
+
+/*
+OVERLAY
+*/
+#doverlay {
+ position:   absolute; 
+ top:        0px; 
+ left:       0px; 
+ background: gray; 
+ width:      100%; 
+ height:     100%; 
+ opacity:    .8; 
+ filter:     alpha(opacity=80); -moz-opacity: .8;
+ visibility: hidden;
+ display:    none;
+}
+
+#dcontent_overlay { 
+ position:   absolute; 
+ width:      100%; 
+ height:     100%; 
+ visibility: hidden;
+ display:    none;
+}
+
+#dcontent_overlay td { 
+ vertical-align: middle; 
+ text-align:     center; 
+}
+
+#dcontent { 
+ text-align: left; 
+ background: #000; 
+ color:      #fff; 
+ display:    inline; 
+ padding:    20px; 
+ margin:     0px auto;
+ visibility: hidden;
+ display:    none;
+}
+
+#overlay {
+  color: black;
+  text-align: left; 
+  font-family: Tahoma;
+  font-size: 12px;
+  size: 30;
+  background: url('../admin/images/js001.png') center left no-repeat;
+  display: table;
+  width: 537px;
+  height: 255px;
+  z-index: 90;
+}
+
+a#overlink {
+  text-decoration: none;
+}

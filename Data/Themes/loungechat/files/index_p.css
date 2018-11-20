@@ -1,0 +1,232 @@
+/*--- Avanquest WebEasy Page Style ---*/
+
+
+.cc01               { /* Common */
+	font            : 10pt 'Times New Roman', Book, Georgia, serif;
+	color           : #689ed4;
+	text-align      : left;
+	border          :   0.75pt solid #225c96;
+	}
+.cc02               { /* Common */
+	font            : 10pt 'Times New Roman', Book, Georgia, serif;
+	color           : #225c96;
+	text-align      : left;
+	}
+.cc03               { /* Common */
+	font            : bold 12pt 'Tahoma', cursive;
+	color           : #ffffff;
+	text-align      : center;
+	}
+.cc04               { /* Common */
+	font            : 10pt 'Times New Roman', Book, Georgia, serif;
+	color           : #000000;
+	text-align      : left;
+	}
+.cc05               { /* Common */
+	border          :   0.00pt none #808080;
+	clip            : rect(0.00pt,422.25pt,0.75pt,0.00pt);
+	}
+.cc06               { /* Common */
+	font            : bold 12pt 'Arial', Helvetica, sans-serif;
+	color           : #000000;
+	}
+.cc07               { /* Common */
+	font            : bold 12pt 'Tahoma', cursive;
+	color           : #ffffff;
+	text-align      : center;
+	padding         :   1.50pt;
+	}
+.cc08               { /* Common */
+	font            : bold 14pt 'Tahoma', cursive;
+	color           : #000000;
+	text-align      : left;
+	}
+div#e22             {
+	background-color: #689ed4;
+	position        : absolute;
+	left            :  15.75pt;
+	top             : 214.50pt;
+	width           : 195.00pt;
+	height          : 415.50pt;
+	}
+div#e21             {
+	background-color: #225c96;
+	position        : absolute;
+	left            :  14.25pt;
+	top             :  15.75pt;
+	width           : 197.25pt;
+	height          : 195.00pt;
+	}
+div#e20             {
+	background-color: #225c96;
+	position        : absolute;
+	left            :  15.00pt;
+	top             : 641.25pt;
+	width           : 660.00pt;
+	height          :  18.75pt;
+	}
+div#e19             {
+	background-color: #225c96;
+	position        : absolute;
+	left            : 216.00pt;
+	top             : 183.75pt;
+	width           : 457.50pt;
+	height          :  26.25pt;
+	}
+div#e18             { /* Home */
+	padding-top     :   4.50pt;
+	position        : absolute;
+	left            : 218.25pt;
+	top             : 185.25pt;
+	width           :  82.50pt;
+	height          :  19.50pt;
+	}
+div#e17             { /* Regels */
+	padding-top     :   2.25pt;
+	position        : absolute;
+	left            : 312.00pt;
+	top             : 185.25pt;
+	width           :  82.50pt;
+	height          :  17.25pt;
+	}
+div#e16             { /* Uitleg */
+	padding-top     :   2.25pt;
+	position        : absolute;
+	left            : 405.75pt;
+	top             : 185.25pt;
+	width           :  82.50pt;
+	height          :  17.25pt;
+	}
+div#e15             { /* Chat */
+	padding-top     :   2.25pt;
+	position        : absolute;
+	left            : 499.50pt;
+	top             : 185.25pt;
+	width           :  82.50pt;
+	height          :  17.25pt;
+	}
+div#e14             { /* Profielen */
+	padding-top     :   2.25pt;
+	position        : absolute;
+	left            : 593.25pt;
+	top             : 185.25pt;
+	width           :  82.50pt;
+	height          :  17.25pt;
+	}
+span#e13            { /* images/tpl_4_flw.jpg */
+	background      : transparent url({wdg:load}images/tpl_4_flw.jpg) no-repeat top left;
+	position        : absolute;
+	left            : 216.75pt;
+	top             :  15.00pt;
+	width           : 458.25pt;
+	height          : 165.00pt;
+	}
+div#e12             {
+	position        : absolute;
+	left            : 217.50pt;
+	top             : 250.50pt;
+	width           : 457.50pt;
+	height          : 379.50pt;
+	}
+span#e11            { /* images/loungechat2001002... */
+	background      : transparent url({wdg:load}images/loungechat2001002.jpg) no-repeat top left;
+	position        : absolute;
+	left            : 230.25pt;
+	top             : 282.75pt;
+	width           : 422.25pt;
+	height          :   0.75pt;
+	}
+span#e10            { /* images/loungechat2001001... */
+	background      : transparent url({wdg:load}images/loungechat2001001.jpg) no-repeat top left;
+	position        : absolute;
+	left            :  38.25pt;
+	top             :  53.25pt;
+	width           : 153.00pt;
+	height          : 115.50pt;
+	}
+div#e9              { /* Waarom Loungechat!\ \\ \... */
+	position        : absolute;
+	left            : 234.75pt;
+	top             : 294.75pt;
+	width           : 420.00pt;
+	height          : 317.25pt;
+	overflow        : auto;
+	}
+div#e8              {
+	background-color: #225c96;
+	position        : absolute;
+	left            : 216.75pt;
+	top             : 213.00pt;
+	width           : 457.50pt;
+	height          :  26.25pt;
+	}
+img#e7              { /* images/tekstanimaties81.... */
+	position        : absolute;
+	left            :  28.50pt;
+	top             : 256.50pt;
+	width           : 178.50pt;
+	height          : 159.75pt;
+	}
+div#e6              { /* Agenda */
+	padding-top     :   2.25pt;
+	position        : absolute;
+	left            : 224.25pt;
+	top             : 215.25pt;
+	width           :  79.50pt;
+	height          :  15.75pt;
+	}
+div#e5              { /* Gastenboek */
+	padding-top     :   2.25pt;
+	position        : absolute;
+	left            : 318.00pt;
+	top             : 216.00pt;
+	width           :  79.50pt;
+	height          :  15.75pt;
+	}
+div#e4              { /* Contact */
+	padding-top     :   9.00pt;
+	position        : absolute;
+	left            : 409.50pt;
+	top             : 208.50pt;
+	width           :  79.50pt;
+	height          :  23.25pt;
+	}
+div#e3              {
+	position        : absolute;
+	left            : 217.50pt;
+	top             :  15.00pt;
+	width           : 456.00pt;
+	height          :  23.25pt;
+	}
+div#e2              { /* Links */
+	padding-top     :   2.25pt;
+	position        : absolute;
+	left            : 498.00pt;
+	top             : 215.25pt;
+	width           :  79.50pt;
+	height          :  15.75pt;
+	}
+div#e1              { /* Home */
+	position        : absolute;
+	left            : 233.25pt;
+	top             : 253.50pt;
+	width           : 431.25pt;
+	height          :  19.50pt;
+	}
+div#page            { /* Page Holder */
+	background-color: #ffffff;
+	position        : relative;
+	width           : 686.25pt;
+	height          : 675.00pt;
+	text-align      : left;
+	margin-left     : auto;
+	margin-right    : auto;
+	}
+body                { /* Page Body */
+	background-color: #ffffff;
+	text-align      : center;
+	}
+
+
+
+/*--- EndOfFile ---*/

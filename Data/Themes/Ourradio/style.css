@@ -1,0 +1,274 @@
+a {
+	color : #ffa500;
+	text-decoration : none;
+}
+
+a:hover {
+	color : #fff;
+	text-decoration : none;
+}
+
+a.side {
+	color : #fff;
+	text-decoration : none;
+}
+
+a:hover.side {
+	color : #ffa500;
+	text-decoration : none;
+}
+
+a.white {
+	color : #fff;
+	text-decoration : none;
+	font-weight : bold;
+}
+
+a:hover.white {
+	color : #0096ff;
+	text-decoration : none;	
+	font-weight : bold;
+}
+
+body {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	background-image:url('images/bg.jpg');
+
+}
+
+form {
+	margin : 0px;
+}
+
+hr {
+	height : 1px;
+	background-color : #008aff;
+}
+
+hr.side-hr {
+	height : 1px;
+	background-color : #758698;
+}
+
+td {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+}
+
+pre {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+}
+
+.alt {
+	color : #caedff;
+}
+ 
+.outer-border {
+	border : 1px solid #000;
+}
+
+.footer {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 10px;
+	color : #fff;
+	padding : 5px;
+
+}
+
+.button {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 10px;
+	color : #32363a;
+	background-color : #d1ddea;
+	height : 19px;
+	border : 1px solid #758698;
+	margin-top : 2px;
+}
+
+.textbox {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 10px;
+	color : #fff;
+	background-color : #006b98;
+	border : 1px solid #758698;
+}
+
+.main-body {
+	font-size : 11px;
+	color : #fff;
+	background-color : #000;
+	padding : 4px 5px 5px 5px;
+	border-left : 1px solid #758698;
+	border-right : 1px solid #758698;
+}
+
+.side-body {
+	font-size : 10px;
+	color : #fff;
+	padding : 4px;
+	background-color : #000;
+	border-left : 1px solid #758698;
+	border-right : 1px solid #758698;
+}
+
+.main-bg {
+	color : #fff;
+	background-color : #000;
+	padding : 10px 5px 10px 5px;
+}
+
+.border {
+	border : 0px solid #fff;
+}
+
+.side-border-left {
+	color : #33567b;
+	background-color : #111;
+	padding : 10px 5px 10px 5px;
+}
+
+.side-border-right {
+	color : #33567b;
+	background-color : #111;
+	padding : 10px 5px 10px 5px;
+}
+
+.news-footer {
+	font-size : 10px;
+	color : #fff;
+}
+
+.capmain {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 10px;
+	font-weight : bold;
+	color : #fff;
+	padding : 4px 5px 4px 5px;
+
+}
+
+.scapmain {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 10px;
+	font-weight : bold;
+	color : #fff;
+	padding : 4px;
+}
+
+.tbl-border {
+	color : #fff;
+	background-color : #777;
+}
+
+.tbl {
+	font-size : 11px;
+	color : #0096ff;
+	background-color : #d6dadd;
+	padding : 4px;
+}
+
+.tbl1 {
+	font-size : 11px;
+	color : #0096ff;
+	background-color : #d6dadd;
+	padding : 4px;
+}
+
+.tbl2 {
+	font-size : 11px;
+	color : #0096ff;
+	background-color : #d6dadd;
+	padding : 4px;
+}
+
+.forum-caption {
+	font-size : 11px;
+	font-weight : bold;
+	color : #fff;
+	background-color : #414135;
+	padding : 2px 4px 4px 4px;
+}
+
+.quote {
+	font-size : 11px;
+	color : #0096ff;
+	background-color : #d6dadd;
+	padding : 4px;
+	margin : 0px 20px 0px 20px;
+	border : 1px dotted #000;
+}
+
+.poll {
+	height : 12px;
+	border : 1px solid #d6dadd;
+}
+
+.comment-name {
+	font-weight : bold;
+	color : #fff;
+}
+
+.shoutboxname {
+	font-weight : bold;
+	color : #0096ff;
+	background-color : #000;
+}
+
+.shoutbox {
+	color : #0096ff;
+	background-color : #000;
+}
+
+.shoutboxdate {
+	font-size : 10px;
+	color : #0096ff;
+	background-color : #000;
+}
+
+.small {
+	font-size : 10px;
+	font-weight : normal;
+}
+
+.small2 {
+	font-size : 10px;
+	font-weight : normal;
+	color : #0096ff;
+}
+
+.side-small {
+	font-size : 10px;
+	font-weight : normal;
+	color : #0096ff;
+	background-color : #d6dadd;
+}
+
+.side-label {
+	color : #0096ff;
+	background-color : #d6dadd;
+	padding : 2px 2px 3px 2px;
+
+}
+
+.main {
+	font-family : Verdana, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	font-weight : bold;
+	color : #0096ff;
+	background-color : #111;
+	padding : 10px 5px 10px 5px;
+	border-left : 1px solid #758698;
+	border-right : 1px solid #758698;
+}
+
+.nuorodos {
+	color : #fff;
+}
+
+.code,code,#code {
+ font-weight: none;
+ display: block;
+ background-color: white;
+}

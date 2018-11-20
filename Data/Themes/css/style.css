@@ -1,0 +1,114 @@
+BODY {
+	FONT-SIZE: 10pt; 
+	FONT-FAMILY: "system", "Courier New", Courier, monospace
+}
+
+FIELDSET {
+	BORDER-TOP-WIDTH: 0px; 
+	PADDING-RIGHT: 0px; 
+	PADDING-LEFT: 0px; 
+	BORDER-LEFT-WIDTH: 0px; 
+	BORDER-BOTTOM-WIDTH: 0px; 
+	PADDING-BOTTOM: 0px; 
+	MARGIN: 0px; 
+	WIDTH: 370px; 
+	PADDING-TOP: 0px; 
+	BORDER-RIGHT-WIDTH: 0px
+}
+
+LABEL {
+	DISPLAY: block; 
+	FLOAT: left; 
+	WIDTH: 70px
+}
+
+INPUT {
+	BORDER-RIGHT: #999 0px solid; 
+	BORDER-TOP: #999 0px solid; 
+	FONT-SIZE: 10pt; 
+	BORDER-LEFT: #999 0px solid; 
+	BORDER-BOTTOM: #999 1px solid; 
+	FONT-FAMILY: "Courier New", Courier, monospace
+}
+
+TEXTAREA {
+	BORDER-RIGHT: #999 0px solid; 
+	BORDER-TOP: #999 0px solid; 
+	FONT-SIZE: 10pt; 
+	BORDER-LEFT: #999 0px solid; 
+	BORDER-BOTTOM: #999 1px solid; 
+	FONT-FAMILY: "Courier New", Courier, monospace
+}
+
+TEXTAREA {
+	WIDTH:            300px; 
+	HEIGHT:           200px;
+}
+
+UL {
+	PADDING-RIGHT:      0px; 
+	MARGIN-TOP:         0px; 
+	PADDING-LEFT:       0px; 
+	MARGIN-BOTTOM:      0px; 
+	PADDING-BOTTOM:     0px; 
+	PADDING-TOP:        0px; 
+	LIST-STYLE-TYPE: circle;
+}
+
+A {
+	COLOR:             #999; 
+	TEXT-DECORATION:   none;
+}
+
+A:hover {
+	COLOR: #008000
+}
+
+#root {
+	MARGIN: 70px auto 0px; 
+	WIDTH: 730px
+}
+
+.a {
+	COLOR: #f0f
+}
+
+.b {
+	COLOR: #008000
+}
+
+.c {
+	COLOR: #999
+}
+
+.d {
+	MARGIN-LEFT: 35px
+}
+
+.e {
+	MARGIN-LEFT: 50px
+}
+
+.f {
+	MARGIN-LEFT: 15px
+}
+
+.g {
+	MARGIN-TOP: 0px
+}
+
+.h {
+	MARGIN-TOP: 8px
+}
+
+.i {
+	LIST-STYLE-TYPE: none
+}
+
+.k {
+	FLOAT: right
+}
+
+.z {
+	DISPLAY: block
+}

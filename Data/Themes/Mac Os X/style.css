@@ -1,0 +1,747 @@
+/*
+
+Theme Name:NT-Jinmacblue_de
+
+Description: Theme im Mac-Style
+
+Author: NET-TEC internet solutions
+
+Author URI: 
+
+*/
+
+
+
+/* Dieses WordPress-Theme wurde entwickelt unter den Bedingungen der GNU GPL Lizenz. 
+
+Es ist erlaubt, das Theme oder einzelne Komponenten auf eigene Gefahr zu ver&auml;dern.
+
+NET-TEC ist auftretenden Fehlern bei Ver�nderungen durch den Anwender zu keinerlei Unterst�tzung oder Fehlerbehebung verpflichtet.
+
+*/
+
+
+
+body {
+
+	margin:0;
+
+	padding-top:0px;
+
+	background:#122f74 url(images/body.gif);
+
+	background-repeat:repeat-x;
+
+	font-family:"Myriad web",Tahoma,Verdana,sans-serif;
+
+	color:#fff;
+
+	font-size:13px;
+
+	}
+
+img {
+
+	border:0;
+
+	}
+
+a {
+
+	color:#e1e1e1;
+
+	text-decoration:none
+
+	}
+
+a:hover {
+
+	color:#1694ff;
+
+	text-decoration:none
+
+		}
+
+h1, h2, h3, h4, h5, h6 {
+
+	
+
+	}
+
+blockquote {
+
+	padding-left:10px;
+
+	color:#00476c;
+
+	font-style: normal;
+
+	
+
+	}
+
+.clear {
+
+	clear:both;
+
+	}
+
+.alignleft {
+
+	float:left;
+
+	}
+
+.alignright {
+
+	float:right;
+
+	}
+
+
+
+/* The Wrapper */
+
+
+
+.wrapper {
+
+	width:1000px;
+
+	margin:0 auto;
+
+	background:#122f74 url(images/wrap.jpg);
+
+	background-repeat:no-repeat;
+
+	}
+
+
+
+/* The Top */
+
+
+
+.top {
+
+	height:150px;
+
+	margin-top:10px;
+
+	background:url(images/top.png);
+
+	background-repeat:no-repeat
+
+	}
+
+.blogname {
+
+	float:left;
+
+	width:700px;
+
+	}
+
+.blogname h1  {
+
+	font-size:35px;
+
+	font-weight:bold;
+
+	margin:50px 0 0 150px;
+
+	color:#fff;
+
+	text-decoration: none;
+
+	}
+
+
+
+.blogname h1  a:link, .blogname h1  a:visited{ 
+
+	
+
+	color: #fff; 
+
+	text-decoration: none; 
+
+	background-color:transparent;
+
+	}
+
+	
+
+
+
+.blogname h1  a:hover { 
+
+	color: #122f74; 
+
+	text-decoration: none; 
+
+	background-color:transparent;
+
+	}	
+
+
+
+.blogname h2 {
+
+	margin:0px 0 0 150px;
+
+	font-size:16px;
+
+	font-weight:normal;
+
+	color:#fff;
+
+	}
+
+
+
+
+
+
+
+
+
+/* Menu */
+
+	
+
+.menu  {
+
+height:29px;
+
+margin: 0 auto;
+
+background:url(images/menu2.png);
+
+
+
+}
+
+	
+
+.menu  ul {
+
+margin: 0;
+
+padding: 0 20px;
+
+list-style: none;
+
+}
+
+
+
+.menu  ul li {
+
+float: left;
+
+margin: 0;
+
+padding: 0;
+
+}
+
+
+
+.menu  ul li:hover {
+
+background-color: none;
+
+}
+
+
+
+.menu  ul li a {
+
+float:left;
+
+margin: 0 1px 0 0;
+
+font-size: 100%;
+
+font-weight: normal;
+
+text-decoration: none;
+
+padding: 5px 5px;
+
+font-size: 14px;
+
+color: #333;
+
+}
+
+
+
+.menu  ul li a:hover {
+
+color: #fff;
+
+background:#092764 url(images/menuhov.png) repeat-x;
+
+
+
+}	
+
+	
+
+
+
+
+
+/* The Content */
+
+#ccontent {
+
+	float: left;
+
+	width: 760px;
+
+	margin: 0 0 3px 0;
+
+	padding: 0 0;
+
+	
+
+	}
+
+
+
+.post {
+
+	margin: 20px 10px 0 10px;
+
+	padding:0px 0px 0px 0px;
+
+	height: 100%;
+
+	text-align: justify;
+
+	color:#333;
+
+	
+
+	}
+
+
+/*
+.post h2 {
+
+	margin: 0 0;
+
+	padding: 4px 0px 0px 15px;
+
+	height:28px;
+
+	background: url(images/title.png) no-repeat left top;
+
+	text-align: left;
+
+	font: normal  20px "Tahoma", Arial, sans-serif;
+
+	
+
+	}
+*/
+
+
+.post h2 a, .post h2 a:link, .post h2 a:visited  {
+
+	color: #1e5290;
+
+	background-color: transparent;
+
+	}
+
+
+
+.post .date {
+
+	margin: 0 0;
+
+	padding: 8px 0 0 13px;
+
+	height: 22px;
+
+	background: url(images/date.png) no-repeat left top;
+
+	font: normal 1.0em "Tahoma", Arial, sans-serif;
+
+	color: #333;
+
+	background-color: transparent;
+
+	}
+
+
+
+.post .postmetadata {
+
+	margin: 0 0;
+
+	padding: 7px 15px 0px 110px;
+
+	height: 22px;	
+
+	background: url(images/postmet.png) no-repeat left top;
+
+	font: normal 12px Verdana, Arial, sans-serif;
+
+	text-align: right;
+
+	}
+
+
+
+.post a:link,
+
+.post a:visited {
+
+	color: #0047f0;
+
+	background-color: transparent;
+
+}
+
+
+
+.post a:hover {
+
+	color: #097ab4;
+
+	background-color: transparent;
+
+	text-decoration: none;
+
+}
+
+
+
+.entry {
+
+	display:block;
+
+	margin: 0 0;
+
+	padding: 5px 25px;
+
+	}
+
+.cover{
+
+	margin: 0 0;
+
+	background: url(images/content.png) repeat-y left top;
+
+	}
+
+
+
+/* The Sidebar */
+
+
+
+#sidebar {
+
+width:215px;
+
+float:right;
+
+font-size:12px;
+
+color:#333;
+
+margin: 10px 20px 0px 0px;
+
+
+
+}
+
+
+
+#sidebar ul {
+
+margin:0;
+
+padding:0;
+
+list-style-type:none;
+
+}
+
+
+
+#sidebar  h2 {
+
+font-size:16px;
+
+height:26px;
+
+font-weight:bold;
+
+font-family:Tahoma, arial,sans-serif;
+
+padding:7px 0px 0px 25px;
+
+background:url(images/h2.png);
+
+Margin: 10px 0 0 0;
+
+color:#333;
+
+}
+
+
+
+#sidebar a {
+
+display:block;
+
+line-height:160%;
+
+padding:4px 0 4px 0;
+
+color:#222;
+
+}
+
+
+
+#sidebar a:hover {
+
+text-decoration:none;
+
+background-color:#4a87de;
+
+color:#fff;
+
+
+
+}
+
+
+
+#sidebar ul li a {
+
+background:#fff;
+
+padding-left:10px;
+
+}
+
+#sidebar table {
+
+	width:100%;
+
+	text-align:center;
+
+	background-color:#fff;
+
+	}
+
+
+
+
+
+/* --- FOOTER --- */
+
+
+
+#footer {
+
+	height:30px;
+
+	padding:50px 0 0 60px;
+
+	margin:2px 0 0 25px;
+
+	color:#fff;
+
+	font-size:10px;
+
+	font-weight:normal;
+
+	letter-spacing:1px;
+
+	background: url(images/footer.png)no-repeat
+
+	}
+
+
+
+#footer a {
+
+	color:#00c0ff;
+
+	text-decoration:none;
+
+	}
+
+
+
+#footer a:hover {
+
+	color:#FFF;
+
+		}
+
+
+
+
+
+/* The Navigation */
+
+
+
+.navigation {
+
+	height:10px;
+
+	padding:0 20px;
+
+	}
+
+.navigation a {
+
+	font-weight:bold;
+
+	text-decoration:none;
+
+	font-size:14px;
+
+	color:#fff;
+
+	}
+
+.navigation a:hover {
+
+	color:#fff;
+
+
+
+	}
+
+
+
+/* The Attachment */
+
+
+
+.contentCenter {
+
+	text-align:center;
+
+	}
+
+
+
+/* The Page Title */
+
+
+
+h2.pagetitle {
+
+	padding:0;
+
+	margin:0 0 20px 0;
+
+	font-size:25px;
+
+	text-align:center;
+
+	}
+
+
+
+/* The Comments */
+
+
+
+.comments {
+
+	}
+
+.comments form {
+
+	}
+
+.comments textarea {
+
+	width:93%;
+
+	height:156px;
+
+	background:#dde9ff;
+
+	border:2px solid #1e6cf7;
+
+	color:#000;
+
+	padding:10px;
+
+	overflow:auto;
+
+	font-family:Arial, Helvetica, sans-serif;
+
+	font-size:14px;
+
+	}
+
+#commentform {
+
+	padding-left:23px;
+
+	}
+
+#commentform input {
+
+	background:#dcdcdc;
+
+	border:1px solid #ababab;
+
+	color:#484849;
+
+	padding-left:10px;
+
+	}
+
+.comments input#submit {
+
+	padding:0;
+
+	width:72px;
+
+	height:29px;
+
+	}
+
+.comments h2 {
+
+	font-size:19px;
+
+	line-height:30px;
+
+	margin:24px 0 0 23px;
+
+	padding:0;
+
+	font-weight:normal;
+
+	}
+
+.comments ol li p {
+
+	padding:0;
+
+	margin:10px 0;
+
+	}
+
+.nocomments {
+
+margin-left: 20px; }

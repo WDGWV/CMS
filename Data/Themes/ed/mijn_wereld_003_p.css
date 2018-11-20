@@ -1,0 +1,68 @@
+/*--- Avanquest WebEasy Page Style ---*/
+
+
+span#e8             { /* p08side.gif */
+	background      : transparent url(p08side.gif) no-repeat top left;
+	position        : absolute;
+	left            :   0.00pt;
+	top             :  75.00pt;
+	width           : 112.50pt;
+	height          : 300.00pt;
+	}
+span#e7             { /* p08hobtop.gif */
+	background      : transparent url(p08hobtop.gif) no-repeat top left;
+	position        : absolute;
+	left            :   0.00pt;
+	top             :   0.00pt;
+	width           : 373.50pt;
+	height          :  75.00pt;
+	}
+img#e6              { /* mijn_wereld003006.gif */
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 141.75pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+img#e5              { /* mijn_wereld003004.gif */
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 171.75pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+img#e4              { /* mijn_wereld003002.gif */
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 233.25pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+span#e3             { /* p08buthob.gif */
+	background      : transparent url(p08buthob.gif) no-repeat top left;
+	position        : absolute;
+	left            :   0.00pt;
+	top             : 202.50pt;
+	width           : 112.50pt;
+	height          :  19.50pt;
+	}
+div#e2              { /* voetbal\ \hockey\ \fitne... */
+	font            : 12pt 'Arial', Helvetica, sans-serif;
+	text-align      : left;
+	position        : absolute;
+	left            : 123.75pt;
+	top             : 202.50pt;
+	width           : 261.75pt;
+	height          : 232.50pt;
+	}
+img#e1              { /* mijn_wereld003001.jpg */
+	position        : absolute;
+	left            : 123.75pt;
+	top             :  90.00pt;
+	width           : 132.00pt;
+	height          :  99.00pt;
+	}
+
+
+
+/*--- EndOfFile ---*/

@@ -5,7 +5,7 @@ echo 'Generating Documentation'
 echo $BASEDIR
 
 cd $BASEDIR
-
+php makeFileHashes.php &> /dev/null
 mkdir Documentation &>/dev/null
 
 phpDocumentor -t Documentation -d . -i xx_PRIVATE,documentation,build -p --title 'WDGWV CMS Documentation'
