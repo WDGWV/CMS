@@ -161,11 +161,6 @@ class Extensions
     private $saveOnExit = true;
 
     /**
-     * @var bool
-     */
-    private $compressDatabase = true;
-
-    /**
      * Call the shared
      *
      * @since Version 1.0
