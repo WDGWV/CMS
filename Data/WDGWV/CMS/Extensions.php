@@ -539,14 +539,8 @@ class Extensions
      */
     public function integrityCheck($extension)
     {
-        /**
-         * Get the extension path
-         * @var string
-         */
-        $extensionPath = $this->getExtensionPath($extension);
-
-        if (isset(CMS_INTEGIRITY_CHECK[$extensionPath])) {
-            if (CMS_INTEGIRITY_CHECK[$extensionPath] === md5(file_get_contents($extensionPath))) {
+        if (isset(CMS_INTEGIRITY_CHECK[$this->getExtensionPath($extension)])) {
+            if (CMS_INTEGIRITY_CHECK[$this->getExtensionPath($extension)] === md5(file_get_contents($this->getExtensionPath($extension)))) {
                 return true;
             }
         }
