@@ -1,7 +1,7 @@
 <?php /* Base Controller */
 /**
  * WDGWV CMS System file.
- * File: ./Data/WDGWV/CMS/Controllers/Base.php
+ * File: Data/WDGWV/CMS/Controllers/Base.php
  * Version: 1.0
  * Description: Base Controller
  * Hash: b0cb1698f75b424db0fd5be80ff4040a

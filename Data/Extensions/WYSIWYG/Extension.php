@@ -91,7 +91,7 @@ class WYSIWYG extends \WDGWV\CMS\ExtensionBase
     public function displayWYSIWYGjs()
     {
         header('content-type: text/javascript');
-        echo file_get_contents('./Data/Extensions/WYSIWYG/WYSIWYG.js');
+        echo file_get_contents('Data/Extensions/WYSIWYG/WYSIWYG.js');
         exit;
     }
 }

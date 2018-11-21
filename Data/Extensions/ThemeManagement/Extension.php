@@ -170,10 +170,10 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
         $tableHeader .= '</span>';
 
         // return array("Title", "Contents");
-        $directory = opendir('./Data/Themes/');
+        $directory = opendir('Data/Themes/');
         while (false !== ($file = readdir($directory))) {
             if (($file != '.' && $file != '..') &&
-                is_dir('./Data/Themes/' . $file)
+                is_dir('Data/Themes/' . $file)
             ) {
                 $list[] = array(
                     sprintf(
@@ -186,7 +186,7 @@ class ThemeMananagamentSystem extends \WDGWV\CMS\ExtensionBase
                         'Activate',
                         $file
                     ),
-                    $this->themeInfo('./Data/Themes/' . $file),
+                    $this->themeInfo('Data/Themes/' . $file),
                 );
             }
         }

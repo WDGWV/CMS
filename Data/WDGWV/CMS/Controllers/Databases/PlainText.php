@@ -60,9 +60,9 @@ namespace WDGWV\CMS\Controllers\Databases;
  */
 if (!defined('PT_DB_PATH')) {
     /**
-     * Define 'PT_DB_PATH' to './Data/Database/'
+     * Define 'PT_DB_PATH' to 'Data/Database/'
      */
-    define('PT_DB_PATH', './Data/Database/');
+    define('PT_DB_PATH', 'Data/Database/');
 }
 
 /**
@@ -70,7 +70,7 @@ if (!defined('PT_DB_PATH')) {
  */
 if (!defined('PT_CMS_DB')) {
     /**
-     * Define 'PT_CMS_DB' to './Data/Database/CMS.PTdb'
+     * Define 'PT_CMS_DB' to 'Data/Database/CMS.PTdb'
      */
     define('PT_CMS_DB', PT_DB_PATH . 'CMS.PTdb');
 }
@@ -80,7 +80,7 @@ if (!defined('PT_CMS_DB')) {
  */
 if (!defined('PT_MENU_DB')) {
     /**
-     * Define 'PT_MENU_DB' to './Data/Database/menuItems.PTdb'
+     * Define 'PT_MENU_DB' to 'Data/Database/menuItems.PTdb'
      */
     define('PT_MENU_DB', PT_DB_PATH . 'menuItems.PTdb');
 }
@@ -90,7 +90,7 @@ if (!defined('PT_MENU_DB')) {
  */
 if (!defined('PT_USER_DB')) {
     /**
-     * Define 'PT_USER_DB' to './Data/Database/userInfo.PTdb'
+     * Define 'PT_USER_DB' to 'Data/Database/userInfo.PTdb'
      */
     define('PT_USER_DB', PT_DB_PATH . 'userInfo.PTdb');
 }
@@ -100,7 +100,7 @@ if (!defined('PT_USER_DB')) {
  */
 if (!defined('PT_POST_DB')) {
     /**
-     * Define 'PT_POST_DB' to './Data/Database/posts.PTdb'
+     * Define 'PT_POST_DB' to 'Data/Database/posts.PTdb'
      */
     define('PT_POST_DB', PT_DB_PATH . 'posts.PTdb');
 }
@@ -110,7 +110,7 @@ if (!defined('PT_POST_DB')) {
  */
 if (!defined('PT_PAGE_DB')) {
     /**
-     * Define 'PT_PAGE_DB' to './Data/Database/pages.PTdb'
+     * Define 'PT_PAGE_DB' to 'Data/Database/pages.PTdb'
      */
     define('PT_PAGE_DB', PT_DB_PATH . 'pages.PTdb');
 }
@@ -120,7 +120,7 @@ if (!defined('PT_PAGE_DB')) {
  */
 if (!defined('PT_SHOP_DB')) {
     /**
-     * Define 'PT_SHOP_DB' to './Data/Database/shopItems.PTdb'
+     * Define 'PT_SHOP_DB' to 'Data/Database/shopItems.PTdb'
      */
     define('PT_SHOP_DB', PT_DB_PATH . 'shopItems.PTdb');
 }
@@ -130,7 +130,7 @@ if (!defined('PT_SHOP_DB')) {
  */
 if (!defined('PT_WIKI_DB')) {
     /**
-     * Define 'PT_WIKI_DB' to './Data/Database/wikiItems.PTdb'
+     * Define 'PT_WIKI_DB' to 'Data/Database/wikiItems.PTdb'
      */
     define('PT_WIKI_DB', PT_DB_PATH . 'wikiItems.PTdb');
 }
@@ -140,7 +140,7 @@ if (!defined('PT_WIKI_DB')) {
  */
 if (!defined('PT_ORDER_DB')) {
     /**
-     * Define 'PT_ORDER_DB' to './Data/Database/orders.PTdb'
+     * Define 'PT_ORDER_DB' to 'Data/Database/orders.PTdb'
      */
     define('PT_ORDER_DB', PT_DB_PATH . 'orders.PTdb');
 }
@@ -150,7 +150,7 @@ if (!defined('PT_ORDER_DB')) {
  */
 if (!defined('PT_FORUM_DB')) {
     /**
-     * Define 'PT_FORUM_DB' to './Data/Database/forumItems.PTdb'
+     * Define 'PT_FORUM_DB' to 'Data/Database/forumItems.PTdb'
      */
     define('PT_FORUM_DB', PT_DB_PATH . 'forumItems.PTdb');
 }
@@ -662,7 +662,7 @@ class PlainText extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function themeSet($themeName)
     {
-        if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
+        if (file_exists(sprintf('Data/Themes/%s', $themeName))) {
             if (isset($this->CMSDatabase->theme)) {
                 $this->CMSDatabase->theme = $themeName;
             }

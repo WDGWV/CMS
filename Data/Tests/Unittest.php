@@ -68,7 +68,7 @@ final class Test extends TestCase
 
     public function testIntegerity()
     {
-        $a = @is_readable($file = './Data/integrityHashes.db') ? json_decode(gzuncompress(file_get_contents($file)), true) : false;
+        $a = @is_readable($file = 'Data/integrityHashes.db') ? json_decode(gzuncompress(file_get_contents($file)), true) : false;
         $this->assertEquals(
             is_array($a),
             true

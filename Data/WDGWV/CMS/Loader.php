@@ -61,7 +61,7 @@ namespace WDGWV\CMS;
  */
 function autloadWDGWVCMS($class)
 {
-    if (!is_array(@CMS_INTEGIRITY_CHECK)) {
+    if (!is_array(unserialize(CMS_INTEGIRITY_CHECK))) {
         exit("Integrity CHECK FAILED, REFUSING TO LOAD");
     }
 
@@ -72,10 +72,10 @@ function autloadWDGWVCMS($class)
     $fileName = str_replace('\\', '/', $class);
 
     /**
-     * sprintf ./Data/$filename.php
+     * sprintf Data/$filename.php
      * @var string
      */
-    $fileName = sprintf('./Data/%s.php', $fileName);
+    $fileName = sprintf('Data/%s.php', $fileName);
 
     /**
      * Check if the file exists, otherwise fail.
@@ -93,7 +93,7 @@ function autloadWDGWVCMS($class)
             /**
              * Load $fileName.
              */
-            if (@CMS_INTEGIRITY_CHECK[$fileName] === md5(file_get_contents($fileName))) {
+            if (@unserialize(CMS_INTEGIRITY_CHECK)[$fileName] === md5(file_get_contents($fileName))) {
                 $filePassedIntegrityCheck = true;
                 require_once $fileName;
             }
@@ -107,7 +107,7 @@ function autloadWDGWVCMS($class)
                 if (file_exists("makeFileHashes.php")) {
                     echo "REBUILDING file hashes cache...";
                     echo "<br />";
-                    echo "<script>window.location='/makeFileHashes.php?returnTo=' + window.location.pathname</script>";
+                    echo "<script>window.location='/makeFileHashes.php?returnTo=' + window.location.pathname + '&ff={$fileName}'</script>";
                 }
                 \trigger_error("Refusing to load \"{$fileName}\" the integrity failed.", E_USER_ERROR);
                 exit(1);
@@ -173,8 +173,8 @@ function autloadWDGWVCMS($class)
  * Define Integrity
  */
 define('CMS_INTEGIRITY_CHECK',
-    @is_readable('./Data/integrityHashes.db')
-    ? json_decode(gzuncompress(file_get_contents("./Data/integrityHashes.db")), true)
+    @is_readable('Data/integrityHashes.db')
+    ? serialize(json_decode(gzuncompress(file_get_contents("Data/integrityHashes.db")), true))
     : false
 );
 
@@ -186,7 +186,7 @@ spl_autoload_register('WDGWV\CMS\autloadWDGWVCMS');
 /**
  * Define Template directory
  */
-define('CMS_TEMPLATE_DIR', './Data/Themes/');
+define('CMS_TEMPLATE_DIR', 'Data/Themes/');
 
 /**
  * Initialize the configuration

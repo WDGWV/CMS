@@ -68,12 +68,12 @@ $CMSStartTime = microtime(true);
 /**
  * Check if loader is present, otherwise fail with error(1)
  */
-if (file_exists('./Data/WDGWV/CMS/Loader.php') &&
-    is_readable('./Data/WDGWV/CMS/Loader.php')) {
+if (file_exists('Data/WDGWV/CMS/Loader.php') &&
+    is_readable('Data/WDGWV/CMS/Loader.php')) {
     /**
      * Include the class loader.
      */
-    include_once './Data/WDGWV/CMS/Loader.php';
+    include_once 'Data/WDGWV/CMS/Loader.php';
 } else {
     /**
      * File not found, exit(1).

@@ -150,22 +150,22 @@ class Page extends \WDGWV\CMS\Controllers\Base
         /**
          * Check if filesystem is writeable, and the directory exists.
          */
-        if (is_writable('./Data/') && !file_exists('./Data/Temp')) {
+        if (is_writable('Data/') && !file_exists('Data/Temp')) {
             /**
-             * Create ./Data/Temp
+             * Create Data/Temp
              */
-            @mkdir('./Data/Temp/');
+            @mkdir('Data/Temp/');
         }
 
         /**
-         * Check if './Data/Temp/' is writeable
+         * Check if 'Data/Temp/' is writeable
          */
-        if (is_writable('./Data/Temp/')) {
+        if (is_writable('Data/Temp/')) {
             /**
              * Writable, create a filehandle resource
              * @var resource
              */
-            $fh = @fopen('./Data/Temp/Page_' . $uniid . '.bin', 'w');
+            $fh = @fopen('Data/Temp/Page_' . $uniid . '.bin', 'w');
 
             /**
              * write the parsed data
@@ -181,7 +181,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
         /**
          * Check if the file exists
          */
-        if (!file_exists('./Data/Temp/Page_' . $uniid . '.bin')) {
+        if (!file_exists('Data/Temp/Page_' . $uniid . '.bin')) {
             /**
              * File does not exists.
              * Start a object.
@@ -228,7 +228,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
             /**
              * Force try to delete the 'unexisting' file
              */
-            @unlink('./Data/Temp/Page_' . $uniid . '.bin');
+            @unlink('Data/Temp/Page_' . $uniid . '.bin');
 
             /**
              * Checks if we got page output
@@ -254,7 +254,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
              * Include the file
              * @var string
              */
-            $object = include './Data/Temp/Page_' . $uniid . '.bin';
+            $object = include 'Data/Temp/Page_' . $uniid . '.bin';
 
             /**
              * Get object contents
@@ -270,7 +270,7 @@ class Page extends \WDGWV\CMS\Controllers\Base
             /**
              * Unlink (delete) the file
              */
-            @unlink('./Data/Temp/Page_' . $uniid . '.bin');
+            @unlink('Data/Temp/Page_' . $uniid . '.bin');
 
             /**
              * Check for data

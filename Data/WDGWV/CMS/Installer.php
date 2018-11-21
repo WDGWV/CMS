@@ -135,7 +135,7 @@ class Installer
      */
     public function isInstalled()
     {
-        if (file_exists('./Data/WDGWV/CMS/installed')) {
+        if (file_exists('Data/WDGWV/CMS/installed')) {
             return true;
         } else {
             return false;

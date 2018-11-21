@@ -76,9 +76,9 @@ class Extensions
      * @var array
      */
     private $scan_directories = array(
-        './Data/Extensions/',
-        './Data/Modules/',
-        './Data/Plugins/',
+        'Data/Extensions/',
+        'Data/Modules/',
+        'Data/Plugins/',
     );
 
     /**
@@ -116,14 +116,14 @@ class Extensions
      *
      * @var string
      */
-    private $cacheDB = './Data/Database/extensionCache.PTdb';
+    private $cacheDB = '/Data/Database/extensionCache.PTdb';
 
     /**
      * the 'lock' file.
      *
      * @var string
      */
-    private $lockFile = './Data/Database/extensionCache.PTlock';
+    private $lockFile = '/Data/Database/extensionCache.PTlock';
 
     /**
      * Cache lifetime (in seconds)
@@ -192,7 +192,7 @@ class Extensions
     {
         if (\WDGWV\General\WDGWV::shared()->debug()) {
             file_put_contents(
-                $f = "./ExtensionsLog.log",
+                $f = getcwd() . '/ExtensionsLog.log',
                 sprintf(
                     "%s[%s] [%s(...)] %s%s",
                     @file_get_contents($f),
@@ -218,7 +218,8 @@ class Extensions
          * @var integer
          */
         $cacheTime = 0;
-
+        $this->cacheDB = getcwd() . '/Data/Database/extensionCache.PTdb';
+        $this->lockFile = getcwd() . '/Data/Database/extensionCache.PTlock';
         /**
          * Check if the file exists
          */
@@ -437,7 +438,7 @@ class Extensions
              * If the name of the extension is in the system array, then return true
              */
             return in_array(
-                /* ./Data/Extensions/Extensionname/Extension.php */
+                /* Data/Extensions/Extensionname/Extension.php */
                 /* 0  1       2          3             4         */
                 /* Fetch extension name */
                 explode('/', $ext)[3],
@@ -539,8 +540,9 @@ class Extensions
      */
     public function integrityCheck($extension)
     {
-        if (isset(CMS_INTEGIRITY_CHECK[$this->getExtensionPath($extension)])) {
-            if (CMS_INTEGIRITY_CHECK[$this->getExtensionPath($extension)] === md5(file_get_contents($this->getExtensionPath($extension)))) {
+        $check = unserialize(CMS_INTEGIRITY_CHECK);
+        if (isset($check[$this->getExtensionPath($extension)])) {
+            if ($check[$this->getExtensionPath($extension)] === md5(file_get_contents($this->getExtensionPath($extension)))) {
                 return true;
             }
         }
@@ -576,7 +578,8 @@ class Extensions
                      * md5(path) == value
                      * value needs to be equal to md5(path)
                      */
-                    md5($this->getExtensionPath($extension)) == $value
+                    md5($extension) == $value || // For PHP < 5.7
+                    $this->getExtensionPath($extension) == $value
                 );
             }
         }

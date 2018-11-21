@@ -10,23 +10,23 @@ $hashes = array();
 $files = array();
 
 $files = glob("./*.php");
-$files = array_merge($files, glob("./Data/*.php"));
-$files = array_merge($files, glob("./Data/*/*.php"));
-$files = array_merge($files, glob("./Data/*/*/*.php"));
-$files = array_merge($files, glob("./Data/*/*/*/*.php"));
-$files = array_merge($files, glob("./Data/*/*/*/*/*.php"));
+$files = array_merge($files, glob("Data/*.php"));
+$files = array_merge($files, glob("Data/*/*.php"));
+$files = array_merge($files, glob("Data/*/*/*.php"));
+$files = array_merge($files, glob("Data/*/*/*/*.php"));
+$files = array_merge($files, glob("Data/*/*/*/*/*.php"));
 
 foreach ($files as $file) {
     $hashes[$file] = md5(file_get_contents($file));
 }
 
 echo json_encode($hashes);
-file_put_contents("./Data/integrityHashes.db", gzcompress(json_encode($hashes), 9));
+$fileError = file_put_contents("Data/integrityHashes.db", gzcompress(json_encode($hashes), 9));
 
 if (isset($_GET['returnTo'])) {
     echo (
         sprintf(
-            "<script>window.location = '%s';</script>",
+            "<script>window.location = '%s?FE=" . ($fileError ? $fileError : 'None') . "';</script>",
             $_GET['returnTo']
         )
     );

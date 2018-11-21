@@ -59,7 +59,7 @@
 
 namespace WDGWV\CMS\Extension; /* Module namespace */
 
-if (!file_exists("./Data/Extensions/DemoMode/disabled")) {
+if (!file_exists("Data/Extensions/DemoMode/disabled")) {
     class DemoMode extends \WDGWV\CMS\ExtensionBase
     {
         /**
