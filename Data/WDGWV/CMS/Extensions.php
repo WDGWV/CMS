@@ -814,19 +814,19 @@ class Extensions
     /**
      * extension information
      *
-     * @param $ofExtensionOrFilePath
+     * @param $ofExtensionPath
      * @return mixed
      */
-    public function information($ofExtensionOrFilePath, $deep = false)
+    public function information($ofExtensionPath, $deep = false)
     {
         /**
          * Checks if the path exists
          */
-        if (!file_exists($ofExtensionOrFilePath)) {
+        if (!file_exists($ofExtensionPath)) {
             /**
              * Check if we have found the path.
              */
-            if ($this->getExtensionPath($ofExtensionOrFilePath) !== false) {
+            if ($this->getExtensionPath($ofExtensionPath) !== false) {
                 /**
                  * Checks if we had already searched
                  */
@@ -844,7 +844,7 @@ class Extensions
                     /**
                      * Get the extension path
                      */
-                    $this->getExtensionPath($ofExtensionOrFilePath),
+                    $this->getExtensionPath($ofExtensionPath),
                     /**
                      * Say that we already searched
                      */
@@ -855,7 +855,7 @@ class Extensions
             /**
              * File does not exists.
              */
-            echo "Unknown file ($ofExtensionOrFilePath).";
+            echo "Unknown file ($ofExtensionPath).";
 
             /**
              * return, don't run more from this function
@@ -866,7 +866,7 @@ class Extensions
         /**
          * Return parseInformation(aboutthisextension)
          */
-        return $this->parseInformation($ofExtensionOrFilePath);
+        return $this->parseInformation($ofExtensionPath);
     }
 
     /**
