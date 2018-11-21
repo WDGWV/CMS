@@ -169,22 +169,22 @@ class TemplateParser extends WDGWV
      * Set the template.
      *
      * @param string $templateFile The template directory
-     * @param string $TemplateFileExtension The extension
+     * @param string $fileExtension The extension
      * @access public
      * @since Version 2.0 (Improved)
      */
-    public function setTemplate($templateFile = 'default', $TemplateFileExtension = 'tpl', $fileURL = "/assets/")
+    public function setTemplate($templateFile = 'default', $fileExtension = 'tpl', $fileURL = "/assets/")
     {
         if (file_exists(
-            $f = $this->config['templateDirectory'] . $templateFile . "/theme." . $TemplateFileExtension
+            $fileName = $this->config['templateDirectory'] . $templateFile . "/theme." . $fileExtension
         )
         ) {
             $this->config['theme'] = $templateFile;
-            $this->config['themeExtension'] = $TemplateFileExtension;
+            $this->config['themeExtension'] = $fileExtension;
             $this->config['templateFiles'] = $fileURL;
             $this->ready = true;
         } else {
-            $this->fatalError('The template file ' . $f . ' does not exists');
+            $this->fatalError('The template file ' . $fileName . ' does not exists');
             $this->ready = false;
         }
     }
@@ -857,10 +857,10 @@ class TemplateParser extends WDGWV
      *
      * @since Version 2.0
      * @access private
-     * @param string[] $d Data/Template to parse
+     * @param string[] $dataStr Data/Template to parse
      * @internal
      */
-    public function parseWhile($d)
+    public function parseWhile($dataStr)
     {
         /**
          * Return string
@@ -879,10 +879,10 @@ class TemplateParser extends WDGWV
          */
         for ($i = 0; $i < sizeof($this->parameters); $i++) {
             /**
-             * If parameter[0] matches with $d[1]
+             * If parameter[0] matches with $dataStr[1]
              * Then cool, parse
              */
-            if ($this->parameters[$i][0] == $d[1]) {
+            if ($this->parameters[$i][0] == $dataStr[1]) {
                 /**
                  * If parameter[1] is an array,
                  * then do something with it.
@@ -909,7 +909,7 @@ class TemplateParser extends WDGWV
                          * Temporary data
                          * @var string
                          */
-                        $temporaryData = $d[2];
+                        $temporaryData = $dataStr[2];
                         foreach ($this->parameters[$i][1][$z] as $key => $value) {
                             /**
                              * Temporary data (replace keys)
@@ -920,16 +920,16 @@ class TemplateParser extends WDGWV
                                  * Create an temporary Key
                                  * @var string
                                  */
-                                $temporaryKey = "/{$d[1]}\.{$key}/",
+                                $temporaryKey = "/{$dataStr[1]}\.{$key}/",
                                 $value,
                                 $temporaryData
                             );
 
                             /**
-                             * If key ($temporaryKey) matches with $d[2]
+                             * If key ($temporaryKey) matches with $dataStr[2]
                              * Input: /\{while (\w+)\}(.*)\{\/(while|wend)\}/s
                              */
-                            if (preg_match($temporaryKey, $d[2])) {
+                            if (preg_match($temporaryKey, $dataStr[2])) {
                                 /**
                                  * Data found.
                                  */
@@ -938,7 +938,7 @@ class TemplateParser extends WDGWV
                                 /**
                                  * Temporary key added.
                                  */
-                                $temporaryKeys[] = "{$d[1]}.{$key}";
+                                $temporaryKeys[] = "{$dataStr[1]}.{$key}";
                             }
                         }
 
@@ -959,7 +959,7 @@ class TemplateParser extends WDGWV
                                 sprintf(
                                     '%s%s%s%s</b>&nbsp;',
                                     'Missing a replacement key in a while-loop!<br />',
-                                    'While loop: <b>{$d[1]}</b><br />',
+                                    'While loop: <b>{$dataStr[1]}</b><br />',
                                     'Confirm existence for least one of the following keys: <b>',
                                     implode(', ', $temporaryKeys)
                                 )
@@ -981,10 +981,10 @@ class TemplateParser extends WDGWV
      *
      * @since Version 2.0
      * @access private
-     * @param string[] $d Data/Template to parse
+     * @param string[] $dataStr Data/Template to parse
      * @internal
      */
-    public function parseArray($d)
+    public function parseArray($dataStr)
     {
         /**
          * Return string
@@ -993,7 +993,7 @@ class TemplateParser extends WDGWV
         $returning = '';
 
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
-            if ($this->tParameters[$i][0] == $d[1]) {
+            if ($this->tParameters[$i][0] == $dataStr[1]) {
                 /**
                  * Replace ; with ,
                  */
@@ -1010,17 +1010,17 @@ class TemplateParser extends WDGWV
                  */
                 for ($z = 0; $z < sizeof($explode); $z++) {
                     /**
-                     * Temporary data is $d[2]
+                     * Temporary data is $dataStr[2]
                      * Input data: /\{for (\w+)\}(.*)\{\/for\}/s
                      *
                      * @var string
                      */
-                    $temporaryData = $d[2];
+                    $temporaryData = $dataStr[2];
 
                     /**
-                     * Replace {$d[1]} to exploded data.
+                     * Replace {$dataStr[1]} to exploded data.
                      */
-                    $temporaryData = preg_replace("/\{{$d[1]}\}/", $explode[$z], $temporaryData);
+                    $temporaryData = preg_replace("/\{{$dataStr[1]}\}/", $explode[$z], $temporaryData);
 
                     /**
                      * Add data to returning string.
@@ -1041,10 +1041,10 @@ class TemplateParser extends WDGWV
      *
      * @since Version 2.0
      * @access private
-     * @param string[] $d Data/Template to parse
+     * @param string[] $dataStr Data/Template to parse
      * @internal
      */
-    public function parseMenu($d)
+    public function parseMenu($dataStr)
     {
         /**
          * Create a empty menu
@@ -1056,7 +1056,7 @@ class TemplateParser extends WDGWV
          * Extract ending tag for a General menu item
          * @var string
          */
-        $generalMenuItem = explode("{/MENUITEM}", $d[1]);
+        $generalMenuItem = explode("{/MENUITEM}", $dataStr[1]);
 
         if (isset($generalMenuItem[0])) {
             /* Found ending tag */
@@ -1084,7 +1084,7 @@ class TemplateParser extends WDGWV
          * Extract start tag for a submenu
          * @var string
          */
-        $subMenuHeader = explode("{SUBMENU}", $d[1]);
+        $subMenuHeader = explode("{SUBMENU}", $dataStr[1]);
         if (isset($subMenuHeader[1])) {
             /* Found beginning tag */
             $subMenuHeader = $subMenuHeader[1];
@@ -1110,7 +1110,7 @@ class TemplateParser extends WDGWV
          * Extract starting tag for a submenu
          * @var string
          */
-        $subMenuFooter = explode("{SUBMENU}", $d[1]);
+        $subMenuFooter = explode("{SUBMENU}", $dataStr[1]);
         if (isset($subMenuFooter[1])) {
             /* Found beginning tag */
             $subMenuFooter = $subMenuFooter[1];
@@ -1149,7 +1149,7 @@ class TemplateParser extends WDGWV
          * Extract starting tag for a submenu item
          * @var string
          */
-        $subMenuItem = explode("{SUBMENU}", $d[1]);
+        $subMenuItem = explode("{SUBMENU}", $dataStr[1]);
         if (isset($subMenuItem[1])) {
             /* Found beginning tag */
             $subMenuItem = $subMenuItem[1];
@@ -1202,13 +1202,13 @@ class TemplateParser extends WDGWV
                      * Explode submenu from item's name
                      * @var [string]
                      */
-                    $e = explode("/", $data['name']);
+                    $exploded = explode("/", $data['name']);
 
                     /**
                      * If size is less then 4, then it contains valid menu data.
                      * Otherwise there are to much submenu's, and that's not built-in
                      */
-                    if (sizeof($e) < 4) {
+                    if (sizeof($exploded) < 4) {
                         /**
                          * Walk again trouch menu contents,
                          * but now we'll know where we're searching for.
@@ -1218,12 +1218,12 @@ class TemplateParser extends WDGWV
                              * If seekdata equals submenu name, then
                              * parse it.
                              */
-                            if (strtolower($seekData['name']) == strtolower($e[0])) {
+                            if (strtolower($seekData['name']) == strtolower($exploded[0])) {
                                 /**
-                                 * if !isset $e[2] then it's a one layered submenu.
+                                 * if !isset $exploded[2] then it's a one layered submenu.
                                  * Otherwise there is a sub-in-submenu.
                                  */
-                                if (!isset($e[2])) {
+                                if (!isset($exploded[2])) {
                                     /**
                                      * Is the $seekData has a 'submenu' item.
                                      * then parse it, otherwise ignore
@@ -1238,7 +1238,7 @@ class TemplateParser extends WDGWV
                                         /**
                                          * Remove submenu name.
                                          */
-                                        $newData['name'] = $e[1];
+                                        $newData['name'] = $exploded[1];
 
                                         /**
                                          * Append to submenu
@@ -1269,7 +1269,7 @@ class TemplateParser extends WDGWV
                                          * If seekdata equals sub-in-sub menu name, then
                                          * parse it.
                                          */
-                                        if (strtolower($subData['name']) == strtolower($e[1])) {
+                                        if (strtolower($subData['name']) == strtolower($exploded[1])) {
                                             /**
                                              * Is found in Sub-in-sub menu, found!
                                              * @var boolean
@@ -1279,7 +1279,7 @@ class TemplateParser extends WDGWV
                                             /**
                                              * Remove submenu name.
                                              */
-                                            $data['name'] = $e[2];
+                                            $data['name'] = $exploded[2];
 
                                             /**
                                              * si = SeekI
@@ -1315,13 +1315,13 @@ class TemplateParser extends WDGWV
                                         /**
                                          * Remove parent's submenu name
                                          */
-                                        $data['name'] = $e[2];
+                                        $data['name'] = $exploded[2];
 
                                         /**
                                          * Append to submenu
                                          */
                                         $this->config['menuContents'][$seekI]['submenu'][] = $newSubmenuItem = array(
-                                            'name' => $e[1],
+                                            'name' => $exploded[1],
                                             'url' => '#',
                                             'userlevel' => (
                                                 isset($seekData['userlevel']) ? $seekData['userlevel'] : '*'
@@ -1345,7 +1345,7 @@ class TemplateParser extends WDGWV
                             sprintf(
                                 '<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels,' .
                                 ' current:%d<br />menu item creating this issue: <pre>%s</pre>',
-                                (((int) sizeof($e)) - 1),
+                                (((int) sizeof($exploded)) - 1),
                                 preg_replace("/\//", " -> ", $data['name'])
                             )
                         );
@@ -1722,9 +1722,9 @@ class TemplateParser extends WDGWV
     public function parseSubTemplate($d)
     {
         /**
-         * If exists, $d[2] it has custom parameters!
+         * If exists, $dataStr[2] it has custom parameters!
          */
-        if (isset($d[2])) {
+        if (isset($dataStr[2])) {
             /**
              * re-set temporary parameters
              * @var array
@@ -1735,7 +1735,7 @@ class TemplateParser extends WDGWV
              * Explode custom parameters (name=value;name2=value2...)
              * @var [string]
              */
-            $cfg = explode(';', $d[2]);
+            $cfg = explode(';', $dataStr[2]);
 
             /**
              * Walk trough the custom parameters
@@ -1776,14 +1776,14 @@ class TemplateParser extends WDGWV
         /**
          * Check if sub template item exists!
          */
-        if (!file_exists($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]) ||
-            !is_readable($this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1])) {
+        if (!file_exists($this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1]) ||
+            !is_readable($this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1])) {
             /**
              * Does not exists, or is not readable
              */
             $this->fatalError(sprintf(
                 'Warning file \'%s\' does not exists, or isn\'t readable.<br />Cannot load sub-template item.',
-                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]
+                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1]
             ));
 
             return;
@@ -1797,7 +1797,7 @@ class TemplateParser extends WDGWV
              * Load sub-template.
              */
             file_get_contents(
-                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $d[1]
+                $this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1]
             ),
             /**
              * Append custom parameters
@@ -1808,10 +1808,10 @@ class TemplateParser extends WDGWV
 
     /**
      * is the {ISSET ITEM:ITEMNAME}...{/ISSET} valid?
-     * @param $d search/parse parameter in template.
+     * @param $dataStr search/parse parameter in template.
      * @return mixed
      */
-    public function isSetItem($d)
+    public function isSetItem($dataStr)
     {
         /**
          * If no custom parameters
@@ -1835,9 +1835,9 @@ class TemplateParser extends WDGWV
              */
             for ($i = 0; $i < sizeof($this->parameters); $i++) {
                 /**
-                 * If parameter equals $d
+                 * If parameter equals $dataStr
                  */
-                if ($this->parameters[$i][0] == $d[1]) {
+                if ($this->parameters[$i][0] == $dataStr[1]) {
                     /**
                      * If a debugger is set, debug.
                      */
@@ -1846,7 +1846,7 @@ class TemplateParser extends WDGWV
                          * Append debug message
                          */
                         $this->debugger->log(
-                            'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
+                            'found parameter \'' . $dataStr[1] . '\' in $this->parameters[' . $i . '][0]'
                         );
                     }
 
@@ -1858,7 +1858,7 @@ class TemplateParser extends WDGWV
                          * Parse template with custom value, and original parameters
                          */
                         return $this->parseTemplate(
-                            $d[2],
+                            $dataStr[2],
                             $this->parameters
                         );
                     }
@@ -1871,9 +1871,9 @@ class TemplateParser extends WDGWV
          */
         for ($i = 0; $i < sizeof($this->tParameters); $i++) {
             /**
-             * If temporary parameter equals $d
+             * If temporary parameter equals $dataStr
              */
-            if ($this->tParameters[$i][0] == $d[1]) {
+            if ($this->tParameters[$i][0] == $dataStr[1]) {
                 /**
                  * If a debugger is set, debug.
                  */
@@ -1882,7 +1882,7 @@ class TemplateParser extends WDGWV
                      * Append debug message
                      */
                     $this->debugger->log(
-                        'found parameter \'' . $d[1] . '\' in $this->parameters[' . $i . '][0]'
+                        'found parameter \'' . $dataStr[1] . '\' in $this->parameters[' . $i . '][0]'
                     );
                 }
 
@@ -1894,7 +1894,7 @@ class TemplateParser extends WDGWV
                      * Parse template with custom value, and temporary parameters
                      */
                     return $this->parseTemplate(
-                        $d[2],
+                        $dataStr[2],
                         $this->tParameters
                     );
                 }
