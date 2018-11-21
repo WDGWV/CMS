@@ -51,7 +51,7 @@ namespace WDGWV\CMS\Controllers\Databases;
  */
 
 if (!defined('DB_PATH')) {
-    define('DB_PATH', './Data/Database/');
+    define('DB_PATH', 'Data/Database/');
 }
 
 define('SQLITE_DB', DB_PATH . 'CMS.sqllite');
@@ -369,7 +369,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         if ($force) {
             $query = "INSERT INTO `CMSconfiguration` (`value`, `item`) VALUES(:theme, 'theme');";
 
-            if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
+            if (file_exists(sprintf('Data/Themes/%s', $themeName))) {
                 return $this->queryWithParameters(
                     $query,
                     array(':theme' => $themeName)
@@ -379,7 +379,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         } else {
             $query = "UPDATE `CMSconfiguration` SET `value`=:theme WHERE `item`='theme'";
 
-            if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
+            if (file_exists(sprintf('Data/Themes/%s', $themeName))) {
                 return $this->queryWithParameters(
                     $query,
                     array(':theme' => $themeName)

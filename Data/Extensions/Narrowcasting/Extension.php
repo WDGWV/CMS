@@ -59,7 +59,7 @@
 
 namespace WDGWV\CMS\Extension; /* Module namespace */
 
-if (!file_exists("./Data/Extensions/Narrowcasting/disabled")) {
+if (!file_exists("Data/Extensions/Narrowcasting/disabled")) {
     class NarrowCasting extends \WDGWV\CMS\ExtensionBase
     {
         /**

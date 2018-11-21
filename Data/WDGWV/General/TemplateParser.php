@@ -130,7 +130,7 @@ class TemplateParser extends WDGWV
      * @param string $templateDirectory The template directory
      * @since Version 2.0 (Improved)
      */
-    public function __construct($debug = false, $CDN = null, $templateDirectory = "./Data/Template/")
+    public function __construct($debug = false, $CDN = null, $templateDirectory = "Data/Template/")
     {
         $this->ready = false;
         $this->file = array();
@@ -687,24 +687,24 @@ class TemplateParser extends WDGWV
         /**
          * Checks if 'Data' folder exists, otherwise try to create one.
          */
-        if (!file_exists('./Data')) {
-            @mkdir('./Data');
+        if (!file_exists('Data')) {
+            @mkdir('Data');
         }
 
         /**
          * Checks if Data is writeable, and if Data/Temp Exists.
          * Otherwise it try's to create it.
          */
-        if (is_writable('./Data/') && !file_exists('./Data/Temp')) {
-            @mkdir('./Data/Temp/');
+        if (is_writable('Data/') && !file_exists('Data/Temp')) {
+            @mkdir('Data/Temp/');
         }
 
         /**
-         * If ./Data/Temp is writeable we'll use a 'bin' file for parsing the template
+         * If Data/Temp is writeable we'll use a 'bin' file for parsing the template
          * Otherwise we'll parse it in memory and `eval` the code.
          */
-        if (is_writable('./Data/Temp/')) {
-            $fileHandle = @fopen('./Data/Temp/tmp_tpl_' . $uniid . '.bin', 'w');
+        if (is_writable('Data/Temp/')) {
+            $fileHandle = @fopen('Data/Temp/tmp_tpl_' . $uniid . '.bin', 'w');
             @fwrite($fileHandle, $template);
             @fclose($fileHandle);
         }
@@ -712,7 +712,7 @@ class TemplateParser extends WDGWV
         /**
          * Checks if we have our binary file.
          */
-        if (!file_exists('./Data/Temp/tmp_tpl_' . $uniid . '.bin')) {
+        if (!file_exists('Data/Temp/tmp_tpl_' . $uniid . '.bin')) {
             /**
              * Binary file not found.
              * Parsing template in memory, and eval the code.
@@ -772,7 +772,7 @@ class TemplateParser extends WDGWV
              * What ever if is exists, try to remove our temporary file.
              * Using @ to supress any errors.
              */
-            @unlink('./Data/Temp/tmp_tpl_' . $uniid . '.bin');
+            @unlink('Data/Temp/tmp_tpl_' . $uniid . '.bin');
 
             /**
              * Check if the template is parsed correctly
@@ -817,7 +817,7 @@ class TemplateParser extends WDGWV
              * Include the template file.
              * @var string
              */
-            $parsedTemplate = include './Data/Temp/tmp_tpl_' . $uniid . '.bin';
+            $parsedTemplate = include 'Data/Temp/tmp_tpl_' . $uniid . '.bin';
 
             /**
              * Get object contents
@@ -833,7 +833,7 @@ class TemplateParser extends WDGWV
              * What ever if is exists, try to remove our temporary file.
              * Using @ to supress any errors.
              */
-            @unlink('./Data/Temp/tmp_tpl_' . $uniid . '.bin');
+            @unlink('Data/Temp/tmp_tpl_' . $uniid . '.bin');
 
             /**
              * Check if the template is parsed correctly

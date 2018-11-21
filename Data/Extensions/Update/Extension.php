@@ -95,10 +95,8 @@ class Update extends \WDGWV\CMS\ExtensionBase
     {
         // Read cached Extensions, if they exists, otherwise, skip.
         $this->extensionList = \WDGWV\CMS\Extensions::shared()->displayExtensionList();
-        if (file_get_contents($this->updateURL)) {
-            // Temporary shizzle.
-            $this->extensionList = $this->updateURL;
-        }
+        $this->updateURL = '';
+        $this->extensionList = $this->updateURL;
     }
 
     public function reload()

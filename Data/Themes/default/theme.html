@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,129 +9,133 @@
     <meta name="author" content="WDGWV CMS">
     <title>{ITEM:SITE_TITLE}</title>
     <!-- Bootstrap Core CSS -->
-    <link href="./data/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./data/css/custom.css" rel="stylesheet">
+    <link href="Data/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Data/css/custom.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
-    <link href="./data/css/metisMenu.min.css" rel="stylesheet">
+    <link href="Data/css/metisMenu.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="./data/css/sb-admin-2.css" rel="stylesheet">
+    <link href="Data/css/sb-admin-2.css" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="./data/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="Data/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="wrapper">
-      <!-- Navigation -->
-      <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">{#Toggle navigation#}</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/admin">{ITEM:SITE_TITLE}</a>
-        </div>
-        <!-- /.navbar-header -->
-        <ul class="nav navbar-top-links navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">{#Toggle navigation#}</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/admin">{ITEM:SITE_TITLE}</a>
+            </div>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i> {ITEM:USERNAME} <i class="fa fa-caret-down"></i>
                     </a>
-            <ul class="dropdown-menu dropdown-user">
-              <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-              </li>
-              <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-              </li>
-              <li class="divider"></li>
-              <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-              </li>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
             </ul>
-            <!-- /.dropdown-user -->
-          </li>
-          <!-- /.dropdown -->
-        </ul>
-        <!-- /.navbar-top-links -->
-        <div class="navbar-default sidebar" role="navigation">
-          <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
-              <li class="sidebar-search">
-                <div class="input-group custom-search-form">
-                  <form action='/search/' method='get' onsubmit="window.location='/search/'+document.getElementById('search').value;return false;">
-                    <input type="text" class="form-control" id="search" placeholder="Search...">
-                  </form>
-                  <span class="input-group-btn">
+            <!-- /.navbar-top-links -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <form action='/search/' method='get' onsubmit="window.location='/search/'+document.getElementById('search').value;return false;">
+                                    <input type="text" class="form-control" id="search" placeholder="Search...">
+                                </form>
+                                <span class="input-group-btn">
                                     <button onClick="window.location='/search/'+document.getElementById('search').value;" class="btn btn-default" type="button">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        {GENERATE menu} {MENUITEM}
+                        <li>
+                            <a href="{LINK}"><i class="fa fa-{ICON} fa-fw"></i> {NAME}</a>
+                        </li>
+                        {/MENUITEM} {SUBMENU}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-{ICON} fa-fw"></i> {NAME} <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                {MENUITEM}
+                                <li><a href="{LINK}"><i class="fa fa-{ICON} fa-fw"></i> {NAME}</a></li>{/MENUITEM}
+                            </ul>
+                        </li>
+                        {/SUBMENU} {/GENERATE}
+                        <!--END MENU-->
+                    </ul>
                 </div>
-                <!-- /input-group -->
-              </li>
-              {GENERATE menu} {MENUITEM}
-              <li>
-                <a href="{LINK}"><i class="fa fa-{ICON} fa-fw"></i> {NAME}</a>
-              </li>
-              {/MENUITEM} {SUBMENU}
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-{ICON} fa-fw"></i> {NAME} <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                  {MENUITEM}
-                  <li><a href="{LINK}"><i class="fa fa-{ICON} fa-fw"></i> {NAME}</a></li>{/MENUITEM}
-                </ul>
-              </li>
-              {/SUBMENU} {/GENERATE}
-
-              <!--END MENU-->
-            </ul>
-          </div>
-          <!-- /.sidebar-collapse -->
-        </div>
-        <!-- /.navbar-static-side -->
-      </nav>
-      <!-- Page Content -->
-      <div id="page-wrapper">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="row">
-              <br />
-              {ISSET ITEM:page}<div class="col-lg-12"><div class="panel panel-default"><div class="panel-heading">{ITEM:title}</div><div class="panel-body">{ITEM:page}</div></div></div>{/ISSET}
-              {while post}
-              <div class="col-lg-12">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    post.title
-                  </div>
-                  <div class="panel-body">
-                    {DECODE:post.content}
-                  </div>
-                </div>
-              </div>
-              {/while}
-              <!-- /.col-lg-12 -->
+                <!-- /.sidebar-collapse -->
             </div>
-            <!-- /.row -->
-          </div>
-          <!-- /.container-fluid -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="row">
+                        <br />
+                        {ISSET ITEM:page}<div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">{ITEM:title}</div>
+                                <div class="panel-body">{ITEM:page}</div>
+                            </div>
+                        </div>{/ISSET}
+                        {while post}
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    post.title
+                                </div>
+                                <div class="panel-body">
+                                    {DECODE:post.content}
+                                </div>
+                            </div>
+                        </div>
+                        {/while}
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /#page-wrapper -->
         </div>
-        <!-- /#page-wrapper -->
-      </div>
-      <div class='copyright'>{ITEM:copyright}</div>
-      <!-- /#wrapper -->
-      <!-- jQuery -->
-      <script src="./data/js/jquery.min.js"></script>
-      <!-- Bootstrap Core JavaScript -->
-      <script src="./data/js/bootstrap.min.js"></script>
-      <!-- Metis Menu Plugin JavaScript -->
-      <script src="./data/js/metisMenu.min.js"></script>
-      <!-- Custom Theme JavaScript -->
-      <script src="./data/js/sb-admin-2.js"></script>
-  </body>
+        <div class='copyright'>{ITEM:copyright}</div>
+        <!-- /#wrapper -->
+        <!-- jQuery -->
+        <script src="Data/js/jquery.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="Data/js/bootstrap.min.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="Data/js/metisMenu.min.js"></script>
+        <!-- Custom Theme JavaScript -->
+        <script src="Data/js/sb-admin-2.js"></script>
+</body>
 
 </html>
