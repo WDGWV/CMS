@@ -104,9 +104,11 @@ class Extensions
         'PageManagement',
         'BlogManagement',
         'ThemeManagement',
-        'crossdomain',
+        'UserManagement',
+        'Crossdomain',
+        'IPban',
         'Update',
-        // ''
+        '_.js',
     );
 
     /**
@@ -194,10 +196,33 @@ class Extensions
     }
 
     /**
+     * Log to the logfile!
+     *
+     * @param string $anything mixed
+     */
+    private function log($anything)
+    {
+        if (\WDGWV\General\WDGWV::shared()->debug()) {
+            file_put_contents(
+                $f = "./ExtensionsLog.log",
+                sprintf(
+                    "%s[%s] [%s(...)] %s%s",
+                    @file_get_contents($f),
+                    date("Y-m-d H:i:s"),
+                    debug_backtrace()[1]['function'],
+                    $anything,
+                    PHP_EOL
+                )
+            );
+        }
+    }
+
+    /**
      * Private so nobody else can instantiate it
      */
     private function __construct()
     {
+        $this->log("Debugging started.");
         /**
          * What is the current time of the cache.
          * Default: 0
@@ -210,6 +235,7 @@ class Extensions
          * Check if the file exists
          */
         if (file_exists($this->cacheDB)) {
+            $this->log("Cache exists");
             /**
              * What is the current time of the cache.
              * @var int
@@ -221,6 +247,7 @@ class Extensions
          * Check if the time - cachetime is less then the cache lifetime
          */
         if ((time() - $cacheTime) <= $this->cache_lifetime) {
+            $this->log("Cache time ok.");
             /**
              * Cache lifetime is not exeed.
              * load cache
@@ -233,25 +260,30 @@ class Extensions
             return;
         }
 
+        $this->log("Reloading extensions.");
         /**
          * Reload extensions
          */
         $this->reloadExtensions();
 
+        $this->log("Removing duplicates (loadExtensions).");
         /**
          * Remove duplicates in $this->loadExtensions
          */
         array_unique($this->loadExtensions);
 
+        $this->log("Removing duplicates (extensionList).");
         /**
          * Remove duplicates in $this->extensionList
          */
         array_unique($this->extensionList);
 
+        $this->log("Checking for a lock file..");
         /**
          * Check if there is a 'lock' file.
          */
         if (file_exists($this->lockFile)) {
+            $this->log("Removing lock file.");
             /**
              * Unlink the 'lock' file
              */
@@ -279,6 +311,7 @@ class Extensions
      */
     private function loadExtensions()
     {
+        $this->log("Loading extensions");
         /* JSON Decode */
         $loadFile = json_decode(
             /* Uncompress */
@@ -296,7 +329,9 @@ class Extensions
         /**
          * Check if there are extensions loaded.
          */
-        if (sizeof($loadFile) < 5) {
+        if (sizeof($loadFile[0]) < 5) {
+            $this->log("RELoading extensions, loaded extension count is " . sizeof($loadFile[0]) . " (" . @implode(",", $loadFile[0]) . ")");
+
             /**
              * No extensions loaded.
              * Reload extensions
@@ -309,6 +344,7 @@ class Extensions
             return;
         }
 
+        $this->log("removing duplicates");
         /**
          * Remove duplicates in loaded extensions
          */
@@ -323,30 +359,33 @@ class Extensions
             $loadFile[1] = array_unique($loadFile[1]);
         }
 
+        $this->log("removed duplicates");
         /**
          * Load the files
          */
         if (is_array($loadFile[0])) {
-            foreach ($loadFile[0] as $loadFile) {
+            foreach ($loadFile[0] as $fileToLoad) {
+                $this->log("Loading extension {$fileToLoad}");
+
                 /**
                  * Append loading text to debugger
                  */
                 Debugger::shared()->log(
                     sprintf(
                         'loading extension: %s',
-                        $loadFile
+                        $fileToLoad
                     )
                 );
 
                 /**
                  * Checks if extension exists
                  */
-                if (file_exists($loadFile)) {
+                if (file_exists($fileToLoad)) {
                     /**
                      * Check if the extension is disabled?
                      * @var string
                      */
-                    $disabled = explode('/', $loadFile);
+                    $disabled = explode('/', $fileToLoad);
 
                     /**
                      * Append disabled to the array
@@ -365,19 +404,20 @@ class Extensions
                             /**
                              * No disabled parameter, so load it!
                              */
-                            require_once $loadFile;
+                            require_once $fileToLoad;
                         }
                     } else {
                         /**
                          * In production mode,
                          * We don't block files due 'disabled' files
                          */
-                        require_once $loadFile;
+                        require_once $fileToLoad;
                     }
                 }
             }
         }
 
+        $this->log("Saving values...");
         /**
          * Save loaded extensions
          * @var [string]
@@ -389,6 +429,8 @@ class Extensions
          * @var [string]
          */
         $this->extensionList = $loadFile[1];
+
+        $this->log("Extensions loaded!");
     }
 
     /**
@@ -1007,6 +1049,7 @@ class Extensions
      */
     public function forceReloadExtensions()
     {
+        $this->log("Force reloading extensions");
         /**
          * Unset extension list
          */

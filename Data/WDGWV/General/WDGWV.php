@@ -93,6 +93,36 @@ class WDGWV
     public $debug = true;
 
     /**
+     * Call the shared
+     *
+     * @since Version 1.0
+     */
+    public static function shared()
+    {
+        /**
+         * Shared Instance
+         * @var class
+         */
+        static $inst = null;
+
+        /**
+         * If not have a instance, create one.
+         */
+        if ($inst === null) {
+            /**
+             * Initialisize Shared Instance
+             * @var class
+             */
+            $inst = new \WDGWV\General\WDGWV();
+        }
+
+        /**
+         * Return Shared Instance
+         */
+        return $inst;
+    }
+
+    /**
      * Construction class
      *
      * @since 1.0
@@ -112,7 +142,7 @@ class WDGWV
      * @since 1.0
      * @return bool
      */
-    private function debug()
+    public function debug()
     {
         /**
          * Check if it is a release version

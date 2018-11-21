@@ -1,4 +1,11 @@
 <?php
+if (isset($_SERVER['REMOTE_ADDR'])) {
+    include 'Data/WDGWV/General/WDGWV.php';
+    if (!(new \WDGWV\General\WDGWV)->debug()) {
+        exit;
+    }
+}
+
 $hashes = array();
 $files = array();
 
@@ -15,3 +22,21 @@ foreach ($files as $file) {
 
 echo json_encode($hashes);
 file_put_contents("./Data/integrityHashes.db", gzcompress(json_encode($hashes), 9));
+
+if (isset($_GET['returnTo'])) {
+    echo (
+        sprintf(
+            "<script>window.location = '%s';</script>",
+            $_GET['returnTo']
+        )
+    );
+    exit;
+}
+
+echo (
+    sprintf(
+        "<script>window.location = '%s';</script>",
+        "/"
+    )
+);
+exit;

@@ -10,8 +10,13 @@
 # Temporary files
 *.tmp
 
+# Log files
+*.log
+
 # Database (decompressed)
 data/database/*.txt
+data/database/*.PTlock
+data/database/x*
 
 # PHP Documentor
 build

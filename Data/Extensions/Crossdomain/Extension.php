@@ -1,7 +1,7 @@
 <?php
 /**
  * WDGWV CMS Extension file.
- * Extension: crossdomain
+ * Extension: Crossdomain
  * Version: 1.0
  * Description: This generates /crossdomain.xml
  */
