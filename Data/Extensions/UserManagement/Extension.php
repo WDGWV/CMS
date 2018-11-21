@@ -61,8 +61,8 @@ namespace WDGWV\CMS\Extension;
 
 class UserManagamentSystem extends \WDGWV\CMS\ExtensionBase
 {
-    private $pageList = array();
-    private $pageCtrl;
+    private $userList = array();
+    private $userCtrl;
 
     /**
      * Call the shared
@@ -83,6 +83,10 @@ class UserManagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
+        // TEMPORARY.
+        $this->userList[] = "a";
+        $this->userCtrl = "b";
+
         return;
     }
 

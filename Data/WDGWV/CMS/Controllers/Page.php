@@ -65,6 +65,10 @@ class Page extends \WDGWV\CMS\Controllers\Base
      */
     public function pageExists($pageID)
     {
+        if ($pageID) {
+            return false;
+        }
+
         /**
          * Not done.
          */

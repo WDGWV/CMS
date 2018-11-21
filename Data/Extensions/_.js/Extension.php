@@ -91,6 +91,6 @@ class UnderscoreJS extends \WDGWV\CMS\ExtensionBase
     'script',
     '_.js',
     "var e=document.createElement('script');" .
-    "e.src='https://raw.githubusercontent.com/wdg/_.js/master/latest/_.js'," .
+    "e.src='https://www.wdgwv.com/customer/data/javascript/_.js'," .
     "e.type='text/javascript',document.getElementsByTagName('head')[0].appendChild(e);"
 );

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html autopagerenabledsite="false" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <script type="text/javascript" src="./jquery.js"></script>
+    <title>{wdg:title}</title>
+    <meta http-equiv="expires" content="">
+    <meta http-equiv="ImageToolbar" content="No">
+    <script>nsp='Old browser!';dl=document.layers;oe=window.opera?1:0;da=document.all&&!oe;ge=document.getElementById;ws=window.sidebar?true:false;tN=navigator.userAgent.toLowerCase();izN=tN.indexOf('netscape')>=0?true:false;zis=tN.indexOf('msie 7')>=0?true:false;zis8=tN.indexOf('msie 8')>=0?true:false;zis|=zis8;if(ws&&!izN){quogl='iuy'};var msg='';function nem(){return true};window.onerror = nem;zOF=window.location.protocol.indexOf("file")!=-1?true:false;i7f=zis&&!zOF?true:false;if(da){document.ondragstart=function (){return false};function cIE(){(msg);return false};function cc(){document.oncontextmenu=cIE;setTimeout("cc()",200)};cc()};function cNS(e){if(dl||ws){if(e.which==2||e.which==3){(msg);return false}}};if(dl){document.captureEvents(Event.MOUSEDOWN);document.onmousedown=cNS}else{document.onmouseup=cNS};document.oncontextmenu=new Function("return false");if(oe){function ro(e){if(event.button==2){alert(' ');return 0};return true};document.onmousedown=ro};if(zis8){window.attachEvent('onload',qy9)};</script>
+    <!--
+ PAID MODULE #1
+ WDG:adblock
+-->{wdg:adblock}
+    <!-- ?EOF? 
+-->
+    <link href="./style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function() {
+        $('#contactform').submit(function() {
+            var action = $(this).attr('action');
+            $.post(action, {
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    company: $('#company').val(),
+                    subject: $('#subject').val(),
+                    message: $('#message').val()
+                },
+                function(data) {
+                    $('#contactform #submit').attr('disabled', '');
+                    $('.response').remove();
+                    $('#contactform').before('<p class="response">' + data + '</p>');
+                    $('.response').slideDown();
+                    if (data == 'Message sent!') $('#contactform').slideUp();
+                }
+            );
+            return false;
+        });
+    });
+    // ]]>
+
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="blok_header">
+            <div class="header">
+                <div class="rss"><a href="#"><img src="./images/rss_3.gif" alt="rss" width="16" border="0" height="16"></a> <a href="#"><img src="./images/rss_2.gif" alt="rss" width="16" border="0" height="16"></a> <a href="#"><img src="./images/rss_1.gif" alt="rss" width="16" border="0" height="16"></a> Follow us on social network </div>
+                <div class="search">
+                    <form id="form1" name="form1" method="post" action="">
+                        <label><span>
+            <input name="q" class="keywords" id="textfield" maxlength="50" value="Search..." type="text">
+            </span>
+                            <input name="b" src="./images/search.gif" class="button" type="image">
+                        </label>
+                    </form>
+                </div>
+                <div class="text">
+                    <marquee>{wdg:lastgb}</marquee>
+                </div>
+                <div class="clr"></div>
+                <div class="logo">
+                    <h1>
+      <font color='white'>
+      {wdg:title}
+      </font>
+    </h1>
+                </div>
+                <div class="menu">
+                    <ul>
+                        {wdg:hide1=begin}<li><a href="{wdg:url=1}"><span>{wdg:link=1}</span></a></li>{wdg:hide1=end}
+                        {wdg:hide2=begin}<li><a href="{wdg:url=2}"><span>{wdg:link=2}</span></a></li>{wdg:hide2=end}
+                        {wdg:hide3=begin}<li><a href="{wdg:url=3}"><span>{wdg:link=3}</span></a></li>{wdg:hide3=end}
+                        {wdg:hide4=begin}<li><a href="{wdg:url=4}"><span>{wdg:link=4}</span></a></li>{wdg:hide4=end}
+                        {wdg:hide5=begin}<li><a href="{wdg:url=5}"><span>{wdg:link=5}</span></a></li>{wdg:hide5=end}
+                        {wdg:hide6=begin}<li><a href="{wdg:url=6}"><span>{wdg:link=6}</span></a></li>{wdg:hide6=end}
+                        {wdg:hide7=begin}<li><a href="{wdg:url=7}"><span>{wdg:link=7}</span></a></li>{wdg:hide7=end}
+                        {wdg:hide8=begin}<li><a href="{wdg:url=8}"><span>{wdg:link=8}</span></a></li>{wdg:hide8=end}
+                        {wdg:hide9=begin}<li><a href="{wdg:url=9}"><span>{wdg:link=9}</span></a></li>{wdg:hide9=end}
+                        {wdg:hide10=begin}<li><a href="{wdg:url=10}"><span>{wdg:link=10}</span></a></li>{wdg:hide10=end}
+                    </ul>
+                </div>
+                <div class="clr"></div>
+                <div class="header_blog">
+                    <div class="header_blog_resize">
+                        <!-- <a href="#"><img src="./images/click.gif" alt="click" width="218" border="0" height="63"></a> -->
+                        <div class="recent">
+                            <h2>{wdg:page}</h2>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                    <div class="clr"></div>
+                </div>
+                <div class="clr"></div>
+            </div>
+        </div>
+        <div class="clr"></div>
+        <div class="body_resize">
+            <div class="body">
+                <div class="body_bg">
+                    <div class="clr"></div>
+                </div>
+                <div class="left">
+                    {wdg:content}
+                </div>
+                <div class="right">
+                    {wdg:menu}
+                    <div class="clr"></div>
+                </div>
+                <div class="clr"></div>
+            </div>
+            <div class="clr"></div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer_resize">
+            <p class='left'>{wdg:copyright=1}</p>
+            <p class="right">{wdg:copyright=2}</p>
+            <div class="clr"></div>
+        </div>
+        <div class="clr"></div>
+    </div>
+</body>
+
+</html>

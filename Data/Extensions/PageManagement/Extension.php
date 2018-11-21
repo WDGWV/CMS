@@ -83,8 +83,8 @@ class PageMananagamentSystem extends \WDGWV\CMS\ExtensionBase
      */
     private function __construct()
     {
-        // $this->pageCtrl = \WDGWV\CMS\Pages::shared();
-        // $this->pageList = \WDGWV\CMS\Pages::shared()->displayPageList();
+        $this->pageCtrl = ''; // \WDGWV\CMS\Pages::shared();
+        $this->pageList = ''; // \WDGWV\CMS\Pages::shared()->displayPageList();
     }
 
     public function displayList()

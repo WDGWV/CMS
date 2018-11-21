@@ -104,6 +104,11 @@ function autloadWDGWVCMS($class)
             if (!$filePassedIntegrityCheck) {
                 echo "<b>WARNING</b><br />";
                 echo "Couldn't load class <b>{$class}</b><br />";
+                if (file_exists("makeFileHashes.php")) {
+                    echo "REBUILDING file hashes cache...";
+                    echo "<br />";
+                    echo "<script>window.location='/makeFileHashes.php?returnTo=' + window.location.pathname</script>";
+                }
                 \trigger_error("Refusing to load \"{$fileName}\" the integrity failed.", E_USER_ERROR);
                 exit(1);
             }

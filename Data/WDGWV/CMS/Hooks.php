@@ -721,6 +721,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
          * Disable double hooks...
          */
         foreach ($this->hookDatabase[$at] as $key => $value) {
+            if (isset($key)) {
+                // ok, cool.
+            }
             /**
              * if already exists
              */
