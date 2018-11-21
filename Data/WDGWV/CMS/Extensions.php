@@ -1100,9 +1100,9 @@ class Extensions
     /**
      * reload extensions
      *
-     * @param $m message 'Default rescan.'
+     * @param $message message 'Default rescan.'
      */
-    private function reloadExtensions($m = 'Default rescan.')
+    private function reloadExtensions($message = 'Default rescan.')
     {
         /**
          * Create an empty loaded extension array
@@ -1188,16 +1188,16 @@ class Extensions
         /**
          * Save the database!
          */
-        $this->saveDatabase($m);
+        $this->saveDatabase($message);
     }
 
     /**
      * save database
      *
-     * @param $m message
+     * @param $message message
      * @return null
      */
-    private function saveDatabase($m = 'Default save action on exit')
+    private function saveDatabase($message = 'Default save action on exit')
     {
         /**
          * Check if the 'lockfile' exists.
