@@ -112,13 +112,6 @@ class Extensions
     );
 
     /**
-     * The Cache.
-     *
-     * @var string
-     */
-    private $cache = '';
-
-    /**
      * Cache database file.
      *
      * @var string
