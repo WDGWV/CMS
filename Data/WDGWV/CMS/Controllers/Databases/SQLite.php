@@ -370,24 +370,22 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
             $query = "INSERT INTO `CMSconfiguration` (`value`, `item`) VALUES(:theme, 'theme');";
 
             if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
-                $this->queryWithParameters(
+                return $this->queryWithParameters(
                     $query,
                     array(':theme' => $themeName)
                 );
-            } else {
-                trigger_error(sprintf('Theme %s does not exists', $themeName), E_USER_ERROR);
             }
+            trigger_error(sprintf('Theme %s does not exists', $themeName), E_USER_ERROR);
         } else {
             $query = "UPDATE `CMSconfiguration` SET `value`=:theme WHERE `item`='theme'";
 
             if (file_exists(sprintf('./Data/Themes/%s', $themeName))) {
-                $this->queryWithParameters(
+                return $this->queryWithParameters(
                     $query,
                     array(':theme' => $themeName)
                 );
-            } else {
-                trigger_error(sprintf('Theme %s does not exists', $themeName), E_USER_ERROR);
             }
+            trigger_error(sprintf('Theme %s does not exists', $themeName), E_USER_ERROR);
         }
     }
 
@@ -438,6 +436,11 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         }
 
         $query = preg_replace($keys, $params, $query, 1, $count);
+
+        // to make codacy happy.
+        if ($count > 0) {
+            return $query;
+        }
 
         return $query;
     }
@@ -630,8 +633,8 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
             );
 
             $stmt->bindValue(
-                ':time',
-                date('d-m-Y H:i:s'),
+                ':date',
+                $postDate,
                 SQLITE3_TEXT
             );
 
@@ -655,12 +658,12 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
     public function postRemove($postID, $strict = false)
     {
         if ($this->postExists($postID, $strict)) {
-            $query = "DELETE FROM posts WHERE `title` %s :pageTitleOrID";
+            $query = "DELETE FROM posts WHERE `title` %s :postID";
             $query = sprintf($query, ($strict ? '=' : 'LIKE'));
             return $this->queryWithParameters(
                 $query,
                 array(
-                    ':pageTitleOrID' => $pageTitleOrID,
+                    ':postID' => $postID,
                 )
             );
         }

@@ -95,7 +95,7 @@ class Blogger
      */
     public function bloggerInclude($matches)
     {
-        return;
+        return $matches;
     }
 
     /**
@@ -104,7 +104,7 @@ class Blogger
      */
     public function bloggerLoad($matches)
     {
-        return;
+        return $matches;
     }
 
     /**

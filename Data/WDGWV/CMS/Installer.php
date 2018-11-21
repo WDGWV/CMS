@@ -168,9 +168,9 @@ class Installer
      * @access public
      * @return void
      */
-    private function unichr($u)
+    private function unichr($char)
     {
-        return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
+        return mb_convert_encoding('&#' . intval($char) . ';', 'UTF-8', 'HTML-ENTITIES');
     }
 
     /**

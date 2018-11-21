@@ -704,9 +704,9 @@ class TemplateParser extends WDGWV
          * Otherwise we'll parse it in memory and `eval` the code.
          */
         if (is_writable('./Data/Temp/')) {
-            $fh = @fopen('./Data/Temp/tmp_tpl_' . $uniid . '.bin', 'w');
-            @fwrite($fh, $template);
-            @fclose($fh);
+            $fileHandle = @fopen('./Data/Temp/tmp_tpl_' . $uniid . '.bin', 'w');
+            @fwrite($fileHandle, $template);
+            @fclose($fileHandle);
         }
 
         /**
@@ -1363,11 +1363,6 @@ class TemplateParser extends WDGWV
              * Walk trough the menu, finally.
              */
             foreach ($this->config['menuContents'] as $i => $data) {
-                /**
-                 * make $lang global
-                 */
-                global $lang;
-
                 /**
                  * Check if the data is an array
                  */
@@ -2231,10 +2226,14 @@ class TemplateParser extends WDGWV
          * Display error.
          */
         echo sprintf(
-            'Fatal Error: %s (%s@%s)',
+            'Fatal Error: %s (%s@%s)%s%s%s%s',
             $errorDescription,
             $errorLine,
-            $errorFile
+            $errorFile,
+            "<br />" . PHP_EOL,
+            $helpURL,
+            "<br />" . PHP_EOL,
+            "<br />" . PHP_EOL
         );
 
         /**

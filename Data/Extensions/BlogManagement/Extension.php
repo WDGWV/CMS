@@ -91,8 +91,8 @@ class BlogMananagamentSystem extends \WDGWV\CMS\ExtensionBase
 
     public function displayList()
     {
-        $BlogList['ABC'] = "LOADING";
-        $BlogCtrl = "NOT DONE YET";
+        $this->BlogList['ABC'] = "LOADING";
+        $this->BlogCtrl = "NOT DONE YET";
         return array("Title", "Contents");
     }
 
