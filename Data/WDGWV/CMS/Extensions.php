@@ -563,7 +563,7 @@ class Extensions
      * @param $extension
      * @return bool
      */
-    public function checkHash($extension, $hash)
+    public function checkHash($extension)
     {
         /**
          * Load information about the extension, and loop trough it
