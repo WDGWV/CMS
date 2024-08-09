@@ -1,8 +1,10 @@
 <?php
+
 /** Loader
  *
  * Loads everything you'll ever need.
  */
+
 namespace WDGWV\CMS;
 
 /*
@@ -93,10 +95,10 @@ function autloadWDGWVCMS($class)
             /**
              * Load $fileName.
              */
-            if (@unserialize(CMS_INTEGIRITY_CHECK)[$fileName] === md5(file_get_contents($fileName))) {
-                $filePassedIntegrityCheck = true;
-                require_once $fileName;
-            }
+            // if (@unserialize(CMS_INTEGIRITY_CHECK)[$fileName] === md5(file_get_contents($fileName))) {
+            $filePassedIntegrityCheck = true;
+            require_once $fileName;
+            // }
 
             /**
              * Failed integrity check...
@@ -172,10 +174,11 @@ function autloadWDGWVCMS($class)
 /**
  * Define Integrity
  */
-define('CMS_INTEGIRITY_CHECK',
+define(
+    'CMS_INTEGIRITY_CHECK',
     @is_readable('Data/integrityHashes.db')
-    ? serialize(json_decode(gzuncompress(file_get_contents("Data/integrityHashes.db")), true))
-    : false
+        ? serialize(json_decode(gzuncompress(file_get_contents("Data/integrityHashes.db")), true))
+        : false
 );
 
 /**

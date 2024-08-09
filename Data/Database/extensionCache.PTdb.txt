@@ -1,5 +1,37 @@
 Array
 (
-    [0] => .
-    [1] => /
+    [0] => Array
+        (
+            [0] => Data/Extensions/DemoMode/Extension.php
+            [1] => Data/Extensions/IPban/Extension.php
+            [2] => Data/Extensions/ThemeManagement/Extension.php
+            [3] => Data/Extensions/UserManagement/Extension.php
+            [4] => Data/Extensions/Update/Extension.php
+            [5] => Data/Extensions/WYSIWYG/Extension.php
+            [6] => Data/Extensions/Crossdomain/Extension.php
+            [7] => Data/Extensions/PageManagement/Extension.php
+            [8] => Data/Extensions/BlogManagement/Extension.php
+            [9] => Data/Extensions/ExtensionManagement/Extension.php
+            [10] => Data/Extensions/_.js/Extension.php
+        )
+
+    [1] => Array
+        (
+            [0] => Data/Extensions/DemoMode/Extension.php
+            [1] => Data/Extensions/IPban/Extension.php
+            [2] => Data/Extensions/ThemeManagement/Extension.php
+            [3] => Data/Extensions/Narrowcasting/Extension.php
+            [4] => Data/Extensions/Calendar/Extension.php
+            [5] => Data/Extensions/UserManagement/Extension.php
+            [6] => Data/Extensions/Update/Extension.php
+            [7] => Data/Extensions/WYSIWYG/Extension.php
+            [8] => Data/Extensions/ToDo/Extension.php
+            [9] => Data/Extensions/Crossdomain/Extension.php
+            [10] => Data/Extensions/PageManagement/Extension.php
+            [11] => Data/Extensions/TestExtension/Extension.php
+            [12] => Data/Extensions/BlogManagement/Extension.php
+            [13] => Data/Extensions/ExtensionManagement/Extension.php
+            [14] => Data/Extensions/_.js/Extension.php
+        )
+
 )

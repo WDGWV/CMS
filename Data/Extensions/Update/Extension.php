@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WDGWV CMS Required file.
  * Extension: Update
@@ -118,17 +119,20 @@ class Update extends \WDGWV\CMS\ExtensionBase
         $page[] = array(
             'Test extension: \'update\'.',
             'This is an example of a test extension, which adds an item to the menu, and can display a page.<br />And many more!' .
-            'to use localization use \__(\'the string which need to be translated\')');
+                'to use localization use \__(\'the string which need to be translated\')'
+        );
 
-        for ($i = 0; $i < sizeof($this->extensionList); $i++) {
-            $page1 = $this->extensionList[$i];
-            $page1 .= '<table>';
-            foreach (\WDGWV\CMS\Extensions::shared()->information($this->extensionList[$i]) as $info => $value) {
-                $page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
-            };
-            $page1 .= '</table>';
+        if (is_array($this->extensionList)) {
+            for ($i = 0; $i < sizeof($this->extensionList); $i++) {
+                $page1 = $this->extensionList[$i];
+                $page1 .= '<table>';
+                foreach (\WDGWV\CMS\Extensions::shared()->information($this->extensionList[$i]) as $info => $value) {
+                    $page1 .= sprintf("<tr><td>%s:</td><td>%s</td></tr>", $info, htmlspecialchars($value));
+                };
+                $page1 .= '</table>';
 
-            $page[] = array($this->extensionList[$i], $page1);
+                $page[] = array($this->extensionList[$i], $page1);
+            }
         }
 
         $page[] = array('reindex', sprintf('<a href=\'/%s/extensions/reindex\'>Force reindex extensions</a>', (new \WDGWV\CMS\Config)->adminURL()));

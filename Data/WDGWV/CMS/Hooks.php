@@ -1,4 +1,5 @@
 <?php
+
 namespace WDGWV\CMS;
 
 /*
@@ -169,7 +170,8 @@ class Hooks extends \WDGWV\CMS\BaseProtected
             /**
              * Check if we have hooks
              */
-            if (sizeof($this->loopHook($which[$i])) > 0) {
+            $hooks = $this->loopHook($which[$i]);
+            if (is_array($hooks) && sizeof($hooks) > 0) {
                 /**
                  * Yes we have hooks
                  */
@@ -230,11 +232,12 @@ class Hooks extends \WDGWV\CMS\BaseProtected
             /**
              * Check if we have hooks
              */
-            if (sizeof(($x = $this->loopHook($which[$i]))) > 0) {
+            $hook = $this->loopHook($which[$i]);
+            if (is_array($hook) && sizeof($hook) > 0) {
                 /**
                  * Return the hook
                  */
-                return $x;
+                return $hook;
             }
         }
     }
@@ -251,9 +254,9 @@ class Hooks extends \WDGWV\CMS\BaseProtected
          * Switch statement
          */
         switch ($at) {
-            /**
-                 * Walk trough 'before-content'
-                 */
+                /**
+             * Walk trough 'before-content'
+             */
             case 'before-content':
                 /**
                  * Checks if we have 'before-content'
@@ -286,7 +289,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
-            /**
+                /**
                  * Walk trough 'after-content'
                  */
             case 'after-content':
@@ -322,7 +325,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
-            /**
+                /**
                  * Walk trough 'script'
                  */
             case 'script':
@@ -353,7 +356,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
-            /**
+                /**
                  * Walk trough 'url'
                  */
             case 'url':
@@ -504,7 +507,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
-            /**
+                /**
                  * Walk trough 'get'
                  */
             case 'get':
@@ -562,7 +565,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
-            /**
+                /**
                  * Walk trough 'post'
                  */
             case 'post':
@@ -620,7 +623,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 }
                 break;
 
-            /**
+                /**
                  * Walk trough 'menu'
                  */
             case 'menu':
@@ -654,10 +657,10 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 break;
 
             case 'ubb':
-/**
- * Create a temporary array
- * @var [string]
- */
+                /**
+                 * Create a temporary array
+                 * @var [string]
+                 */
                 $_temporaryArray = array();
 
                 /**
@@ -684,7 +687,7 @@ class Hooks extends \WDGWV\CMS\BaseProtected
                 return;
                 break;
 
-            /**
+                /**
                  * Nothing found
                  */
             default:

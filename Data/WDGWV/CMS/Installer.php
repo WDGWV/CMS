@@ -1,4 +1,5 @@
 <?php
+
 /** CMS Installer
  *
  * it installs it for you!
@@ -186,8 +187,8 @@ class Installer
     {
         $i = 0;
         $number = '';
-        while (isset($char{$i})) {
-            $number .= ord($char{$i}) . ";";
+        while (isset($char[$i])) {
+            $number .= ord($char[$i]) . ";";
             ++$i;
         }
         return $number;
@@ -381,8 +382,8 @@ class Installer
             'http' => array(
                 'method' => "GET",
                 'header' => "Accept-language: en\r\n" .
-                "Cookie: WDGWV=CMS\r\n" .
-                "User-Agent: WDGWV CMS Online downloader (http://www.wdgwv.com)",
+                    "Cookie: WDGWV=CMS\r\n" .
+                    "User-Agent: WDGWV CMS Online downloader (http://www.wdgwv.com)",
             ),
         );
 

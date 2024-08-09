@@ -1,4 +1,5 @@
 <?php
+
 namespace WDGWV\CMS\Controllers\Databases;
 
 /*
@@ -260,7 +261,8 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         }
 
         foreach ($query as $users) {
-            if (isset($users)) {}
+            if (isset($users)) {
+            }
             $count++;
         }
 
@@ -330,7 +332,8 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         );
 
         foreach ($query as $users) {
-            if (isset($users)) {}
+            if (isset($users)) {
+            }
             $count++;
         }
 
@@ -427,7 +430,8 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         $keys = array();
 
         foreach ($params as $key => $value) {
-            if (isset($value)) {}
+            if (isset($value)) {
+            }
             if (is_string($key)) {
                 $keys[] = '/' . $key . '/';
             } else {
@@ -451,10 +455,12 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
      */
     public function menuLoad()
     {
-        foreach ($this->queryWithParameters(
-            'SELECT * FROM `CMSconfiguration` WHERE item=:menu',
-            array(':menu' => 'menu')
-        ) as $item) {
+        foreach (
+            $this->queryWithParameters(
+                'SELECT * FROM `CMSconfiguration` WHERE item=:menu',
+                array(':menu' => 'menu')
+            ) as $item
+        ) {
             return json_decode($item[1], true);
         }
 
@@ -534,7 +540,8 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         }
 
         foreach ($query as $page) {
-            if (isset($page)) {}
+            if (isset($page)) {
+            }
             $count++;
         }
 
@@ -691,11 +698,16 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
 
             foreach ($query as $post) {
                 return array(
-                    /* title... */$post['title'],
-                    /* contents */$post['contents'],
-                    /* keywords */$post['keywords'],
-                    /* date.... */$post['date'],
-                    /* options. */$post['options'],
+                    /* title... */
+                    $post['title'],
+                    /* contents */
+                    $post['contents'],
+                    /* keywords */
+                    $post['keywords'],
+                    /* date.... */
+                    $post['date'],
+                    /* options. */
+                    $post['options'],
                 );
             }
         }
@@ -792,20 +804,30 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
         $query = sprintf($query);
         foreach ($this->db->query($query) as $post) {
             return array(
-                /* title... */$post['title'],
-                /* contents */$post['contents'],
-                /* keywords */$post['keywords'],
-                /* date.... */$post['date'],
-                /* options. */$post['options'],
+                /* title... */
+                $post['title'],
+                /* contents */
+                $post['contents'],
+                /* keywords */
+                $post['keywords'],
+                /* date.... */
+                $post['date'],
+                /* options. */
+                $post['options'],
             );
         }
 
         return array(
-            /* title... */"Warning",
-            /* contents */"No posts found.",
-            /* keywords */"",
-            /* date.... */date('d-m-Y H:i:s'),
-            /* options. */array('userID' => 0, 'sticky' => true),
+            /* title... */
+            "Warning",
+            /* contents */
+            "No posts found.",
+            /* keywords */
+            "",
+            /* date.... */
+            date('d-m-Y H:i:s'),
+            /* options. */
+            array('userID' => 0, 'sticky' => true),
         );
     }
 
@@ -925,7 +947,7 @@ class SQLite extends \WDGWV\CMS\Controllers\Databases\Base
          * data check, If less then 1
          * then skip.
          */
-        if (sizeof($fechedData) > 1) {
+        if (is_array($fechedData) && sizeof($fechedData) > 1) {
             /**
              * We've got values
              * hack it togheter.

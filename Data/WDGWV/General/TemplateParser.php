@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WDGWV Template Parser
  */
@@ -124,6 +125,26 @@ class TemplateParser extends WDGWV
     private $uniid;
 
     /**
+     * Is the class ready?
+     *
+     * @global
+     * @access private
+     * @since Version 1.0
+     * @var bool Ready
+     */
+    private $ready;
+
+    /**
+     * The debugger
+     *
+     * @global
+     * @access private
+     * @since Version 2.0
+     * @var class debugger class
+     */
+    private $debugger;
+
+    /**
      * Construct the class
      * @param string $debug Debug&Minify the output
      * @param string $CDN If you use a CDN put the full url to the files here.
@@ -161,9 +182,7 @@ class TemplateParser extends WDGWV
      * @since Version 1.0
      * @internal
      */
-    public function __destruct()
-    {
-    }
+    public function __destruct() {}
 
     /**
      * Set the template.
@@ -177,8 +196,7 @@ class TemplateParser extends WDGWV
     {
         if (file_exists(
             $fileName = $this->config['templateDirectory'] . $templateFile . "/theme." . $fileExtension
-        )
-        ) {
+        )) {
             $this->config['theme'] = $templateFile;
             $this->config['themeExtension'] = $fileExtension;
             $this->config['templateFiles'] = $fileURL;
@@ -650,10 +668,10 @@ class TemplateParser extends WDGWV
                 if (!is_array($this->parameters[$i][1])) {
                     $template = preg_replace(
                         '/' .
-                        $this->config['parameter'][0] .
-                        $this->parameters[$i][0] .
-                        $this->config['parameter'][1] .
-                        '/',
+                            $this->config['parameter'][0] .
+                            $this->parameters[$i][0] .
+                            $this->config['parameter'][1] .
+                            '/',
                         $this->parameters[$i][1],
                         $template
                     );
@@ -673,10 +691,10 @@ class TemplateParser extends WDGWV
                 if (!is_array($withParameters[$i][1])) {
                     $template = preg_replace(
                         '/' .
-                        $this->config['parameter'][0] .
-                        $withParameters[$i][0] .
-                        $this->config['parameter'][1] .
-                        '/',
+                            $this->config['parameter'][0] .
+                            $withParameters[$i][0] .
+                            $this->config['parameter'][1] .
+                            '/',
                         $withParameters[$i][1],
                         $template
                     );
@@ -747,16 +765,14 @@ class TemplateParser extends WDGWV
              * We'll use a hack for eval
              * @var string
              */
-            $parsedTemplate = @eval(
-                sprintf(
-                    '%s%s%s%s%s',
-                    '/* ! */',
-                    ' ?>',
-                    $template,
-                    '<?php ',
-                    '/* ! */'
-                )
-            );
+            $parsedTemplate = @eval(sprintf(
+                '%s%s%s%s%s',
+                '/* ! */',
+                ' ?>',
+                $template,
+                '<?php ',
+                '/* ! */'
+            ));
 
             /**
              * Get object contents
@@ -921,7 +937,7 @@ class TemplateParser extends WDGWV
                                  * @var string
                                  */
                                 $temporaryKey = "/{$dataStr[1]}\.{$key}/",
-                                $value,
+                                $value ?? "",
                                 $temporaryData
                             );
 
@@ -1344,7 +1360,7 @@ class TemplateParser extends WDGWV
                         $this->fatalError(
                             sprintf(
                                 '<b>FATAL ERROR</b><br />Please not use more than 2 submenu levels,' .
-                                ' current:%d<br />menu item creating this issue: <pre>%s</pre>',
+                                    ' current:%d<br />menu item creating this issue: <pre>%s</pre>',
                                 (((int) sizeof($exploded)) - 1),
                                 preg_replace("/\//", " -> ", $data['name'])
                             )
@@ -1380,9 +1396,11 @@ class TemplateParser extends WDGWV
                      * - is array data[submenu]
                      * - sizeof data[submenu] > 1
                      */
-                    if (isset($data['submenu']) &&
+                    if (
+                        isset($data['submenu']) &&
                         is_array($data['submenu']) &&
-                        sizeof($data['submenu']) > 1) {
+                        sizeof($data['submenu']) > 1
+                    ) {
                         /**
                          * Append submenu header
                          * @var string
@@ -1429,7 +1447,8 @@ class TemplateParser extends WDGWV
                      * - not is array data[submenu]
                      * - not sizeof data[submenu] > 1
                      */
-                    if (!isset($data['submenu']) ||
+                    if (
+                        !isset($data['submenu']) ||
                         !is_array($data['submenu']) ||
                         !(sizeof($data['submenu']) > 1)
                     ) {
@@ -1471,8 +1490,10 @@ class TemplateParser extends WDGWV
                                     /**
                                      * if not isset subdata, and is not an array.
                                      */
-                                    if (!isset($subData['submenu']) ||
-                                        !is_array($subData['submenu'])) {
+                                    if (
+                                        !isset($subData['submenu']) ||
+                                        !is_array($subData['submenu'])
+                                    ) {
 
                                         /**
                                          * Temporary item
@@ -1587,8 +1608,10 @@ class TemplateParser extends WDGWV
                                                          * - not is array subSubData[submenu]
                                                          * - not sizeof subSubData[submenu] > 1
                                                          */
-                                                        if (!isset($subSubData['submenu']) ||
-                                                            !is_array($subSubData['submenu'])) {
+                                                        if (
+                                                            !isset($subSubData['submenu']) ||
+                                                            !is_array($subSubData['submenu'])
+                                                        ) {
                                                             /**
                                                              * Temporary menu item
                                                              * @var string
@@ -1645,9 +1668,9 @@ class TemplateParser extends WDGWV
                                                             $this->fatalError(
                                                                 sprintf(
                                                                     "<b>FATAL ERROR</b><br />" .
-                                                                    "Please not use more than 2 submenu levels," .
-                                                                    " current: 3+<br />" .
-                                                                    "menu item creating this issue: <pre>%s</pre>",
+                                                                        "Please not use more than 2 submenu levels," .
+                                                                        " current: 3+<br />" .
+                                                                        "menu item creating this issue: <pre>%s</pre>",
                                                                     preg_replace(
                                                                         "/\//",
                                                                         " -> ",
@@ -1693,9 +1716,11 @@ class TemplateParser extends WDGWV
                      * - is array data[submenu]
                      * - sizeof data[submenu] > 1
                      */
-                    if (isset($data['submenu']) &&
+                    if (
+                        isset($data['submenu']) &&
                         is_array($data['submenu']) &&
-                        sizeof($data['submenu']) > 1) {
+                        sizeof($data['submenu']) > 1
+                    ) {
                         /**
                          * Append submenu footer to final menu (if needed)
                          */
@@ -1776,8 +1801,10 @@ class TemplateParser extends WDGWV
         /**
          * Check if sub template item exists!
          */
-        if (!file_exists($this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1]) ||
-            !is_readable($this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1])) {
+        if (
+            !file_exists($this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1]) ||
+            !is_readable($this->config['templateDirectory'] . $this->config['theme'] . '/' . $dataStr[1])
+        ) {
             /**
              * Does not exists, or is not readable
              */
@@ -1826,7 +1853,7 @@ class TemplateParser extends WDGWV
                  */
                 $this->debugger->log(
                     'we\'re not in a sub loop so \'tParameters\' is empty,' .
-                    ' checking other \'parameters\'.'
+                        ' checking other \'parameters\'.'
                 );
             }
 
